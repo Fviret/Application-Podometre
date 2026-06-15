@@ -5,11 +5,30 @@ import Combine
 
 @MainActor
 class StepCountViewModel: ObservableObject {
-    @Published var stepCount: Int = 2500
+    @Published var stepCount: Int = 0
     @Published var isAuthorized: Bool = false
+    @Published var selectedDayOffset: Int = 0 {
+        didSet { fetchSteps(for: selectedDate) }
+    }
 
     var progress: Double {
         min(Double(stepCount) / 10_000.0, 1.0)
+    }
+
+    var selectedDate: Date {
+        Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
+    }
+
+    var selectedDateLabel: String {
+        switch selectedDayOffset {
+        case 0: return "Aujourd'hui"
+        case 1: return "Hier"
+        default:
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
+            return formatter.string(from: selectedDate)
+        }
     }
 
     private let healthStore = HKHealthStore()
@@ -17,25 +36,24 @@ class StepCountViewModel: ObservableObject {
 
     func requestAuthorizationAndFetch() {
         guard HKHealthStore.isHealthDataAvailable() else { return }
-
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
         healthStore.requestAuthorization(toShare: [], read: [stepType]) { [weak self] success, _ in
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true
-                self?.fetchTodaySteps()
+                self?.fetchSteps(for: self?.selectedDate ?? Date())
                 self?.startObserving()
             }
         }
     }
 
-    func fetchTodaySteps() {
+    func fetchSteps(for date: Date) {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
-        let now = Date()
-        let startOfDay = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        let startOfDay = Calendar.current.startOfDay(for: date)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: endOfDay, options: .strictStartDate)
 
         let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
             let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
@@ -54,7 +72,11 @@ class StepCountViewModel: ObservableObject {
 
         observerQuery = HKObserverQuery(sampleType: stepType, predicate: nil) { [weak self] _, _, _ in
             Task { @MainActor in
-                self?.fetchTodaySteps()
+                guard let self else { return }
+                // Only live-refresh when viewing today
+                if self.selectedDayOffset == 0 {
+                    self.fetchSteps(for: self.selectedDate)
+                }
             }
         }
 
