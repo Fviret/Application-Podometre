@@ -13,7 +13,8 @@ struct StepRingView: View {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
-            VStack(spacing: 32) {
+            ScrollView {
+                VStack(spacing: 32) {
                 HStack(spacing: 0) {
                     // Left chevron — go to previous day
                     Button {
@@ -96,6 +97,14 @@ struct StepRingView: View {
                 Text("Objectif : \(goal.formatted()) pas")
                     .font(.system(size: 15, weight: .regular, design: .rounded))
                     .foregroundStyle(Color.secondary)
+
+                Divider()
+                    .padding(.horizontal, 24)
+
+                MonthCalendarView(viewModel: viewModel)
+                    .padding(.horizontal, 24)
+                }
+                .padding(.vertical, 32)
             }
         }
         .onAppear {

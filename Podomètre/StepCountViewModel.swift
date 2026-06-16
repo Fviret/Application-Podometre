@@ -10,6 +10,7 @@ class StepCountViewModel: ObservableObject {
     @Published var selectedDayOffset: Int = 0 {
         didSet { fetchSteps(for: selectedDate) }
     }
+    @Published var stepsByDay: [Int: Int] = [:]
 
     var progress: Double {
         min(Double(stepCount) / 10_000.0, 1.0)
@@ -43,9 +44,55 @@ class StepCountViewModel: ObservableObject {
             Task { @MainActor in
                 self?.isAuthorized = true
                 self?.fetchSteps(for: self?.selectedDate ?? Date())
+                self?.fetchMonthSteps()
                 self?.startObserving()
             }
         }
+    }
+
+    /// Selects the given date by translating it into a day offset from today.
+    func selectDate(_ date: Date) {
+        let calendar = Calendar.current
+        let startOfToday = calendar.startOfDay(for: Date())
+        let startOfTarget = calendar.startOfDay(for: date)
+        guard let days = calendar.dateComponents([.day], from: startOfTarget, to: startOfToday).day, days >= 0 else { return }
+        selectedDayOffset = days
+    }
+
+    func fetchMonthSteps() {
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now)) else { return }
+
+        let intervalComponents = DateComponents(day: 1)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfMonth, end: now, options: .strictStartDate)
+
+        let query = HKStatisticsCollectionQuery(
+            quantityType: stepType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum,
+            anchorDate: startOfMonth,
+            intervalComponents: intervalComponents
+        )
+
+        query.initialResultsHandler = { [weak self] _, results, _ in
+            guard let results else { return }
+            var dayToSteps: [Int: Int] = [:]
+
+            results.enumerateStatistics(from: startOfMonth, to: now) { statistics, _ in
+                let day = calendar.component(.day, from: statistics.startDate)
+                let steps = statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0
+                dayToSteps[day] = Int(steps)
+            }
+
+            Task { @MainActor in
+                self?.stepsByDay = dayToSteps
+            }
+        }
+
+        healthStore.execute(query)
     }
 
     func fetchSteps(for date: Date) {
