@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = StepCountViewModel()
+
     var body: some View {
-        StepRingView()
+        TabView {
+            StepRingView(viewModel: viewModel)
+                .tabItem {
+                    Image(systemName: "figure.walk")
+                }
+
+            SettingsView(viewModel: viewModel)
+                .tabItem {
+                    Image(systemName: "gearshape")
+                }
+        }
     }
 }
 
