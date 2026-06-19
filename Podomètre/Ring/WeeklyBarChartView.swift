@@ -31,6 +31,13 @@ struct WeeklyBarChartView: View {
         return "\(n)"
     }
 
+    /// Moyenne des jours de la semaine en cours ayant au moins un pas enregistré.
+    private var weekAverage: Int {
+        let nonZero = viewModel.currentWeekSteps.filter { $0 > 0 }
+        guard !nonZero.isEmpty else { return 0 }
+        return nonZero.reduce(0, +) / nonZero.count
+    }
+
     /// Valeur maximale de l'axe Y, arrondie au multiple de 5 000 supérieur au max des deux semaines.
     private var yMax: Int {
         let maxValue = max(1, (viewModel.currentWeekSteps + viewModel.previousWeekSteps).max() ?? 1)
@@ -89,14 +96,24 @@ struct WeeklyBarChartView: View {
 
                 Spacer()
 
-                HStack(spacing: 4) {
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(Color.secondary.opacity(0.3))
-                        .frame(width: 4, height: 4)
+                HStack(spacing: 8) {
+                    HStack(spacing: 4) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.secondary.opacity(0.3))
+                            .frame(width: 4, height: 4)
+                        Text("sem. précédente")
+                            .font(.caption)
+                            .foregroundStyle(Color.secondary)
+                    }
 
-                    Text("— semaine précédente")
-                        .font(.caption)
-                        .foregroundStyle(Color.secondary)
+                    HStack(spacing: 4) {
+                        Rectangle()
+                            .fill(Color.accentColor.opacity(0.5))
+                            .frame(width: 10, height: 1)
+                        Text("moyenne en cours")
+                            .font(.caption)
+                            .foregroundStyle(Color.accentColor.opacity(0.8))
+                    }
                 }
             }
 
@@ -119,6 +136,22 @@ struct WeeklyBarChartView: View {
                             .foregroundStyle(Color.secondary)
                             .frame(width: 28, alignment: .trailing)
                             .position(x: 14, y: y)
+                    }
+
+                    // Ligne de moyenne de la semaine en cours
+                    if weekAverage > 0 {
+                        let y = yPos(weekAverage)
+
+                        Path { path in
+                            path.move(to: CGPoint(x: yAxisWidth, y: y))
+                            path.addLine(to: CGPoint(x: yAxisWidth + chartWidth, y: y))
+                        }
+                        .stroke(Color.accentColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
+
+                        Text("moy. \(compactSteps(weekAverage))")
+                            .font(.system(size: 8))
+                            .foregroundStyle(Color.accentColor.opacity(0.8))
+                            .position(x: yAxisWidth + chartWidth / 2, y: y - 7)
                     }
 
                     // Courbe semaine précédente (derrière)
