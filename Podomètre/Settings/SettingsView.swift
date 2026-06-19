@@ -4,7 +4,7 @@ struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
     @State private var showPicker = false
 
-    private let goalOptions = stride(from: 5_000, through: 20_000, by: 500).map { $0 }
+    private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
 
     var body: some View {
         NavigationStack {

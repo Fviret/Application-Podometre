@@ -158,8 +158,6 @@ class StepCountViewModel: ObservableObject {
                 dayToSteps[day] = Int(steps)
             }
 
-            print("[StepCountViewModel] fetchMonthSteps: \(dayToSteps)")
-
             Task { @MainActor in
                 self?.stepsByDay = dayToSteps
             }
@@ -210,9 +208,6 @@ class StepCountViewModel: ObservableObject {
                 self.currentWeekSteps = currentWeek
                 // Le bucket HK du jour peut être en retard sur le total live — on force le remplacement.
                 self.currentWeekSteps[6] = self.stepCount
-
-                print("current:", self.currentWeekSteps)
-                print("previous:", self.previousWeekSteps)
             }
         }
 

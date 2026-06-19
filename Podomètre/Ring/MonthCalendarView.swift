@@ -14,7 +14,8 @@ struct MonthCalendarView: View {
         Calendar(identifier: .gregorian)
     }
 
-    private var today: Date { Date() }
+    /// Date du jour, capturée une fois à la construction de la vue.
+    private let today: Date = Date()
 
     private var displayedMonth: Date { viewModel.displayedMonth }
 
@@ -29,8 +30,6 @@ struct MonthCalendarView: View {
     /// Retourne le tableau plat de numéros de jours pour la grille du mois.
     /// Les cellules `nil` sont des espaces vides avant le 1er ou en fin de grille pour compléter les rangées de 7.
     private func calendarDays(for month: Date) -> [Int?] {
-        let calendar = Calendar(identifier: .gregorian)
-
         let components = calendar.dateComponents([.year, .month], from: month)
         guard let firstDay = calendar.date(from: components) else { return [] }
 
@@ -142,9 +141,6 @@ struct MonthCalendarView: View {
         let cellDate = date(forDay: day)
         let future = isFuture(cellDate)
         let steps = viewModel.stepsByDay[day] ?? 0
-
-        let _ = print("[MonthCalendarView] day \(day): steps = \(steps)")
-
         let goal = viewModel.goal
         ZStack {
             if steps >= goal {

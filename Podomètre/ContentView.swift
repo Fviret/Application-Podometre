@@ -14,12 +14,12 @@ struct ContentView: View {
         TabView {
             StepRingView(viewModel: viewModel)
                 .tabItem {
-                    Image(systemName: "figure.walk")
+                    Label("Activité", systemImage: "figure.walk")
                 }
 
             SettingsView(viewModel: viewModel)
                 .tabItem {
-                    Image(systemName: "gearshape")
+                    Label("Paramètres", systemImage: "gearshape")
                 }
         }
     }

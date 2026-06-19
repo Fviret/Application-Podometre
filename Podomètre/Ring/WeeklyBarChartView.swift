@@ -11,14 +11,14 @@ struct WeeklyBarChartView: View {
     private let labelRowGap: CGFloat = 8
 
     /// Libellés courts des 7 derniers jours en fr_FR, du plus ancien (index 0) au plus récent (index 6).
+    /// Le `DateFormatter` est instancié une seule fois pour les 7 valeurs.
     private var weekdayShortLabels: [String] {
-        (0..<7).map { offset in
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.setLocalizedDateFormatFromTemplate("EEE")
+        return (0..<7).map { offset in
             let date = Calendar.current.date(byAdding: .day, value: -(6 - offset), to: Date()) ?? Date()
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "fr_FR")
-            formatter.setLocalizedDateFormatFromTemplate("EEE")
-            let symbol = formatter.string(from: date)
-            return String(symbol.prefix(2)).capitalized
+            return String(formatter.string(from: date).prefix(2)).capitalized
         }
     }
 
