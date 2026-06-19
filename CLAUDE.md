@@ -60,6 +60,23 @@ Développement incrémental solo, sans dépendances tierces.
 - **Prompts Claude Code** : structure modulaire avec sections nommées
   - Contexte projet / Architecture / État actuel / Instruction du jour / Contraintes
 
+### Documentation des fonctions
+
+Toute fonction ou propriété calculée non triviale doit être documentée avec un commentaire `///` en français.
+
+- **Structs et classes** : doc sur la déclaration (rôle global)
+- **Fonctions publiques/internes** : doc systématique — ce qu'elle fait, ses effets de bord notables
+- **Fonctions privées** : doc si la logique n'est pas évidente à la lecture
+- **Propriétés `@Published`** : doc sur la sémantique (unité, plage, convention d'index)
+
+```swift
+/// Retourne le tableau plat de numéros de jours pour la grille du mois.
+/// Les cellules `nil` sont des espaces vides avant le 1er ou en fin de grille.
+private func calendarDays(for month: Date) -> [Int?] { … }
+```
+
+Ne pas documenter les fonctions dont le nom suffit (`isFuture`, `date(forDay:)`, etc.).
+
 ---
 
 ## Patterns à respecter
@@ -82,7 +99,7 @@ let offset = (firstWeekday - calendar.firstWeekday + 7) % 7
 
 ## Roadmap / Features à venir
 
-- [ ] Objectif personnalisable (remplacer le 10 000 pas en dur)
+- [x] Objectif personnalisable (picker 5 000–20 000 dans les paramètres, persisté UserDefaults)
 - [ ] Gamification RPG — débloquer des actions selon les pas (concept en cours d'évaluation)
 - [ ] Widget iOS écran d'accueil
 - [ ] Notifications de rappel

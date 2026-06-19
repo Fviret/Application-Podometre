@@ -3,8 +3,12 @@ import HealthKit
 import SwiftUI
 import Combine
 
+/// ViewModel principal de l'anneau de pas.
+/// Centralise les données HealthKit, la navigation par jour/mois et l'objectif quotidien.
 @MainActor
 class StepCountViewModel: ObservableObject {
+
+    /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
     @Published var goal: Int = {
         let stored = UserDefaults.standard.integer(forKey: "dailyStepGoal")
         return stored > 0 ? stored : 10_000
@@ -12,43 +16,59 @@ class StepCountViewModel: ObservableObject {
         didSet { UserDefaults.standard.set(goal, forKey: "dailyStepGoal") }
     }
 
+    /// Nombre de pas pour le jour sélectionné.
+    /// Quand le jour affiché est aujourd'hui, met à jour le dernier slot du graphe hebdomadaire.
     @Published var stepCount: Int = 0 {
         didSet {
-            // stepCount tracks whichever day is selected; only mirror it into the
-            // chart's "today" slot when it actually represents today.
             if selectedDayOffset == 0, currentWeekSteps.count == 7 {
                 currentWeekSteps[6] = stepCount
             }
         }
     }
+
+    /// `true` si l'autorisation HealthKit a été accordée.
     @Published var isAuthorized: Bool = false
+
+    /// Décalage en jours depuis aujourd'hui (0 = aujourd'hui, 1 = hier, …).
+    /// Chaque changement déclenche un fetch du jour et une synchro du mois affiché.
     @Published var selectedDayOffset: Int = 0 {
         didSet {
             fetchSteps(for: selectedDate)
             syncSelectedMonth(to: selectedDate)
         }
     }
+
+    /// Pas par numéro de jour du mois affiché. Clé = numéro du jour (1…31).
     @Published var stepsByDay: [Int: Int] = [:]
+
+    /// Décalage en mois depuis le mois courant (0 = mois en cours, 1 = mois précédent, …).
+    /// Chaque changement déclenche un fetch du calendrier mensuel.
     @Published var selectedMonthOffset: Int = 0 {
         didSet { fetchMonthSteps() }
     }
-    /// Index 0 = 6 days ago, index 6 = today.
+
+    /// Pas des 7 derniers jours. Index 0 = il y a 6 jours, index 6 = aujourd'hui.
     @Published var currentWeekSteps: [Int] = Array(repeating: 0, count: 7)
-    /// Index 0 = 13 days ago, index 6 = 7 days ago (the week before currentWeekSteps).
+
+    /// Pas des 7 jours précédant la semaine en cours. Index 0 = il y a 13 jours, index 6 = il y a 7 jours.
     @Published var previousWeekSteps: [Int] = Array(repeating: 0, count: 7)
 
+    /// Premier jour du mois affiché, calculé depuis `selectedMonthOffset`.
     var displayedMonth: Date {
         Calendar.current.date(byAdding: .month, value: -selectedMonthOffset, to: Date()) ?? Date()
     }
 
+    /// Progression vers l'objectif du jour, entre 0.0 et 1.0.
     var progress: Double {
         min(Double(stepCount) / Double(goal), 1.0)
     }
 
+    /// Date correspondant à `selectedDayOffset` jours avant aujourd'hui.
     var selectedDate: Date {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
     }
 
+    /// Libellé lisible du jour sélectionné ("Aujourd'hui", "Hier", ou date courte fr_FR).
     var selectedDateLabel: String {
         switch selectedDayOffset {
         case 0: return "Aujourd'hui"
@@ -64,6 +84,7 @@ class StepCountViewModel: ObservableObject {
     private let healthStore = HKHealthStore()
     private var observerQuery: HKObserverQuery?
 
+    /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
     func requestAuthorizationAndFetch() {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
@@ -80,7 +101,8 @@ class StepCountViewModel: ObservableObject {
         }
     }
 
-    /// Selects the given date by translating it into a day offset from today.
+    /// Traduit une date calendaire en `selectedDayOffset` et met à jour la sélection.
+    /// Les dates futures sont ignorées.
     func selectDate(_ date: Date) {
         let calendar = Calendar.current
         let startOfToday = calendar.startOfDay(for: Date())
@@ -89,8 +111,8 @@ class StepCountViewModel: ObservableObject {
         selectedDayOffset = days
     }
 
-    /// Keeps the calendar's displayed month in sync with the ring's selected day,
-    /// so navigating across a month boundary with the chevrons updates the calendar too.
+    /// Synchronise `selectedMonthOffset` avec le mois de `date`.
+    /// Appelée à chaque changement de `selectedDayOffset` pour garder le calendrier aligné sur la date sélectionnée.
     private func syncSelectedMonth(to date: Date) {
         let calendar = Calendar.current
         guard let currentMonthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: Date())),
@@ -103,6 +125,8 @@ class StepCountViewModel: ObservableObject {
         }
     }
 
+    /// Récupère les pas jour par jour pour `displayedMonth` via `HKStatisticsCollectionQuery`.
+    /// Le résultat est stocké dans `stepsByDay` (clé = numéro de jour).
     func fetchMonthSteps() {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
@@ -144,6 +168,8 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
+    /// Récupère les pas sur une fenêtre de 14 jours pour alimenter le graphe de comparaison hebdomadaire.
+    /// Surcharge le slot d'aujourd'hui avec `stepCount` live pour éviter le décalage du bucket HK.
     func fetchWeeklyComparison() {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
@@ -167,7 +193,7 @@ class StepCountViewModel: ObservableObject {
 
         query.initialResultsHandler = { [weak self] _, results, _ in
             guard let results else { return }
-            var stepsByOffset: [Int: Int] = [:] // offset = days since startOfRange (0...13)
+            var stepsByOffset: [Int: Int] = [:]
 
             results.enumerateStatistics(from: startOfRange, to: endOfRange) { statistics, _ in
                 guard let offset = calendar.dateComponents([.day], from: startOfRange, to: statistics.startDate).day else { return }
@@ -182,8 +208,7 @@ class StepCountViewModel: ObservableObject {
                 guard let self else { return }
                 self.previousWeekSteps = previousWeek
                 self.currentWeekSteps = currentWeek
-                // The collection query's bucket for today can lag behind HealthKit's
-                // live total, so the already-fetched live stepCount always wins.
+                // Le bucket HK du jour peut être en retard sur le total live — on force le remplacement.
                 self.currentWeekSteps[6] = self.stepCount
 
                 print("current:", self.currentWeekSteps)
@@ -194,6 +219,7 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
+    /// Récupère le total de pas pour un jour donné via `HKStatisticsQuery` et met à jour `stepCount`.
     func fetchSteps(for date: Date) {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
@@ -213,13 +239,14 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
+    /// Installe un `HKObserverQuery` pour recevoir les mises à jour live des pas.
+    /// Ne rafraîchit `stepCount` que si l'utilisateur est sur la vue d'aujourd'hui.
     private func startObserving() {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
         observerQuery = HKObserverQuery(sampleType: stepType, predicate: nil) { [weak self] _, _, _ in
             Task { @MainActor in
                 guard let self else { return }
-                // Only live-refresh when viewing today
                 if self.selectedDayOffset == 0 {
                     self.fetchSteps(for: self.selectedDate)
                 }

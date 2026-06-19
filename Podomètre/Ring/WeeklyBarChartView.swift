@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Vue du graphe en courbes sur 7 jours.
+/// Affiche la semaine en cours (accent) et la semaine précédente (gris) pour comparaison.
 struct WeeklyBarChartView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
@@ -8,8 +10,8 @@ struct WeeklyBarChartView: View {
     private let labelRowHeight: CGFloat = 20
     private let labelRowGap: CGFloat = 8
 
+    /// Libellés courts des 7 derniers jours en fr_FR, du plus ancien (index 0) au plus récent (index 6).
     private var weekdayShortLabels: [String] {
-        // index 0 = 6 days ago ... index 6 = today
         (0..<7).map { offset in
             let date = Calendar.current.date(byAdding: .day, value: -(6 - offset), to: Date()) ?? Date()
             let formatter = DateFormatter()
@@ -20,6 +22,7 @@ struct WeeklyBarChartView: View {
         }
     }
 
+    /// Formate un nombre de pas en chaîne compacte ("3.2k", "10k", etc.).
     private func compactSteps(_ n: Int) -> String {
         if n == 0 { return "0" }
         if n >= 1000 {
@@ -28,25 +31,31 @@ struct WeeklyBarChartView: View {
         return "\(n)"
     }
 
+    /// Valeur maximale de l'axe Y, arrondie au multiple de 5 000 supérieur au max des deux semaines.
     private var yMax: Int {
         let maxValue = max(1, (viewModel.currentWeekSteps + viewModel.previousWeekSteps).max() ?? 1)
         let raw = maxValue + 5000
         return Int(ceil(Double(raw) / 5000.0)) * 5000
     }
 
+    /// Graduations de l'axe Y : 4 valeurs régulières entre 0 et `yMax`, arrondies à la centaine.
     private var ticks: [Int] {
         let raw = [0, yMax / 3, 2 * yMax / 3, yMax]
         return raw.map { Int((Double($0) / 100.0).rounded()) * 100 }
     }
 
+    /// Position X d'un point du graphe pour l'index de jour donné (0…6).
     private func xPos(_ index: Int, chartWidth: CGFloat) -> CGFloat {
         yAxisWidth + CGFloat(index) / 6.0 * chartWidth
     }
 
+    /// Position Y d'un point du graphe pour un nombre de pas donné, dans l'espace [0, chartHeight].
     private func yPos(_ steps: Int) -> CGFloat {
         chartHeight - CGFloat(steps) / CGFloat(yMax) * chartHeight
     }
 
+    /// Construit le `Path` de la courbe pour un tableau de 7 valeurs de pas.
+    /// Les segments sont interrompus pour les jours à 0 (pas de données).
     private func linePath(values: [Int], chartWidth: CGFloat) -> Path {
         var path = Path()
         var started = false
@@ -95,7 +104,7 @@ struct WeeklyBarChartView: View {
                 let chartWidth = max(0, geo.size.width - yAxisWidth)
 
                 ZStack(alignment: .topLeading) {
-                    // Y-axis grid lines + labels
+                    // Grilles horizontales + labels Y
                     ForEach(ticks, id: \.self) { tick in
                         let y = yPos(tick)
 
@@ -112,15 +121,15 @@ struct WeeklyBarChartView: View {
                             .position(x: 14, y: y)
                     }
 
-                    // Previous week line (behind)
+                    // Courbe semaine précédente (derrière)
                     linePath(values: viewModel.previousWeekSteps, chartWidth: chartWidth)
                         .stroke(Color.secondary.opacity(0.4), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
 
-                    // Current week line (front)
+                    // Courbe semaine en cours (devant)
                     linePath(values: viewModel.currentWeekSteps, chartWidth: chartWidth)
                         .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
-                    // Previous week dots
+                    // Points semaine précédente
                     ForEach(0..<7, id: \.self) { index in
                         let steps = viewModel.previousWeekSteps[index]
                         if steps > 0 {
@@ -131,7 +140,7 @@ struct WeeklyBarChartView: View {
                         }
                     }
 
-                    // Current week dots
+                    // Points semaine en cours
                     ForEach(0..<7, id: \.self) { index in
                         let steps = viewModel.currentWeekSteps[index]
                         if steps > 0 {
@@ -143,7 +152,7 @@ struct WeeklyBarChartView: View {
                         }
                     }
 
-                    // Day labels row
+                    // Labels des jours en bas du graphe
                     ForEach(0..<7, id: \.self) { index in
                         let isToday = index == 6
                         Text(weekdayShortLabels[index])

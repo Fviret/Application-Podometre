@@ -2,26 +2,38 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
+    @State private var showPicker = false
+
+    private let goalOptions = stride(from: 5_000, through: 20_000, by: 500).map { $0 }
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Objectif quotidien") {
-                    HStack {
-                        Text("Pas par jour")
-                        Spacer()
-                        Text(viewModel.goal.formatted())
-                            .foregroundStyle(Color.secondary)
-                            .monospacedDigit()
+                    Button {
+                        withAnimation { showPicker.toggle() }
+                    } label: {
+                        HStack {
+                            Text("Pas par jour")
+                                .foregroundStyle(Color.primary)
+                            Spacer()
+                            Text(viewModel.goal.formatted())
+                                .foregroundStyle(Color.secondary)
+                            Image(systemName: showPicker ? "chevron.up" : "chevron.down")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondary)
+                        }
                     }
-                    Stepper(
-                        value: $viewModel.goal,
-                        in: 1_000...50_000,
-                        step: 500
-                    ) {
-                        EmptyView()
+
+                    if showPicker {
+                        Picker("Pas par jour", selection: $viewModel.goal) {
+                            ForEach(goalOptions, id: \.self) { value in
+                                Text(value.formatted()).tag(value)
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                     }
-                    .labelsHidden()
                 }
             }
             .navigationTitle("Paramètres")
