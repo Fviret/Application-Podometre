@@ -11,6 +11,7 @@ class JourneyProgressService: ObservableObject {
     private let storageKey = "journeyProgressMap"
 
     private let healthStore = HKHealthStore()
+    private let notificationService = JourneyNotificationService()
 
     /// Toutes les progressions indexées par journeyId.
     @Published private(set) var progressMap: [UUID: JourneyProgress] = [:]
@@ -37,6 +38,7 @@ class JourneyProgressService: ObservableObject {
     // MARK: - Écriture
 
     /// Démarre un nouveau trajet en écrasant toute progression existante sur tous les autres.
+    /// Demande l'autorisation de notifications au premier démarrage.
     func startJourney(_ journey: Journey) {
         progressMap = [
             journey.id: JourneyProgress(
@@ -48,6 +50,7 @@ class JourneyProgressService: ObservableObject {
             )
         ]
         save()
+        Task { await notificationService.requestAuthorization() }
     }
 
     /// Ajoute des kilomètres à la progression du trajet actif et détecte les nouvelles étapes débloquées.
@@ -57,17 +60,15 @@ class JourneyProgressService: ObservableObject {
         progress.totalKm += km
         progress.lastUpdatedDate = Date()
 
-        let unlocked = journey.milestones.filter {
-            $0.kmFromStart <= progress.totalKm &&
-            !progress.unlockedMilestoneIds.contains($0.id)
-        }
-        for milestone in unlocked {
-            progress.unlockedMilestoneIds.insert(milestone.id)
-        }
-        newlyUnlockedMilestones = unlocked.sorted { $0.kmFromStart < $1.kmFromStart }
+        let unlocked = detectUnlocked(in: &progress, for: journey, upTo: progress.totalKm)
+        newlyUnlockedMilestones = unlocked
 
         progressMap[journey.id] = progress
         save()
+
+        if !unlocked.isEmpty {
+            Task { await notificationService.notifyUnlockedMilestones(unlocked, journey: journey) }
+        }
     }
 
     /// Synchronise la progression du trajet avec le nombre total de pas marchés depuis le démarrage.
@@ -81,28 +82,36 @@ class JourneyProgressService: ObservableObject {
         let newTotalKm = Double(totalSteps) * 0.0008
         guard newTotalKm > progress.totalKm else { return }
 
-        let addedKm = newTotalKm - progress.totalKm
         progress.totalKm = newTotalKm
         progress.lastUpdatedDate = Date()
 
-        let unlocked = journey.milestones.filter {
-            $0.kmFromStart <= newTotalKm &&
-            !progress.unlockedMilestoneIds.contains($0.id)
-        }
-        for milestone in unlocked {
-            progress.unlockedMilestoneIds.insert(milestone.id)
-        }
-
-        let _ = addedKm
-        newlyUnlockedMilestones = unlocked.sorted { $0.kmFromStart < $1.kmFromStart }
+        let unlocked = detectUnlocked(in: &progress, for: journey, upTo: newTotalKm)
+        newlyUnlockedMilestones = unlocked
 
         progressMap[journey.id] = progress
         save()
+
+        if !unlocked.isEmpty {
+            await notificationService.notifyUnlockedMilestones(unlocked, journey: journey)
+        }
     }
 
     /// Vide la liste des étapes nouvellement débloquées après traitement par la vue.
     func clearNewlyUnlocked() {
         newlyUnlockedMilestones = []
+    }
+
+    // MARK: - Privé
+
+    /// Détecte les jalons franchis pour un `totalKm` donné, les marque débloqués et retourne la liste triée.
+    private func detectUnlocked(in progress: inout JourneyProgress, for journey: Journey, upTo totalKm: Double) -> [Milestone] {
+        let unlocked = journey.milestones.filter {
+            $0.kmFromStart <= totalKm && !progress.unlockedMilestoneIds.contains($0.id)
+        }
+        for milestone in unlocked {
+            progress.unlockedMilestoneIds.insert(milestone.id)
+        }
+        return unlocked.sorted { $0.kmFromStart < $1.kmFromStart }
     }
 
     // MARK: - HealthKit
