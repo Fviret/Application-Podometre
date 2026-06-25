@@ -85,7 +85,11 @@ class StepCountViewModel: ObservableObject {
     private var observerQuery: HKObserverQuery?
 
     /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
+    /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
+        #if targetEnvironment(simulator)
+        loadMockData()
+        #else
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
 
@@ -99,6 +103,42 @@ class StepCountViewModel: ObservableObject {
                 self?.startObserving()
             }
         }
+        #endif
+    }
+
+    /// Injecte des données fictives réalistes pour tester l'interface sur simulateur.
+    /// Couvre : pas du jour, calendrier mensuel complet, comparaison hebdomadaire.
+    private func loadMockData() {
+        isAuthorized = true
+
+        // Pas du jour sélectionné
+        stepCount = selectedDayOffset == 0 ? 7_430 : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
+
+        // Calendrier mensuel : données pour les 28 premiers jours
+        let calendar = Calendar.current
+        let today = Date()
+        guard let firstOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: today)) else { return }
+        let currentDay = calendar.component(.day, from: today)
+
+        let mockDailySteps: [Int] = [
+            8_200, 11_500, 3_000, 9_400, 12_000, 6_700, 10_100,
+            4_400, 10_000, 7_200, 13_500, 5_800, 9_600, 15_600,
+            2_100, 8_800, 10_300, 7_600, 11_200, 4_900, 9_100,
+            6_300, 12_400, 8_700, 10_500, 3_700, 11_000, 7_900
+        ]
+
+        var days: [Int: Int] = [:]
+        for day in 1...currentDay {
+            guard let date = calendar.date(byAdding: .day, value: day - 1, to: firstOfMonth) else { continue }
+            if calendar.startOfDay(for: date) <= calendar.startOfDay(for: today) {
+                days[day] = mockDailySteps[(day - 1) % mockDailySteps.count]
+            }
+        }
+        stepsByDay = days
+
+        // Comparaison hebdomadaire
+        currentWeekSteps  = [4_300, 9_800, 11_200, 7_600, 3_900, 10_500, 7_430]
+        previousWeekSteps = [6_100, 8_300,  9_900, 5_200, 7_800, 12_100, 8_650]
     }
 
     /// Traduit une date calendaire en `selectedDayOffset` et met à jour la sélection.
