@@ -3,7 +3,7 @@ import Foundation
 // MARK: - Journey
 
 /// Trajet virtuel que l'utilisateur parcourt grâce à ses pas quotidiens.
-struct Journey: Codable, Identifiable, Equatable {
+struct Journey: Codable, Identifiable, Equatable, Hashable {
     let id: UUID
     /// Nom du trajet (ex. "Paris → Nice").
     let title: String
@@ -20,7 +20,7 @@ struct Journey: Codable, Identifiable, Equatable {
 // MARK: - Milestone
 
 /// Étape intermédiaire sur un trajet, débloquée quand l'utilisateur atteint sa position.
-struct Milestone: Codable, Identifiable, Equatable {
+struct Milestone: Codable, Identifiable, Equatable, Hashable {
     let id: UUID
     /// Distance depuis le départ en kilomètres.
     let kmFromStart: Double

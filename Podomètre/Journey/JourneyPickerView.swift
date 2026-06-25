@@ -53,7 +53,7 @@ struct JourneyPickerView: View {
         let hasProgress = progressService.progress(for: journey) != nil
         if hasProgress {
             selectedJourney = journey
-        } else if progressService.hasActiveJourney(other: journey) {
+        } else if progressService.hasActiveJourney(otherThan: journey) {
             journeyPendingConfirmation = journey
             showAbandonAlert = true
         } else {
