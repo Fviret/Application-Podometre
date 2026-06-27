@@ -36,7 +36,7 @@ struct SettingsView: View {
                     }
                 }
 
-                Section("Couleur de l'anneau") {
+                Section("Personnalisation des couleurs") {
                     HStack {
                         Circle()
                             .fill(viewModel.ringColor)
