@@ -21,6 +21,7 @@ struct ContentView: View {
 
             JourneyPickerView()
                 .environmentObject(journeyProgressService)
+                .environmentObject(viewModel)
                 .tabItem {
                     Label("Trajets", systemImage: "map")
                 }
@@ -31,6 +32,15 @@ struct ContentView: View {
                 }
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
+        .onAppear {
+            journeyProgressService.onJourneyCompleted = { id in
+                viewModel.markJourneyCompleted(id)
+            }
+            journeyProgressService.notificationsEnabled = viewModel.notificationsEnabled
+        }
+        .onChange(of: viewModel.notificationsEnabled) { _, enabled in
+            journeyProgressService.notificationsEnabled = enabled
+        }
     }
 }
 

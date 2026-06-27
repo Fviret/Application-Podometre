@@ -3,6 +3,7 @@ import SwiftUI
 /// Vue catalogue des trajets disponibles, organisée par catégorie.
 struct JourneyPickerView: View {
     @EnvironmentObject private var progressService: JourneyProgressService
+    @EnvironmentObject private var stepViewModel: StepCountViewModel
 
     @State private var selectedJourney: Journey?
     /// Trajet dont on affiche la prévisualisation (nouveau ou déjà en cours).
@@ -33,6 +34,7 @@ struct JourneyPickerView: View {
             .navigationDestination(item: $selectedJourney) { journey in
                 JourneyDetailView(journey: journey)
                     .environmentObject(progressService)
+                    .environmentObject(stepViewModel)
             }
             .sheet(item: $journeyToPreview) { journey in
                 JourneyPreviewSheet(
@@ -63,6 +65,8 @@ struct JourneyPickerView: View {
                 JourneyCard(
                     journey: journey,
                     progress: progressService.progress(for: journey),
+                    isCompleted: stepViewModel.isJourneyCompleted(journey.id.uuidString),
+                    ringColor: stepViewModel.ringColor,
                     onAction: { journeyToPreview = journey }
                 )
             }
@@ -76,6 +80,8 @@ struct JourneyPickerView: View {
 private struct JourneyCard: View {
     let journey: Journey
     let progress: JourneyProgress?
+    let isCompleted: Bool
+    let ringColor: Color
     let onAction: () -> Void
 
     private var progressPercent: Double {
@@ -121,43 +127,55 @@ private struct JourneyCard: View {
                     .foregroundStyle(Color.secondary)
             }
 
-            if let progress {
-                VStack(alignment: .leading, spacing: 6) {
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.secondary.opacity(0.15))
-                                .frame(height: 6)
-
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.accentColor)
-                                .frame(width: geo.size.width * progressPercent, height: 6)
-                        }
-                    }
-                    .frame(height: 6)
-
-                    Text(String(format: "%.1f km parcourus sur %.0f", progress.totalKm, journey.totalKm))
-                        .font(.caption2)
-                        .foregroundStyle(Color.secondary)
-                }
-            }
-
-            Button(action: onAction) {
+            if isCompleted {
                 HStack {
-                    Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+                    Image(systemName: "checkmark.circle.fill")
+                    Text("Terminé")
                         .font(.system(size: 15, weight: .medium, design: .rounded))
                 }
+                .foregroundStyle(ringColor)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
-                .background(hasProgress ? Color.accentColor : Color.accentColor.opacity(0.12))
-                //.foregroundStyle(hasProgress ? Color.white : Color.accentColor)
+                .background(ringColor.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else {
+                if let progress {
+                    VStack(alignment: .leading, spacing: 6) {
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color.secondary.opacity(0.15))
+                                    .frame(height: 6)
+
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(ringColor)
+                                    .frame(width: geo.size.width * progressPercent, height: 6)
+                            }
+                        }
+                        .frame(height: 6)
+
+                        Text(String(format: "%.1f / %.0f km", progress.totalKm, journey.totalKm))
+                            .font(.caption2)
+                            .foregroundStyle(Color.secondary)
+                    }
+                }
+
+                Button(action: onAction) {
+                    Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(hasProgress ? ringColor : ringColor.opacity(0.12))
+                        .foregroundStyle(hasProgress ? Color.white : ringColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .padding(16)
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .opacity(isCompleted ? 0.6 : 1.0)
     }
 }
 
@@ -166,6 +184,7 @@ private struct JourneyCard: View {
 #Preview("Catalogue") {
     JourneyPickerView()
         .environmentObject(JourneyProgressService())
+        .environmentObject(StepCountViewModel())
 }
 
 #Preview("Avec progression") {
@@ -174,4 +193,5 @@ private struct JourneyCard: View {
     service.addKilometers(72, to: allJourneys[0])
     return JourneyPickerView()
         .environmentObject(service)
+        .environmentObject(StepCountViewModel())
 }

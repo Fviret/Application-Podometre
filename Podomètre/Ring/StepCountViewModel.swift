@@ -271,9 +271,11 @@ class StepCountViewModel: ObservableObject {
         loadMockData()
         #else
         guard HKHealthStore.isHealthDataAvailable() else { return }
-        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)
+        else { return }
 
-        healthStore.requestAuthorization(toShare: [], read: [stepType]) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType]) { [weak self] success, _ in
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true

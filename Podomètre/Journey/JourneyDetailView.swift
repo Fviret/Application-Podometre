@@ -40,7 +40,7 @@ struct JourneyDetailView: View {
             .navigationTitle(journey.name)
             .navigationBarTitleDisplayMode(.large)
             .task {
-                await progressService.syncTodaySteps(for: journey)
+                await progressService.syncDistance(for: journey)
                 if let idx = lastUnlockedIndex {
                     withAnimation {
                         proxy.scrollTo("milestone-\(idx)", anchor: .center)
@@ -90,7 +90,21 @@ struct JourneyDetailView: View {
                 }
             }
 
-            if let p = progress, let next = journey.nextMilestone(for: p) {
+            if progressPercent >= 1.0 {
+                HStack(spacing: 10) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.title3)
+                        .foregroundStyle(Color.accentColor)
+
+                    Text("Vous avez achevé ce trajet !")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color.primary)
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.accentColor.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else if let p = progress, let next = journey.nextMilestone(for: p) {
                 let remaining = next.km - p.totalKm
                 HStack(spacing: 10) {
                     Image(systemName: "flag.fill")
