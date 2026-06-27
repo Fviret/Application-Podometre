@@ -7,6 +7,8 @@ struct JourneyPickerView: View {
     @State private var selectedJourney: Journey?
     @State private var journeyPendingConfirmation: Journey?
     @State private var showAbandonAlert = false
+    /// Trajet dont on affiche la prévisualisation avant démarrage.
+    @State private var journeyToPreview: Journey?
 
     /// Ordre d'affichage des catégories.
     private let categoryOrder: [JourneyCategory] = [.trail, .history, .myth]
@@ -34,11 +36,16 @@ struct JourneyPickerView: View {
                 JourneyDetailView(journey: journey)
                     .environmentObject(progressService)
             }
+            .sheet(item: $journeyToPreview) { journey in
+                JourneyPreviewSheet(journey: journey) {
+                    progressService.startJourney(journey)
+                    selectedJourney = journey
+                }
+            }
             .alert("Abandonner le trajet en cours ?", isPresented: $showAbandonAlert) {
                 Button("Abandonner", role: .destructive) {
                     if let journey = journeyPendingConfirmation {
-                        progressService.startJourney(journey)
-                        selectedJourney = journey
+                        journeyToPreview = journey
                     }
                     journeyPendingConfirmation = nil
                 }
@@ -73,17 +80,19 @@ struct JourneyPickerView: View {
 
     // MARK: - Navigation
 
-    /// Décide si on démarre directement, demande confirmation, ou reprend un trajet existant.
+    /// Décide d'ouvrir la prévisualisation, de reprendre ou de demander confirmation d'abandon.
     private func handleAction(for journey: Journey) {
         let hasProgress = progressService.progress(for: journey) != nil
         if hasProgress {
+            // Trajet déjà commencé → navigation directe vers le détail
             selectedJourney = journey
         } else if progressService.hasActiveJourney(otherThan: journey) {
+            // Un autre trajet est en cours → confirmation avant prévisualisation
             journeyPendingConfirmation = journey
             showAbandonAlert = true
         } else {
-            progressService.startJourney(journey)
-            selectedJourney = journey
+            // Nouveau trajet → prévisualisation des étapes avant démarrage
+            journeyToPreview = journey
         }
     }
 }
