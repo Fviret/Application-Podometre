@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = StepCountViewModel()
     @StateObject private var journeyProgressService = JourneyProgressService()
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
 
     var body: some View {
         TabView {
@@ -29,6 +30,7 @@ struct ContentView: View {
                     Label("Paramètres", systemImage: "gearshape")
                 }
         }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 

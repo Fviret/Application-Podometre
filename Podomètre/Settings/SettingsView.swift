@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @State private var showPicker = false
 
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
@@ -70,6 +71,7 @@ struct SettingsView: View {
                         .onChange(of: viewModel.notificationsEnabled) { _, enabled in
                             if enabled { viewModel.requestNotificationPermission() }
                         }
+                    Toggle("Mode sombre", isOn: $isDarkMode)
                 }
 
                 if viewModel.currentStreak > 0 {
