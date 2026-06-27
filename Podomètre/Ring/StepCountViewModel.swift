@@ -23,6 +23,9 @@ class StepCountViewModel: ObservableObject {
         UserDefaults.standard.set(id, forKey: "ringColorId")
     }
 
+    /// Nombre de jours où chaque seuil de pas a été atteint. Clé = StepMilestoneBadge.id.
+    @Published var milestoneCounts: [String: Int] = [:]
+
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
     @Published var completedJourneyIds: [String] = UserDefaults.standard.stringArray(forKey: "completedJourneyIds") ?? []
 
@@ -36,6 +39,48 @@ class StepCountViewModel: ObservableObject {
     /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
     func isJourneyCompleted(_ id: String) -> Bool {
         completedJourneyIds.contains(id)
+    }
+
+    /// Récupère sur toute l'historique HealthKit le nombre de jours où chaque seuil de pas a été atteint.
+    /// Sur simulateur, injecte des valeurs fictives.
+    func fetchMilestoneCounts() {
+        #if targetEnvironment(simulator)
+        milestoneCounts = ["5k": 47, "10k": 23, "20k": 4, "30k": 1, "50k": 0, "100k": 0]
+        #else
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+
+        let intervalComponents = DateComponents(day: 1)
+        let anchorDate = Calendar.current.startOfDay(for: Date(timeIntervalSince1970: 0))
+        let predicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
+
+        let query = HKStatisticsCollectionQuery(
+            quantityType: stepType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum,
+            anchorDate: anchorDate,
+            intervalComponents: intervalComponents
+        )
+
+        query.initialResultsHandler = { [weak self] _, results, _ in
+            guard let results else { return }
+            let badges = BadgeData.stepMilestoneBadges
+            var counts: [String: Int] = Dictionary(uniqueKeysWithValues: badges.map { ($0.id, 0) })
+
+            results.enumerateStatistics(from: .distantPast, to: Date()) { statistics, _ in
+                let steps = Int(statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+                guard steps > 0 else { return }
+                for badge in badges where steps >= badge.threshold {
+                    counts[badge.id, default: 0] += 1
+                }
+            }
+
+            Task { @MainActor in
+                self?.milestoneCounts = counts
+            }
+        }
+
+        healthStore.execute(query)
+        #endif
     }
 
     /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
@@ -130,6 +175,7 @@ class StepCountViewModel: ObservableObject {
                 self?.fetchSteps(for: self?.selectedDate ?? Date())
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
+                self?.fetchMilestoneCounts()
                 self?.startObserving()
             }
         }
@@ -140,6 +186,7 @@ class StepCountViewModel: ObservableObject {
     /// Couvre : pas du jour, calendrier mensuel complet, comparaison hebdomadaire.
     private func loadMockData() {
         isAuthorized = true
+        fetchMilestoneCounts()
 
         // Pas du jour sélectionné
         stepCount = selectedDayOffset == 0 ? 7_430 : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
