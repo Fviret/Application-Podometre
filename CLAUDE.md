@@ -12,7 +12,8 @@ Développement incrémental solo, sans dépendances tierces.
 
 - **Langage** : Swift 5.9+
 - **UI** : SwiftUI pur (pas de UIKit, pas de Swift Charts)
-- **Données** : HealthKit — lecture des pas via `HKQuantityTypeIdentifier.stepCount`
+- **Données** : HealthKit — `stepCount` pour les pas, `distanceWalkingRunning` pour les trajets
+- **Notifications** : `UserNotifications` (UNUserNotificationCenter)
 - **Cible** : iOS 17+ minimum
 - **Outil** : Xcode, Claude Code pour le développement assisté
 
@@ -22,10 +23,21 @@ Développement incrémental solo, sans dépendances tierces.
 
 **MVVM** — pattern standard SwiftUI.
 
-- `@Observable` pour les ViewModels (pas de `ObservableObject` / `@Published`)
+- `ObservableObject` + `@Published` pour les ViewModels et services (pas `@Observable`)
 - Un fichier par View
-- Un ViewModel par écran principal
-- Les appels HealthKit sont isolés dans un service dédié (`HealthKitService` ou similaire)
+- Un ViewModel par écran principal (`StepCountViewModel` pour l'activité)
+- Les appels HealthKit sont isolés dans les ViewModels/services — jamais dans les Views
+- Les services partagés sont injectés via `@EnvironmentObject` depuis `ContentView`
+
+### Services partagés
+
+| Service | Rôle | Injection |
+|---|---|---|
+| `StepCountViewModel` | Pas, objectif, streak, badges, couleur anneau | `@StateObject` dans `ContentView` |
+| `JourneyProgressService` | Progression des trajets, distance HK, completion | `@EnvironmentObject` |
+
+### Communication entre services
+Le pattern retenu est le **callback** : `JourneyProgressService.onJourneyCompleted` est câblé dans `ContentView` vers `StepCountViewModel.markJourneyCompleted`. Préférer ce pattern à `NotificationCenter` pour les échanges entre services.
 
 ---
 
@@ -33,7 +45,8 @@ Développement incrémental solo, sans dépendances tierces.
 
 ### Anneau de progression
 - Cercle rempli proportionnellement à l'objectif (défaut : 10 000 pas)
-- Affiche les pas du jour en cours en temps réel
+- Affiche les pas du jour en cours en temps réel via `HKObserverQuery`
+- Couleur personnalisable (picker 6 couleurs, persisté UserDefaults)
 
 ### Navigation par jour
 - Chevrons natifs SF Symbol (`chevron.left` / `chevron.right`)
@@ -48,7 +61,38 @@ Développement incrémental solo, sans dépendances tierces.
 ### Graphe hebdomadaire
 - Courbe linéaire maison (sans Swift Charts)
 - Compare semaine en cours vs semaine précédente
-- Inclut le jour en cours via `stepCount` live (pas uniquement les jours complétés)
+- Inclut le jour en cours via `stepCount` live
+
+### Paramètres
+- Objectif quotidien : picker 5 000–20 000 pas
+- Couleur de l'anneau : 6 presets (`AppColors.ringColorOptions`), propagée partout
+- Notifications : toggle objectif journalier (1x/jour max)
+- Mode sombre : toggle, appliqué via `.preferredColorScheme` sur le `TabView`
+- Streak : série de jours consécutifs (flamme 🔥), cachée si streak = 0
+- Badges : grille de seuils de pas (5k→100k avec compteur) + badges de trajets (emoji)
+
+### Système de trajets
+- 19 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
+- Progression via `distanceWalkingRunning` depuis `startDate` (requête idempotente)
+- `HKObserverQuery` live sur la distance — mise à jour sans ouvrir la vue
+- Jalons (milestones) débloqués au fil du km, avec notification locale
+- Completion : badge débloqué + notification + état "Terminé" dans l'UI
+
+---
+
+## UserDefaults — clés en production
+
+| Clé | Type | Rôle |
+|---|---|---|
+| `dailyStepGoal` | `Int` | Objectif quotidien en pas |
+| `ringColorId` | `String` | ID de la couleur de l'anneau |
+| `notificationsEnabled` | `Bool` | Toggle notification objectif |
+| `goalNotifiedDate` | `Date` | Garde pour max 1 notif/jour |
+| `isDarkMode` | `Bool` | Toggle mode sombre |
+| `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
+| `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
+
+Ne pas créer de nouvelles clés sans les ajouter ici.
 
 ---
 
@@ -57,8 +101,7 @@ Développement incrémental solo, sans dépendances tierces.
 - **Nommage** : anglais pour le code, commentaires en français si nécessaire
 - **Pas de force unwrap** (`!`) — utiliser `guard let` ou `if let`
 - **Pas de dépendances externes** — SwiftUI pur uniquement
-- **Prompts Claude Code** : structure modulaire avec sections nommées
-  - Contexte projet / Architecture / État actuel / Instruction du jour / Contraintes
+- **Simulateur** : toujours ajouter `#if targetEnvironment(simulator)` avec des données mock réalistes
 
 ### Documentation des fonctions
 
@@ -93,6 +136,20 @@ Color.clear
 // Calcul premier jour du mois (bug connu : toujours tester l'alignement)
 let firstWeekday = calendar.component(.weekday, from: firstDayOfMonth)
 let offset = (firstWeekday - calendar.firstWeekday + 7) % 7
+```
+
+```swift
+// Requête HK idempotente — recalculer depuis startDate, ne jamais incrémenter
+let km = await fetchDistance(from: progress.startDate)
+guard km > progress.totalKm else { return }
+progress.totalKm = km
+```
+
+```swift
+// Communication entre services — callback plutôt que NotificationCenter
+journeyProgressService.onJourneyCompleted = { id in
+    viewModel.markJourneyCompleted(id)
+}
 ```
 
 ---
@@ -143,10 +200,15 @@ git push origin --delete feature/<nom>
 ## Roadmap / Features à venir
 
 - [x] Objectif personnalisable (picker 5 000–20 000 dans les paramètres, persisté UserDefaults)
-- [ ] Gamification RPG — débloquer des actions selon les pas (concept en cours d'évaluation)
+- [x] Système de trajets avec progression HealthKit distance
+- [x] Badges de pas et de trajets
+- [x] Streak de jours consécutifs
+- [x] Notifications locales (objectif + jalons + completion)
+- [x] Couleur de l'anneau personnalisable
+- [x] Mode sombre
 - [ ] Widget iOS écran d'accueil
-- [ ] Notifications de rappel
 - [ ] Export CSV des données
+- [ ] Gamification RPG — débloquer des actions selon les pas (concept en cours d'évaluation)
 
 ---
 
@@ -156,6 +218,9 @@ git push origin --delete feature/<nom>
 - Ne pas introduire de packages Swift (SPM) sans décision explicite
 - Ne pas stocker les données HealthKit localement — toujours lire depuis HK
 - Ne pas casser la navigation par chevrons en ajoutant des limites arbitraires de jours
+- Ne pas utiliser `@Observable` — le projet utilise `ObservableObject` / `@Published`
+- Ne pas créer de clé UserDefaults sans la documenter dans la table ci-dessus
+- Ne pas utiliser `gridCellColumns(_:)` dans un `LazyVGrid` — ça ne fonctionne pas (réservé à `Grid`)
 
 ---
 
@@ -164,6 +229,9 @@ git push origin --delete feature/<nom>
 ```
 NSHealthShareUsageDescription
 NSHealthUpdateUsageDescription
+NSUserNotificationsUsageDescription
 ```
+
+Types HK lus : `stepCount`, `distanceWalkingRunning`
 
 Capacité HealthKit activée dans les entitlements du projet.
