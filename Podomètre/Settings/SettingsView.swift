@@ -65,6 +65,13 @@ struct SettingsView: View {
                     }
                     .padding(.vertical, 4)
                 }
+                Section("Notifications") {
+                    Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
+                        .onChange(of: viewModel.notificationsEnabled) { _, enabled in
+                            if enabled { viewModel.requestNotificationPermission() }
+                        }
+                }
+
                 if viewModel.currentStreak > 0 {
                     Section {
                         StreakBannerView(streak: viewModel.currentStreak, viewModel: viewModel)

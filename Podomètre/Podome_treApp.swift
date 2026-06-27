@@ -1,14 +1,25 @@
-//
-//  Podome_treApp.swift
-//  Podomètre
-//
-//  Created by Flo Viret on 15/06/2026.
-//
-
 import SwiftUI
+import UserNotifications
+
+/// Délégué de notification : affiche les bannières même quand l'app est au premier plan.
+class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
+    }
+}
 
 @main
 struct Podome_treApp: App {
+    private let notificationDelegate = NotificationDelegate()
+
+    init() {
+        UNUserNotificationCenter.current().delegate = notificationDelegate
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()

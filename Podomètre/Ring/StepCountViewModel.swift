@@ -2,6 +2,7 @@ import Foundation
 import HealthKit
 import SwiftUI
 import Combine
+import UserNotifications
 
 /// ViewModel principal de l'anneau de pas.
 /// Centralise les données HealthKit, la navigation par jour/mois et l'objectif quotidien.
@@ -23,6 +24,11 @@ class StepCountViewModel: ObservableObject {
         UserDefaults.standard.set(id, forKey: "ringColorId")
     }
 
+    /// Active ou désactive les notifications de l'objectif journalier. Persisté dans UserDefaults.
+    @Published var notificationsEnabled: Bool = UserDefaults.standard.bool(forKey: "notificationsEnabled") {
+        didSet { UserDefaults.standard.set(notificationsEnabled, forKey: "notificationsEnabled") }
+    }
+
     /// Nombre de jours consécutifs où l'objectif quotidien a été atteint, en remontant depuis aujourd'hui.
     @Published var currentStreak: Int = 0
 
@@ -42,6 +48,48 @@ class StepCountViewModel: ObservableObject {
     /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
     func isJourneyCompleted(_ id: String) -> Bool {
         completedJourneyIds.contains(id)
+    }
+
+    /// Demande l'autorisation de notifications (alerte, son, badge).
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
+    }
+
+    /// `true` si une notification d'objectif a déjà été envoyée aujourd'hui (vérifie UserDefaults).
+    private var goalNotifiedToday: Bool {
+        get {
+            guard let saved = UserDefaults.standard.object(forKey: "goalNotifiedDate") as? Date else { return false }
+            return Calendar.current.isDateInToday(saved)
+        }
+        set {
+            if newValue { UserDefaults.standard.set(Date(), forKey: "goalNotifiedDate") }
+        }
+    }
+
+    /// Envoie une notification locale si l'objectif vient d'être franchi et n'a pas encore été notifié aujourd'hui.
+    func checkAndNotifyGoalReached() {
+        guard stepCount >= goal else { return }
+        guard !goalNotifiedToday else { return }
+        goalNotifiedToday = true
+        sendGoalReachedNotification()
+    }
+
+    /// Planifie immédiatement la notification "Objectif atteint".
+    private func sendGoalReachedNotification() {
+        guard notificationsEnabled else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Objectif atteint ! 🎉"
+        content.body = "Tu as atteint \(goal.formatted()) pas aujourd'hui. Continue comme ça !"
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+        let identifier = "goalReached-\(Date().formatted(.dateTime.day().month().year()))"
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error { print("Notification error: \(error)") }
+        }
     }
 
     /// Calcule la série de jours consécutifs où l'objectif a été atteint, en remontant depuis aujourd'hui.
@@ -147,12 +195,13 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Nombre de pas pour le jour sélectionné.
-    /// Quand le jour affiché est aujourd'hui, met à jour le dernier slot du graphe hebdomadaire et recalcule la série.
+    /// Quand le jour affiché est aujourd'hui, met à jour le graphe, recalcule la série et vérifie l'objectif.
     @Published var stepCount: Int = 0 {
         didSet {
             if selectedDayOffset == 0, currentWeekSteps.count == 7 {
                 currentWeekSteps[6] = stepCount
                 computeStreak()
+                checkAndNotifyGoalReached()
             }
         }
     }
@@ -228,6 +277,7 @@ class StepCountViewModel: ObservableObject {
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true
+                self?.requestNotificationPermission()
                 self?.fetchSteps(for: self?.selectedDate ?? Date())
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
