@@ -7,30 +7,31 @@ struct BadgeGridView: View {
     private let columns = Array(repeating: GridItem(.flexible()), count: 3)
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 16) {
-
+        VStack(spacing: 16) {
             // Badges de seuils de pas — toujours en premier
-            ForEach(BadgeData.stepMilestoneBadges) { badge in
-                StepMilestoneBadgeCell(
-                    badge: badge,
-                    count: viewModel.milestoneCounts[badge.id] ?? 0,
-                    viewModel: viewModel
-                )
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(BadgeData.stepMilestoneBadges) { badge in
+                    StepMilestoneBadgeCell(
+                        badge: badge,
+                        count: viewModel.milestoneCounts[badge.id] ?? 0,
+                        viewModel: viewModel
+                    )
+                }
             }
 
             // Séparateur pleine largeur
             Color.secondary.opacity(0.15)
                 .frame(height: 0.5)
-                .gridCellColumns(3)
-                .padding(.vertical, 4)
 
             // Badges de trajets — inchangés
-            ForEach(allJourneys) { journey in
-                BadgeCellView(
-                    journey: journey,
-                    isUnlocked: viewModel.isJourneyCompleted(journey.id.uuidString),
-                    viewModel: viewModel
-                )
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(allJourneys) { journey in
+                    BadgeCellView(
+                        journey: journey,
+                        isUnlocked: viewModel.isJourneyCompleted(journey.id.uuidString),
+                        viewModel: viewModel
+                    )
+                }
             }
         }
         .padding(.vertical, 8)
