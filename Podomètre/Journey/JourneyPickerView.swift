@@ -37,6 +37,7 @@ struct JourneyPickerView: View {
             .sheet(item: $journeyToPreview) { journey in
                 JourneyPreviewSheet(
                     journey: journey,
+                    isInProgress: progressService.progress(for: journey) != nil,
                     requiresAbandon: progressService.hasActiveJourney(otherThan: journey)
                 ) {
                     progressService.startJourney(journey)

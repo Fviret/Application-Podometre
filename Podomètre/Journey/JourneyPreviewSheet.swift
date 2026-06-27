@@ -1,21 +1,20 @@
 import SwiftUI
 
 /// Sheet de prévisualisation d'un trajet.
-/// Affiche les étapes dans l'ordre et propose les actions de démarrage ou de reprise en bas.
+/// Affiche les étapes dans l'ordre et propose le bouton de démarrage en bas.
 struct JourneyPreviewSheet: View {
     let journey: Journey
-    /// Si `true`, un autre trajet est en cours — "Commencer" affichera une confirmation d'abandon.
+    /// `true` si ce trajet est déjà en cours de progression.
+    let isInProgress: Bool
+    /// `true` si un autre trajet est actif — "Commencer" affichera une confirmation d'abandon.
     let requiresAbandon: Bool
-    /// Appelé après confirmation quand l'utilisateur démarre ce trajet pour la première fois.
+    /// Appelé quand l'utilisateur démarre ce trajet pour la première fois (ou après abandon confirmé).
     let onStart: () -> Void
     /// Appelé quand l'utilisateur reprend un trajet déjà en cours.
     let onContinue: () -> Void
 
     @Environment(\.dismiss) private var dismiss
     @State private var showAbandonAlert = false
-
-    /// `true` si le trajet a déjà une progression (determiné via le contexte du picker).
-    private var hasProgress: Bool { !requiresAbandon && onContinue != nil }
 
     var body: some View {
         NavigationStack {
@@ -30,21 +29,30 @@ struct JourneyPreviewSheet: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Fermer") { dismiss() }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color.secondary)
+                            .padding(8)
+                            .background(Color.secondary.opacity(0.12))
+                            .clipShape(Circle())
+                    }
                 }
             }
             .overlay(alignment: .bottom) {
-                bottomActions
+                bottomAction
             }
-            .alert("Abandonner le trajet en cours ?", isPresented: $showAbandonAlert) {
-                Button("Abandonner", role: .destructive) {
+            .alert("Trajet en cours", isPresented: $showAbandonAlert) {
+                Button("Annuler ce trajet", role: .destructive) {
                     dismiss()
                     onStart()
                 }
-                Button("Annuler", role: .cancel) {}
+                Button("Garder mon trajet", role: .cancel) {}
             } message: {
-                Text("Ta progression actuelle sera perdue.")
+                Text("Vous avez déjà un trajet en cours. Voulez-vous l'annuler pour commencer celui-ci ? (L'avancée sera perdue)")
             }
         }
     }
@@ -114,9 +122,9 @@ struct JourneyPreviewSheet: View {
         }
     }
 
-    // MARK: - Actions en bas
+    // MARK: - Bouton principal
 
-    private var bottomActions: some View {
+    private var bottomAction: some View {
         VStack(spacing: 0) {
             LinearGradient(
                 colors: [Color(.systemBackground).opacity(0), Color(.systemBackground)],
@@ -125,47 +133,29 @@ struct JourneyPreviewSheet: View {
             )
             .frame(height: 24)
 
-            VStack(spacing: 10) {
-                // Bouton principal : Commencer (avec gestion abandon) ou Continuer
-                Button {
-                    if requiresAbandon {
-                        showAbandonAlert = true
-                    } else {
-                        dismiss()
-                        onStart()
-                    }
-                } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "play.fill")
-                            .font(.subheadline)
-                        Text("Commencer le trajet")
-                            .font(.system(size: 17, weight: .semibold, design: .rounded))
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(Color.accentColor)
-                    .foregroundStyle(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
-
-                // Bouton secondaire : Continuer si trajet déjà en cours
-                Button {
+            Button {
+                if isInProgress {
+                    // Trajet déjà en cours — bouton sans action
+                } else if requiresAbandon {
+                    showAbandonAlert = true
+                } else {
                     dismiss()
-                    onContinue()
-                } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "figure.walk")
-                            .font(.subheadline)
-                        Text("Continuer le trajet")
-                            .font(.system(size: 17, weight: .semibold, design: .rounded))
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(Color.secondary.opacity(0.1))
-                    .foregroundStyle(Color.primary)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    onStart()
                 }
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: isInProgress ? "checkmark.circle.fill" : "play.fill")
+                        .font(.subheadline)
+                    Text(isInProgress ? "Trajet en cours" : "Commencer le trajet")
+                        .font(.system(size: 17, weight: .semibold, design: .rounded))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(isInProgress ? Color.secondary.opacity(0.2) : Color.accentColor)
+                .foregroundStyle(isInProgress ? Color.secondary : Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
             }
+            .disabled(isInProgress)
             .padding(.horizontal, 20)
             .padding(.bottom, 32)
             .background(Color(.systemBackground))
@@ -234,6 +224,7 @@ private struct MilestonePreviewRow: View {
 #Preview("Nouveau trajet") {
     JourneyPreviewSheet(
         journey: allJourneys[0],
+        isInProgress: false,
         requiresAbandon: false,
         onStart: {},
         onContinue: {}
@@ -243,6 +234,7 @@ private struct MilestonePreviewRow: View {
 #Preview("Trajet en cours") {
     JourneyPreviewSheet(
         journey: allJourneys[0],
+        isInProgress: true,
         requiresAbandon: false,
         onStart: {},
         onContinue: {}
@@ -252,6 +244,7 @@ private struct MilestonePreviewRow: View {
 #Preview("Abandon requis") {
     JourneyPreviewSheet(
         journey: allJourneys[1],
+        isInProgress: false,
         requiresAbandon: true,
         onStart: {},
         onContinue: {}
