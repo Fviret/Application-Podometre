@@ -40,7 +40,8 @@ struct JourneyPickerView: View {
                 JourneyPreviewSheet(
                     journey: journey,
                     isInProgress: progressService.progress(for: journey) != nil,
-                    requiresAbandon: progressService.hasActiveJourney(otherThan: journey)
+                    requiresAbandon: progressService.hasActiveJourney(otherThan: journey),
+                    unlockedMilestoneIds: progressService.progress(for: journey)?.unlockedMilestoneIds ?? []
                 ) {
                     progressService.startJourney(journey)
                     selectedJourney = journey

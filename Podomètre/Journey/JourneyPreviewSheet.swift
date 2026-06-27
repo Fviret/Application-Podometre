@@ -8,6 +8,8 @@ struct JourneyPreviewSheet: View {
     let isInProgress: Bool
     /// `true` si un autre trajet est actif — "Commencer" affichera une confirmation d'abandon.
     let requiresAbandon: Bool
+    /// Jalons déjà débloqués — cercles remplis dans la timeline.
+    var unlockedMilestoneIds: Set<UUID> = []
     /// Appelé quand l'utilisateur démarre ce trajet pour la première fois (ou après abandon confirmé).
     let onStart: () -> Void
     /// Appelé quand l'utilisateur reprend un trajet déjà en cours.
@@ -116,6 +118,7 @@ struct JourneyPreviewSheet: View {
                 MilestonePreviewRow(
                     milestone: milestone,
                     index: index,
+                    isUnlocked: unlockedMilestoneIds.contains(milestone.id),
                     isLast: index == journey.sortedMilestones.count - 1
                 )
             }
@@ -169,6 +172,7 @@ struct JourneyPreviewSheet: View {
 private struct MilestonePreviewRow: View {
     let milestone: Milestone
     let index: Int
+    let isUnlocked: Bool
     let isLast: Bool
 
     var body: some View {
@@ -177,12 +181,22 @@ private struct MilestonePreviewRow: View {
             VStack(spacing: 0) {
                 ZStack {
                     Circle()
-                        .strokeBorder(Color.accentColor.opacity(0.4), lineWidth: 1.5)
+                        .fill(isUnlocked ? Color.accentColor : Color.clear)
                         .frame(width: 28, height: 28)
 
-                    Text("\(index + 1)")
-                        .font(.system(size: 12, weight: .semibold, design: .rounded))
-                        .foregroundStyle(Color.accentColor)
+                    Circle()
+                        .strokeBorder(Color.accentColor.opacity(isUnlocked ? 1 : 0.4), lineWidth: 1.5)
+                        .frame(width: 28, height: 28)
+
+                    if isUnlocked {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(Color.white)
+                    } else {
+                        Text("\(index + 1)")
+                            .font(.system(size: 12, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.accentColor)
+                    }
                 }
                 .padding(.top, 2)
 
