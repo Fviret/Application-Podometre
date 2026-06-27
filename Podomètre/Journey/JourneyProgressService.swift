@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import HealthKit
+import UserNotifications
 
 /// Service gérant la persistance et la mise à jour de la progression sur les trajets.
 /// Exposé via @EnvironmentObject — une seule instance partagée dans l'app.
@@ -12,6 +13,13 @@ class JourneyProgressService: ObservableObject {
 
     private let healthStore = HKHealthStore()
     private let notificationService = JourneyNotificationService()
+    private var distanceObserverQuery: HKObserverQuery?
+
+    /// Appelé quand un trajet est entièrement complété — permet de notifier StepCountViewModel.
+    var onJourneyCompleted: ((String) -> Void)?
+
+    /// Active les notifications (synchronisé depuis StepCountViewModel via ContentView).
+    var notificationsEnabled: Bool = true
 
     /// Toutes les progressions indexées par journeyId.
     @Published private(set) var progressMap: [UUID: JourneyProgress] = [:]
@@ -21,6 +29,66 @@ class JourneyProgressService: ObservableObject {
 
     init() {
         load()
+        #if targetEnvironment(simulator)
+        loadMockData()
+        #else
+        startObservingDistance()
+        #endif
+    }
+
+    deinit {
+        if let query = distanceObserverQuery {
+            healthStore.stop(query)
+        }
+    }
+
+    /// Installe un HKObserverQuery sur distanceWalkingRunning.
+    /// Déclenche syncDistance pour le trajet actif à chaque nouveau sample enregistré par HealthKit.
+    private func startObservingDistance() {
+        guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else { return }
+
+        distanceObserverQuery = HKObserverQuery(sampleType: distanceType, predicate: nil) { [weak self] _, _, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                guard let journey = self.progressMap.keys.first.flatMap({ id in
+                    allJourneys.first { $0.id == id }
+                }) else { return }
+                await self.syncDistance(for: journey)
+            }
+        }
+
+        if let query = distanceObserverQuery {
+            healthStore.execute(query)
+        }
+    }
+
+    /// Injecte des données fictives pour tester l'interface sur simulateur.
+    /// - Un trajet en cours (GR20) à mi-chemin avec 2 étapes débloquées
+    /// - Un trajet terminé (Promenade 5k) pour afficher le badge
+    private func loadMockData() {
+        guard let gr20 = allJourneys.first(where: { $0.name == "GR20 complet" }),
+              let berges = allJourneys.first(where: { $0.name == "Berges de la Seine" })
+        else { return }
+
+        // Trajet en cours : GR20 à ~55% (99 km sur 180)
+        let activeKm = gr20.totalKm * 0.55
+        let unlockedIds = Set(gr20.sortedMilestones.filter { $0.km <= activeKm }.map(\.id))
+        progressMap[gr20.id] = JourneyProgress(
+            journeyId: gr20.id,
+            totalKm: activeKm,
+            unlockedMilestoneIds: unlockedIds,
+            startDate: Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date(),
+            lastUpdatedDate: Date()
+        )
+
+        // Trajet terminé : Berges de la Seine (5 km) — pour tester l'état "Terminé"
+        progressMap[berges.id] = JourneyProgress(
+            journeyId: berges.id,
+            totalKm: berges.totalKm,
+            unlockedMilestoneIds: Set(berges.milestones.map(\.id)),
+            startDate: Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date(),
+            lastUpdatedDate: Date()
+        )
     }
 
     // MARK: - Lecture
@@ -71,15 +139,12 @@ class JourneyProgressService: ObservableObject {
         }
     }
 
-    /// Synchronise la progression du trajet avec le nombre total de pas marchés depuis le démarrage.
-    /// Requête HealthKit idempotente : `totalKm` est recalculé depuis la date de départ, pas incrémenté.
-    func syncTodaySteps(for journey: Journey) async {
+    /// Synchronise la progression du trajet avec la distance réelle marchée/courrue depuis le démarrage.
+    /// Requête HealthKit idempotente : `totalKm` est recalculé depuis `startDate`, jamais incrémenté.
+    func syncDistance(for journey: Journey) async {
         guard var progress = progressMap[journey.id] else { return }
 
-        let totalSteps = await fetchSteps(from: progress.startDate)
-        guard totalSteps > 0 else { return }
-
-        let newTotalKm = Double(totalSteps) * 0.0008
+        let newTotalKm = await fetchDistance(from: progress.startDate)
         guard newTotalKm > progress.totalKm else { return }
 
         progress.totalKm = newTotalKm
@@ -94,6 +159,41 @@ class JourneyProgressService: ObservableObject {
         if !unlocked.isEmpty {
             await notificationService.notifyUnlockedMilestones(unlocked, journey: journey)
         }
+
+        if newTotalKm >= journey.totalKm {
+            checkJourneyCompletion(journey)
+        }
+    }
+
+    /// Vérifie si le trajet est terminé et déclenche la complétion (badge + notification).
+    private func checkJourneyCompletion(_ journey: Journey) {
+        guard let progress = progressMap[journey.id] else { return }
+        guard progress.totalKm >= journey.totalKm else { return }
+
+        let journeyIdStr = journey.id.uuidString
+        onJourneyCompleted?(journeyIdStr)
+
+        progressMap.removeValue(forKey: journey.id)
+        save()
+
+        if notificationsEnabled {
+            sendJourneyCompletedNotification(journey: journey)
+        }
+    }
+
+    /// Envoie une notification locale de fin de trajet.
+    private func sendJourneyCompletedNotification(journey: Journey) {
+        let content = UNMutableNotificationContent()
+        content.title = "\(journey.emoji) Trajet terminé !"
+        content.body = "Tu as parcouru \(Int(journey.totalKm)) km — \(journey.name) complété !"
+        content.sound = .default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+        let request = UNNotificationRequest(
+            identifier: "journey-\(journey.id.uuidString)",
+            content: content,
+            trigger: trigger
+        )
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
     /// Vide la liste des étapes nouvellement débloquées après traitement par la vue.
@@ -116,20 +216,20 @@ class JourneyProgressService: ObservableObject {
 
     // MARK: - HealthKit
 
-    /// Retourne le nombre total de pas entre `startDate` et maintenant.
-    private func fetchSteps(from startDate: Date) async -> Int {
+    /// Retourne la distance marchée/courrue en km entre `startDate` et maintenant.
+    private func fetchDistance(from startDate: Date) async -> Double {
         #if targetEnvironment(simulator)
-        return 94_000
+        return 94.0
         #else
         guard HKHealthStore.isHealthDataAvailable(),
-              let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)
         else { return 0 }
 
         return await withCheckedContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: .strictStartDate)
-            let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
-                let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
-                continuation.resume(returning: Int(steps))
+            let query = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+                let km = result?.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) ?? 0
+                continuation.resume(returning: km)
             }
             healthStore.execute(query)
         }
