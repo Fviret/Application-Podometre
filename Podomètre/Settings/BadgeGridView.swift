@@ -46,6 +46,7 @@ struct StepMilestoneBadgeCell: View {
     let count: Int
     @ObservedObject var viewModel: StepCountViewModel
 
+    @State private var showAlert = false
     private var isUnlocked: Bool { count > 0 }
 
     var body: some View {
@@ -74,6 +75,13 @@ struct StepMilestoneBadgeCell: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
+        .contentShape(Rectangle())
+        .onTapGesture { if isUnlocked { showAlert = true } }
+        .alert(badge.label, isPresented: $showAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Vous avez réussi ce défi \(count) fois !")
+        }
     }
 }
 
