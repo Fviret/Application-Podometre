@@ -23,6 +23,21 @@ class StepCountViewModel: ObservableObject {
         UserDefaults.standard.set(id, forKey: "ringColorId")
     }
 
+    /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
+    @Published var completedJourneyIds: [String] = UserDefaults.standard.stringArray(forKey: "completedJourneyIds") ?? []
+
+    /// Marque un trajet comme complété si ce n'est pas déjà le cas.
+    func markJourneyCompleted(_ id: String) {
+        guard !completedJourneyIds.contains(id) else { return }
+        completedJourneyIds.append(id)
+        UserDefaults.standard.set(completedJourneyIds, forKey: "completedJourneyIds")
+    }
+
+    /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
+    func isJourneyCompleted(_ id: String) -> Bool {
+        completedJourneyIds.contains(id)
+    }
+
     /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
     @Published var goal: Int = {
         let stored = UserDefaults.standard.integer(forKey: "dailyStepGoal")

@@ -65,6 +65,11 @@ struct SettingsView: View {
                     }
                     .padding(.vertical, 4)
                 }
+                Section {
+                    BadgeGridView(viewModel: viewModel)
+                } header: {
+                    Text("Badges")
+                }
             }
             .navigationTitle("Paramètres")
         }
