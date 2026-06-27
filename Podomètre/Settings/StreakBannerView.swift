@@ -6,27 +6,20 @@ struct StreakBannerView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
     var body: some View {
-        HStack(spacing: 12) {
-            Text("🔥")
-                .font(.system(size: 40))
-
-            VStack(alignment: .leading, spacing: 2) {
+        VStack(spacing: 6) {
+            Section("Série en cours") {
+                Text("🔥")
+                    .font(.system(size: 60))
+                
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(streak)")
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                         .foregroundStyle(viewModel.ringColor)
-                    Text(streak == 1 ? "jour" : "jours")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
                 }
-                Text("de suite")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
-
-            Spacer()
         }
-        .padding(.vertical, 4)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
 }
 
