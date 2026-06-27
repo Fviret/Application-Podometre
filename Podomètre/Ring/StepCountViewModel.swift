@@ -8,6 +8,21 @@ import Combine
 @MainActor
 class StepCountViewModel: ObservableObject {
 
+    /// Identifiant de la couleur sélectionnée pour l'anneau. Persisté dans UserDefaults ; défaut "green".
+    @Published var ringColorId: String = UserDefaults.standard.string(forKey: "ringColorId") ?? "green"
+
+    /// Couleur effective de l'anneau, dérivée de `ringColorId`.
+    var ringColor: Color {
+        AppColors.ringColorOptions.first { $0.id == ringColorId }?.color
+            ?? AppColors.ringColorOptions[0].color
+    }
+
+    /// Met à jour la couleur de l'anneau et la persiste dans UserDefaults.
+    func setRingColor(_ id: String) {
+        ringColorId = id
+        UserDefaults.standard.set(id, forKey: "ringColorId")
+    }
+
     /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
     @Published var goal: Int = {
         let stored = UserDefaults.standard.integer(forKey: "dailyStepGoal")

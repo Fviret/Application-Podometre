@@ -35,6 +35,36 @@ struct SettingsView: View {
                         .transition(.opacity.combined(with: .move(edge: .top)))
                     }
                 }
+
+                Section("Couleur de l'anneau") {
+                    HStack {
+                        Circle()
+                            .fill(viewModel.ringColor)
+                            .frame(width: 24, height: 24)
+                        Text(AppColors.ringColorOptions.first { $0.id == viewModel.ringColorId }?.name ?? "")
+                            .foregroundStyle(Color.primary)
+                        Spacer()
+                    }
+
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
+                        ForEach(AppColors.ringColorOptions) { option in
+                            ZStack {
+                                Circle()
+                                    .fill(option.color)
+                                    .frame(width: 36, height: 36)
+                                if option.id == viewModel.ringColorId {
+                                    Circle()
+                                        .stroke(Color.primary, lineWidth: 2)
+                                        .frame(width: 42, height: 42)
+                                }
+                            }
+                            .onTapGesture {
+                                viewModel.setRingColor(option.id)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
             }
             .navigationTitle("Paramètres")
         }

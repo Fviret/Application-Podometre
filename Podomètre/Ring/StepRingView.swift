@@ -40,7 +40,7 @@ struct StepRingView: View {
                                 .trim(from: 0, to: viewModel.progress)
                                 .stroke(
                                     LinearGradient(
-                                        colors: [Color.teal, Color.green],
+                                        colors: [viewModel.ringColor.opacity(0.7), viewModel.ringColor],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
                                     ),

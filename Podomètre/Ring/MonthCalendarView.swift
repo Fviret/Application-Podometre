@@ -145,10 +145,10 @@ struct MonthCalendarView: View {
         ZStack {
             if steps >= goal {
                 Circle()
-                    .fill(Color.green)
+                    .fill(viewModel.ringColor)
             } else if steps > 0 {
                 Circle()
-                    .stroke(Color.green, lineWidth: 1.5)
+                    .stroke(viewModel.ringColor, lineWidth: 1.5)
             } else {
                 Circle()
                     .stroke(Color.gray, lineWidth: 1)

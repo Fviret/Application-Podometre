@@ -108,11 +108,11 @@ struct WeeklyBarChartView: View {
 
                     HStack(spacing: 4) {
                         Rectangle()
-                            .fill(Color.accentColor.opacity(0.5))
+                            .fill(viewModel.ringColor.opacity(0.5))
                             .frame(width: 10, height: 1)
                         Text("moyenne en cours")
                             .font(.caption)
-                            .foregroundStyle(Color.accentColor.opacity(0.8))
+                            .foregroundStyle(viewModel.ringColor.opacity(0.8))
                     }
                 }
             }
@@ -146,11 +146,11 @@ struct WeeklyBarChartView: View {
                             path.move(to: CGPoint(x: yAxisWidth, y: y))
                             path.addLine(to: CGPoint(x: yAxisWidth + chartWidth, y: y))
                         }
-                        .stroke(Color.accentColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
+                        .stroke(viewModel.ringColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
 
                         Text("moy. \(compactSteps(weekAverage))")
                             .font(.system(size: 8))
-                            .foregroundStyle(Color.accentColor.opacity(0.8))
+                            .foregroundStyle(viewModel.ringColor.opacity(0.8))
                             .position(x: yAxisWidth + chartWidth / 2, y: y - 7)
                     }
 
@@ -160,7 +160,7 @@ struct WeeklyBarChartView: View {
 
                     // Courbe semaine en cours (devant)
                     linePath(values: viewModel.currentWeekSteps, chartWidth: chartWidth)
-                        .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                        .stroke(viewModel.ringColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
                     // Points semaine précédente
                     ForEach(0..<7, id: \.self) { index in
@@ -178,7 +178,7 @@ struct WeeklyBarChartView: View {
                         let steps = viewModel.currentWeekSteps[index]
                         if steps > 0 {
                             Circle()
-                                .fill(Color.accentColor)
+                                .fill(viewModel.ringColor)
                                 .overlay(Circle().stroke(Color.white, lineWidth: 1))
                                 .frame(width: 5, height: 5)
                                 .position(x: xPos(index, chartWidth: chartWidth), y: yPos(steps))
@@ -191,7 +191,7 @@ struct WeeklyBarChartView: View {
                         Text(weekdayShortLabels[index])
                             .font(.caption2)
                             .fontWeight(isToday ? .bold : .regular)
-                            .foregroundStyle(isToday ? Color.accentColor : Color.secondary)
+                            .foregroundStyle(isToday ? viewModel.ringColor : Color.secondary)
                             .position(x: xPos(index, chartWidth: chartWidth), y: chartHeight + labelRowGap + labelRowHeight / 2)
                     }
                 }
