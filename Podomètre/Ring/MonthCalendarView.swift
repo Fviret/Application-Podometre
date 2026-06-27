@@ -123,7 +123,7 @@ struct MonthCalendarView: View {
                         dayCell(for: day)
                     } else {
                         Color.clear
-                            .frame(height: circleDiameter + 24)
+                            .frame(width: circleDiameter, height: circleDiameter)
                     }
                 }
             }
