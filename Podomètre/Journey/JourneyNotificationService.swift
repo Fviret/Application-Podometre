@@ -21,17 +21,17 @@ class JourneyNotificationService {
         guard await authorizationStatus() == .authorized else { return }
 
         for (index, milestone) in milestones.enumerated() {
-            let isJourneyComplete = milestone.kmFromStart >= journey.totalKm
+            let isJourneyComplete = milestone.km >= journey.totalKm
 
             let content = UNMutableNotificationContent()
             content.sound = .default
 
             if isJourneyComplete {
                 content.title = "Trajet terminé ! 🏁"
-                content.body = "Tu as complété \(journey.title) en marchant \(String(format: "%.0f", journey.totalKm)) km. Bravo !"
+                content.body = "Tu as complété \(journey.name) en marchant \(String(format: "%.0f", journey.totalKm)) km. Bravo !"
             } else {
                 content.title = "Nouvelle étape débloquée !"
-                content.body = "\(milestone.locationName) — \(milestone.ambiance.prefix(80))…"
+                content.body = "\(milestone.label) — \(milestone.description.prefix(80))…"
             }
 
             // Décalage d'une seconde entre chaque notification si plusieurs d'un coup

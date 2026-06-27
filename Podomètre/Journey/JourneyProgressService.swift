@@ -106,12 +106,12 @@ class JourneyProgressService: ObservableObject {
     /// Détecte les jalons franchis pour un `totalKm` donné, les marque débloqués et retourne la liste triée.
     private func detectUnlocked(in progress: inout JourneyProgress, for journey: Journey, upTo totalKm: Double) -> [Milestone] {
         let unlocked = journey.milestones.filter {
-            $0.kmFromStart <= totalKm && !progress.unlockedMilestoneIds.contains($0.id)
+            $0.km <= totalKm && !progress.unlockedMilestoneIds.contains($0.id)
         }
         for milestone in unlocked {
             progress.unlockedMilestoneIds.insert(milestone.id)
         }
-        return unlocked.sorted { $0.kmFromStart < $1.kmFromStart }
+        return unlocked.sorted { $0.km < $1.km }
     }
 
     // MARK: - HealthKit

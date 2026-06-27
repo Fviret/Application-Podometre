@@ -1,27 +1,29 @@
 import SwiftUI
 
-/// Vue catalogue des trajets disponibles.
-/// Permet de commencer ou continuer un trajet, avec confirmation si un autre est en cours.
+/// Vue catalogue des trajets disponibles, organisée par catégorie.
 struct JourneyPickerView: View {
     @EnvironmentObject private var progressService: JourneyProgressService
 
-    /// Trajet sélectionné pour navigation vers le détail.
     @State private var selectedJourney: Journey?
-    /// Trajet en attente de confirmation avant démarrage (abandon d'un trajet en cours).
     @State private var journeyPendingConfirmation: Journey?
-    /// Contrôle l'affichage de l'alert de confirmation.
     @State private var showAbandonAlert = false
+
+    /// Ordre d'affichage des catégories.
+    private let categoryOrder: [JourneyCategory] = [.trail, .history, .myth]
+
+    /// Trajets groupés par catégorie.
+    private var grouped: [JourneyCategory: [Journey]] {
+        Dictionary(grouping: allJourneys, by: \.category)
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(allJourneys) { journey in
-                        JourneyCard(
-                            journey: journey,
-                            progress: progressService.progress(for: journey),
-                            onAction: { handleAction(for: journey) }
-                        )
+                LazyVStack(alignment: .leading, spacing: 24, pinnedViews: []) {
+                    ForEach(categoryOrder, id: \.self) { category in
+                        if let journeys = grouped[category] {
+                            categorySection(category, journeys: journeys)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -30,6 +32,7 @@ struct JourneyPickerView: View {
             .navigationTitle("Trajets")
             .navigationDestination(item: $selectedJourney) { journey in
                 JourneyDetailView(journey: journey)
+                    .environmentObject(progressService)
             }
             .alert("Abandonner le trajet en cours ?", isPresented: $showAbandonAlert) {
                 Button("Abandonner", role: .destructive) {
@@ -47,6 +50,28 @@ struct JourneyPickerView: View {
             }
         }
     }
+
+    // MARK: - Section catégorie
+
+    @ViewBuilder
+    private func categorySection(_ category: JourneyCategory, journeys: [Journey]) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(category.rawValue.uppercased())
+                .font(.system(size: 12, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color.secondary)
+                .kerning(1.2)
+
+            ForEach(journeys) { journey in
+                JourneyCard(
+                    journey: journey,
+                    progress: progressService.progress(for: journey),
+                    onAction: { handleAction(for: journey) }
+                )
+            }
+        }
+    }
+
+    // MARK: - Navigation
 
     /// Décide si on démarre directement, demande confirmation, ou reprend un trajet existant.
     private func handleAction(for journey: Journey) {
@@ -71,7 +96,6 @@ private struct JourneyCard: View {
     let progress: JourneyProgress?
     let onAction: () -> Void
 
-    /// Pourcentage de progression entre 0 et 1.
     private var progressPercent: Double {
         journey.progressPercent(for: progress ?? JourneyProgress(
             journeyId: journey.id, totalKm: 0,
@@ -84,17 +108,15 @@ private struct JourneyCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
 
-            // En-tête
             HStack(alignment: .top, spacing: 14) {
-                Image(systemName: "map")
+                Text(journey.emoji)
                     .font(.title2)
-                    .foregroundStyle(Color.accentColor)
                     .frame(width: 44, height: 44)
                     .background(Color.accentColor.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(journey.title)
+                    Text(journey.name)
                         .font(.system(size: 17, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color.primary)
 
@@ -107,7 +129,6 @@ private struct JourneyCard: View {
                 Spacer()
             }
 
-            // Métadonnées
             HStack(spacing: 16) {
                 Label(String(format: "%.0f km", journey.totalKm), systemImage: "arrow.left.and.right")
                     .font(.caption)
@@ -118,7 +139,6 @@ private struct JourneyCard: View {
                     .foregroundStyle(Color.secondary)
             }
 
-            // Progression (si trajet commencé)
             if let progress {
                 VStack(alignment: .leading, spacing: 6) {
                     GeometryReader { geo in
@@ -140,7 +160,6 @@ private struct JourneyCard: View {
                 }
             }
 
-            // Bouton d'action
             Button(action: onAction) {
                 HStack {
                     Image(systemName: hasProgress ? "figure.walk" : "play.fill")
@@ -164,7 +183,7 @@ private struct JourneyCard: View {
 
 // MARK: - Preview
 
-#Preview("Sans progression") {
+#Preview("Catalogue") {
     JourneyPickerView()
         .environmentObject(JourneyProgressService())
 }
@@ -172,7 +191,7 @@ private struct JourneyCard: View {
 #Preview("Avec progression") {
     let service = JourneyProgressService()
     service.startJourney(allJourneys[0])
-    service.addKilometers(312, to: allJourneys[0])
+    service.addKilometers(72, to: allJourneys[0])
     return JourneyPickerView()
         .environmentObject(service)
 }

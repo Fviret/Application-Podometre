@@ -18,14 +18,12 @@ struct JourneyDetailView: View {
         return journey.progressPercent(for: p)
     }
 
-    private var sortedMilestones: [Milestone] {
-        journey.milestones.sorted { $0.kmFromStart < $1.kmFromStart }
-    }
-
     /// Dernier jalon débloqué (pour l'ancrage du ScrollView).
     private var lastUnlockedIndex: Int? {
         guard let p = progress else { return nil }
-        let indices = sortedMilestones.indices.filter { p.unlockedMilestoneIds.contains(sortedMilestones[$0].id) }
+        let indices = journey.sortedMilestones.indices.filter {
+            p.unlockedMilestoneIds.contains(journey.sortedMilestones[$0].id)
+        }
         return indices.last
     }
 
@@ -39,7 +37,7 @@ struct JourneyDetailView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
             }
-            .navigationTitle(journey.title)
+            .navigationTitle(journey.name)
             .navigationBarTitleDisplayMode(.large)
             .task {
                 await progressService.syncTodaySteps(for: journey)
@@ -67,7 +65,6 @@ struct JourneyDetailView: View {
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 16) {
 
-            // Kilométrage global
             if let p = progress {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(String(format: "%.1f km parcourus sur %.0f km total", p.totalKm, journey.totalKm))
@@ -93,15 +90,14 @@ struct JourneyDetailView: View {
                 }
             }
 
-            // Prochaine étape
             if let p = progress, let next = journey.nextMilestone(for: p) {
-                let remaining = next.kmFromStart - p.totalKm
+                let remaining = next.km - p.totalKm
                 HStack(spacing: 10) {
                     Image(systemName: "flag.fill")
                         .font(.caption)
                         .foregroundStyle(Color.accentColor)
 
-                    Text("Prochaine étape : **\(next.locationName)** dans \(String(format: "%.1f", max(remaining, 0))) km")
+                    Text("Prochaine étape : **\(next.label)** dans \(String(format: "%.1f", max(remaining, 0))) km")
                         .font(.system(size: 14, design: .rounded))
                         .foregroundStyle(Color.primary)
                 }
@@ -116,9 +112,9 @@ struct JourneyDetailView: View {
 
     private var timelineSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(Array(sortedMilestones.enumerated()), id: \.offset) { index, milestone in
+            ForEach(Array(journey.sortedMilestones.enumerated()), id: \.offset) { index, milestone in
                 let isUnlocked = progress?.unlockedMilestoneIds.contains(milestone.id) ?? false
-                let isLast = index == sortedMilestones.count - 1
+                let isLast = index == journey.sortedMilestones.count - 1
 
                 MilestoneRow(
                     milestone: milestone,
@@ -144,7 +140,6 @@ private struct MilestoneRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
 
-            // Colonne indicateur + trait
             VStack(spacing: 0) {
                 Circle()
                     .fill(isUnlocked ? Color.accentColor : Color.clear)
@@ -164,21 +159,20 @@ private struct MilestoneRow: View {
             }
             .frame(width: 20)
 
-            // Contenu
             Button(action: onTap) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(milestone.locationName)
+                    Text(milestone.label)
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .foregroundStyle(isUnlocked ? Color.primary : Color.secondary)
 
                     if isUnlocked {
-                        Text(milestone.ambiance)
+                        Text(milestone.description)
                             .font(.caption)
                             .foregroundStyle(Color.secondary)
                             .lineLimit(1)
                             .truncationMode(.tail)
                     } else {
-                        Text(String(format: "%.0f km depuis le départ", milestone.kmFromStart))
+                        Text(String(format: "%.0f km depuis le départ", milestone.km))
                             .font(.caption)
                             .foregroundStyle(Color.secondary.opacity(0.6))
                     }
@@ -194,7 +188,7 @@ private struct MilestoneRow: View {
 
 // MARK: - MilestoneDetailSheet
 
-/// Sheet modale affichant le texte d'ambiance complet d'une étape débloquée.
+/// Sheet modale affichant le texte de description complet d'une étape débloquée.
 private struct MilestoneDetailSheet: View {
     let milestone: Milestone
     @Environment(\.dismiss) private var dismiss
@@ -203,11 +197,11 @@ private struct MilestoneDetailSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(milestone.locationName)
+                    Text(milestone.label)
                         .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundStyle(Color.primary)
 
-                    Text(milestone.ambiance)
+                    Text(milestone.description)
                         .font(.system(size: 16, design: .serif))
                         .foregroundStyle(Color.primary)
                         .lineSpacing(6)
@@ -227,11 +221,11 @@ private struct MilestoneDetailSheet: View {
 
 // MARK: - Preview
 
-#Preview("40% progression") {
+#Preview("40% progression — GR20") {
     let service = JourneyProgressService()
     let journey = allJourneys[0]
     service.startJourney(journey)
-    service.addKilometers(372, to: journey) // ~40% de 930 km
+    service.addKilometers(72, to: journey)
 
     return NavigationStack {
         JourneyDetailView(journey: journey)
