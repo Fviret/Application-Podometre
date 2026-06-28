@@ -1,7 +1,12 @@
 import SwiftUI
+import CoreLocation
 
 struct StepRingView: View {
     @ObservedObject var viewModel: StepCountViewModel
+
+    @StateObject private var locationManager = LocationManager()
+    @State private var walkingForecast: WalkingForecast?
+    @State private var weatherLoading = true
 
     private let ringDiameter: CGFloat = 240
     private let strokeWidth: CGFloat = 20
@@ -94,6 +99,13 @@ struct StepRingView: View {
                     .font(.system(size: 15, weight: .regular, design: .rounded))
                     .foregroundStyle(Color.secondary)
 
+                if weatherLoading {
+                    WeatherBannerView(forecast: nil, viewModel: viewModel)
+                        .redacted(reason: .placeholder)
+                } else if let forecast = walkingForecast {
+                    WeatherBannerView(forecast: forecast, viewModel: viewModel)
+                }
+
                 Divider()
                     .padding(.horizontal, 24)
 
@@ -111,6 +123,23 @@ struct StepRingView: View {
         }
         .onAppear {
             viewModel.requestAuthorizationAndFetch()
+            locationManager.requestLocation()
+            Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
+                guard let loc = locationManager.location else { return }
+                Task {
+                    walkingForecast = try? await WeatherService.shared.fetch(
+                        lat: loc.coordinate.latitude, lon: loc.coordinate.longitude)
+                }
+            }
+        }
+        .onChange(of: locationManager.location) { _, loc in
+            guard let loc else { return }
+            Task {
+                weatherLoading = true
+                walkingForecast = try? await WeatherService.shared.fetch(
+                    lat: loc.coordinate.latitude, lon: loc.coordinate.longitude)
+                weatherLoading = false
+            }
         }
     }
 }
