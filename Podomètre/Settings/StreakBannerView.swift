@@ -10,16 +10,19 @@ struct StreakBannerView: View {
             Section("Série en cours") {
                 Text("🔥")
                     .font(.system(size: 60))
-                
+                    .accessibilityHidden(true)
+
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(streak)")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(.system(.largeTitle, design: .rounded).weight(.bold))
                         .foregroundStyle(viewModel.ringColor)
                 }
             }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Série en cours : \(streak) jour\(streak > 1 ? "s" : "") consécutif\(streak > 1 ? "s" : "")")
     }
 }
 

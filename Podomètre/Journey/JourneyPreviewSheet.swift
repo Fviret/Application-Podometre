@@ -42,6 +42,7 @@ struct JourneyPreviewSheet: View {
                             .background(Color.secondary.opacity(0.12))
                             .clipShape(Circle())
                     }
+                    .accessibilityLabel("Fermer")
                 }
             }
             .overlay(alignment: .bottom) {
@@ -69,10 +70,11 @@ struct JourneyPreviewSheet: View {
                     .frame(width: 56, height: 56)
                     .background(Color.accentColor.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(journey.name)
-                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .font(.system(.title3, design: .rounded).weight(.bold))
                         .foregroundStyle(Color.primary)
 
                     Text(journey.subtitle)
@@ -94,6 +96,7 @@ struct JourneyPreviewSheet: View {
         HStack(spacing: 5) {
             Image(systemName: icon)
                 .font(.caption2)
+                .accessibilityHidden(true)
             Text(value)
                 .font(.caption)
         }
@@ -102,6 +105,8 @@ struct JourneyPreviewSheet: View {
         .padding(.vertical, 6)
         .background(Color.secondary.opacity(0.08))
         .clipShape(Capsule())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(value)
     }
 
     // MARK: - Liste des étapes
@@ -109,10 +114,11 @@ struct JourneyPreviewSheet: View {
     private var milestonesSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Étapes du trajet")
-                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                .font(.system(.footnote, design: .rounded).weight(.semibold))
                 .foregroundStyle(Color.secondary)
                 .kerning(0.8)
                 .padding(.bottom, 14)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(Array(journey.sortedMilestones.enumerated()), id: \.offset) { index, milestone in
                 MilestonePreviewRow(
@@ -135,6 +141,7 @@ struct JourneyPreviewSheet: View {
                 endPoint: .bottom
             )
             .frame(height: 24)
+            .accessibilityHidden(true)
 
             Button {
                 if isInProgress {
@@ -149,8 +156,9 @@ struct JourneyPreviewSheet: View {
                 HStack(spacing: 8) {
                     Image(systemName: isInProgress ? "checkmark.circle.fill" : "play.fill")
                         .font(.subheadline)
+                        .accessibilityHidden(true)
                     Text(isInProgress ? "Trajet en cours" : "Commencer le trajet")
-                        .font(.system(size: 17, weight: .semibold, design: .rounded))
+                        .font(.system(.headline, design: .rounded))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)
@@ -194,17 +202,19 @@ private struct MilestonePreviewRow: View {
                             .foregroundStyle(Color.white)
                     } else {
                         Text("\(index + 1)")
-                            .font(.system(size: 12, weight: .semibold, design: .rounded))
+                            .font(.system(.caption, design: .rounded).weight(.semibold))
                             .foregroundStyle(Color.accentColor)
                     }
                 }
                 .padding(.top, 2)
+                .accessibilityHidden(true)
 
                 if !isLast {
                     Rectangle()
                         .fill(Color.accentColor.opacity(0.15))
                         .frame(width: 1.5)
                         .frame(minHeight: 44)
+                        .accessibilityHidden(true)
                 }
             }
             .frame(width: 28)
@@ -212,7 +222,7 @@ private struct MilestonePreviewRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(milestone.label)
-                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .font(.system(.body, design: .rounded).weight(.semibold))
                         .foregroundStyle(Color.primary)
 
                     Spacer()
@@ -230,6 +240,10 @@ private struct MilestonePreviewRow: View {
             }
             .padding(.bottom, isLast ? 0 : 20)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isUnlocked
+            ? "Étape \(index + 1) débloquée : \(milestone.label), à \(String(format: "%.0f", milestone.km)) km"
+            : "Étape \(index + 1) verrouillée : \(milestone.label), à \(String(format: "%.0f", milestone.km)) km")
     }
 }
 

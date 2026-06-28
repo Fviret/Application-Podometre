@@ -18,17 +18,23 @@ struct WeatherBannerView: View {
         return (f.hours.first?.precipitationMm ?? 0) > 0.1
     }
 
+    private var bannerText: String {
+        if rainingNow { return "Pluie en cours" }
+        if rainWithinHour { return "Pluie dans moins d'1h" }
+        return "Pas de pluie prévue dans la prochaine heure"
+    }
+
     var body: some View {
         if let _ = forecast {
             HStack(spacing: 6) {
                 if rainingNow {
-                    Image(systemName: "cloud.rain.fill").font(.caption)
+                    Image(systemName: "cloud.rain.fill").font(.caption).accessibilityHidden(true)
                     Text("Pluie en cours").font(.caption).fontWeight(.medium)
                 } else if rainWithinHour {
-                    Image(systemName: "cloud.drizzle.fill").font(.caption)
+                    Image(systemName: "cloud.drizzle.fill").font(.caption).accessibilityHidden(true)
                     Text("Pluie dans moins d'1h").font(.caption).fontWeight(.medium)
                 } else {
-                    Image(systemName: "sun.max.fill").font(.caption)
+                    Image(systemName: "sun.max.fill").font(.caption).accessibilityHidden(true)
                     Text("Pas de pluie prévue dans la prochaine heure").font(.caption).fontWeight(.medium)
                 }
             }
@@ -36,6 +42,8 @@ struct WeatherBannerView: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 6)
             .background((rainingNow || rainWithinHour) ? Color.blue.opacity(0.08) : Color.clear)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(bannerText)
         }
     }
 }
@@ -49,7 +57,7 @@ struct WeatherBannerView: View {
     ))
 }
 
-#Preview("Pas de pluie — invisible") {
+#Preview("Pas de pluie — soleil") {
     WeatherBannerView(forecast: WalkingForecast(
         nextRainHour: nil,
         currentTemp: 20,

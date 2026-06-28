@@ -176,6 +176,16 @@ Deux types de badges :
 
 ---
 
+## Accessibilité
+
+L'app est conçue pour être utilisable avec les technologies d'assistance iOS :
+
+- **VoiceOver** — tous les éléments custom ont un `accessibilityLabel` et `accessibilityValue` explicites. Les ZStack composites (anneau, cellules calendrier, jalons, badges, météo) sont regroupés en un seul élément sémantique. Le graphe hebdomadaire est lu comme un résumé textuel complet.
+- **Dynamic Type** — toutes les tailles de police utilisent des styles système (`headline`, `subheadline`, `callout`, `caption`, etc.) pour s'adapter aux préférences de taille de texte de l'utilisateur.
+- **Reduce Motion** — toutes les animations sont conditionnées par `@Environment(\.accessibilityReduceMotion)` et désactivées si l'utilisateur a activé "Réduire les animations" dans les réglages système.
+
+---
+
 ## Stack technique
 
 - **Swift 5.9+** / **SwiftUI** pur (pas de UIKit, pas de Swift Charts)

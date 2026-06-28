@@ -8,7 +8,6 @@ struct BadgeGridView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            // Badges de seuils de pas — toujours en premier
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(BadgeData.stepMilestoneBadges) { badge in
                     StepMilestoneBadgeCell(
@@ -19,11 +18,10 @@ struct BadgeGridView: View {
                 }
             }
 
-            // Séparateur pleine largeur
             Color.secondary.opacity(0.15)
                 .frame(height: 0.5)
+                .accessibilityHidden(true)
 
-            // Badges de trajets — inchangés
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(allJourneys) { journey in
                     BadgeCellView(
@@ -46,6 +44,7 @@ struct StepMilestoneBadgeCell: View {
     let count: Int
     @ObservedObject var viewModel: StepCountViewModel
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showAlert = false
     private var isUnlocked: Bool { count > 0 }
 
@@ -59,14 +58,14 @@ struct StepMilestoneBadgeCell: View {
                     .frame(width: 52, height: 52)
 
                 Text("\(count)")
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .font(.system(.title3, design: .rounded).weight(.bold))
                     .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary.opacity(0.35))
             }
             .shadow(
                 color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
                 radius: 6, x: 0, y: 0
             )
-            .animation(.easeInOut(duration: 0.3), value: isUnlocked)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
             Text(badge.label)
                 .font(.caption2)
@@ -76,6 +75,11 @@ struct StepMilestoneBadgeCell: View {
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isUnlocked
+            ? "\(badge.label), atteint \(count) fois"
+            : "\(badge.label), jamais atteint")
+        .accessibilityAddTraits(isUnlocked ? .isButton : [])
         .onTapGesture { if isUnlocked { showAlert = true } }
         .alert(badge.label, isPresented: $showAlert) {
             Button("OK", role: .cancel) {}
@@ -93,17 +97,20 @@ struct BadgeCellView: View {
     let isUnlocked: Bool
     @ObservedObject var viewModel: StepCountViewModel
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(spacing: 4) {
             Text(journey.emoji)
                 .font(.system(size: 36))
+                .accessibilityHidden(true)
                 .shadow(
                     color: isUnlocked ? viewModel.ringColor.opacity(0.5) : .clear,
                     radius: 8, x: 0, y: 0
                 )
                 .grayscale(isUnlocked ? 0 : 1)
                 .opacity(isUnlocked ? 1 : 0.35)
-                .animation(.easeInOut(duration: 0.3), value: isUnlocked)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
             Text(journey.name)
                 .font(.caption2)
@@ -113,6 +120,10 @@ struct BadgeCellView: View {
                 .truncationMode(.tail)
         }
         .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isUnlocked
+            ? "\(journey.name), trajet terminé"
+            : "\(journey.name), trajet non terminé")
     }
 }
 

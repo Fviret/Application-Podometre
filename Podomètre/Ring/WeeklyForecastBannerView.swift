@@ -21,16 +21,19 @@ struct WeeklyForecastBannerView: View {
                     .padding(.horizontal, 24)
                     .padding(.vertical, 8)
                 }
+                .accessibilityElement(children: .contain)
 
                 if let label = locationLabel {
                     HStack(spacing: 4) {
                         Image(systemName: "location.fill")
                             .font(.system(size: 9))
+                            .accessibilityHidden(true)
                         Text(label)
-                            .font(.system(size: 11, design: .rounded))
+                            .font(.caption2)
                     }
                     .foregroundStyle(Color.secondary.opacity(0.6))
                     .padding(.bottom, 4)
+                    .accessibilityLabel("Localisation : \(label)")
                 }
             }
         }
@@ -50,31 +53,48 @@ private struct DayForecastCell: View {
         return f.string(from: forecast.date).capitalized
     }
 
+    private var fullDayLabel: String {
+        if isToday { return "Aujourd'hui" }
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.setLocalizedDateFormatFromTemplate("EEEE d MMMM")
+        return f.string(from: forecast.date).capitalized
+    }
+
+    private var a11yLabel: String {
+        let precip = forecast.precipitationMm > 0.2
+            ? ", \(Int(forecast.precipitationMm.rounded())) mm de pluie"
+            : ""
+        return "\(fullDayLabel), \(weatherDescription(for: forecast.weatherCode)), \(Int(forecast.tempMax.rounded()))° max, \(Int(forecast.tempMin.rounded()))° min\(precip)"
+    }
+
     var body: some View {
         VStack(spacing: 6) {
             Text(dayLabel)
-                .font(.system(size: 12, weight: isToday ? .semibold : .regular, design: .rounded))
+                .font(.system(.caption2, design: .rounded).weight(isToday ? .semibold : .regular))
                 .foregroundStyle(isToday ? Color.primary : Color.secondary)
 
             Text(weatherIcon(for: forecast.weatherCode))
                 .font(.system(size: 22))
+                .accessibilityHidden(true)
 
             VStack(spacing: 1) {
                 Text("\(Int(forecast.tempMax.rounded()))°")
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .font(.system(.footnote, design: .rounded).weight(.medium))
                     .foregroundStyle(Color.primary)
                 Text("\(Int(forecast.tempMin.rounded()))°")
-                    .font(.system(size: 11, design: .rounded))
+                    .font(.caption2)
                     .foregroundStyle(Color.secondary)
             }
 
             if forecast.precipitationMm > 0.2 {
                 Text("\(Int(forecast.precipitationMm.rounded()))mm")
-                    .font(.system(size: 10, design: .rounded))
+                    .font(.caption2)
+                    .minimumScaleFactor(0.7)
                     .foregroundStyle(Color.blue.opacity(0.8))
             } else {
                 Text(" ")
-                    .font(.system(size: 10))
+                    .font(.caption2)
             }
         }
         .frame(width: 52)
@@ -84,6 +104,8 @@ private struct DayForecastCell: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(isToday ? Color(.systemGray5) : Color.clear)
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(a11yLabel)
     }
 
     /// Retourne l'emoji météo correspondant au code WMO.
@@ -105,6 +127,25 @@ private struct DayForecastCell: View {
         default:       return "🌡️"
         }
     }
+
+    /// Description textuelle du code météo WMO pour VoiceOver.
+    private func weatherDescription(for code: Int) -> String {
+        switch code {
+        case 0:        return "ciel dégagé"
+        case 1:        return "principalement dégagé"
+        case 2:        return "partiellement nuageux"
+        case 3:        return "couvert"
+        case 45, 48:   return "brouillard"
+        case 51...57:  return "bruine"
+        case 61, 63, 65: return "pluie"
+        case 66, 67:   return "pluie verglaçante"
+        case 71, 73, 75, 77: return "neige"
+        case 80, 81, 82: return "averses"
+        case 85, 86:   return "averses de neige"
+        case 95, 96, 99: return "orages"
+        default:       return "conditions variables"
+        }
+    }
 }
 
 #Preview {
@@ -116,6 +157,6 @@ private struct DayForecastCell: View {
         DailyForecast(date: Date().addingTimeInterval(86400 * 4), weatherCode: 80, tempMin: 11, tempMax: 16, precipitationMm: 8.0),
         DailyForecast(date: Date().addingTimeInterval(86400 * 5), weatherCode: 2, tempMin: 14, tempMax: 21, precipitationMm: 0),
         DailyForecast(date: Date().addingTimeInterval(86400 * 6), weatherCode: 0, tempMin: 16, tempMax: 25, precipitationMm: 0),
-    ])
+    ], locationLabel: "Paris, France")
     .padding()
 }

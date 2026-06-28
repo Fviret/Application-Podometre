@@ -68,7 +68,7 @@ struct JourneyDetailView: View {
             if let p = progress {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(String(format: "%.1f km parcourus sur %.0f km total", p.totalKm, journey.totalKm))
-                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.medium))
                         .foregroundStyle(Color.secondary)
 
                     GeometryReader { geo in
@@ -83,6 +83,8 @@ struct JourneyDetailView: View {
                         }
                     }
                     .frame(height: 8)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
 
                     Text(String(format: "%.0f %%", progressPercent * 100))
                         .font(.caption2)
@@ -95,29 +97,35 @@ struct JourneyDetailView: View {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.title3)
                         .foregroundStyle(Color.accentColor)
+                        .accessibilityHidden(true)
 
                     Text("Vous avez achevé ce trajet !")
-                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
                         .foregroundStyle(Color.primary)
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.accentColor.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Trajet achevé")
             } else if let p = progress, let next = journey.nextMilestone(for: p) {
                 let remaining = next.km - p.totalKm
                 HStack(spacing: 10) {
                     Image(systemName: "flag.fill")
                         .font(.caption)
                         .foregroundStyle(Color.accentColor)
+                        .accessibilityHidden(true)
 
                     Text("Prochaine étape : **\(next.label)** dans \(String(format: "%.1f", max(remaining, 0))) km")
-                        .font(.system(size: 14, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(Color.primary)
                 }
                 .padding(12)
                 .background(Color.accentColor.opacity(0.08))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Prochaine étape : \(next.label), dans \(String(format: "%.1f", max(remaining, 0))) km")
             }
         }
     }
@@ -163,12 +171,14 @@ private struct MilestoneRow: View {
                     )
                     .frame(width: 20, height: 20)
                     .padding(.top, 2)
+                    .accessibilityHidden(true)
 
                 if !isLast {
                     Rectangle()
                         .fill(isUnlocked ? Color.accentColor.opacity(0.3) : Color.secondary.opacity(0.15))
                         .frame(width: 2)
                         .frame(minHeight: 40)
+                        .accessibilityHidden(true)
                 }
             }
             .frame(width: 20)
@@ -176,7 +186,7 @@ private struct MilestoneRow: View {
             Button(action: onTap) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(milestone.label)
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.system(.callout, design: .rounded).weight(.semibold))
                         .foregroundStyle(isUnlocked ? Color.primary : Color.secondary)
 
                     if isUnlocked {
@@ -196,6 +206,10 @@ private struct MilestoneRow: View {
             }
             .buttonStyle(.plain)
             .disabled(!isUnlocked)
+            .accessibilityLabel(isUnlocked
+                ? "\(milestone.label), étape débloquée. \(milestone.description)"
+                : "\(milestone.label), verrouillé, à \(String(format: "%.0f", milestone.km)) km")
+            .accessibilityAddTraits(isUnlocked ? .isButton : [])
         }
     }
 }
@@ -212,11 +226,11 @@ private struct MilestoneDetailSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     Text(milestone.label)
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .font(.system(.title, design: .rounded).weight(.bold))
                         .foregroundStyle(Color.primary)
 
                     Text(milestone.description)
-                        .font(.system(size: 16, design: .serif))
+                        .font(.body)
                         .foregroundStyle(Color.primary)
                         .lineSpacing(6)
                 }

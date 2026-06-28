@@ -13,6 +13,8 @@ struct StepRingView: View {
     @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
     @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     private let ringDiameter: CGFloat = 240
     private let strokeWidth: CGFloat = 20
     private let haptic = UIImpactFeedbackGenerator(style: .light)
@@ -38,6 +40,7 @@ struct StepRingView: View {
                                     .frame(width: 44, height: 44)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityLabel("Jour précédent")
 
                             Spacer()
 
@@ -59,27 +62,30 @@ struct StepRingView: View {
                                         )
                                         .frame(width: ringDiameter, height: ringDiameter)
                                         .rotationEffect(.degrees(-90))
-                                        .animation(.easeInOut(duration: 0.6), value: viewModel.progress)
+                                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.progress)
 
                                     VStack(spacing: 4) {
                                         Text(viewModel.stepCount.formatted())
-                                            .font(.system(size: 44, weight: .bold, design: .rounded))
+                                            .font(.system(.largeTitle, design: .rounded).weight(.bold))
                                             .foregroundStyle(Color.primary)
                                             .contentTransition(.numericText())
-                                            .animation(.easeInOut(duration: 0.6), value: viewModel.stepCount)
+                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.stepCount)
 
                                         Text("pas")
-                                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                                            .font(.system(.callout, design: .rounded).weight(.medium))
                                             .foregroundStyle(Color.secondary)
                                     }
                                 }
+                                .accessibilityElement(children: .ignore)
+                                .accessibilityLabel("Progression du jour")
+                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
 
                                 Text(viewModel.selectedDateLabel)
-                                    .font(.system(size: 15, weight: .medium, design: .rounded))
+                                    .font(.system(.subheadline, design: .rounded).weight(.medium))
                                     .foregroundStyle(Color.primary)
                                     .id(viewModel.selectedDayOffset)
                                     .transition(.opacity)
-                                    .animation(.easeInOut(duration: 0.2), value: viewModel.selectedDayOffset)
+                                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: viewModel.selectedDayOffset)
                             }
 
                             Spacer()
@@ -94,14 +100,15 @@ struct StepRingView: View {
                                     .frame(width: 44, height: 44)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityLabel("Jour suivant")
                             .opacity(viewModel.selectedDayOffset > 0 ? 1 : 0)
                             .disabled(viewModel.selectedDayOffset <= 0)
-                            .animation(.easeInOut(duration: 0.15), value: viewModel.selectedDayOffset)
+                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.15), value: viewModel.selectedDayOffset)
                         }
                         .padding(.horizontal, 8)
 
                         Text("Objectif : \(viewModel.goal.formatted()) pas")
-                            .font(.system(size: 15, weight: .regular, design: .rounded))
+                            .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
                         if showWeatherForecast {

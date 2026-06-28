@@ -5,8 +5,11 @@ import SwiftUI
 struct MonthCalendarView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     private let circleDiameter: CGFloat = 28
     private let weekdayInitials = ["L", "M", "M", "J", "V", "S", "D"]
+    private let weekdayFullNames = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
     /// Calendrier grégorien explicite pour éviter les variations de `firstWeekday` selon la locale.
@@ -69,7 +72,6 @@ struct MonthCalendarView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 0) {
-                // Chevron gauche — mois précédent (limité à 11 mois en arrière)
                 Button {
                     haptic.impactOccurred()
                     viewModel.selectedMonthOffset += 1
@@ -80,19 +82,19 @@ struct MonthCalendarView: View {
                         .frame(width: 44, height: 44)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Mois précédent")
                 .opacity(viewModel.selectedMonthOffset < 11 ? 1 : 0)
                 .disabled(viewModel.selectedMonthOffset >= 11)
-                .animation(.easeInOut(duration: 0.15), value: viewModel.selectedMonthOffset)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.15), value: viewModel.selectedMonthOffset)
 
                 Spacer()
 
                 Text(monthTitle)
-                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                    .font(.system(.headline, design: .rounded))
                     .foregroundStyle(Color.primary)
 
                 Spacer()
 
-                // Chevron droit — revenir vers le mois en cours (ghost slot quand déjà sur le mois courant)
                 Button {
                     haptic.impactOccurred()
                     viewModel.selectedMonthOffset -= 1
@@ -103,9 +105,10 @@ struct MonthCalendarView: View {
                         .frame(width: 44, height: 44)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Mois suivant")
                 .opacity(viewModel.selectedMonthOffset > 0 ? 1 : 0)
                 .disabled(viewModel.selectedMonthOffset <= 0)
-                .animation(.easeInOut(duration: 0.15), value: viewModel.selectedMonthOffset)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.15), value: viewModel.selectedMonthOffset)
             }
 
             HStack(spacing: 0) {
@@ -114,6 +117,7 @@ struct MonthCalendarView: View {
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                         .frame(maxWidth: .infinity)
+                        .accessibilityLabel(weekdayFullNames[index])
                 }
             }
 
@@ -124,6 +128,7 @@ struct MonthCalendarView: View {
                     } else {
                         Color.clear
                             .frame(width: circleDiameter, height: circleDiameter)
+                            .accessibilityHidden(true)
                     }
                 }
             }
@@ -135,15 +140,27 @@ struct MonthCalendarView: View {
     }
 
     /// Cellule d'un jour : cercle coloré selon l'atteinte de l'objectif, grisé si date future.
-    /// Un tap sélectionne ce jour dans le ViewModel (navigation anneau).
     @ViewBuilder
     private func dayCell(for day: Int) -> some View {
         let cellDate = date(forDay: day)
         let future = isFuture(cellDate)
         let steps = viewModel.stepsByDay[day] ?? 0
         let goal = viewModel.goal
+        let goalReached = steps >= goal
+
+        let a11yLabel: String = {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.setLocalizedDateFormatFromTemplate("d MMMM")
+            let dateStr = formatter.string(from: cellDate)
+            if future { return "\(dateStr), à venir" }
+            if steps == 0 { return "\(dateStr), aucun pas" }
+            if goalReached { return "\(dateStr), \(steps.formatted()) pas, objectif atteint" }
+            return "\(dateStr), \(steps.formatted()) pas"
+        }()
+
         ZStack {
-            if steps >= goal {
+            if goalReached {
                 Circle()
                     .fill(viewModel.ringColor)
             } else if steps > 0 {
@@ -156,12 +173,15 @@ struct MonthCalendarView: View {
             }
             Text("\(day)")
                 .font(.caption2)
-                .fontWeight(steps >= goal ? .bold : .regular)
-                .foregroundStyle(steps >= goal ? Color.white : Color.primary)
+                .fontWeight(goalReached ? .bold : .regular)
+                .foregroundStyle(goalReached ? Color.white : Color.primary)
         }
         .frame(width: 28, height: 28)
         .opacity(future ? 0.3 : 1.0)
         .contentShape(Rectangle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(a11yLabel)
+        .accessibilityAddTraits(future || steps == 0 ? [] : .isButton)
         .onTapGesture {
             guard !future else { return }
             viewModel.selectDate(cellDate)

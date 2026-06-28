@@ -58,9 +58,10 @@ struct JourneyPickerView: View {
     private func categorySection(_ category: JourneyCategory, journeys: [Journey]) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(category.rawValue.uppercased())
-                .font(.system(size: 12, weight: .semibold, design: .rounded))
+                .font(.system(.caption, design: .rounded).weight(.semibold))
                 .foregroundStyle(Color.secondary)
                 .kerning(1.2)
+                .accessibilityAddTraits(.isHeader)
 
             ForEach(journeys) { journey in
                 JourneyCard(
@@ -103,10 +104,11 @@ private struct JourneyCard: View {
                     .frame(width: 44, height: 44)
                     .background(Color.accentColor.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(journey.name)
-                        .font(.system(size: 17, weight: .semibold, design: .rounded))
+                        .font(.system(.headline, design: .rounded))
                         .foregroundStyle(Color.primary)
 
                     Text(journey.subtitle)
@@ -127,18 +129,22 @@ private struct JourneyCard: View {
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
             }
+            .accessibilityElement(children: .combine)
 
             if isCompleted {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
+                        .accessibilityHidden(true)
                     Text("Terminé")
-                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.medium))
                 }
                 .foregroundStyle(ringColor)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
                 .background(ringColor.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(journey.name), trajet terminé")
             } else {
                 if let progress {
                     VStack(alignment: .leading, spacing: 6) {
@@ -154,6 +160,8 @@ private struct JourneyCard: View {
                             }
                         }
                         .frame(height: 6)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
 
                         Text(String(format: "%.1f / %.0f km", progress.totalKm, journey.totalKm))
                             .font(.caption2)
@@ -163,7 +171,7 @@ private struct JourneyCard: View {
 
                 Button(action: onAction) {
                     Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
-                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.medium))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                         .background(hasProgress ? ringColor : ringColor.opacity(0.12))
@@ -171,6 +179,7 @@ private struct JourneyCard: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(hasProgress ? "Voir mes étapes pour \(journey.name)" : "Voir le trajet \(journey.name)")
             }
         }
         .padding(16)
