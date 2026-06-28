@@ -1,0 +1,121 @@
+import SwiftUI
+
+/// Bannière de prévisions météo sur 7 jours, affichée sous l'anneau de pas.
+/// Invisible tant que la localisation n'est pas accordée.
+struct WeeklyForecastBannerView: View {
+    let forecasts: [DailyForecast]
+    var locationLabel: String? = nil
+
+    var body: some View {
+        if !forecasts.isEmpty {
+            VStack(spacing: 2) {
+                Divider()
+                    .padding(.horizontal, 24)
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(forecasts.indices, id: \.self) { i in
+                            DayForecastCell(forecast: forecasts[i], isToday: i == 0)
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 8)
+                }
+
+                if let label = locationLabel {
+                    HStack(spacing: 4) {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 9))
+                        Text(label)
+                            .font(.system(size: 11, design: .rounded))
+                    }
+                    .foregroundStyle(Color.secondary.opacity(0.6))
+                    .padding(.bottom, 4)
+                }
+            }
+        }
+    }
+}
+
+/// Cellule d'un jour dans la bannière 7 jours.
+private struct DayForecastCell: View {
+    let forecast: DailyForecast
+    let isToday: Bool
+
+    private var dayLabel: String {
+        if isToday { return "Auj." }
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.dateFormat = "EEE"
+        return f.string(from: forecast.date).capitalized
+    }
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Text(dayLabel)
+                .font(.system(size: 12, weight: isToday ? .semibold : .regular, design: .rounded))
+                .foregroundStyle(isToday ? Color.primary : Color.secondary)
+
+            Text(weatherIcon(for: forecast.weatherCode))
+                .font(.system(size: 22))
+
+            VStack(spacing: 1) {
+                Text("\(Int(forecast.tempMax.rounded()))°")
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(Color.primary)
+                Text("\(Int(forecast.tempMin.rounded()))°")
+                    .font(.system(size: 11, design: .rounded))
+                    .foregroundStyle(Color.secondary)
+            }
+
+            if forecast.precipitationMm > 0.2 {
+                Text("\(Int(forecast.precipitationMm.rounded()))mm")
+                    .font(.system(size: 10, design: .rounded))
+                    .foregroundStyle(Color.blue.opacity(0.8))
+            } else {
+                Text(" ")
+                    .font(.system(size: 10))
+            }
+        }
+        .frame(width: 52)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(isToday ? Color(.systemGray5) : Color.clear)
+        )
+    }
+
+    /// Retourne l'emoji météo correspondant au code WMO.
+    private func weatherIcon(for code: Int) -> String {
+        switch code {
+        case 0:        return "☀️"
+        case 1:        return "🌤️"
+        case 2:        return "⛅"
+        case 3:        return "☁️"
+        case 45, 48:   return "🌫️"
+        case 51, 53, 55, 56, 57: return "🌦️"
+        case 61, 63, 65: return "🌧️"
+        case 66, 67:   return "🌨️"
+        case 71, 73, 75, 77: return "❄️"
+        case 80, 81, 82: return "🌧️"
+        case 85, 86:   return "🌨️"
+        case 95:       return "⛈️"
+        case 96, 99:   return "⛈️"
+        default:       return "🌡️"
+        }
+    }
+}
+
+#Preview {
+    WeeklyForecastBannerView(forecasts: [
+        DailyForecast(date: Date(), weatherCode: 1, tempMin: 14, tempMax: 22, precipitationMm: 0),
+        DailyForecast(date: Date().addingTimeInterval(86400), weatherCode: 61, tempMin: 12, tempMax: 17, precipitationMm: 4.2),
+        DailyForecast(date: Date().addingTimeInterval(86400 * 2), weatherCode: 3, tempMin: 13, tempMax: 19, precipitationMm: 0.1),
+        DailyForecast(date: Date().addingTimeInterval(86400 * 3), weatherCode: 0, tempMin: 15, tempMax: 24, precipitationMm: 0),
+        DailyForecast(date: Date().addingTimeInterval(86400 * 4), weatherCode: 80, tempMin: 11, tempMax: 16, precipitationMm: 8.0),
+        DailyForecast(date: Date().addingTimeInterval(86400 * 5), weatherCode: 2, tempMin: 14, tempMax: 21, precipitationMm: 0),
+        DailyForecast(date: Date().addingTimeInterval(86400 * 6), weatherCode: 0, tempMin: 16, tempMax: 25, precipitationMm: 0),
+    ])
+    .padding()
+}

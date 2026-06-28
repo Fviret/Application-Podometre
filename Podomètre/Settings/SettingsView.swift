@@ -3,6 +3,10 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+    @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
+    @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
+    @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
+    @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
     @State private var showPicker = false
 
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
@@ -66,11 +70,18 @@ struct SettingsView: View {
                     }
                     .padding(.vertical, 4)
                 }
+                Section("Mon écran principal") {
+                    Toggle("Météo & prévisions", isOn: $showWeatherForecast)
+                    Toggle("Calendrier mensuel", isOn: $showMonthCalendar)
+                    Toggle("Graphe hebdomadaire", isOn: $showWeeklyChart)
+                }
+
                 Section("Notifications") {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
                         .onChange(of: viewModel.notificationsEnabled) { _, enabled in
                             if enabled { viewModel.requestNotificationPermission() }
                         }
+                    Toggle("Progression des trajets", isOn: $journeyNotificationsEnabled)
                     Toggle("Mode sombre", isOn: $isDarkMode)
                 }
 

@@ -15,12 +15,12 @@ Application iOS de suivi de pas quotidiens, développée en Swift/SwiftUI pur, s
 
 - Anneau de progression en temps réel connecté à HealthKit
 - Navigation entre les jours, calendrier mensuel et graphe hebdomadaire
-- Bannière météo de marche en temps réel (Open-Meteo, sans clé API)
+- Bannière pluie imminente + prévisions météo 7 jours (Open-Meteo, sans clé API)
 - Système de trajets avec progression sur distance réelle (walking + running)
 - Badges de pas et de trajets débloqués selon les performances
 - Streak de jours consécutifs où l'objectif est atteint
-- Notifications locales à l'objectif et aux jalons de trajet
-- Personnalisation : couleur de l'anneau, objectif quotidien, mode sombre
+- Notifications locales : objectif journalier et jalons de trajet (toggles indépendants)
+- Personnalisation : couleur de l'anneau, objectif quotidien, mode sombre, sections de l'écran principal
 
 ---
 
@@ -40,6 +40,22 @@ Les chevrons gauche/droit permettent de consulter n'importe quel jour passé. Le
 
 📷
 
+**Bannière pluie**
+Affichée en haut de l'écran si la localisation est autorisée. Indique uniquement en cas de pluie imminente :
+
+- Invisible si la localisation est refusée ou aucune pluie attendue
+- *"Pluie en cours"* — précipitations actuelles détectées
+- *"Pluie dans moins d'1h"* — pluie prévue dans l'heure suivante
+
+Se rafraîchit toutes les 30 minutes. Masquée silencieusement en cas d'erreur réseau.
+
+📷
+
+**Prévisions 7 jours**
+Scroll horizontal sous l'anneau affichant aujourd'hui et les 6 jours suivants : emoji météo WMO, températures min/max, précipitations si > 0,2 mm. Le jour actuel est mis en évidence. La ville est affichée en dessous via reverse geocoding.
+
+📷
+
 **Calendrier mensuel**
 Grille des jours du mois en cours. Chaque jour est représenté par un cercle :
 - Cercle plein coloré → objectif atteint
@@ -52,19 +68,6 @@ Un tap sur un jour le sélectionne et met à jour l'anneau.
 
 **Graphe hebdomadaire**
 Courbe des 7 derniers jours (semaine en cours en couleur, semaine précédente en gris). Une ligne pointillée indique la moyenne de la semaine en cours.
-
-📷
-
-**Bannière météo**
-Affichée entre l'anneau et le calendrier. Consulte l'API Open-Meteo (gratuite, sans clé) en fonction de la position GPS et indique les conditions de marche pour les 6 prochaines heures.
-
-Quatre états possibles :
-- ☀️ *"Conditions idéales pour marcher"* — aucune pluie prévue
-- 🌦️ *"Sec encore Nh — profitez-en"* — pluie dans plus d'une heure
-- 🌧️ *"Pluie imminente — partez maintenant !"* — pluie dans moins d'une heure
-- 🌧️ *"Pluie en cours — attendez une accalmie"* — précipitations actuelles
-
-La bannière affiche également la température actuelle et se rafraîchit toutes les 30 minutes. Elle est masquée silencieusement si la localisation est refusée ou en cas d'erreur réseau.
 
 📷
 
@@ -135,8 +138,16 @@ Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et 
 
 📷
 
+**Mon écran principal**
+Trois toggles pour afficher ou masquer des sections de l'écran Activité :
+
+- *Météo & prévisions* — bannière pluie + prévisions 7 jours (désactiver coupe aussi les appels réseau et la localisation)
+- *Calendrier mensuel* — grille du mois en cours
+- *Graphe hebdomadaire* — courbe de comparaison semaine en cours / précédente
+
 **Notifications**
-- *Objectif journalier* — envoie une notification locale dès que le compteur de pas franchit l'objectif. Maximum une fois par jour.
+- *Objectif journalier* — notification locale dès que le compteur franchit l'objectif. Maximum une fois par jour.
+- *Progression des trajets* — notifications aux jalons kilométriques et à la completion d'un trajet. Toggle indépendant de l'objectif journalier.
 - *Mode sombre* — bascule toute l'app en thème sombre, indépendamment du réglage système.
 
 **Streak 🔥**
@@ -170,16 +181,16 @@ Deux types de badges :
 - **Swift 5.9+** / **SwiftUI** pur (pas de UIKit, pas de Swift Charts)
 - **HealthKit** — `stepCount`, `distanceWalkingRunning`, background delivery
 - **CoreLocation** — localisation à précision kilomètre pour la météo
-- **Open-Meteo API** — prévisions météo gratuites, sans clé
+- **Open-Meteo API** — prévisions météo gratuites, sans clé (hourly + daily)
 - **UserNotifications** — notifications locales événementielles
-- **UserDefaults** — persistence légère (objectif, couleur, badges, trajets)
+- **UserDefaults** — persistence légère (objectif, couleur, badges, trajets, préférences UI)
 - **iOS 17+** minimum
 
 ## Architecture
 
 MVVM — `ObservableObject` / `@Published`. Deux services principaux :
 - `StepCountViewModel` — pas, objectif, streak, badges, couleur
-- `JourneyProgressService` — trajets, distance HK, completion
+- `JourneyProgressService` — trajets, distance HK, completion, notifications jalons
 
 ---
 

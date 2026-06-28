@@ -24,5 +24,14 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         location = locations.last
     }
 
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            manager.requestLocation()
+        default:
+            break
+        }
+    }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {}
 }
