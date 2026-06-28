@@ -29,7 +29,7 @@ struct WeatherBannerView: View {
                     Text("Pluie dans moins d'1h").font(.caption).fontWeight(.medium)
                 } else {
                     Image(systemName: "sun.max.fill").font(.caption)
-                    Text("Pas de pluie prévue").font(.caption).fontWeight(.medium)
+                    Text("Pas de pluie prévue dans la prochaine heure").font(.caption).fontWeight(.medium)
                 }
             }
             .foregroundStyle(rainingNow || rainWithinHour ? Color.blue : Color.secondary)

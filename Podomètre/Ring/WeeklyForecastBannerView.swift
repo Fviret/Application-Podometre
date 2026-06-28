@@ -9,6 +9,9 @@ struct WeeklyForecastBannerView: View {
     var body: some View {
         if !forecasts.isEmpty {
             VStack(spacing: 2) {
+                Divider()
+                    .padding(.horizontal, 24)
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(forecasts.indices, id: \.self) { i in

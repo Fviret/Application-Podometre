@@ -9,6 +9,10 @@ struct StepRingView: View {
     @State private var dailyForecasts: [DailyForecast] = []
     @State private var locationLabel: String? = nil
 
+    @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
+    @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
+    @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
+
     private let ringDiameter: CGFloat = 240
     private let strokeWidth: CGFloat = 20
     private let haptic = UIImpactFeedbackGenerator(style: .light)
@@ -100,19 +104,25 @@ struct StepRingView: View {
                             .font(.system(size: 15, weight: .regular, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
-                        WeeklyForecastBannerView(forecasts: dailyForecasts, locationLabel: locationLabel)
+                        if showWeatherForecast {
+                            WeeklyForecastBannerView(forecasts: dailyForecasts, locationLabel: locationLabel)
+                        }
 
-                        Divider()
-                            .padding(.horizontal, 24)
+                        if showMonthCalendar {
+                            Divider()
+                                .padding(.horizontal, 24)
 
-                        MonthCalendarView(viewModel: viewModel)
-                            .padding(.horizontal, 24)
+                            MonthCalendarView(viewModel: viewModel)
+                                .padding(.horizontal, 24)
+                        }
 
-                        Divider()
-                            .padding(.horizontal, 24)
+                        if showWeeklyChart {
+                            Divider()
+                                .padding(.horizontal, 24)
 
-                        WeeklyBarChartView(viewModel: viewModel)
-                            .padding(.horizontal, 24)
+                            WeeklyBarChartView(viewModel: viewModel)
+                                .padding(.horizontal, 24)
+                        }
                     }
                     .padding(.vertical, 32)
                 }
@@ -120,33 +130,35 @@ struct StepRingView: View {
         }
         .onAppear {
             viewModel.requestAuthorizationAndFetch()
-            #if targetEnvironment(simulator)
-            walkingForecast = WalkingForecast(
-                nextRainHour: Date().addingTimeInterval(1800),
-                currentTemp: 17,
-                currentCode: 2,
-                hours: [HourlyWeather(hour: Date().addingTimeInterval(1800), precipitationMm: 0.8, temperature: 17, weatherCode: 61)]
-            )
-            locationLabel = "Paris, France"
-            dailyForecasts = [
-                DailyForecast(date: Date(), weatherCode: 1, tempMin: 14, tempMax: 22, precipitationMm: 0),
-                DailyForecast(date: Date().addingTimeInterval(86400), weatherCode: 61, tempMin: 12, tempMax: 17, precipitationMm: 4.2),
-                DailyForecast(date: Date().addingTimeInterval(86400 * 2), weatherCode: 3, tempMin: 13, tempMax: 19, precipitationMm: 0),
-                DailyForecast(date: Date().addingTimeInterval(86400 * 3), weatherCode: 0, tempMin: 15, tempMax: 24, precipitationMm: 0),
-                DailyForecast(date: Date().addingTimeInterval(86400 * 4), weatherCode: 80, tempMin: 11, tempMax: 16, precipitationMm: 8.0),
-                DailyForecast(date: Date().addingTimeInterval(86400 * 5), weatherCode: 2, tempMin: 14, tempMax: 21, precipitationMm: 0),
-                DailyForecast(date: Date().addingTimeInterval(86400 * 6), weatherCode: 0, tempMin: 16, tempMax: 25, precipitationMm: 0),
-            ]
-            #else
-            locationManager.requestLocation()
-            Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
-                guard let loc = locationManager.location else { return }
-                Task { await fetchWeather(loc: loc) }
+            if showWeatherForecast {
+                #if targetEnvironment(simulator)
+                walkingForecast = WalkingForecast(
+                    nextRainHour: Date().addingTimeInterval(1800),
+                    currentTemp: 17,
+                    currentCode: 2,
+                    hours: [HourlyWeather(hour: Date().addingTimeInterval(1800), precipitationMm: 0.8, temperature: 17, weatherCode: 61)]
+                )
+                locationLabel = "Paris, France"
+                dailyForecasts = [
+                    DailyForecast(date: Date(), weatherCode: 1, tempMin: 14, tempMax: 22, precipitationMm: 0),
+                    DailyForecast(date: Date().addingTimeInterval(86400), weatherCode: 61, tempMin: 12, tempMax: 17, precipitationMm: 4.2),
+                    DailyForecast(date: Date().addingTimeInterval(86400 * 2), weatherCode: 3, tempMin: 13, tempMax: 19, precipitationMm: 0),
+                    DailyForecast(date: Date().addingTimeInterval(86400 * 3), weatherCode: 0, tempMin: 15, tempMax: 24, precipitationMm: 0),
+                    DailyForecast(date: Date().addingTimeInterval(86400 * 4), weatherCode: 80, tempMin: 11, tempMax: 16, precipitationMm: 8.0),
+                    DailyForecast(date: Date().addingTimeInterval(86400 * 5), weatherCode: 2, tempMin: 14, tempMax: 21, precipitationMm: 0),
+                    DailyForecast(date: Date().addingTimeInterval(86400 * 6), weatherCode: 0, tempMin: 16, tempMax: 25, precipitationMm: 0),
+                ]
+                #else
+                locationManager.requestLocation()
+                Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
+                    guard showWeatherForecast, let loc = locationManager.location else { return }
+                    Task { await fetchWeather(loc: loc) }
+                }
+                #endif
             }
-            #endif
         }
         .onChange(of: locationManager.location) { _, loc in
-            guard let loc else { return }
+            guard showWeatherForecast, let loc else { return }
             Task { await fetchWeather(loc: loc) }
         }
     }
