@@ -263,6 +263,7 @@ class StepCountViewModel: ObservableObject {
 
     private let healthStore = HKHealthStore()
     private var observerQuery: HKObserverQuery?
+    private var observerQueryRegistered = false
 
     /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
@@ -280,12 +281,13 @@ class StepCountViewModel: ObservableObject {
             Task { @MainActor in
                 self?.isAuthorized = true
                 self?.requestNotificationPermission()
+                self?.enableBackgroundDelivery()
+                self?.setupStepObserverQuery()
                 self?.fetchSteps(for: self?.selectedDate ?? Date())
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
                 self?.fetchMilestoneCounts()
                 self?.computeStreak()
-                self?.startObserving()
             }
         }
         #endif
@@ -461,23 +463,56 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
-    /// Installe un `HKObserverQuery` pour recevoir les mises à jour live des pas.
-    /// Ne rafraîchit `stepCount` que si l'utilisateur est sur la vue d'aujourd'hui.
-    private func startObserving() {
-        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+    /// Active la livraison HealthKit en arrière-plan (fréquence horaire) pour les pas.
+    /// Permet à l'OS de réveiller l'app même quand elle est fermée.
+    func enableBackgroundDelivery() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        healthStore.enableBackgroundDelivery(
+            for: HKQuantityType(.stepCount),
+            frequency: .hourly
+        ) { _, error in
+            if let error { print("Background delivery error: \(error)") }
+        }
+    }
 
-        observerQuery = HKObserverQuery(sampleType: stepType, predicate: nil) { [weak self] _, _, _ in
-            Task { @MainActor in
-                guard let self else { return }
-                if self.selectedDayOffset == 0 {
-                    self.fetchSteps(for: self.selectedDate)
-                }
+    /// Installe un `HKObserverQuery` pour recevoir les mises à jour de pas, en foreground et en background.
+    /// Le `completionHandler` fourni par HealthKit doit toujours être appelé pour signaler la fin du traitement.
+    func setupStepObserverQuery() {
+        guard !observerQueryRegistered else { return }
+        observerQueryRegistered = true
+        let stepType = HKQuantityType(.stepCount)
+
+        observerQuery = HKObserverQuery(sampleType: stepType, predicate: nil) { [weak self] _, completionHandler, error in
+            guard error == nil else { completionHandler(); return }
+            self?.fetchStepsForBackground {
+                completionHandler()
             }
         }
 
         if let query = observerQuery {
             healthStore.execute(query)
         }
+    }
+
+    /// Fetch des pas du jour en arrière-plan — met à jour `stepCount`, vérifie l'objectif et recalcule le streak.
+    /// `completion` doit impérativement être appelé pour libérer le token background de HealthKit.
+    func fetchStepsForBackground(completion: @escaping () -> Void) {
+        let start = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: Date())
+        let query = HKStatisticsQuery(
+            quantityType: HKQuantityType(.stepCount),
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { [weak self] _, stats, _ in
+            let steps = Int(stats?.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+            DispatchQueue.main.async {
+                self?.stepCount = steps
+                self?.checkAndNotifyGoalReached()
+                self?.computeStreak()
+            }
+            completion()
+        }
+        healthStore.execute(query)
     }
 
     deinit {
