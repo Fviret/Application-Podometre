@@ -208,6 +208,42 @@ MVVM — `ObservableObject` / `@Published`. Deux services principaux :
 
 ---
 
+## Tests
+
+La suite de tests couvre les modèles métier et la logique pure (sans dépendance HealthKit).
+
+**Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
+
+**Couverture** : 47 tests en 9 suites
+
+| Suite | Ce qui est testé |
+|---|---|
+| `Journey.progressPercent` | Calcul du pourcentage de progression (zéro, moitié, 100 %, dépassement) |
+| `Journey.nextMilestone` | Prochain jalon à atteindre selon les jalons déjà débloqués |
+| `Journey.sortedMilestones` | Tri des jalons par km croissant |
+| `Int.asKilometers` | Conversion pas → km (zéro, valeurs standards, valeurs extrêmes) |
+| `BadgeData` | Intégrité du catalogue de badges (count, seuils croissants, unicité des IDs) |
+| `StepCountViewModel — logique pure` | Progression, labels de date, completion de trajet, couleur d'anneau, notifications |
+| `JourneyProgress — Codable` | Round-trip JSON encode/decode |
+| `AppColors` | Catalogue de couleurs (non vide, IDs uniques, couleur par défaut présente) |
+| `allJourneys catalog` | Intégrité du catalogue de trajets (IDs uniques, totalKm > 0, jalons cohérents) |
+
+**Lancer les tests en CLI :**
+
+```bash
+/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test \
+  -project "Podomètre.xcodeproj" \
+  -scheme "Podomètre" \
+  -destination "platform=iOS Simulator,name=iPhone 16" \
+  -only-testing:PodomètreTests
+```
+
+Ou via Xcode : `⌘U`
+
+> Les tests ne couvrent pas les appels HealthKit (requiert un device physique) ni les vues SwiftUI. La logique HealthKit est validée manuellement sur device.
+
+---
+
 ## Installation
 
 1. Cloner le repo
