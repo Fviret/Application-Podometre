@@ -160,6 +160,9 @@ struct OnboardingView: View {
                     infoBlock(icon: "arrow.left.and.right",
                               title: "Distance parcourue",
                               subtitle: "Marche et course pour les trajets")
+                    infoBlock(icon: "location.fill",
+                              title: "Localisation",
+                              subtitle: "Prévisions météo personnalisées près de vous")
                 }
 
                 Text("Ces données ne quittent jamais votre iPhone.")
