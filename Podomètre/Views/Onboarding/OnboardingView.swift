@@ -12,7 +12,7 @@ struct OnboardingView: View {
         (5000,  "5 000 pas",  "Idéal pour commencer"),
         (8000,  "8 000 pas",  "Recommandé par l'OMS"),
         (10000, "10 000 pas", "Objectif classique"),
-        (15000, "15 000 pas", "Objectif sportif")
+        (15000, "15 000 pas", "Objectif sportif"),
         (20000, "20 000 pas", "Je marche beaucoup")
     ]
 
@@ -102,28 +102,32 @@ struct OnboardingView: View {
 
     /// Slide 2 — écran des trajets.
     private var slide2: some View {
-        ZStack(alignment: .top) {
+        VStack(spacing: 0) {
             Image("onboarding_journeys")
                 .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
+                .scaledToFit()
                 .accessibilityHidden(true)
 
-            LinearGradient(
-                colors: [.clear, Color(.systemBackground).opacity(0.5)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color(.systemBackground).opacity(0),
+                        Color(.systemBackground).opacity(0.98)
+                    ],
+                    startPoint: .top,
+                    endPoint: .center
+                )
 
-            VStack {
-                Spacer()
                 slideCaption(
                     title: "Marchez vers des destinations légendaires",
                     subtitle: "Vos kilomètres réels vous font avancer sur le GR20, Compostelle ou l'Odyssée d'Ulysse."
                 )
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            Spacer()
         }
+        .background(Color(.systemBackground))
     }
 
     /// Slide 3 — permissions HealthKit.
