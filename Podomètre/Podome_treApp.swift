@@ -26,7 +26,7 @@ struct Podome_treApp: App {
         WindowGroup {
             ContentView()
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
-                    OnboardingContainerView(viewModel: onboardingViewModel)
+                    OnboardingView(viewModel: onboardingViewModel)
                 }
         }
     }
