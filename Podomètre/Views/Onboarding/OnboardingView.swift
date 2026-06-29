@@ -22,13 +22,11 @@ struct OnboardingView: View {
                 .animation(.easeInOut, value: page)
                 .ignoresSafeArea()
 
-                // Overlay fixe en bas : dots + bouton
+                // Overlay fixe en bas : dots + boutons (hauteur constante sur toutes les slides)
                 VStack(spacing: 12) {
                     dots
 
                     switch page {
-                    case 0, 1:
-                        primaryButton(label: "Suivant") { page += 1 }
                     case 2:
                         primaryButton(label: "Autoriser l'accès", color: .accentColor) {
                             Task {
@@ -37,7 +35,7 @@ struct OnboardingView: View {
                             }
                         }
                         secondaryButton(label: "Plus tard") { page += 1 }
-                    default:
+                    case 3:
                         primaryButton(label: "Lancer l'app", color: viewModel.ringColor) {
                             viewModel.goal = selectedGoal
                             hasCompletedOnboarding = true
@@ -45,6 +43,12 @@ struct OnboardingView: View {
                         secondaryButton(label: "Choisir plus tard") {
                             hasCompletedOnboarding = true
                         }
+                    default:
+                        primaryButton(label: "Suivant") { page += 1 }
+                        // Bouton fantôme pour maintenir la hauteur identique aux slides 3 et 4
+                        secondaryButton(label: "Suivant") { }
+                            .opacity(0)
+                            .disabled(true)
                     }
                 }
                 .padding(.horizontal, 24)
