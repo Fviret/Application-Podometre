@@ -12,6 +12,7 @@ struct StepRingView: View {
     @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
     @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
     @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
+    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -136,6 +137,7 @@ struct StepRingView: View {
             }
         }
         .onAppear {
+            guard hasCompletedOnboarding else { return }
             viewModel.requestAuthorizationAndFetch()
             if showWeatherForecast {
                 #if targetEnvironment(simulator)
@@ -167,6 +169,15 @@ struct StepRingView: View {
         .onChange(of: locationManager.location) { _, loc in
             guard showWeatherForecast, let loc else { return }
             Task { await fetchWeather(loc: loc) }
+        }
+        .onChange(of: hasCompletedOnboarding) { _, completed in
+            guard completed else { return }
+            viewModel.requestAuthorizationAndFetch()
+            if showWeatherForecast {
+                #if !targetEnvironment(simulator)
+                locationManager.requestLocation()
+                #endif
+            }
         }
     }
 
