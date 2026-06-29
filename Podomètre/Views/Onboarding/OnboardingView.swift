@@ -134,8 +134,6 @@ struct OnboardingView: View {
     private var slide3: some View {
         ScrollView {
             VStack(spacing: 16) {
-                Spacer().frame(height: 60)
-
                 ZStack {
                     RoundedRectangle(cornerRadius: 18)
                         .fill(Color(.systemBackground))
@@ -172,11 +170,12 @@ struct OnboardingView: View {
                     .font(.caption)
                     .foregroundStyle(Color(UIColor.tertiaryLabel))
                     .multilineTextAlignment(.center)
-
-                // Espace pour l'overlay fixe
-                Spacer().frame(height: 160)
             }
             .padding(.horizontal, 24)
+            .padding(.vertical, 32)
+        }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 160)
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
