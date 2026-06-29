@@ -4,17 +4,9 @@ import SwiftUI
 struct OnboardingView: View {
 
     @ObservedObject var viewModel: StepCountViewModel
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
     @State private var page: Int = 0
-    @State private var selectedGoal: Int = 8000
-
-    private let goals: [(steps: Int, label: String, sublabel: String)] = [
-        (5000,  "5 000 pas",  "Idéal pour commencer"),
-        (8000,  "8 000 pas",  "Recommandé par l'OMS"),
-        (10000, "10 000 pas", "Objectif classique"),
-        (15000, "15 000 pas", "Objectif sportif"),
-        (20000, "20 000 pas", "Je marche beaucoup")
-    ]
+    @State private var selectedGoal: Int = onboardingDefaultGoal
 
     var body: some View {
         GeometryReader { geo in
@@ -197,7 +189,7 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
 
                 VStack(spacing: 10) {
-                    ForEach(goals, id: \.steps) { choice in
+                    ForEach(onboardingGoals, id: \.steps) { choice in
                         goalButton(choice: choice)
                     }
                 }
@@ -252,7 +244,7 @@ struct OnboardingView: View {
     }
 
     /// Bouton de choix d'objectif (slide 4).
-    private func goalButton(choice: (steps: Int, label: String, sublabel: String)) -> some View {
+    private func goalButton(choice: OnboardingGoal) -> some View {
         let isSelected = selectedGoal == choice.steps
         return Button { selectedGoal = choice.steps } label: {
             RoundedRectangle(cornerRadius: 12)

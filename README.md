@@ -190,6 +190,21 @@ Ce qui a été appliqué :
 
 ---
 
+## Onboarding
+
+Affiché au premier lancement, avant l'écran principal. Navigable par swipe ou bouton "Suivant".
+
+| Slide | Contenu |
+|---|---|
+| 1 — Activité | Screenshot de l'anneau de progression avec légende |
+| 2 — Trajets | Screenshot de l'écran trajets avec légende |
+| 3 — HealthKit | Demande d'accès aux données de santé (pas + distance) avec bouton "Plus tard" |
+| 4 — Objectif | Sélection de l'objectif quotidien parmi 5 valeurs (5k → 20k), défaut 8 000 pas |
+
+Une fois la slide 4 validée, `hasCompletedOnboarding` passe à `true` dans UserDefaults et l'onboarding ne réapparaît plus. L'onboarding ne peut pas être fermé par swipe.
+
+---
+
 ## Stack technique
 
 - **Swift 5.9+** / **SwiftUI** pur (pas de UIKit, pas de Swift Charts)
@@ -227,6 +242,10 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
 | `JourneyProgress — Codable` | Round-trip JSON encode/decode |
 | `AppColors` | Catalogue de couleurs (non vide, IDs uniques, couleur par défaut présente) |
 | `allJourneys catalog` | Intégrité du catalogue de trajets (IDs uniques, totalKm > 0, jalons cohérents) |
+| `Onboarding — objectifs` | Catalogue `onboardingGoals` (count, ordre croissant, valeur par défaut, labels non vides) |
+| `Onboarding — UserDefaults` | Clé `hasCompletedOnboarding` (valeur par défaut, persistance, réinitialisation) |
+
+**Couverture actuelle** : 58 tests en 11 suites
 
 **Lancer les tests en CLI :**
 

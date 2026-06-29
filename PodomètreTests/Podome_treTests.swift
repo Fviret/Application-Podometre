@@ -403,3 +403,70 @@ struct AllJourneysTests {
         #expect(found.isSubset(of: Set(JourneyCategory.allCases)))
     }
 }
+
+// MARK: - Onboarding
+
+@Suite("Onboarding — objectifs")
+struct OnboardingGoalsTests {
+
+    @Test func hasFiveGoals() {
+        #expect(onboardingGoals.count == 5)
+    }
+
+    @Test func stepsAreStrictlyIncreasing() {
+        let steps = onboardingGoals.map(\.steps)
+        for i in 1..<steps.count {
+            #expect(steps[i] > steps[i - 1])
+        }
+    }
+
+    @Test func firstGoalIsFiveThousand() {
+        #expect(onboardingGoals.first?.steps == 5_000)
+    }
+
+    @Test func lastGoalIsTwentyThousand() {
+        #expect(onboardingGoals.last?.steps == 20_000)
+    }
+
+    @Test func defaultGoalExistsInList() {
+        #expect(onboardingGoals.contains { $0.steps == onboardingDefaultGoal })
+    }
+
+    @Test func defaultGoalIsEightThousand() {
+        #expect(onboardingDefaultGoal == 8_000)
+    }
+
+    @Test func allGoalsHaveNonEmptyLabels() {
+        for goal in onboardingGoals {
+            #expect(!goal.label.isEmpty)
+            #expect(!goal.sublabel.isEmpty)
+        }
+    }
+}
+
+@Suite("Onboarding — UserDefaults")
+struct OnboardingUserDefaultsTests {
+
+    @Test func completedKeyMatchesConstant() {
+        #expect(onboardingCompletedKey == "hasCompletedOnboarding")
+    }
+
+    @Test func defaultValueIsFalse() {
+        let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
+        let value = suite.bool(forKey: onboardingCompletedKey)
+        #expect(value == false)
+    }
+
+    @Test func settingTrueIsPersisted() {
+        let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
+        suite.set(true, forKey: onboardingCompletedKey)
+        #expect(suite.bool(forKey: onboardingCompletedKey) == true)
+    }
+
+    @Test func removingKeyResetsToFalse() {
+        let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
+        suite.set(true, forKey: onboardingCompletedKey)
+        suite.removeObject(forKey: onboardingCompletedKey)
+        #expect(suite.bool(forKey: onboardingCompletedKey) == false)
+    }
+}
