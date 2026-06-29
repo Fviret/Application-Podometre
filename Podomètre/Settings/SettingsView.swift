@@ -98,6 +98,8 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Paramètres")
+
+
         }
     }
 }
