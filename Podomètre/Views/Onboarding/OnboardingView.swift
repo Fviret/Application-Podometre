@@ -232,26 +232,23 @@ struct OnboardingView: View {
 
     /// Bloc informatif icône + texte pour la slide HealthKit.
     private func infoBlock(icon: String, title: String, subtitle: String) -> some View {
-        RoundedRectangle(cornerRadius: 12)
-            .fill(Color(.systemBackground))
-            .overlay(
-                HStack(spacing: 12) {
-                    Image(systemName: icon)
-                        .font(.system(size: 28))
-                        .foregroundStyle(viewModel.ringColor)
-                        .frame(width: 36)
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(title)
-                            .font(.system(.subheadline, design: .rounded)).fontWeight(.medium)
-                        Text(subtitle)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                }
-                .padding(12)
-            )
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 28))
+                .foregroundStyle(viewModel.ringColor)
+                .frame(width: 36)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(.subheadline, design: .rounded)).fontWeight(.medium)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+        }
+        .padding(12)
+        .background(Color(.systemBackground), in: RoundedRectangle(cornerRadius: 12))
     }
 
     /// Bouton de choix d'objectif (slide 4).
