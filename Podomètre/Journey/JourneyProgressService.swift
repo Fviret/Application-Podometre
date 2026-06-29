@@ -32,6 +32,17 @@ class JourneyProgressService: ObservableObject {
         #if targetEnvironment(simulator)
         loadMockData()
         #else
+        if UserDefaults.standard.bool(forKey: onboardingCompletedKey) {
+            startObservingDistance()
+        }
+        #endif
+    }
+
+    /// Démarre l'observation HealthKit si l'onboarding est terminé.
+    /// À appeler depuis ContentView une fois hasCompletedOnboarding passé à true.
+    func startIfNeeded() {
+        #if !targetEnvironment(simulator)
+        guard UserDefaults.standard.bool(forKey: onboardingCompletedKey) else { return }
         startObservingDistance()
         #endif
     }

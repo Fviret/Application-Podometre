@@ -12,6 +12,7 @@ struct ContentView: View {
     @StateObject private var journeyProgressService = JourneyProgressService()
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
+    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
 
     var body: some View {
         TabView {
@@ -41,6 +42,10 @@ struct ContentView: View {
         }
         .onChange(of: journeyNotificationsEnabled) { _, enabled in
             journeyProgressService.notificationsEnabled = enabled
+        }
+        .onChange(of: hasCompletedOnboarding) { _, completed in
+            guard completed else { return }
+            journeyProgressService.startIfNeeded()
         }
     }
 }
