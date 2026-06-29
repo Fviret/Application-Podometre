@@ -154,9 +154,19 @@ journeyProgressService.onJourneyCompleted = { id in
 
 ---
 
-## Workflow Git
+## Workflow Git — collaboration Humain / IA
 
-Chaque feature est développée sur sa propre branche. **Toujours créer une branche dédiée avant de commencer — ne jamais travailler directement sur `main`.** Chaque PR correspond à une branche.
+`main` est toujours stable et déployable. Tout le travail passe par des branches. **L'IA ne pousse jamais directement sur `main` ni sur `dev`.**
+
+### Structure des branches
+
+```
+main          ← stable, protégé, mergé uniquement par toi
+└── dev       ← branche d'intégration continue
+    └── feature/<nom>   ← une branche par feature (créée par l'IA)
+    └── fix/<nom>       ← une branche par bugfix (créée par l'IA)
+    └── refactor/<nom>  ← une branche par refactoring (créée par l'IA)
+```
 
 ### Conventions de nommage des branches
 
@@ -168,32 +178,37 @@ refactor/<nom-court>    # refactoring sans changement fonctionnel
 
 Exemples : `feature/journey-detail`, `fix/calendar-alignment`, `refactor/healthkit-service`
 
-### Workflow standard
+### Cycle de travail
 
 ```bash
-# 1. Créer la branche depuis main à jour
-git checkout main && git pull origin main
+# 1. L'IA crée la branche depuis dev
+git checkout dev && git pull origin dev
 git checkout -b feature/<nom>
 
-# 2. Développer, committer au fil de l'eau
+# 2. L'IA développe et committe au fil de l'eau
 git add <fichiers>
 git commit -m "message"
 
-# 3. Merger dans main et pousser
-git checkout main
-git merge --no-ff feature/<nom> -m "Merge feature/<nom>"
-git push origin main
+# 3. L'IA pousse la branche et ouvre une PR feature/<nom> → dev
+git push origin feature/<nom>
+gh pr create --base dev --title "..." --body "..."
 
-# 4. Nettoyer la branche
-git branch -d feature/<nom>
-git push origin --delete feature/<nom>
+# 4. Toi : tu reviews et merges la PR dans dev
+
+# 5. Toi : quand dev est stable, tu merges dev → main
+git checkout main
+git merge --no-ff dev -m "Merge dev"
+git push origin main
 ```
 
 ### Règles
 
-- Travailler sur une branche dédiée par feature (jamais directement sur `main`)
-- Un dossier feature (`Ring/`, `Settings/`, `Journey/`, …) = une branche dédiée lors de sa création
-- Merger avec `--no-ff` pour garder une trace claire des features dans le log
+- L'IA crée toujours une branche depuis `dev`, jamais depuis `main`
+- L'IA ouvre une PR vers `dev` — elle ne merge jamais elle-même
+- **Toi** tu as le dernier mot : review PR → merge dans `dev` → merge `dev` dans `main`
+- Un PR = une feature ou un fix (pas plusieurs)
+- Merger avec `--no-ff` pour garder une trace claire dans le log
+- Tous les commits de l'IA sont signés `Co-Authored-By: Claude`
 
 ---
 
@@ -208,6 +223,7 @@ git push origin --delete feature/<nom>
 - [x] Mode sombre
 - [ ] Widget iOS écran d'accueil
 - [ ] Export CSV des données
+- [ ] Proposer une slide récapitulative de la semaine le lundi pour la premiere ouverture de la semaine.
 - [ ] Gamification RPG — débloquer des actions selon les pas (concept en cours d'évaluation)
 
 ---
