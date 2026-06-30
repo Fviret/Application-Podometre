@@ -262,6 +262,34 @@ Ou via Xcode : `⌘U`
 
 ---
 
+## Roadmap
+
+### Terminé
+- [x] Anneau de progression en temps réel (HealthKit)
+- [x] Navigation par jour, calendrier mensuel, graphe hebdomadaire
+- [x] Bannière météo + prévisions 7 jours (Open-Meteo)
+- [x] Système de trajets avec progression sur distance réelle
+- [x] Badges de pas et de trajets
+- [x] Streak de jours consécutifs
+- [x] Notifications locales (objectif + jalons + completion)
+- [x] Personnalisation (couleur anneau, objectif, mode sombre)
+- [x] Onboarding
+
+### Priorité haute — impact utilisateur immédiat
+- [ ] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets)
+- [ ] **Mode éco** — optimisation des appels HealthKit et météo en arrière-plan
+- [ ] **Slide récapitulative hebdomadaire** — bilan de la semaine affiché le lundi
+- [ ] **Widget iOS** — pas du jour + progression anneau sur l'écran d'accueil
+
+### Priorité moyenne — enrichissement
+- [ ] **Export CSV** — historique de pas et distances
+- [ ] **Gamification RPG** — débloquer des récompenses selon les pas
+
+### Vision long terme
+- [ ] **Développement 100 % IA agentique** — de la rédaction des user stories jusqu'au déploiement App Store, piloté par une IA agentique bout en bout : US → dev → tests → publication
+
+---
+
 ## Installation
 
 1. Cloner le repo
