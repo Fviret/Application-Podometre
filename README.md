@@ -224,11 +224,15 @@ MVVM — `ObservableObject` / `@Published`. Deux services principaux :
 
 ## Tests
 
-La suite de tests couvre les modèles métier et la logique pure (sans dépendance HealthKit).
+Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI).
+
+---
+
+### Tests unitaires
 
 **Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
 
-**Couverture** : 47 tests en 9 suites
+**58 tests en 11 suites**
 
 | Suite | Ce qui est testé |
 |---|---|
@@ -244,11 +248,8 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
 | `Onboarding — objectifs` | Catalogue `onboardingGoals` (count, ordre croissant, valeur par défaut, labels non vides) |
 | `Onboarding — UserDefaults` | Clé `hasCompletedOnboarding` (valeur par défaut, persistance, réinitialisation) |
 
-**Couverture actuelle** : 58 tests en 11 suites
-
-**Lancer les tests en CLI :**
-
 ```bash
+# Lancer les tests unitaires en CLI
 /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test \
   -project "Podomètre.xcodeproj" \
   -scheme "Podomètre" \
@@ -256,9 +257,38 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
   -only-testing:PodomètreTests
 ```
 
-Ou via Xcode : `⌘U`
+---
 
-> Les tests ne couvrent pas les appels HealthKit (requiert un device physique) ni les vues SwiftUI. La logique HealthKit est validée manuellement sur device.
+### Tests UI
+
+**Framework** : XCTest / XCUITest
+
+**16 tests en 3 suites** — couvrent les flux utilisateur principaux sur simulateur.
+
+| Suite | Tests | Ce qui est vérifié |
+|---|---|---|
+| `OnboardingUITests` | 6 | Slides 1→4, boutons de navigation, protection anti-dismiss |
+| `TabNavigationUITests` | 5 | 3 onglets présents, navigation aller-retour |
+| `ActivityUITests` | 5 | Anneau visible, label de date, chevrons de navigation |
+
+**Isolation des tests** : deux variables d'environnement contrôlent l'état UserDefaults au lancement :
+- `RESET_ONBOARDING=1` — force l'onboarding (suites onboarding)
+- `SKIP_ONBOARDING=1` — bypasse l'onboarding (suites app principale)
+
+```bash
+# Lancer les tests UI en CLI
+/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test \
+  -project "Podomètre.xcodeproj" \
+  -scheme "Podomètre" \
+  -destination "platform=iOS Simulator,name=iPhone 16" \
+  -only-testing:PodomètreUITests
+```
+
+Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
+
+---
+
+> Les tests unitaires et UI ne couvrent pas les appels HealthKit (requiert un device physique). La logique HealthKit est validée manuellement sur device.
 
 ---
 
