@@ -80,6 +80,7 @@ struct StepRingView: View {
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
                                 .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
+                                .accessibilityIdentifier("step_ring")
 
                                 Text(viewModel.selectedDateLabel)
                                     .font(.system(.subheadline, design: .rounded).weight(.medium))
@@ -87,6 +88,7 @@ struct StepRingView: View {
                                     .id(viewModel.selectedDayOffset)
                                     .transition(.opacity)
                                     .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: viewModel.selectedDayOffset)
+                                    .accessibilityIdentifier("date_label")
                             }
 
                             Spacer()

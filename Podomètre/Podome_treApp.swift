@@ -20,6 +20,7 @@ struct Podome_treApp: App {
 
     init() {
         UNUserNotificationCenter.current().delegate = notificationDelegate
+        applyUITestingOverrides()
     }
 
     var body: some Scene {
@@ -28,6 +29,17 @@ struct Podome_treApp: App {
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
                     OnboardingView(viewModel: viewModel)
                 }
+        }
+    }
+
+    /// Applique les overrides UserDefaults demandés par les UI tests via les variables d'environnement.
+    private func applyUITestingOverrides() {
+        let env = ProcessInfo.processInfo.environment
+        if env["RESET_ONBOARDING"] == "1" {
+            UserDefaults.standard.set(false, forKey: onboardingCompletedKey)
+        }
+        if env["SKIP_ONBOARDING"] == "1" {
+            UserDefaults.standard.set(true, forKey: onboardingCompletedKey)
         }
     }
 }
