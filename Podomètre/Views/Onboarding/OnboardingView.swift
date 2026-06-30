@@ -11,6 +11,8 @@ struct OnboardingView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .bottom) {
+                (page >= 2 ? Color(.systemGroupedBackground) : Color(.systemBackground))
+                    .ignoresSafeArea()
                 // Carrousel
                 TabView(selection: $page) {
                     slide1.tag(0)
@@ -21,34 +23,20 @@ struct OnboardingView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.easeInOut, value: page)
                 .ignoresSafeArea()
+                .padding(.top, geo.safeAreaInsets.top + 24)
 
                 // Overlay fixe en bas : dots + boutons (hauteur constante sur toutes les slides)
                 VStack(spacing: 12) {
                     dots
 
                     switch page {
-                    case 2:
-                        primaryButton(label: "Autoriser l'accès", color: .accentColor) {
-                            Task {
-                                await viewModel.requestAuthorizationAndFetch()
-                                page += 1
-                            }
-                        }
-                        secondaryButton(label: "Plus tard") { page += 1 }
                     case 3:
                         primaryButton(label: "Lancer l'app", color: viewModel.ringColor) {
                             viewModel.goal = selectedGoal
                             hasCompletedOnboarding = true
                         }
-                        secondaryButton(label: "Choisir plus tard") {
-                            hasCompletedOnboarding = true
-                        }
                     default:
                         primaryButton(label: "Suivant") { page += 1 }
-                        // Bouton fantôme pour maintenir la hauteur identique aux slides 3 et 4
-                        secondaryButton(label: "Suivant") { }
-                            .opacity(0)
-                            .disabled(true)
                     }
                 }
                 .padding(.horizontal, 24)
