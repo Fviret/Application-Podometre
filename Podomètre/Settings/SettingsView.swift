@@ -69,6 +69,8 @@ struct SettingsView: View {
                         }
                     }
                     .padding(.vertical, 4)
+
+                    Toggle("Mode sombre", isOn: $isDarkMode)
                 }
                 Section("Mon écran principal") {
                     Toggle("Météo & prévisions", isOn: $showWeatherForecast)
@@ -82,7 +84,6 @@ struct SettingsView: View {
                             if enabled { viewModel.requestNotificationPermission() }
                         }
                     Toggle("Progression des trajets", isOn: $journeyNotificationsEnabled)
-                    Toggle("Mode sombre", isOn: $isDarkMode)
                 }
 
                 if viewModel.currentStreak > 0 {
