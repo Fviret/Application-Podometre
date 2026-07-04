@@ -6,7 +6,13 @@ Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru v
 
 ## Aperçu
 
-📷
+<p align="center">
+  <img width="603" height="1311" alt="IMG_5084" src="https://github.com/user-attachments/assets/896263e2-35bc-49e6-85ef-2016d04ad9d7" />
+  <img width="603" height="1311" alt="IMG_5085" src="https://github.com/user-attachments/assets/4dc30dae-8341-475a-a802-a5ea3205b414" />
+  <img width="603" height="1311" alt="IMG_5090" src="https://github.com/user-attachments/assets/d86a0c87-9d03-477a-a464-7f025ec8b281" />
+  <img width="603" height="1311" alt="IMG_5087" src="https://github.com/user-attachments/assets/00a04998-4738-4bda-88fd-f80ea15a0894" />
+  <img width="603" height="1311" alt="IMG_5086" src="https://github.com/user-attachments/assets/ec6045cc-5024-469e-bdd8-e92510530198" />
+</p>
 
 ---
 
