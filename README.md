@@ -34,16 +34,19 @@ Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru v
 ### Activité
 
 L'écran principal de l'app.
-
-📷
+<p align="center">
+  <img width="150" alt="IMG_5084" src="https://github.com/user-attachments/assets/bc75d9db-7cca-4ab7-9ccb-29eb87e35550" />
+</p>
 
 **Anneau de progression**
 Affiche les pas du jour sous forme d'un arc coloré, rempli proportionnellement à l'objectif quotidien. La couleur de l'anneau est personnalisable dans les Paramètres.
 
 **Navigation par jour**
 Les chevrons gauche/droit permettent de consulter n'importe quel jour passé. Le label central affiche "Aujourd'hui", "Hier", ou la date courte.
+<p align="center">
+<img width="500" alt="IMG_5091" src="https://github.com/user-attachments/assets/8b405308-47cd-40c8-a855-50dd0952b72c" />
+</p>
 
-📷
 
 **Bannière pluie**
 Affichée en haut de l'écran si la localisation est autorisée. Indique uniquement en cas de pluie imminente :
@@ -54,12 +57,16 @@ Affichée en haut de l'écran si la localisation est autorisée. Indique uniquem
 
 Se rafraîchit toutes les 30 minutes. Masquée silencieusement en cas d'erreur réseau.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5093" src="https://github.com/user-attachments/assets/b1599576-51da-4a77-899b-a653a4c08e9a" />
+</p>
 
 **Prévisions 7 jours**
 Scroll horizontal sous l'anneau affichant aujourd'hui et les 6 jours suivants : emoji météo WMO, températures min/max, précipitations si > 0,2 mm. Le jour actuel est mis en évidence. La ville est affichée en dessous via reverse geocoding.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5094" src="https://github.com/user-attachments/assets/2444aabb-127b-4565-a50a-c9b990993dca" />
+</p>
 
 **Calendrier mensuel**
 Grille des jours du mois en cours. Chaque jour est représenté par un cercle :
@@ -69,20 +76,26 @@ Grille des jours du mois en cours. Chaque jour est représenté par un cercle :
 
 Un tap sur un jour le sélectionne et met à jour l'anneau.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5095" src="https://github.com/user-attachments/assets/a92f2316-5c09-4d8f-8485-2e20e6be0369" />
+</p>
+
 
 **Graphe hebdomadaire**
 Courbe des 7 derniers jours (semaine en cours en couleur, semaine précédente en gris). Une ligne pointillée indique la moyenne de la semaine en cours.
 
-📷
-
+<p align="center">
+  <img width="500" alt="IMG_5097" src="https://github.com/user-attachments/assets/e4813b1c-1f99-43b4-b197-19686d1d1145" />
+</p>
 ---
 
 ### Trajets
 
 Catalogue de 19 trajets organisés en 4 catégories.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5086" src="https://github.com/user-attachments/assets/246ac810-011f-4dc9-add2-66d95ca52528" />
+</p>
 
 **Catégories disponibles**
 
@@ -101,21 +114,21 @@ Chaque carte de trajet a trois états :
 - **En cours** — barre de progression en km réels + "Voir mes étapes"
 - **Terminé** — checkmark coloré, carte légèrement grisée
 
-📷
-
 **Prévisualisation**
 Avant de démarrer, une sheet liste toutes les étapes du trajet avec leur description. Le bouton "Commencer le trajet" démarre la progression depuis aujourd'hui.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5087" src="https://github.com/user-attachments/assets/3e6582ae-628f-4c7c-8e78-6905603b9b54" />
+</p>
 
 **Détail du trajet**
 Vue complète avec barre de progression globale, prochaine étape à atteindre, et timeline de tous les jalons. Les jalons débloqués sont cliquables pour lire leur description.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5102" src="https://github.com/user-attachments/assets/a3f0206d-a33c-4ce6-82af-337bb8eeaddf" />
+</p>
 
 Quand le trajet est terminé, un bandeau "Vous avez achevé ce trajet !" remplace la prochaine étape.
-
-📷
 
 **Progression**
 La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date de démarrage du trajet. La mise à jour est automatique, en temps réel, via un observer HealthKit — sans avoir besoin d'ouvrir la vue.
@@ -124,7 +137,10 @@ La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date d
 
 ### Paramètres
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5090" src="https://github.com/user-attachments/assets/12a5ab07-084f-4724-9ef7-92ad91e8fa16" />
+
+</p>
 
 **Objectif quotidien**
 Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, streak, notifications).
@@ -140,8 +156,11 @@ Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et 
 | 🔴 | Corail |
 | 🟣 | Violet |
 | 🩵 | Glace |
+- *Mode sombre* — bascule toute l'app en thème sombre, indépendamment du réglage système.
 
-📷
+<p align="center">
+<img width="500" alt="IMG_5099" src="https://github.com/user-attachments/assets/d8fee14f-2ba9-434f-8564-9a9d0798f8a5" />
+</p>
 
 **Mon écran principal**
 Trois toggles pour afficher ou masquer des sections de l'écran Activité :
@@ -153,12 +172,10 @@ Trois toggles pour afficher ou masquer des sections de l'écran Activité :
 **Notifications**
 - *Objectif journalier* — notification locale dès que le compteur franchit l'objectif. Maximum une fois par jour.
 - *Progression des trajets* — notifications aux jalons kilométriques et à la completion d'un trajet. Toggle indépendant de l'objectif journalier.
-- *Mode sombre* — bascule toute l'app en thème sombre, indépendamment du réglage système.
+
 
 **Streak 🔥**
 Nombre de jours consécutifs où l'objectif a été atteint, affiché uniquement quand la série est active (≥ 1 jour). Calculé via HealthKit en remontant jour par jour depuis aujourd'hui.
-
-📷
 
 **Badges**
 
@@ -177,7 +194,9 @@ Deux types de badges :
 
 *Badges de trajets* — un emoji par trajet du catalogue. Grisé jusqu'à la completion du trajet, coloré avec glow une fois terminé.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5101" src="https://github.com/user-attachments/assets/bfe44fb2-0dee-4333-ac36-cf24dbec4f4a" />
+</p>
 
 ---
 
