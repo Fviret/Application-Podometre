@@ -24,6 +24,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Activité", systemImage: "figure.walk")
                 }
+                .accessibilityIdentifier("tab_activity")
 
             JourneyPickerView()
                 .environmentObject(journeyProgressService)
@@ -31,11 +32,13 @@ struct ContentView: View {
                 .tabItem {
                     Label("Trajets", systemImage: "map")
                 }
+                .accessibilityIdentifier("tab_journeys")
 
             SettingsView(viewModel: viewModel, aphorismManager: aphorismManager)
                 .tabItem {
                     Label("Paramètres", systemImage: "gearshape")
                 }
+                .accessibilityIdentifier("tab_settings")
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
         .overlay {

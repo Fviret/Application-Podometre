@@ -38,6 +38,9 @@ struct Podome_treApp: App {
         let env = ProcessInfo.processInfo.environment
         let defaults = UserDefaults.standard
 
+        if env["RESET_ONBOARDING"] == "1" {
+            defaults.set(false, forKey: onboardingCompletedKey)
+        }
         if env["SKIP_ONBOARDING"] == "1" {
             defaults.set(true, forKey: onboardingCompletedKey)
         }

@@ -11,6 +11,6 @@ xcuserdata/
 .swiftpm/
 .build/
 
-# CocoaPods
+# CocoaPods (non utilisé, mais par précaution)
 Pods/
 Podfile.lock

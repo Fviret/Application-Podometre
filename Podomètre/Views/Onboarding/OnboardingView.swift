@@ -290,6 +290,7 @@ struct OnboardingView: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Étape \(page + 1) sur 4")
+        .accessibilityIdentifier("onboarding_dots")
     }
 
     /// Bouton principal pleine largeur.
@@ -302,6 +303,7 @@ struct OnboardingView: View {
                 .padding(.vertical, 14)
                 .background(Capsule().fill(color))
         }
+        .accessibilityIdentifier("onboarding_primary_button")
     }
 
     /// Bouton secondaire discret.

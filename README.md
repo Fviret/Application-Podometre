@@ -1,12 +1,18 @@
 # Podomètre
 
-Pédomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru vous rapproche d'une destination réelle — le GR20, Compostelle, la Route de la Soie ou l'Odyssée d'Ulysse.
+Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru vous rapproche d'une destination réelle — le GR20, Compostelle, la Route de la Soie ou l'Odyssée d'Ulysse.
 
 ---
 
 ## Aperçu
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5084" src="https://github.com/user-attachments/assets/896263e2-35bc-49e6-85ef-2016d04ad9d7" />
+  <img width="150" alt="IMG_5085" src="https://github.com/user-attachments/assets/4dc30dae-8341-475a-a802-a5ea3205b414" />
+  <img width="150" alt="IMG_5090" src="https://github.com/user-attachments/assets/d86a0c87-9d03-477a-a464-7f025ec8b281" />
+  <img width="150" alt="IMG_5087" src="https://github.com/user-attachments/assets/00a04998-4738-4bda-88fd-f80ea15a0894" />
+  <img width="150" alt="IMG_5086" src="https://github.com/user-attachments/assets/ec6045cc-5024-469e-bdd8-e92510530198" />
+</p>
 
 ---
 
@@ -29,16 +35,19 @@ Pédomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru 
 ### Activité
 
 L'écran principal de l'app.
-
-📷
+<p align="center">
+  <img width="150" alt="IMG_5084" src="https://github.com/user-attachments/assets/bc75d9db-7cca-4ab7-9ccb-29eb87e35550" />
+</p>
 
 **Anneau de progression**
 Affiche les pas du jour sous forme d'un arc coloré, rempli proportionnellement à l'objectif quotidien. La couleur de l'anneau est personnalisable dans les Paramètres.
 
 **Navigation par jour**
 Les chevrons gauche/droit permettent de consulter n'importe quel jour passé. Le label central affiche "Aujourd'hui", "Hier", ou la date courte.
+<p align="center">
+<img width="500" alt="IMG_5091" src="https://github.com/user-attachments/assets/8b405308-47cd-40c8-a855-50dd0952b72c" />
+</p>
 
-📷
 
 **Bannière pluie**
 Affichée en haut de l'écran si la localisation est autorisée. Indique uniquement en cas de pluie imminente :
@@ -49,12 +58,16 @@ Affichée en haut de l'écran si la localisation est autorisée. Indique uniquem
 
 Se rafraîchit toutes les 30 minutes. Masquée silencieusement en cas d'erreur réseau.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5093" src="https://github.com/user-attachments/assets/b1599576-51da-4a77-899b-a653a4c08e9a" />
+</p>
 
 **Prévisions 7 jours**
 Scroll horizontal sous l'anneau affichant aujourd'hui et les 6 jours suivants : emoji météo WMO, températures min/max, précipitations si > 0,2 mm. Le jour actuel est mis en évidence. La ville est affichée en dessous via reverse geocoding.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5094" src="https://github.com/user-attachments/assets/2444aabb-127b-4565-a50a-c9b990993dca" />
+</p>
 
 **Calendrier mensuel**
 Grille des jours du mois en cours. Chaque jour est représenté par un cercle :
@@ -64,20 +77,26 @@ Grille des jours du mois en cours. Chaque jour est représenté par un cercle :
 
 Un tap sur un jour le sélectionne et met à jour l'anneau.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5095" src="https://github.com/user-attachments/assets/a92f2316-5c09-4d8f-8485-2e20e6be0369" />
+</p>
+
 
 **Graphe hebdomadaire**
 Courbe des 7 derniers jours (semaine en cours en couleur, semaine précédente en gris). Une ligne pointillée indique la moyenne de la semaine en cours.
 
-📷
-
+<p align="center">
+  <img width="500" alt="IMG_5097" src="https://github.com/user-attachments/assets/e4813b1c-1f99-43b4-b197-19686d1d1145" />
+</p>
 ---
 
 ### Trajets
 
 Catalogue de 19 trajets organisés en 4 catégories.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5086" src="https://github.com/user-attachments/assets/246ac810-011f-4dc9-add2-66d95ca52528" />
+</p>
 
 **Catégories disponibles**
 
@@ -96,21 +115,21 @@ Chaque carte de trajet a trois états :
 - **En cours** — barre de progression en km réels + "Voir mes étapes"
 - **Terminé** — checkmark coloré, carte légèrement grisée
 
-📷
-
 **Prévisualisation**
 Avant de démarrer, une sheet liste toutes les étapes du trajet avec leur description. Le bouton "Commencer le trajet" démarre la progression depuis aujourd'hui.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5087" src="https://github.com/user-attachments/assets/3e6582ae-628f-4c7c-8e78-6905603b9b54" />
+</p>
 
 **Détail du trajet**
 Vue complète avec barre de progression globale, prochaine étape à atteindre, et timeline de tous les jalons. Les jalons débloqués sont cliquables pour lire leur description.
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5102" src="https://github.com/user-attachments/assets/a3f0206d-a33c-4ce6-82af-337bb8eeaddf" />
+</p>
 
 Quand le trajet est terminé, un bandeau "Vous avez achevé ce trajet !" remplace la prochaine étape.
-
-📷
 
 **Progression**
 La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date de démarrage du trajet. La mise à jour est automatique, en temps réel, via un observer HealthKit — sans avoir besoin d'ouvrir la vue.
@@ -119,7 +138,10 @@ La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date d
 
 ### Paramètres
 
-📷
+<p align="center">
+  <img width="150" alt="IMG_5090" src="https://github.com/user-attachments/assets/12a5ab07-084f-4724-9ef7-92ad91e8fa16" />
+
+</p>
 
 **Objectif quotidien**
 Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, streak, notifications).
@@ -135,8 +157,11 @@ Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et 
 | 🔴 | Corail |
 | 🟣 | Violet |
 | 🩵 | Glace |
+- *Mode sombre* — bascule toute l'app en thème sombre, indépendamment du réglage système.
 
-📷
+<p align="center">
+<img width="500" alt="IMG_5099" src="https://github.com/user-attachments/assets/d8fee14f-2ba9-434f-8564-9a9d0798f8a5" />
+</p>
 
 **Mon écran principal**
 Trois toggles pour afficher ou masquer des sections de l'écran Activité :
@@ -148,12 +173,10 @@ Trois toggles pour afficher ou masquer des sections de l'écran Activité :
 **Notifications**
 - *Objectif journalier* — notification locale dès que le compteur franchit l'objectif. Maximum une fois par jour.
 - *Progression des trajets* — notifications aux jalons kilométriques et à la completion d'un trajet. Toggle indépendant de l'objectif journalier.
-- *Mode sombre* — bascule toute l'app en thème sombre, indépendamment du réglage système.
+
 
 **Streak 🔥**
 Nombre de jours consécutifs où l'objectif a été atteint, affiché uniquement quand la série est active (≥ 1 jour). Calculé via HealthKit en remontant jour par jour depuis aujourd'hui.
-
-📷
 
 **Badges**
 
@@ -172,7 +195,9 @@ Deux types de badges :
 
 *Badges de trajets* — un emoji par trajet du catalogue. Grisé jusqu'à la completion du trajet, coloré avec glow une fois terminé.
 
-📷
+<p align="center">
+  <img width="500" alt="IMG_5101" src="https://github.com/user-attachments/assets/bfe44fb2-0dee-4333-ac36-cf24dbec4f4a" />
+</p>
 
 ---
 
@@ -225,11 +250,15 @@ MVVM — `ObservableObject` / `@Published`. Deux services principaux :
 
 ## Tests
 
-La suite de tests couvre les modèles métier et la logique pure (sans dépendance HealthKit).
+Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI).
+
+---
+
+### Tests unitaires
 
 **Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
 
-**Couverture** : 47 tests en 9 suites
+**58 tests en 11 suites**
 
 | Suite | Ce qui est testé |
 |---|---|
@@ -256,12 +285,16 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
 
 | Suite | Ce qui est testé |
 |---|---|
+| `OnboardingUITests` | Onboarding : slides, navigation, complétion, non-dismissable |
+| `TabNavigationUITests` | Navigation entre les onglets Activité / Trajets / Paramètres |
+| `ActivityUITests` | Écran Activité : anneau, label de date, chevrons de navigation |
 | `AphorismPopupUITests` | Popup « pensée du jour » : apparition à l'ouverture, fermeture via « Make my day », absence si désactivée |
 | `AphorismSettingsUITests` | Section Paramètres : présence du toggle et de la carte de l'aphorisme du jour |
 
 **Lancer les tests en CLI :**
 
 ```bash
+# Lancer les tests unitaires en CLI
 /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test \
   -project "Podomètre.xcodeproj" \
   -scheme "Podomètre" \
@@ -269,9 +302,66 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
   -only-testing:PodomètreTests
 ```
 
-Ou via Xcode : `⌘U`
+---
 
-> Les tests ne couvrent pas les appels HealthKit (requiert un device physique) ni les vues SwiftUI. La logique HealthKit est validée manuellement sur device.
+### Tests UI
+
+**Framework** : XCTest / XCUITest
+
+**16 tests en 3 suites** — couvrent les flux utilisateur principaux sur simulateur.
+
+| Suite | Tests | Ce qui est vérifié |
+|---|---|---|
+| `OnboardingUITests` | 6 | Slides 1→4, boutons de navigation, protection anti-dismiss |
+| `TabNavigationUITests` | 5 | 3 onglets présents, navigation aller-retour |
+| `ActivityUITests` | 5 | Anneau visible, label de date, chevrons de navigation |
+
+**Isolation des tests** : deux variables d'environnement contrôlent l'état UserDefaults au lancement :
+- `RESET_ONBOARDING=1` — force l'onboarding (suites onboarding)
+- `SKIP_ONBOARDING=1` — bypasse l'onboarding (suites app principale)
+
+```bash
+# Lancer les tests UI en CLI
+/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test \
+  -project "Podomètre.xcodeproj" \
+  -scheme "Podomètre" \
+  -destination "platform=iOS Simulator,name=iPhone 16" \
+  -only-testing:PodomètreUITests
+```
+
+Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
+
+---
+
+> Les tests unitaires et UI ne couvrent pas les appels HealthKit (requiert un device physique). La logique HealthKit est validée manuellement sur device.
+
+---
+
+## Roadmap
+
+### Terminé
+- [x] Anneau de progression en temps réel (HealthKit)
+- [x] Navigation par jour, calendrier mensuel, graphe hebdomadaire
+- [x] Bannière météo + prévisions 7 jours (Open-Meteo)
+- [x] Système de trajets avec progression sur distance réelle
+- [x] Badges de pas et de trajets
+- [x] Streak de jours consécutifs
+- [x] Notifications locales (objectif + jalons + completion)
+- [x] Personnalisation (couleur anneau, objectif, mode sombre)
+- [x] Onboarding
+
+### Priorité haute — impact utilisateur immédiat
+- [ ] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets)
+- [ ] **Mode éco** — optimisation des appels HealthKit et météo en arrière-plan
+- [ ] **Slide récapitulative hebdomadaire** — bilan de la semaine affiché le lundi
+- [ ] **Widget iOS** — pas du jour + progression anneau sur l'écran d'accueil
+
+### Priorité moyenne — enrichissement
+- [ ] **Export CSV** — historique de pas et distances
+- [ ] **Gamification RPG** — débloquer des récompenses selon les pas
+
+### Vision long terme
+- [ ] **Développement 100 % IA agentique** — de la rédaction des user stories jusqu'au déploiement App Store, piloté par une IA agentique bout en bout : US → dev → tests → publication
 
 ---
 
