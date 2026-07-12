@@ -91,6 +91,8 @@ Le pattern retenu est le **callback** : `JourneyProgressService.onJourneyComplet
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
+| `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
+| `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -221,6 +223,8 @@ git push origin main
 - [x] Notifications locales (objectif + jalons + completion)
 - [x] Couleur de l'anneau personnalisable
 - [x] Mode sombre
+- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0)
+- [ ] Pensée du jour : animation d'apparition, bouton de partage, affichage dans une notification
 - [ ] Widget iOS écran d'accueil
 - [ ] Export CSV des données
 - [ ] Proposer une slide récapitulative de la semaine le lundi pour la premiere ouverture de la semaine.

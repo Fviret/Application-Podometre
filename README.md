@@ -20,6 +20,7 @@ Pédomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru 
 - Streak de jours consécutifs où l'objectif est atteint
 - Notifications locales : objectif journalier et jalons de trajet (toggles indépendants)
 - Personnalisation : couleur de l'anneau, objectif quotidien, mode sombre, sections de l'écran principal
+- Pensée du jour : popup matinale (1x/jour) et carte dans les Paramètres — recueil de 400 aphorismes (domaine public CC0)
 
 ---
 
@@ -259,6 +260,19 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
 Ou via Xcode : `⌘U`
 
 > Les tests ne couvrent pas les appels HealthKit (requiert un device physique) ni les vues SwiftUI. La logique HealthKit est validée manuellement sur device.
+
+---
+
+## Roadmap
+
+### Terminé récemment
+- Pensée du jour — popup matinale + carte dans les Paramètres (400 aphorismes CC0)
+
+### À venir
+- **Pensée du jour** — améliorations : animation d'apparition (bounce / fade-in), bouton de partage, affichage dans une notification
+- **Widget iOS** écran d'accueil (pas du jour + progression de l'anneau)
+- **Export CSV** de l'historique de pas et distances
+- **Slide récapitulative hebdomadaire** affichée le lundi à la première ouverture de la semaine
 
 ---
 
