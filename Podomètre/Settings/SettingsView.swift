@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
+    @ObservedObject var aphorismManager: AphorismManager
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
     @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
@@ -78,6 +79,8 @@ struct SettingsView: View {
                     Toggle("Graphe hebdomadaire", isOn: $showWeeklyChart)
                 }
 
+                AphorismSettingsView(manager: aphorismManager)
+
                 Section("Notifications") {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
                         .onChange(of: viewModel.notificationsEnabled) { _, enabled in
@@ -106,5 +109,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: StepCountViewModel())
+    SettingsView(viewModel: StepCountViewModel(), aphorismManager: .preview)
 }

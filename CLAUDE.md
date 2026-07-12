@@ -161,6 +161,8 @@ Pedometer/
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
+| `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
+| `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -351,14 +353,16 @@ git push origin main
 - [x] Notifications locales (objectif + jalons + completion)
 - [x] Couleur de l'anneau personnalisable
 - [x] Mode sombre
+- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0)
 
 ### Priorité haute — impact utilisateur immédiat
-- [ ] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets)
+- [x] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets, pensée du jour)
 - [ ] **Optimisation HealthKit & météo / mode éco** — réduire les appels en arrière-plan, toggle pour désactiver les requêtes non essentielles
 - [ ] **Slide récapitulative hebdomadaire** — affiché le lundi à la première ouverture de la semaine
 - [ ] **Widget iOS écran d'accueil** — pas du jour + progression anneau
 
 ### Priorité moyenne — enrichissement
+- [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage, affichage dans une notification
 - [ ] **Export CSV** — historique de pas et distances exportable
 - [ ] **Gamification RPG** — débloquer des actions selon les pas (concept en cours d'évaluation)
 

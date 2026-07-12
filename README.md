@@ -26,6 +26,7 @@ Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru v
 - Streak de jours consécutifs où l'objectif est atteint
 - Notifications locales : objectif journalier et jalons de trajet (toggles indépendants)
 - Personnalisation : couleur de l'anneau, objectif quotidien, mode sombre, sections de l'écran principal
+- Pensée du jour : popup matinale (1x/jour) et carte dans les Paramètres — recueil de 400 aphorismes (domaine public CC0)
 
 ---
 
@@ -272,6 +273,25 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 | `allJourneys catalog` | Intégrité du catalogue de trajets (IDs uniques, totalKm > 0, jalons cohérents) |
 | `Onboarding — objectifs` | Catalogue `onboardingGoals` (count, ordre croissant, valeur par défaut, labels non vides) |
 | `Onboarding — UserDefaults` | Clé `hasCompletedOnboarding` (valeur par défaut, persistance, réinitialisation) |
+| `Aphorism decoding` | Décodage JSON du recueil (champs requis, tolérance aux anciens champs tone/year/source) |
+| `AphorismManager.aphorism(forDayOfYear:)` | Sélection déterministe par quantième (premier/dernier jour, wrap, stabilité, recueil vide) |
+| `AphorismManager.shouldShowPopup` | Garde 1x/jour (activé par défaut, désactivé, affiché aujourd'hui/hier, recueil vide, mémorisation) |
+
+**Couverture actuelle** : 72 tests unitaires (Swift Testing) + 7 tests UI (XCUITest)
+
+### Tests UI
+
+**Framework** : XCUITest — pilotés par variables d'environnement de lancement (`SKIP_ONBOARDING`, `RESET_APHORISM`, `DISABLE_APHORISM`).
+
+| Suite | Ce qui est testé |
+|---|---|
+| `OnboardingUITests` | Onboarding : slides, navigation, complétion, non-dismissable |
+| `TabNavigationUITests` | Navigation entre les onglets Activité / Trajets / Paramètres |
+| `ActivityUITests` | Écran Activité : anneau, label de date, chevrons de navigation |
+| `AphorismPopupUITests` | Popup « pensée du jour » : apparition à l'ouverture, fermeture via « Make my day », absence si désactivée |
+| `AphorismSettingsUITests` | Section Paramètres : présence du toggle et de la carte de l'aphorisme du jour |
+
+**Lancer les tests en CLI :**
 
 ```bash
 # Lancer les tests unitaires en CLI
@@ -342,6 +362,19 @@ Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
 
 ### Vision long terme
 - [ ] **Développement 100 % IA agentique** — de la rédaction des user stories jusqu'au déploiement App Store, piloté par une IA agentique bout en bout : US → dev → tests → publication
+
+---
+
+## Roadmap
+
+### Terminé récemment
+- Pensée du jour — popup matinale + carte dans les Paramètres (400 aphorismes CC0)
+
+### À venir
+- **Pensée du jour** — améliorations : animation d'apparition (bounce / fade-in), bouton de partage, affichage dans une notification
+- **Widget iOS** écran d'accueil (pas du jour + progression de l'anneau)
+- **Export CSV** de l'historique de pas et distances
+- **Slide récapitulative hebdomadaire** affichée le lundi à la première ouverture de la semaine
 
 ---
 

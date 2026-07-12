@@ -33,13 +33,25 @@ struct Podome_treApp: App {
     }
 
     /// Applique les overrides UserDefaults demandés par les UI tests via les variables d'environnement.
+    /// Sans effet en usage normal (aucune variable définie).
     private func applyUITestingOverrides() {
         let env = ProcessInfo.processInfo.environment
+        let defaults = UserDefaults.standard
+
         if env["RESET_ONBOARDING"] == "1" {
-            UserDefaults.standard.set(false, forKey: onboardingCompletedKey)
+            defaults.set(false, forKey: onboardingCompletedKey)
         }
         if env["SKIP_ONBOARDING"] == "1" {
-            UserDefaults.standard.set(true, forKey: onboardingCompletedKey)
+            defaults.set(true, forKey: onboardingCompletedKey)
+        }
+        // Réinitialise l'état « pensée du jour » pour forcer l'affichage de la popup.
+        if env["RESET_APHORISM"] == "1" {
+            defaults.removeObject(forKey: aphorismLastDisplayKey)
+            defaults.set(true, forKey: aphorismEnabledKey)
+        }
+        // Désactive la pensée du jour (popup ne doit jamais s'afficher).
+        if env["DISABLE_APHORISM"] == "1" {
+            defaults.set(false, forKey: aphorismEnabledKey)
         }
     }
 }
