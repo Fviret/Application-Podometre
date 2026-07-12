@@ -1,41 +1,116 @@
 //
 //  Podome_treUITests.swift
-//  PodomètreUITests
-//
-//  Created by Flo Viret on 15/06/2026.
+//  PodomètreUITests
 //
 
 import XCTest
 
-final class Podome_treUITests: XCTestCase {
+// MARK: - Helpers
+
+extension XCUIApplication {
+    /// Lance l'app en sautant l'onboarding, avec un état « pensée du jour » contrôlé.
+    /// - Parameters:
+    ///   - resetAphorism: force l'affichage de la popup (état réinitialisé).
+    ///   - disableAphorism: désactive complètement la pensée du jour.
+    func launchMainApp(resetAphorism: Bool = false, disableAphorism: Bool = false) {
+        launchArguments = ["UI_TESTING"]
+        launchEnvironment["SKIP_ONBOARDING"] = "1"
+        if resetAphorism { launchEnvironment["RESET_APHORISM"] = "1" }
+        if disableAphorism { launchEnvironment["DISABLE_APHORISM"] = "1" }
+        launch()
+    }
+}
+
+// MARK: - Pensée du jour : popup
+
+final class AphorismPopupUITests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
+    /// La popup « pensée du jour » s'affiche à la première ouverture du jour.
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testPopupAppearsOnFirstLaunch() throws {
         let app = XCUIApplication()
-        app.launch()
+        app.launchMainApp(resetAphorism: true)
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let button = app.buttons["aphorism_make_my_day"]
+        XCTAssertTrue(button.waitForExistence(timeout: 5))
     }
 
+    /// « Make my day » referme la popup.
     @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+    func testMakeMyDayDismissesPopup() throws {
+        let app = XCUIApplication()
+        app.launchMainApp(resetAphorism: true)
+
+        let button = app.buttons["aphorism_make_my_day"]
+        XCTAssertTrue(button.waitForExistence(timeout: 5))
+        button.tap()
+
+        XCTAssertFalse(button.waitForExistence(timeout: 2))
+    }
+
+    /// Quand la pensée du jour est désactivée, la popup ne s'affiche jamais.
+    @MainActor
+    func testPopupHiddenWhenDisabled() throws {
+        let app = XCUIApplication()
+        app.launchMainApp(disableAphorism: true)
+
+        // Attendre que l'app soit chargée (onglets présents) avant de vérifier l'absence.
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["aphorism_make_my_day"].exists)
+    }
+}
+
+// MARK: - Pensée du jour : Paramètres
+
+final class AphorismSettingsUITests: XCTestCase {
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+    }
+
+    /// La section Paramètres affiche le toggle de la pensée du jour.
+    @MainActor
+    func testSettingsShowsToggle() throws {
+        let app = XCUIApplication()
+        // Désactivé pour éviter que la popup ne masque l'écran au démarrage.
+        app.launchMainApp(disableAphorism: true)
+
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5))
+        app.tabBars.firstMatch.buttons["Paramètres"].tap()
+
+        let toggle = app.switches["aphorism_toggle"]
+        var attempts = 0
+        while !toggle.exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
         }
+        XCTAssertTrue(toggle.waitForExistence(timeout: 3))
+    }
+
+    /// La carte de l'aphorisme du jour est présente dans les Paramètres (pensée du jour active).
+    @MainActor
+    func testSettingsShowsCard() throws {
+        let app = XCUIApplication()
+        app.launchMainApp()
+
+        // Fermer la popup éventuelle du jour.
+        let popupButton = app.buttons["aphorism_make_my_day"]
+        if popupButton.waitForExistence(timeout: 3) { popupButton.tap() }
+
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5))
+        app.tabBars.firstMatch.buttons["Paramètres"].tap()
+
+        // La carte dans les Paramètres autorise la copie → trait bouton (type .button).
+        let card = app.buttons["aphorism_card"]
+        var attempts = 0
+        while !card.exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(card.exists)
     }
 }

@@ -470,3 +470,137 @@ struct OnboardingUserDefaultsTests {
         #expect(suite.bool(forKey: onboardingCompletedKey) == false)
     }
 }
+
+// MARK: - Aphorism : décodage
+
+@Suite("Aphorism decoding")
+struct AphorismDecodingTests {
+
+    @Test func decodesRequiredFields() throws {
+        let json = """
+        {
+          "metadata": { "total_count": 1, "language": "fr", "license": "CC0" },
+          "aphorisms": [
+            { "id": 7, "text": "Le doute est inconfortable.", "author": "Voltaire", "category": "philosophie" }
+          ]
+        }
+        """.data(using: .utf8)!
+        let decoded = try JSONDecoder().decode(AphorismData.self, from: json)
+        #expect(decoded.aphorisms.count == 1)
+        #expect(decoded.aphorisms[0].id == 7)
+        #expect(decoded.aphorisms[0].author == "Voltaire")
+    }
+
+    @Test func ignoresExtraLegacyFields() throws {
+        // Les anciennes versions du recueil contenaient tone/year/source : ils doivent être ignorés.
+        let json = """
+        { "metadata": { "total_count": 1, "language": "fr", "license": "CC0" },
+          "aphorisms": [
+            { "id": 1, "text": "T", "author": "A", "category": "vie",
+              "tone": "drôle", "year": 1890, "source": "Aphorisme" }
+          ] }
+        """.data(using: .utf8)!
+        let decoded = try JSONDecoder().decode(AphorismData.self, from: json)
+        #expect(decoded.aphorisms.first?.text == "T")
+    }
+}
+
+// MARK: - Aphorism : sélection déterministe
+
+@Suite("AphorismManager.aphorism(forDayOfYear:)")
+struct AphorismSelectionTests {
+
+    private func makeAphorisms(_ n: Int) -> [Aphorism] {
+        (0..<n).map { Aphorism(id: $0, text: "T\($0)", author: "A", category: "c") }
+    }
+
+    @Test func emptyRecueilReturnsNil() {
+        let manager = AphorismManager(aphorisms: [], defaults: freshDefaults())
+        #expect(manager.aphorism(forDayOfYear: 1) == nil)
+        #expect(manager.todayAphorism == nil)
+    }
+
+    @Test func firstDayReturnsFirst() {
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        #expect(manager.aphorism(forDayOfYear: 1)?.id == 0)
+    }
+
+    @Test func lastIndexMapsToLast() {
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        #expect(manager.aphorism(forDayOfYear: 400)?.id == 399)
+    }
+
+    @Test func wrapsAroundAfterCount() {
+        // Année de 400+ jours impossible, mais le modulo doit rester sûr (366 > count possible).
+        let manager = AphorismManager(aphorisms: makeAphorisms(365), defaults: freshDefaults())
+        #expect(manager.aphorism(forDayOfYear: 366)?.id == 0)
+    }
+
+    @Test func isStableForSameDay() {
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        #expect(manager.aphorism(forDayOfYear: 123)?.id == manager.aphorism(forDayOfYear: 123)?.id)
+    }
+}
+
+// MARK: - Aphorism : logique d'affichage popup
+
+@Suite("AphorismManager.shouldShowPopup")
+struct AphorismPopupLogicTests {
+
+    private func makeManager(defaults: UserDefaults) -> AphorismManager {
+        AphorismManager(aphorisms: [Aphorism(id: 1, text: "T", author: "A", category: "c")],
+                        defaults: defaults)
+    }
+
+    @Test func enabledByDefaultWhenUnset() {
+        let manager = makeManager(defaults: freshDefaults())
+        #expect(manager.isEnabled == true)
+    }
+
+    @Test func showsWhenNeverDisplayed() {
+        let manager = makeManager(defaults: freshDefaults())
+        #expect(manager.shouldShowPopup() == true)
+    }
+
+    @Test func hiddenWhenDisabled() {
+        let defaults = freshDefaults()
+        defaults.set(false, forKey: aphorismEnabledKey)
+        let manager = makeManager(defaults: defaults)
+        #expect(manager.shouldShowPopup() == false)
+    }
+
+    @Test func hiddenWhenDisplayedToday() {
+        let defaults = freshDefaults()
+        defaults.set(Date(), forKey: aphorismLastDisplayKey)
+        let manager = makeManager(defaults: defaults)
+        #expect(manager.shouldShowPopup() == false)
+    }
+
+    @Test func showsWhenDisplayedYesterday() {
+        let defaults = freshDefaults()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        defaults.set(yesterday, forKey: aphorismLastDisplayKey)
+        let manager = makeManager(defaults: defaults)
+        #expect(manager.shouldShowPopup() == true)
+    }
+
+    @Test func emptyRecueilNeverShows() {
+        let manager = AphorismManager(aphorisms: [], defaults: freshDefaults())
+        #expect(manager.shouldShowPopup() == false)
+    }
+
+    @Test func markDisplayedPreventsSecondShow() {
+        let manager = makeManager(defaults: freshDefaults())
+        #expect(manager.shouldShowPopup() == true)
+        manager.markAphorismDisplayed()
+        #expect(manager.shouldShowPopup() == false)
+    }
+}
+
+/// Store UserDefaults isolé et vide pour chaque test.
+private func freshDefaults() -> UserDefaults {
+    let name = "test-aphorism-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: name)!
+    defaults.removePersistentDomain(forName: name)
+    return defaults
+}

@@ -35,6 +35,20 @@
                ReferencedContainer = "container:Podome&#x300;tre.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EDE499312FDFF8B0000A1263"
+               BuildableName = "Podome&#x300;treUITests.xctest"
+               BlueprintName = "Podome&#x300;treUITests"
+               ReferencedContainer = "container:Podome&#x300;tre.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -52,6 +66,17 @@
                BlueprintIdentifier = "EDE499272FDFF8B0000A1263"
                BuildableName = "Podome&#x300;treTests.xctest"
                BlueprintName = "Podome&#x300;treTests"
+               ReferencedContainer = "container:Podome&#x300;tre.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EDE499312FDFF8B0000A1263"
+               BuildableName = "Podome&#x300;treUITests.xctest"
+               BlueprintName = "Podome&#x300;treUITests"
                ReferencedContainer = "container:Podome&#x300;tre.xcodeproj">
             </BuildableReference>
          </TestableReference>

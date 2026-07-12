@@ -13,17 +13,23 @@ let aphorismLastDisplayKey = "lastAphorismDisplayDate"
 final class AphorismManager: ObservableObject {
 
     /// Recueil complet chargé depuis le bundle. Vide si le fichier est absent/illisible.
-    @Published private(set) var aphorisms: [Aphorism] = []
+    @Published private(set) var aphorisms: [Aphorism]
 
+    private let defaults: UserDefaults
     private let calendar = Calendar.current
 
-    init() {
-        aphorisms = Self.loadAphorisms()
+    /// - Parameters:
+    ///   - aphorisms: recueil injecté (tests) ; si `nil`, chargé depuis `bundle`.
+    ///   - defaults: store de persistance (injectable pour les tests).
+    ///   - bundle: bundle où lire le JSON (défaut : `.main`).
+    init(aphorisms: [Aphorism]? = nil, defaults: UserDefaults = .standard, bundle: Bundle = .main) {
+        self.defaults = defaults
+        self.aphorisms = aphorisms ?? Self.loadAphorisms(from: bundle)
     }
 
     /// Décode `aphorisms_humor_400.json` depuis le bundle. Retourne `[]` en cas d'échec (pas de crash).
-    private static func loadAphorisms() -> [Aphorism] {
-        guard let url = Bundle.main.url(forResource: "aphorisms_humor_400", withExtension: "json"),
+    static func loadAphorisms(from bundle: Bundle = .main) -> [Aphorism] {
+        guard let url = bundle.url(forResource: "aphorisms_humor_400", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode(AphorismData.self, from: data) else {
             return []
@@ -31,26 +37,32 @@ final class AphorismManager: ObservableObject {
         return decoded.aphorisms
     }
 
+    /// Aphorisme correspondant à un quantième d'année donné (1...366), sélection déterministe.
+    /// `nil` seulement si le recueil est vide. Exposé pour la testabilité.
+    func aphorism(forDayOfYear day: Int) -> Aphorism? {
+        guard !aphorisms.isEmpty else { return nil }
+        let index = ((day - 1) % aphorisms.count + aphorisms.count) % aphorisms.count
+        return aphorisms[index]
+    }
+
     /// Aphorisme du jour, sélectionné de façon déterministe via le quantième de l'année.
     /// Stable sur une journée entière ; `nil` seulement si le recueil est vide.
     var todayAphorism: Aphorism? {
-        guard !aphorisms.isEmpty else { return nil }
         let dayOfYear = calendar.ordinality(of: .day, in: .year, for: Date()) ?? 1
-        let index = (dayOfYear - 1) % aphorisms.count
-        return aphorisms[index]
+        return aphorism(forDayOfYear: dayOfYear)
     }
 
     /// Indique si l'utilisateur a activé la pensée du jour (défaut : activé).
     var isEnabled: Bool {
-        if UserDefaults.standard.object(forKey: aphorismEnabledKey) == nil { return true }
-        return UserDefaults.standard.bool(forKey: aphorismEnabledKey)
+        if defaults.object(forKey: aphorismEnabledKey) == nil { return true }
+        return defaults.bool(forKey: aphorismEnabledKey)
     }
 
     /// Vrai si la popup doit s'afficher : fonctionnalité activée, recueil chargé,
     /// et aucune popup déjà affichée aujourd'hui.
     func shouldShowPopup() -> Bool {
         guard isEnabled, todayAphorism != nil else { return false }
-        guard let last = UserDefaults.standard.object(forKey: aphorismLastDisplayKey) as? Date else {
+        guard let last = defaults.object(forKey: aphorismLastDisplayKey) as? Date else {
             return true
         }
         return !calendar.isDateInToday(last)
@@ -58,7 +70,7 @@ final class AphorismManager: ObservableObject {
 
     /// Mémorise que la popup a été affichée aujourd'hui (garde max 1x/jour).
     func markAphorismDisplayed() {
-        UserDefaults.standard.set(Date(), forKey: aphorismLastDisplayKey)
+        defaults.set(Date(), forKey: aphorismLastDisplayKey)
     }
 }
 

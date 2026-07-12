@@ -36,11 +36,15 @@ struct AphorismPopupView: View {
                         .background(Capsule().fill(accentColor))
                 }
                 .accessibilityIdentifier("aphorism_make_my_day")
+                .accessibilityLabel("Fermer la pensée du jour")
             }
             .padding(24)
             .background(Color(.systemBackground), in: RoundedRectangle(cornerRadius: 24))
             .padding(.horizontal, 28)
             .shadow(color: .black.opacity(0.15), radius: 20, y: 8)
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("aphorism_popup")
+            .accessibilityAddTraits(.isModal)
         }
         .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.95)))
     }

@@ -20,6 +20,7 @@ struct Podome_treApp: App {
 
     init() {
         UNUserNotificationCenter.current().delegate = notificationDelegate
+        applyUITestingOverrides()
     }
 
     var body: some Scene {
@@ -28,6 +29,26 @@ struct Podome_treApp: App {
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
                     OnboardingView(viewModel: viewModel)
                 }
+        }
+    }
+
+    /// Applique les overrides UserDefaults demandés par les UI tests via les variables d'environnement.
+    /// Sans effet en usage normal (aucune variable définie).
+    private func applyUITestingOverrides() {
+        let env = ProcessInfo.processInfo.environment
+        let defaults = UserDefaults.standard
+
+        if env["SKIP_ONBOARDING"] == "1" {
+            defaults.set(true, forKey: onboardingCompletedKey)
+        }
+        // Réinitialise l'état « pensée du jour » pour forcer l'affichage de la popup.
+        if env["RESET_APHORISM"] == "1" {
+            defaults.removeObject(forKey: aphorismLastDisplayKey)
+            defaults.set(true, forKey: aphorismEnabledKey)
+        }
+        // Désactive la pensée du jour (popup ne doit jamais s'afficher).
+        if env["DISABLE_APHORISM"] == "1" {
+            defaults.set(false, forKey: aphorismEnabledKey)
         }
     }
 }

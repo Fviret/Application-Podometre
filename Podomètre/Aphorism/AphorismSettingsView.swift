@@ -17,6 +17,8 @@ struct AphorismSettingsView: View {
                         .foregroundStyle(Color.secondary)
                 }
             }
+            .accessibilityIdentifier("aphorism_toggle")
+            .accessibilityLabel("Afficher la pensée du jour")
 
             if let aphorism = manager.todayAphorism {
                 AphorismCardView(aphorism: aphorism)
