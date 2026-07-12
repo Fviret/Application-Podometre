@@ -13,13 +13,14 @@ struct AphorismMetadata: Codable {
     let license: String
 }
 
-/// Un aphorisme unitaire. `year` est optionnel (souvent `null` dans la source).
+/// Un aphorisme unitaire. Seuls `id`, `text`, `author` et `category` sont garantis ;
+/// `tone`, `year` et `source` sont optionnels (absents dans certaines versions du recueil).
 struct Aphorism: Codable, Identifiable {
     let id: Int
     let text: String
     let author: String
     let category: String
-    let tone: String
+    let tone: String?
     let year: Int?
-    let source: String
+    let source: String?
 }
