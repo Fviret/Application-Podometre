@@ -14,6 +14,7 @@ jobs:
       - name: Build
         run: |
           xcodebuild build \
-            -scheme Pedometre \
+            -project "Podomètre.xcodeproj" \
+            -scheme "Podomètre" \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             CODE_SIGNING_ALLOWED=NO
