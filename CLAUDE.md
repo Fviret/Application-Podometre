@@ -1,6 +1,6 @@
 # Pedometer App — CLAUDE.md
 
-<!-- last updated: 2025-06-30 — À mettre à jour à chaque fin de session -->
+<!-- last updated: 2026-07-12 — À mettre à jour à chaque fin de session -->
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Champ | Valeur |
 |---|---|
-| Branche active | `dev` |
-| Dernière feature travaillée | — |
-| Fichiers modifiés récemment | — |
+| Branche active | `dev` (PR #18 pensée du jour et #19 dev→main mergées) |
+| Dernière feature travaillée | Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0) |
+| Fichiers modifiés récemment | `Podomètre/Aphorism/*`, `ContentView.swift`, `Settings/SettingsView.swift`, `Podome_treApp.swift`, tests unitaires + UI, `.github/workflows/ios.yml` |
 | Bugs ouverts connus | — |
-| Prochaine tâche prévue | — |
+| Prochaine tâche prévue | Améliorations pensée du jour (animation d'apparition, bouton de partage, notification) ou Widget iOS écran d'accueil |
 
 ---
 
