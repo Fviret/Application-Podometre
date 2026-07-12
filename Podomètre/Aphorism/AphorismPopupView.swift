@@ -52,10 +52,7 @@ struct AphorismPopupView: View {
             id: 1,
             text: "Le seul moyen de se débarrasser d'une tentation, c'est d'y céder.",
             author: "Oscar Wilde",
-            category: "ironie",
-            tone: "drôle",
-            year: 1890,
-            source: "Le Portrait de Dorian Gray"
+            category: "ironie"
         ),
         onDismiss: {}
     )

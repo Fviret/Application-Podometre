@@ -72,10 +72,7 @@ struct AphorismCardView: View {
             id: 1,
             text: "La vie est trop courte pour boire du mauvais vin.",
             author: "Johann Wolfgang von Goethe",
-            category: "vie",
-            tone: "hédoniste",
-            year: nil,
-            source: "Aphorisme"
+            category: "vie"
         )
     )
     .padding()
