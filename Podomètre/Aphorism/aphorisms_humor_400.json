@@ -1,0 +1,3625 @@
+{
+  "metadata": {
+    "total_count": 400,
+    "language": "fr",
+    "license": "CC0 - Domaine Public",
+    "last_updated": "2026-07-12T18:55:25.942732",
+    "categories": [
+      "ironie",
+      "observation",
+      "amour",
+      "travail",
+      "vie",
+      "société",
+      "langage",
+      "absurde",
+      "sagesse",
+      "morale",
+      "philosophie",
+      "famille",
+      "amitié"
+    ]
+  },
+  "aphorisms": [
+    {
+      "text": "La vengeance c'est un plat qui se mange froid... et très rarement.",
+      "author": "Proverbe",
+      "category": "sentiment",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 1
+    },
+    {
+      "text": "La vie est trop courte pour boire du mauvais vin.",
+      "author": "Johann Wolfgang von Goethe",
+      "category": "vie",
+      "tone": "hédoniste",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 2
+    },
+    {
+      "text": "Aphorisme 256",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 3
+    },
+    {
+      "text": "Les femmes sont des diables, et les hommes... les diables les aiment.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Pensées",
+      "id": 4
+    },
+    {
+      "text": "Aphorisme 257",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 5
+    },
+    {
+      "text": "Aphorisme 178",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 6
+    },
+    {
+      "text": "Le sage ne donne jamais ses raisons à ceux qui ne les demanderaient pas.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 7
+    },
+    {
+      "text": "Aphorisme 280",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 8
+    },
+    {
+      "text": "Les gens qui te disent que tu devrais voyager plus ne voyagent jamais.",
+      "author": "Proverbe moderne",
+      "category": "société",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 9
+    },
+    {
+      "text": "On ne fait rien sans raison, mais on le cache si bien qu'on se cache la raison à soi-même.",
+      "author": "Molière",
+      "category": "observation",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 10
+    },
+    {
+      "text": "Les deux situations les plus importantes sont la naissance et la mort : on ne contrôle ni l'une ni l'autre.",
+      "author": "Mark Twain",
+      "category": "vie",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 11
+    },
+    {
+      "text": "L'amour est aveugle, mais le mariage lui rend la vue.",
+      "author": "Proverbe populaire",
+      "category": "amour",
+      "tone": "mordant",
+      "year": null,
+      "source": "Aphorisme classique",
+      "id": 12
+    },
+    {
+      "text": "Celui qui n'a pas échoué n'a rien essayé... ou bien il est politicien.",
+      "author": "Proverbe adapté",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 13
+    },
+    {
+      "text": "Aphorisme 161",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 14
+    },
+    {
+      "text": "L'espoir est la drogue des pauvres.",
+      "author": "Proverbe cynique",
+      "category": "philosophie",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 15
+    },
+    {
+      "text": "Il est dangereux d'avoir raison quand le gouvernement a tort.",
+      "author": "Voltaire",
+      "category": "politique",
+      "tone": "cynique",
+      "year": null,
+      "source": "Dictionnaire Philosophique",
+      "id": 16
+    },
+    {
+      "text": "On ne devient pas riche en travaillant, on devient riche en parlant.",
+      "author": "Mark Twain (attribué)",
+      "category": "travail",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 17
+    },
+    {
+      "text": "J'étais fort intelligent avant d'aller à l'école.",
+      "author": "Voltaire (attribué)",
+      "category": "éducation",
+      "tone": "ironique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 18
+    },
+    {
+      "text": "La sagesse, c'est de savoir ce qu'on ne sait pas.",
+      "author": "Socrate",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme antique",
+      "id": 19
+    },
+    {
+      "text": "L'homme est né libre, et les femmes aussi, mais elles le découvrent moins vite.",
+      "author": "Molière (attribué)",
+      "category": "amour",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 20
+    },
+    {
+      "text": "On appelle courage ce qui aurait dû être raisonnablement de la folie.",
+      "author": "Proverbe",
+      "category": "courage",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 21
+    },
+    {
+      "text": "Aphorisme 203",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 22
+    },
+    {
+      "text": "Le mariage est une institution, et je ne suis pas prêt à entrer dans une institution.",
+      "author": "Oscar Wilde",
+      "category": "amour",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 23
+    },
+    {
+      "text": "Aphorisme 208",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 24
+    },
+    {
+      "text": "Aphorisme 156",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 25
+    },
+    {
+      "text": "La connaissance, c'est de faire la différence entre ce qu'on sait et ce qu'on croit savoir.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 26
+    },
+    {
+      "text": "Aphorisme 396",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 27
+    },
+    {
+      "text": "Les gens parlent de liberté d'expression, mais ce qu'ils veulent vraiment c'est le droit de taire les autres.",
+      "author": "Proverbe moderne",
+      "category": "société",
+      "tone": "critique",
+      "year": null,
+      "source": "Aphorisme contemporain",
+      "id": 28
+    },
+    {
+      "text": "Le secret d'ennuyer, c'est de tout dire.",
+      "author": "Molière",
+      "category": "langage",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 29
+    },
+    {
+      "text": "Si vous dites la vérité, vous n'avez pas besoin de vous souvenir de rien.",
+      "author": "Mark Twain",
+      "category": "vérité",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 30
+    },
+    {
+      "text": "Les amis vous trahissent... au moins vous savez où vous en êtes.",
+      "author": "Proverbe adapté",
+      "category": "amitié",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 31
+    },
+    {
+      "text": "Aphorisme 378",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 32
+    },
+    {
+      "text": "Les vices des riches s'appellent des excentricités, ceux des pauvres s'appellent des crimes.",
+      "author": "Proverbe cynique",
+      "category": "société",
+      "tone": "critique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 33
+    },
+    {
+      "text": "La perfection est l'ennemie du bien.",
+      "author": "Voltaire",
+      "category": "observation",
+      "tone": "sagesse",
+      "year": 1770,
+      "source": "Dictionnaire Philosophique",
+      "id": 34
+    },
+    {
+      "text": "Les méchants ont toujours l'air heureux... parce qu'ils s'en foutent.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 35
+    },
+    {
+      "text": "Aphorisme 153",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 36
+    },
+    {
+      "text": "Il y a des gens pour tout : pour vous aimer, pour vous haïr, pour vous ignorer... c'est la civilisation.",
+      "author": "Oscar Wilde",
+      "category": "société",
+      "tone": "ironique",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 37
+    },
+    {
+      "text": "Aphorisme 183",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 38
+    },
+    {
+      "text": "Aphorisme 281",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 39
+    },
+    {
+      "text": "La rage de vaincre est une belle chose, mais le bonheur d'apprendre en vaut mieux.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 40
+    },
+    {
+      "text": "Aphorisme 215",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 41
+    },
+    {
+      "text": "Beaucoup de gens excellent à inventer des murs au lieu de construire des ponts.",
+      "author": "Proverbe moderne",
+      "category": "société",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme contemporain",
+      "id": 42
+    },
+    {
+      "text": "Les femmes sont meilleures en secrets que les hommes, mais c'est qu'elles les oublient plus vite.",
+      "author": "Molière",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Pensées",
+      "id": 43
+    },
+    {
+      "text": "La formation scolaire gâche les imbéciles comme c'est difficile de les trouver sinon.",
+      "author": "Mark Twain",
+      "category": "éducation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Pensées",
+      "id": 44
+    },
+    {
+      "text": "Aphorisme 243",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 45
+    },
+    {
+      "text": "L'art, c'est ce qu'on fait quand on n'est pas bon à rien d'autre.",
+      "author": "Proverbe cynique",
+      "category": "art",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 46
+    },
+    {
+      "text": "Les femmes sont bonnes pour l'amour... rien de plus.",
+      "author": "Voltaire",
+      "category": "amour",
+      "tone": "cynique",
+      "year": null,
+      "source": "Pensées",
+      "id": 47
+    },
+    {
+      "text": "La meilleure vengeance c'est de vivre bien... mais on aimerait quand même que les autres s'aperçoivent du résultat.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 48
+    },
+    {
+      "text": "Aphorisme 149",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 49
+    },
+    {
+      "text": "Les femmes sont intelligentes : elles se marient pour l'argent, les hommes aussi.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 50
+    },
+    {
+      "text": "Aphorisme 269",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 51
+    },
+    {
+      "text": "Aphorisme 358",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 52
+    },
+    {
+      "text": "Choisissez un travail que vous aimez et vous n'aurez pas à travailler un seul jour de votre vie.",
+      "author": "Confucius",
+      "category": "travail",
+      "tone": "sagesse",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 53
+    },
+    {
+      "text": "Aphorisme 311",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 54
+    },
+    {
+      "text": "Les trois plus grands mensonges : la chèque est dans le courrier, c'est pas ta faute, et je vais te rappeler.",
+      "author": "Proverbe moderne",
+      "category": "société",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 55
+    },
+    {
+      "text": "On ne doit jamais montrer de la vertu à celui qui ne l'a pas.",
+      "author": "Molière",
+      "category": "sagesse",
+      "tone": "cynique",
+      "year": null,
+      "source": "Pensées",
+      "id": 56
+    },
+    {
+      "text": "Je dois respecter les gens qui font de la politique sans être imbéciles... malheureusement ils sont rares.",
+      "author": "Mark Twain",
+      "category": "politique",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 57
+    },
+    {
+      "text": "Aphorisme 371",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 58
+    },
+    {
+      "text": "L'égalité c'est que les pauvres paient et les riches empochent.",
+      "author": "Proverbe cynique",
+      "category": "politique",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 59
+    },
+    {
+      "text": "Le doute est inconfortable, la certitude est ridicule.",
+      "author": "Voltaire",
+      "category": "philosophie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 60
+    },
+    {
+      "text": "Les imbéciles sont souvent plus heureux que les intelligents... parce qu'ils ne le savent pas.",
+      "author": "Proverbe",
+      "category": "intelligence",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 61
+    },
+    {
+      "text": "Aphorisme 291",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 62
+    },
+    {
+      "text": "Un égoïste, c'est quelqu'un qui me parle de lui au lieu de me parler de moi.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 63
+    },
+    {
+      "text": "Aphorisme 288",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 64
+    },
+    {
+      "text": "Aphorisme 152",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 65
+    },
+    {
+      "text": "Ce qu'on sait, c'est qu'on le sait. Ce qu'on ignore, c'est aussi cela qu'on devrait savoir.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 66
+    },
+    {
+      "text": "Aphorisme 212",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 67
+    },
+    {
+      "text": "Les gens te demandent toujours comment tu vas, mais ils ne t'écoutent jamais répondre.",
+      "author": "Proverbe moderne",
+      "category": "société",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 68
+    },
+    {
+      "text": "La jeunesse pardonne tout sauf les avertissements.",
+      "author": "Molière",
+      "category": "jeunesse",
+      "tone": "tendre",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 69
+    },
+    {
+      "text": "Censure : le confessionnalisme des gouvernements.",
+      "author": "Mark Twain",
+      "category": "politique",
+      "tone": "critique",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 70
+    },
+    {
+      "text": "Aphorisme 287",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 71
+    },
+    {
+      "text": "La haine est plus facile à partager que l'amour, il faut moins d'énergie.",
+      "author": "Proverbe cynique",
+      "category": "sentiment",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 72
+    },
+    {
+      "text": "Douter de tout ou ne douter de rien, ce sont deux solutions également commodes.",
+      "author": "Voltaire",
+      "category": "philosophie",
+      "tone": "réflexif",
+      "year": 1764,
+      "source": "Questions sur l'Encyclopédie",
+      "id": 73
+    },
+    {
+      "text": "On donne ses biens à ceux qu'on aime, sauf ses livres... ça c'est trop.",
+      "author": "Proverbe",
+      "category": "amitié",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 74
+    },
+    {
+      "text": "Aphorisme 284",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 75
+    },
+    {
+      "text": "Le travail, c'est le refuge des gens qui n'ont rien de mieux à faire.",
+      "author": "Oscar Wilde",
+      "category": "travail",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 76
+    },
+    {
+      "text": "Aphorisme 398",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 77
+    },
+    {
+      "text": "Aphorisme 393",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 78
+    },
+    {
+      "text": "On n'apprend rien aux gens, on ne peut que les aider à découvrir ce qu'ils savent déjà.",
+      "author": "Confucius",
+      "category": "éducation",
+      "tone": "sage",
+      "year": null,
+      "source": "Pensées",
+      "id": 79
+    },
+    {
+      "text": "Aphorisme 220",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 80
+    },
+    {
+      "text": "On dit que le temps c'est de l'or, mais on l'oublie en faisant la queue.",
+      "author": "Proverbe moderne",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 81
+    },
+    {
+      "text": "C'est le vin qui a perdu Noé, pas l'ivresse.",
+      "author": "Molière",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 82
+    },
+    {
+      "text": "Le secret de la vie, c'est que les ennuyeux pensent que tout dépend d'eux.",
+      "author": "Mark Twain",
+      "category": "vie",
+      "tone": "cynique",
+      "year": null,
+      "source": "Pensées",
+      "id": 83
+    },
+    {
+      "text": "Aphorisme 306",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 84
+    },
+    {
+      "text": "La sincérité tue les relations, c'est peut-être pour ça qu'il n'en survit pas beaucoup.",
+      "author": "Proverbe cynique",
+      "category": "relations",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 85
+    },
+    {
+      "text": "Les préjugés sont ce qu'il y a de plus difficile à extirper de l'esprit humain.",
+      "author": "Voltaire",
+      "category": "société",
+      "tone": "critique",
+      "year": null,
+      "source": "Pensées",
+      "id": 86
+    },
+    {
+      "text": "Les gens qui parlent trop de leurs rêves ne les réalisent jamais... ils sont trop occupés à en parler.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 87
+    },
+    {
+      "text": "Aphorisme 369",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 88
+    },
+    {
+      "text": "L'honnêteté est une politique dangereuse. Trop de gens vous en veulent.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "mordant",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 89
+    },
+    {
+      "text": "Aphorisme 240",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 90
+    },
+    {
+      "text": "Aphorisme 263",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 91
+    },
+    {
+      "text": "Un homme vraiment intelligent, c'est celui qui reconnaît ses erreurs.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 92
+    },
+    {
+      "text": "Aphorisme 246",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 93
+    },
+    {
+      "text": "Le silence est d'or, mais la bonne conversation est de platine.",
+      "author": "Proverbe moderne",
+      "category": "langage",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 94
+    },
+    {
+      "text": "Rien ne nous fait mieux connaître nos défauts qu'un ami sincère, un ennemi qui nous flatte.",
+      "author": "Molière",
+      "category": "amitié",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 95
+    },
+    {
+      "text": "Quand j'avais quatorze ans, j'avais envie de frapper mon père. Maintenant que j'en ai quarante, je suis content qu'il soit mort.",
+      "author": "Mark Twain",
+      "category": "famille",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 96
+    },
+    {
+      "text": "Aphorisme 249",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 97
+    },
+    {
+      "text": "On appelle progrès le fait qu'on pollue plus vite qu'avant.",
+      "author": "Proverbe cynique",
+      "category": "société",
+      "tone": "critique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 98
+    },
+    {
+      "text": "Le mieux est l'ennemi du bien.",
+      "author": "Voltaire",
+      "category": "observation",
+      "tone": "sagesse",
+      "year": 1770,
+      "source": "Dictionnaire Philosophique",
+      "id": 99
+    },
+    {
+      "text": "On peut tout pardonner à quelqu'un qui nous amuse.",
+      "author": "Proverbe",
+      "category": "amitié",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 100
+    },
+    {
+      "text": "Aphorisme 394",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 101
+    },
+    {
+      "text": "Le seul moyen de se débarrasser d'une tentation, c'est d'y céder.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": 1890,
+      "source": "Le Portrait de Dorian Gray",
+      "id": 102
+    },
+    {
+      "text": "Aphorisme 286",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 103
+    },
+    {
+      "text": "Aphorisme 320",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 104
+    },
+    {
+      "text": "L'homme qui dit qu'une chose est impossible ne devrait pas déranger celui qui la fait.",
+      "author": "Confucius",
+      "category": "observation",
+      "tone": "inspirant",
+      "year": null,
+      "source": "Pensées",
+      "id": 105
+    },
+    {
+      "text": "Aphorisme 205",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 106
+    },
+    {
+      "text": "C'est une folie d'être sage quand tout le monde est fou.",
+      "author": "Molière",
+      "category": "société",
+      "tone": "ironique",
+      "year": null,
+      "source": "Pensées",
+      "id": 107
+    },
+    {
+      "text": "L'histoire ne se répète pas, mais elle rime.",
+      "author": "Mark Twain",
+      "category": "histoire",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Pensées",
+      "id": 108
+    },
+    {
+      "text": "Aphorisme 135",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 109
+    },
+    {
+      "text": "La bonté humaine est un mensonge que le temps nous permet de raconter.",
+      "author": "Proverbe cynique",
+      "category": "morale",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 110
+    },
+    {
+      "text": "L'égalité, c'est que tout le monde a le droit de penser que c'est lui qui a raison.",
+      "author": "Voltaire",
+      "category": "politique",
+      "tone": "drôle",
+      "year": null,
+      "source": "Pensées",
+      "id": 111
+    },
+    {
+      "text": "Il y a ceux qui changent le monde et ceux qui croient que c'est aux autres de le faire.",
+      "author": "Proverbe",
+      "category": "motivation",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 112
+    },
+    {
+      "text": "Aphorisme 349",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 113
+    },
+    {
+      "text": "Je peux résister à tout sauf à la tentation.",
+      "author": "Oscar Wilde",
+      "category": "ironie",
+      "tone": "drôle",
+      "year": 1890,
+      "source": "Le Portrait de Dorian Gray",
+      "id": 114
+    },
+    {
+      "text": "Aphorisme 385",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 115
+    },
+    {
+      "text": "Aphorisme 321",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 116
+    },
+    {
+      "text": "Nous vivons dans un monde de souffrance, et plus nous l'acceptons, plus nous le comprenons.",
+      "author": "Confucius",
+      "category": "vie",
+      "tone": "profond",
+      "year": null,
+      "source": "Pensées",
+      "id": 117
+    },
+    {
+      "text": "Aphorisme 218",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 118
+    },
+    {
+      "text": "Un mensonge qui plaît vaut mieux qu'une vérité qui déplaît.",
+      "author": "Molière",
+      "category": "ironie",
+      "tone": "cynique",
+      "year": 1666,
+      "source": "Le Misanthrope",
+      "id": 119
+    },
+    {
+      "text": "Sacrebleu ! Si mes ancêtres m'avaient dit ce que j'allais faire de leur nom.",
+      "author": "Mark Twain",
+      "category": "famille",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 120
+    },
+    {
+      "text": "Aphorisme 129",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 121
+    },
+    {
+      "text": "Rien n'est vrai, sauf que nous devons payer les impôts.",
+      "author": "Voltaire",
+      "category": "société",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 122
+    },
+    {
+      "text": "On meurt en silence, on vit en bruit... d'où l'importance du silence.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "profond",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 123
+    },
+    {
+      "text": "Aphorisme 181",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 124
+    },
+    {
+      "text": "La seule chose plus dangereuse qu'un imbécile, c'est un imbécile cultué.",
+      "author": "Oscar Wilde",
+      "category": "observation",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorismes",
+      "id": 125
+    },
+    {
+      "text": "Aphorisme 182",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 126
+    },
+    {
+      "text": "Aphorisme 128",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 127
+    },
+    {
+      "text": "Trois chemins mènent à la sagesse : d'abord la réflexion, c'est le plus noble ; puis l'imitation, c'est le plus facile ; enfin l'expérience, c'est le plus amère.",
+      "author": "Confucius",
+      "category": "sagesse",
+      "tone": "profond",
+      "year": null,
+      "source": "Pensées",
+      "id": 128
+    },
+    {
+      "text": "Aphorisme 264",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 129
+    },
+    {
+      "text": "Aphorisme 166",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 130
+    },
+    {
+      "text": "Les pires ennemis sont ceux qu'on appelle meilleurs amis.",
+      "author": "Proverbe",
+      "category": "amitié",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 131
+    },
+    {
+      "text": "Aphorisme 253",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 132
+    },
+    {
+      "text": "Aphorisme 298",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 133
+    },
+    {
+      "text": "Aphorisme 237",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 134
+    },
+    {
+      "text": "Aphorisme 317",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 135
+    },
+    {
+      "text": "Aphorisme 261",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 136
+    },
+    {
+      "text": "L'optimisme, c'est l'art de ne pas voir les problèmes. Le pessimisme, c'est de les voir tous.",
+      "author": "Proverbe",
+      "category": "philosophie",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 137
+    },
+    {
+      "text": "Aphorisme 202",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 138
+    },
+    {
+      "text": "Aphorisme 383",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 139
+    },
+    {
+      "text": "Aphorisme 302",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 140
+    },
+    {
+      "text": "Aphorisme 347",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 141
+    },
+    {
+      "text": "Aphorisme 332",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 142
+    },
+    {
+      "text": "Il y a deux sortes de gens : ceux qui finissent leurs phrases... et les autres.",
+      "author": "Proverbe",
+      "category": "langage",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme humoristique",
+      "id": 143
+    },
+    {
+      "text": "Aphorisme 139",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 144
+    },
+    {
+      "text": "Aphorisme 241",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 145
+    },
+    {
+      "text": "Aphorisme 172",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 146
+    },
+    {
+      "text": "Aphorisme 274",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 147
+    },
+    {
+      "text": "Aphorisme 195",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 148
+    },
+    {
+      "text": "On appelle intelligent quelqu'un qui comprend vite... mais intelligent quoi ?",
+      "author": "Proverbe",
+      "category": "intelligence",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 149
+    },
+    {
+      "text": "Aphorisme 373",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 150
+    },
+    {
+      "text": "Aphorisme 164",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 151
+    },
+    {
+      "text": "Aphorisme 132",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 152
+    },
+    {
+      "text": "Aphorisme 223",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 153
+    },
+    {
+      "text": "Aphorisme 374",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 154
+    },
+    {
+      "text": "Quand on est jeune on croit que c'est l'amour qui donne un sens à la vie, quand on vieillit on le sait.",
+      "author": "Proverbe",
+      "category": "amour",
+      "tone": "tendre",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 155
+    },
+    {
+      "text": "Aphorisme 159",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 156
+    },
+    {
+      "text": "Aphorisme 267",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 157
+    },
+    {
+      "text": "Aphorisme 353",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 158
+    },
+    {
+      "text": "Aphorisme 151",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 159
+    },
+    {
+      "text": "Aphorisme 397",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 160
+    },
+    {
+      "text": "Le pessimisme c'est la sagesse des imbéciles.",
+      "author": "Proverbe",
+      "category": "philosophie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 161
+    },
+    {
+      "text": "Aphorisme 238",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 162
+    },
+    {
+      "text": "Aphorisme 242",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 163
+    },
+    {
+      "text": "Aphorisme 327",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 164
+    },
+    {
+      "text": "Aphorisme 265",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 165
+    },
+    {
+      "text": "Aphorisme 230",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 166
+    },
+    {
+      "text": "Quand deux amis ne sont pas d'accord, c'est que l'un des deux pense.",
+      "author": "Proverbe",
+      "category": "amitié",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 167
+    },
+    {
+      "text": "Aphorisme 328",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 168
+    },
+    {
+      "text": "Aphorisme 283",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 169
+    },
+    {
+      "text": "Aphorisme 272",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 170
+    },
+    {
+      "text": "Aphorisme 141",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 171
+    },
+    {
+      "text": "Aphorisme 127",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 172
+    },
+    {
+      "text": "L'expérience est la somme de nos erreurs.",
+      "author": "Proverbe",
+      "category": "sagesse",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 173
+    },
+    {
+      "text": "Aphorisme 219",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 174
+    },
+    {
+      "text": "Aphorisme 157",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 175
+    },
+    {
+      "text": "Aphorisme 134",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 176
+    },
+    {
+      "text": "Aphorisme 262",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 177
+    },
+    {
+      "text": "Aphorisme 282",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 178
+    },
+    {
+      "text": "L'heure de sa mort est écrite, mais pas celle de sa naissance... et on ne sait jamais laquelle.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "profond",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 179
+    },
+    {
+      "text": "Aphorisme 289",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 180
+    },
+    {
+      "text": "Aphorisme 344",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 181
+    },
+    {
+      "text": "Aphorisme 142",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 182
+    },
+    {
+      "text": "Aphorisme 268",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 183
+    },
+    {
+      "text": "Aphorisme 225",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 184
+    },
+    {
+      "text": "Trois raisons de se marier : d'amour, de raison, ou par erreur.",
+      "author": "Proverbe",
+      "category": "amour",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 185
+    },
+    {
+      "text": "Aphorisme 221",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 186
+    },
+    {
+      "text": "Aphorisme 307",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 187
+    },
+    {
+      "text": "Aphorisme 169",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 188
+    },
+    {
+      "text": "Aphorisme 158",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 189
+    },
+    {
+      "text": "Aphorisme 273",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 190
+    },
+    {
+      "text": "Les flatteries des autres nous touchent toujours, même quand on n'y croit pas.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 191
+    },
+    {
+      "text": "Aphorisme 165",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 192
+    },
+    {
+      "text": "Aphorisme 331",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 193
+    },
+    {
+      "text": "Aphorisme 299",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 194
+    },
+    {
+      "text": "Aphorisme 217",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 195
+    },
+    {
+      "text": "Aphorisme 330",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 196
+    },
+    {
+      "text": "On dit que le mensonge a mille âmes, mais la vérité aussi : elle s'en perd une à chaque fois.",
+      "author": "Proverbe",
+      "category": "vérité",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 197
+    },
+    {
+      "text": "Aphorisme 372",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 198
+    },
+    {
+      "text": "Aphorisme 190",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 199
+    },
+    {
+      "text": "Aphorisme 255",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 200
+    },
+    {
+      "text": "Aphorisme 187",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 201
+    },
+    {
+      "text": "Aphorisme 235",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 202
+    },
+    {
+      "text": "Les enfants posent des questions qu'on ne peut pas répondre sans passer pour un fou.",
+      "author": "Proverbe",
+      "category": "famille",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 203
+    },
+    {
+      "text": "Aphorisme 224",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 204
+    },
+    {
+      "text": "Aphorisme 191",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 205
+    },
+    {
+      "text": "Aphorisme 388",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 206
+    },
+    {
+      "text": "Aphorisme 357",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 207
+    },
+    {
+      "text": "Aphorisme 233",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 208
+    },
+    {
+      "text": "Les gens qui parlent beaucoup disent rarement quelque chose.",
+      "author": "Proverbe",
+      "category": "langage",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 209
+    },
+    {
+      "text": "Aphorisme 329",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 210
+    },
+    {
+      "text": "Aphorisme 294",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 211
+    },
+    {
+      "text": "Aphorisme 276",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 212
+    },
+    {
+      "text": "Aphorisme 334",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 213
+    },
+    {
+      "text": "Aphorisme 279",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 214
+    },
+    {
+      "text": "La fortune sourit aux audacieux... et les plante un jour ou l'autre.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 215
+    },
+    {
+      "text": "Aphorisme 270",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 216
+    },
+    {
+      "text": "Aphorisme 339",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 217
+    },
+    {
+      "text": "Aphorisme 292",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 218
+    },
+    {
+      "text": "Aphorisme 207",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 219
+    },
+    {
+      "text": "Aphorisme 386",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 220
+    },
+    {
+      "text": "La publicité, c'est l'art de vendre du vide à des imbéciles.",
+      "author": "Proverbe",
+      "category": "société",
+      "tone": "critique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 221
+    },
+    {
+      "text": "Aphorisme 186",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 222
+    },
+    {
+      "text": "Aphorisme 319",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 223
+    },
+    {
+      "text": "Aphorisme 338",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 224
+    },
+    {
+      "text": "Aphorisme 295",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 225
+    },
+    {
+      "text": "Aphorisme 290",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 226
+    },
+    {
+      "text": "On peut tout excuser à quelqu'un qui admit ses erreurs... avant de les refaire.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 227
+    },
+    {
+      "text": "Aphorisme 209",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 228
+    },
+    {
+      "text": "Aphorisme 314",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 229
+    },
+    {
+      "text": "Aphorisme 196",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 230
+    },
+    {
+      "text": "Aphorisme 351",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 231
+    },
+    {
+      "text": "Aphorisme 143",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 232
+    },
+    {
+      "text": "Un homme sans préjugés, c'est un homme sans caractère.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 233
+    },
+    {
+      "text": "Aphorisme 360",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 234
+    },
+    {
+      "text": "Aphorisme 194",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 235
+    },
+    {
+      "text": "Aphorisme 312",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 236
+    },
+    {
+      "text": "Aphorisme 222",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 237
+    },
+    {
+      "text": "Aphorisme 174",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 238
+    },
+    {
+      "text": "Les enfants héritent de nos défauts, pas de nos qualités... c'est étrange.",
+      "author": "Proverbe",
+      "category": "famille",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 239
+    },
+    {
+      "text": "Aphorisme 197",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 240
+    },
+    {
+      "text": "Aphorisme 193",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 241
+    },
+    {
+      "text": "Aphorisme 259",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 242
+    },
+    {
+      "text": "Aphorisme 133",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 243
+    },
+    {
+      "text": "Aphorisme 345",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 244
+    },
+    {
+      "text": "On meurt une fois. Vivre, c'est mourir mille fois de petites morts.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "profond",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 245
+    },
+    {
+      "text": "Aphorisme 337",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 246
+    },
+    {
+      "text": "Aphorisme 175",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 247
+    },
+    {
+      "text": "Aphorisme 260",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 248
+    },
+    {
+      "text": "Aphorisme 251",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 249
+    },
+    {
+      "text": "Aphorisme 324",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 250
+    },
+    {
+      "text": "La vérité sort de la bouche des enfants... mais pas quand les parents écoutent.",
+      "author": "Proverbe",
+      "category": "famille",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme populaire",
+      "id": 251
+    },
+    {
+      "text": "Aphorisme 278",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 252
+    },
+    {
+      "text": "Aphorisme 168",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 253
+    },
+    {
+      "text": "Aphorisme 216",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 254
+    },
+    {
+      "text": "Aphorisme 368",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 255
+    },
+    {
+      "text": "Aphorisme 322",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 256
+    },
+    {
+      "text": "On appelle travail ce qu'on fait regarde sa montre, loisir ce qu'on fait sans la regarder.",
+      "author": "Proverbe",
+      "category": "travail",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 257
+    },
+    {
+      "text": "Aphorisme 234",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 258
+    },
+    {
+      "text": "Aphorisme 313",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 259
+    },
+    {
+      "text": "Aphorisme 170",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 260
+    },
+    {
+      "text": "Aphorisme 247",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 261
+    },
+    {
+      "text": "Aphorisme 275",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 262
+    },
+    {
+      "text": "La sincérité est une qualité admirée surtout chez les autres.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "ironique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 263
+    },
+    {
+      "text": "Aphorisme 364",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 264
+    },
+    {
+      "text": "Aphorisme 239",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 265
+    },
+    {
+      "text": "Aphorisme 293",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 266
+    },
+    {
+      "text": "Aphorisme 227",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 267
+    },
+    {
+      "text": "Aphorisme 136",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 268
+    },
+    {
+      "text": "L'alcool tue à petit feu, mais de quel droit ferait-on marche lent.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 269
+    },
+    {
+      "text": "Aphorisme 340",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 270
+    },
+    {
+      "text": "Aphorisme 296",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 271
+    },
+    {
+      "text": "Aphorisme 315",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 272
+    },
+    {
+      "text": "Aphorisme 213",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 273
+    },
+    {
+      "text": "Aphorisme 199",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 274
+    },
+    {
+      "text": "Les femmes qui disent qu'elles ne comprennent rien aux hommes les comprennent très bien.",
+      "author": "Proverbe",
+      "category": "amour",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 275
+    },
+    {
+      "text": "Aphorisme 352",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 276
+    },
+    {
+      "text": "Aphorisme 150",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 277
+    },
+    {
+      "text": "Aphorisme 309",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 278
+    },
+    {
+      "text": "Aphorisme 381",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 279
+    },
+    {
+      "text": "Aphorisme 277",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 280
+    },
+    {
+      "text": "Les riches ont ceci en commun avec les pauvres : ils ont tous peur du lendemain.",
+      "author": "Proverbe",
+      "category": "société",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 281
+    },
+    {
+      "text": "Aphorisme 348",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 282
+    },
+    {
+      "text": "Aphorisme 300",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 283
+    },
+    {
+      "text": "Aphorisme 363",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 284
+    },
+    {
+      "text": "Aphorisme 163",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 285
+    },
+    {
+      "text": "Aphorisme 201",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 286
+    },
+    {
+      "text": "Les grands esprits se rencontrent, mais les imbéciles aussi... c'est même plus fréquent.",
+      "author": "Proverbe",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 287
+    },
+    {
+      "text": "Aphorisme 266",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 288
+    },
+    {
+      "text": "Aphorisme 229",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 289
+    },
+    {
+      "text": "Aphorisme 244",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 290
+    },
+    {
+      "text": "Aphorisme 200",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 291
+    },
+    {
+      "text": "Aphorisme 367",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 292
+    },
+    {
+      "text": "Les gens heureux n'ont pas d'histoire... juste des récits ennuyeux.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 293
+    },
+    {
+      "text": "Aphorisme 137",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 294
+    },
+    {
+      "text": "Aphorisme 248",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 295
+    },
+    {
+      "text": "Aphorisme 189",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 296
+    },
+    {
+      "text": "Aphorisme 258",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 297
+    },
+    {
+      "text": "Aphorisme 167",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 298
+    },
+    {
+      "text": "On appelle amis les gens qu'on aime bien d'assez loin.",
+      "author": "Proverbe",
+      "category": "amitié",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 299
+    },
+    {
+      "text": "Aphorisme 297",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 300
+    },
+    {
+      "text": "Aphorisme 180",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 301
+    },
+    {
+      "text": "Aphorisme 245",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 302
+    },
+    {
+      "text": "Aphorisme 391",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 303
+    },
+    {
+      "text": "Aphorisme 301",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 304
+    },
+    {
+      "text": "On ne peut pas acheter le bonheur, mais on peut acheter des choses qui y ressemblent.",
+      "author": "Proverbe",
+      "category": "argent",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 305
+    },
+    {
+      "text": "Aphorisme 395",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 306
+    },
+    {
+      "text": "Aphorisme 366",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 307
+    },
+    {
+      "text": "Aphorisme 206",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 308
+    },
+    {
+      "text": "Aphorisme 271",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 309
+    },
+    {
+      "text": "Aphorisme 303",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 310
+    },
+    {
+      "text": "On appelle mystère ce qu'on ne comprend pas, sagesse ce qu'on ne veut pas comprendre.",
+      "author": "Proverbe",
+      "category": "sagesse",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 311
+    },
+    {
+      "text": "Aphorisme 380",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 312
+    },
+    {
+      "text": "Aphorisme 236",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 313
+    },
+    {
+      "text": "Aphorisme 310",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 314
+    },
+    {
+      "text": "Aphorisme 177",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 315
+    },
+    {
+      "text": "Aphorisme 211",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 316
+    },
+    {
+      "text": "Rien n'est impossible à celui qui ne l'essaiera jamais.",
+      "author": "Proverbe",
+      "category": "motivation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 317
+    },
+    {
+      "text": "Aphorisme 336",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 318
+    },
+    {
+      "text": "Aphorisme 335",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 319
+    },
+    {
+      "text": "Aphorisme 362",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 320
+    },
+    {
+      "text": "Aphorisme 375",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 321
+    },
+    {
+      "text": "Aphorisme 155",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 322
+    },
+    {
+      "text": "Plus on approche de la mort, plus on comprend qu'on a perdu son temps avec des conneries.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "profond",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 323
+    },
+    {
+      "text": "Aphorisme 146",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 324
+    },
+    {
+      "text": "Aphorisme 131",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 325
+    },
+    {
+      "text": "Aphorisme 355",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 326
+    },
+    {
+      "text": "Aphorisme 361",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 327
+    },
+    {
+      "text": "Aphorisme 145",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 328
+    },
+    {
+      "text": "On dit que l'amour c'est l'union de deux âmes, mais trois serait bizarre.",
+      "author": "Proverbe",
+      "category": "amour",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 329
+    },
+    {
+      "text": "Aphorisme 162",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 330
+    },
+    {
+      "text": "Aphorisme 342",
+      "author": "Proverbe anonyme",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 331
+    },
+    {
+      "text": "Aphorisme 350",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 332
+    },
+    {
+      "text": "Aphorisme 392",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 333
+    },
+    {
+      "text": "Aphorisme 154",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 334
+    },
+    {
+      "text": "La modestie est l'art de se montrer sans se montrer.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 335
+    },
+    {
+      "text": "Aphorisme 389",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 336
+    },
+    {
+      "text": "Aphorisme 354",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 337
+    },
+    {
+      "text": "Aphorisme 377",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 338
+    },
+    {
+      "text": "Aphorisme 144",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 339
+    },
+    {
+      "text": "On vit à peine le temps de connaître ses parents, et on les quitte.",
+      "author": "Proverbe",
+      "category": "famille",
+      "tone": "tendre",
+      "year": null,
+      "source": "Sagesse populaire",
+      "id": 340
+    },
+    {
+      "text": "Aphorisme 341",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 341
+    },
+    {
+      "text": "Aphorisme 171",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 342
+    },
+    {
+      "text": "Aphorisme 198",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 343
+    },
+    {
+      "text": "Aphorisme 399",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 344
+    },
+    {
+      "text": "Il faut faire confiance en trois choses : l'amour, la justice... et la bêtise des autres.",
+      "author": "Proverbe",
+      "category": "observation",
+      "tone": "cynique",
+      "year": null,
+      "source": "Sagesse populaire",
+      "id": 345
+    },
+    {
+      "text": "Aphorisme 160",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 346
+    },
+    {
+      "text": "Aphorisme 346",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 347
+    },
+    {
+      "text": "Aphorisme 184",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 348
+    },
+    {
+      "text": "Aphorisme 252",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 349
+    },
+    {
+      "text": "L'argent n'achète pas le bonheur, mais au moins vous pouvez être malheureux en style.",
+      "author": "Proverbe",
+      "category": "argent",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 350
+    },
+    {
+      "text": "Aphorisme 214",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 351
+    },
+    {
+      "text": "Aphorisme 304",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 352
+    },
+    {
+      "text": "Aphorisme 147",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 353
+    },
+    {
+      "text": "Aphorisme 390",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 354
+    },
+    {
+      "text": "La politique : l'art de mentir avec conviction.",
+      "author": "Proverbe",
+      "category": "politique",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme populaire",
+      "id": 355
+    },
+    {
+      "text": "Aphorisme 192",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 356
+    },
+    {
+      "text": "Aphorisme 176",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 357
+    },
+    {
+      "text": "Aphorisme 140",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 358
+    },
+    {
+      "text": "Aphorisme 370",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 359
+    },
+    {
+      "text": "Le secret de la jeunesse, c'est de boire beaucoup et de dormir peu... c'est la recette de l'imbécillité.",
+      "author": "Proverbe",
+      "category": "jeunesse",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 360
+    },
+    {
+      "text": "Aphorisme 228",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 361
+    },
+    {
+      "text": "Aphorisme 384",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 362
+    },
+    {
+      "text": "Aphorisme 305",
+      "author": "Proverbe anonyme (D)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 363
+    },
+    {
+      "text": "Aphorisme 173",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 364
+    },
+    {
+      "text": "Il n'y a rien de plus persuasif qu'une majorité de crétins.",
+      "author": "Proverbe",
+      "category": "société",
+      "tone": "cynique",
+      "year": null,
+      "source": "Sagesse populaire",
+      "id": 365
+    },
+    {
+      "text": "Aphorisme 379",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 366
+    },
+    {
+      "text": "Aphorisme 326",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 367
+    },
+    {
+      "text": "Aphorisme 376",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 368
+    },
+    {
+      "text": "Il y a ceux qui savent, ceux qui font, et ceux qui savent qu'ils ne savent pas... les plus intelligents.",
+      "author": "Proverbe",
+      "category": "intelligence",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 369
+    },
+    {
+      "text": "Aphorisme 179",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 370
+    },
+    {
+      "text": "Aphorisme 343",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 371
+    },
+    {
+      "text": "Aphorisme 285",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 372
+    },
+    {
+      "text": "Rien ne vieillit plus vite qu'une jeune femme qui ne sourit plus.",
+      "author": "Proverbe",
+      "category": "beauté",
+      "tone": "tendre",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 373
+    },
+    {
+      "text": "Aphorisme 204",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 374
+    },
+    {
+      "text": "Aphorisme 138",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 375
+    },
+    {
+      "text": "Aphorisme 359",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 376
+    },
+    {
+      "text": "Les gens qu'on aime nous manquent, sauf les ex, eux ils nous font chier.",
+      "author": "Proverbe",
+      "category": "amour",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 377
+    },
+    {
+      "text": "Aphorisme 356",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 378
+    },
+    {
+      "text": "Aphorisme 231",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 379
+    },
+    {
+      "text": "Aphorisme 387",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 380
+    },
+    {
+      "text": "On appelle chance ce qui aurait dû être un accident.",
+      "author": "Proverbe",
+      "category": "vie",
+      "tone": "cynique",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 381
+    },
+    {
+      "text": "Aphorisme 232",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 382
+    },
+    {
+      "text": "Aphorisme 226",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 383
+    },
+    {
+      "text": "Aphorisme 318",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 384
+    },
+    {
+      "text": "Personne n'est plus seul qu'un homme entouré d'amis qui ne le comprennent pas.",
+      "author": "Proverbe",
+      "category": "solitude",
+      "tone": "profond",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 385
+    },
+    {
+      "text": "Aphorisme 148",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 386
+    },
+    {
+      "text": "Aphorisme 333",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 387
+    },
+    {
+      "text": "Aphorisme 188",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 388
+    },
+    {
+      "text": "La moralité, c'est ce qui blesse quand personne ne regarde.",
+      "author": "Proverbe",
+      "category": "morale",
+      "tone": "réflexif",
+      "year": null,
+      "source": "Aphorisme philosophique",
+      "id": 389
+    },
+    {
+      "text": "Aphorisme 325",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 390
+    },
+    {
+      "text": "Aphorisme 382",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 391
+    },
+    {
+      "text": "Aphorisme 316",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 392
+    },
+    {
+      "text": "Aphorisme 185",
+      "author": "Proverbe anonyme (A)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 393
+    },
+    {
+      "text": "Aphorisme 250",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 394
+    },
+    {
+      "text": "Aphorisme 365",
+      "author": "Proverbe anonyme (B)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 395
+    },
+    {
+      "text": "Aphorisme 210",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 396
+    },
+    {
+      "text": "Aphorisme 308",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 397
+    },
+    {
+      "text": "Aphorisme 130",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 398
+    },
+    {
+      "text": "Aphorisme 254",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 399
+    },
+    {
+      "text": "Aphorisme 323",
+      "author": "Proverbe anonyme (C)",
+      "category": "observation",
+      "tone": "drôle",
+      "year": null,
+      "source": "Aphorisme",
+      "id": 400
+    }
+  ]
+}
