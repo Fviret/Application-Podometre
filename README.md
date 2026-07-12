@@ -244,8 +244,20 @@ La suite de tests couvre les modèles métier et la logique pure (sans dépendan
 | `allJourneys catalog` | Intégrité du catalogue de trajets (IDs uniques, totalKm > 0, jalons cohérents) |
 | `Onboarding — objectifs` | Catalogue `onboardingGoals` (count, ordre croissant, valeur par défaut, labels non vides) |
 | `Onboarding — UserDefaults` | Clé `hasCompletedOnboarding` (valeur par défaut, persistance, réinitialisation) |
+| `Aphorism decoding` | Décodage JSON du recueil (champs requis, tolérance aux anciens champs tone/year/source) |
+| `AphorismManager.aphorism(forDayOfYear:)` | Sélection déterministe par quantième (premier/dernier jour, wrap, stabilité, recueil vide) |
+| `AphorismManager.shouldShowPopup` | Garde 1x/jour (activé par défaut, désactivé, affiché aujourd'hui/hier, recueil vide, mémorisation) |
 
-**Couverture actuelle** : 58 tests en 11 suites
+**Couverture actuelle** : 72 tests unitaires (Swift Testing) + 7 tests UI (XCUITest)
+
+### Tests UI
+
+**Framework** : XCUITest — pilotés par variables d'environnement de lancement (`SKIP_ONBOARDING`, `RESET_APHORISM`, `DISABLE_APHORISM`).
+
+| Suite | Ce qui est testé |
+|---|---|
+| `AphorismPopupUITests` | Popup « pensée du jour » : apparition à l'ouverture, fermeture via « Make my day », absence si désactivée |
+| `AphorismSettingsUITests` | Section Paramètres : présence du toggle et de la carte de l'aphorisme du jour |
 
 **Lancer les tests en CLI :**
 

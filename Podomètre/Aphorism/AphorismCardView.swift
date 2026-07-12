@@ -51,14 +51,17 @@ struct AphorismCardView: View {
         .contentShape(Rectangle())
         .onTapGesture { if allowsCopy { copyToClipboard() } }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Pensée du jour. \(aphorism.text). \(aphorism.author).")
-        .accessibilityHint(allowsCopy ? "Appuyez deux fois pour copier" : "")
+        .accessibilityIdentifier("aphorism_card")
+        .accessibilityLabel("Pensée du jour. \(aphorism.text). \(aphorism.author). Catégorie \(aphorism.category).")
+        .accessibilityAddTraits(allowsCopy ? .isButton : [])
+        .accessibilityHint(allowsCopy ? "Appuyez deux fois pour copier la citation" : "")
     }
 
     /// Copie le texte de l'aphorisme et affiche un toast éphémère.
     private func copyToClipboard() {
         UIPasteboard.general.string = "« \(aphorism.text) » — \(aphorism.author)"
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        UIAccessibility.post(notification: .announcement, argument: "Citation copiée")
         withAnimation { showCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
             withAnimation { showCopiedToast = false }
