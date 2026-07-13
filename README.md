@@ -373,16 +373,4 @@ Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
 ### À venir
 - **Pensée du jour** — améliorations : animation d'apparition (bounce / fade-in), bouton de partage, affichage dans une notification
 - **Widget iOS** écran d'accueil (pas du jour + progression de l'anneau)
-- **Export CSV** de l'historique de pas et distances
 - **Slide récapitulative hebdomadaire** affichée le lundi à la première ouverture de la semaine
-
----
-
-## Installation
-
-1. Cloner le repo
-2. Ouvrir `Podomètre.xcodeproj` dans Xcode
-3. Sélectionner un device ou simulateur iOS 17+
-4. Lancer (`⌘R`)
-
-> HealthKit requiert un device physique pour les données réelles. Le simulateur injecte des données fictives.
