@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Popup matinale « pensée du jour » : fond semi-transparent, carte de l'aphorisme
 /// et bouton principal « Make my day » qui referme la vue.
@@ -27,7 +28,7 @@ struct AphorismPopupView: View {
 
                 AphorismCardView(aphorism: aphorism, allowsCopy: false)
 
-                Button(action: onDismiss) {
+                Button(action: dismissWithHaptic) {
                     Text("Make my day")
                         .font(.headline)
                         .foregroundStyle(.white)
@@ -47,6 +48,12 @@ struct AphorismPopupView: View {
             .accessibilityAddTraits(.isModal)
         }
         .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.95)))
+    }
+
+    /// Déclenche un retour haptique de confirmation avant de fermer la popup.
+    private func dismissWithHaptic() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        onDismiss()
     }
 }
 
