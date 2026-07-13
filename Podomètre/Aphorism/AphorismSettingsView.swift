@@ -19,6 +19,10 @@ struct AphorismSettingsView: View {
             }
             .accessibilityIdentifier("aphorism_toggle")
             .accessibilityLabel("Afficher la pensée du jour")
+            .onChange(of: aphorismEnabled) { _, enabled in
+                // Réactiver la pensée du jour réarme la garde pour la revoir aujourd'hui.
+                if enabled { manager.resetDailyGuard() }
+            }
 
             if let aphorism = manager.todayAphorism {
                 AphorismCardView(aphorism: aphorism)
