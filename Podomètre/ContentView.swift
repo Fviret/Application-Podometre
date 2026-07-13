@@ -11,9 +11,9 @@ struct ContentView: View {
     @ObservedObject var viewModel: StepCountViewModel
     @StateObject private var journeyProgressService = JourneyProgressService()
     @StateObject private var aphorismManager = AphorismManager()
-    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
-    @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
-    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.isDarkMode) private var isDarkMode: Bool = false
+    @AppStorage(.journeyNotificationsEnabled) private var journeyNotificationsEnabled: Bool = true
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @Environment(\.scenePhase) private var scenePhase
 
     /// Aphorisme affiché dans la popup matinale ; non-nil déclenche l'overlay.

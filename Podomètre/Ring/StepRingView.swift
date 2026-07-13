@@ -9,10 +9,10 @@ struct StepRingView: View {
     @State private var dailyForecasts: [DailyForecast] = []
     @State private var locationLabel: String? = nil
 
-    @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
-    @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
-    @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
-    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
+    @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
+    @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 

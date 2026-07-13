@@ -18,6 +18,3 @@ let onboardingGoals: [OnboardingGoal] = [
 
 /// Objectif sélectionné par défaut à l'onboarding.
 let onboardingDefaultGoal: Int = 8_000
-
-/// Clé UserDefaults indiquant si l'onboarding a été complété.
-let onboardingCompletedKey = "hasCompletedOnboarding"

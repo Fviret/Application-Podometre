@@ -4,7 +4,7 @@ import SwiftUI
 struct OnboardingView: View {
 
     @ObservedObject var viewModel: StepCountViewModel
-    @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @State private var page: Int = 0
     @State private var selectedGoal: Int = onboardingDefaultGoal
 

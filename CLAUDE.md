@@ -166,6 +166,11 @@ Pedometer/
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
+> **Centralisation** : toutes les clés sont définies dans l'enum `PreferenceKey` (`Podomètre/Preferences/PreferenceKey.swift`). Ne jamais écrire une chaîne de clé en dur.
+> - Dans les Views : `@AppStorage(.isDarkMode)` (extension `AppStorage(_:)` typée).
+> - Dans les ViewModels/services : le wrapper `Preferences` (`Preferences.shared.set(_, for:)` / `.bool(_)`), injectable via `Preferences(defaults:)` pour les tests.
+> - `rawValue` d'un `case` = chaîne historique exacte : ne jamais renommer un `case` sans migration.
+
 ---
 
 ## Glossaire métier

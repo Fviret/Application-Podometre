@@ -16,7 +16,7 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
 struct Podome_treApp: App {
     private let notificationDelegate = NotificationDelegate()
     @StateObject private var viewModel = StepCountViewModel()
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     init() {
         UNUserNotificationCenter.current().delegate = notificationDelegate
@@ -36,22 +36,22 @@ struct Podome_treApp: App {
     /// Sans effet en usage normal (aucune variable définie).
     private func applyUITestingOverrides() {
         let env = ProcessInfo.processInfo.environment
-        let defaults = UserDefaults.standard
+        let prefs = Preferences.shared
 
         if env["RESET_ONBOARDING"] == "1" {
-            defaults.set(false, forKey: onboardingCompletedKey)
+            prefs.set(false, for: .hasCompletedOnboarding)
         }
         if env["SKIP_ONBOARDING"] == "1" {
-            defaults.set(true, forKey: onboardingCompletedKey)
+            prefs.set(true, for: .hasCompletedOnboarding)
         }
         // Réinitialise l'état « pensée du jour » pour forcer l'affichage de la popup.
         if env["RESET_APHORISM"] == "1" {
-            defaults.removeObject(forKey: aphorismLastDisplayKey)
-            defaults.set(true, forKey: aphorismEnabledKey)
+            prefs.removeObject(.lastAphorismDisplayDate)
+            prefs.set(true, for: .aphorismPopupEnabled)
         }
         // Désactive la pensée du jour (popup ne doit jamais s'afficher).
         if env["DISABLE_APHORISM"] == "1" {
-            defaults.set(false, forKey: aphorismEnabledKey)
+            prefs.set(false, for: .aphorismPopupEnabled)
         }
     }
 }

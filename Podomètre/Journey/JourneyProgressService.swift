@@ -8,9 +8,6 @@ import UserNotifications
 @MainActor
 class JourneyProgressService: ObservableObject {
 
-    /// Clé UserDefaults utilisée pour persister le dictionnaire de progressions.
-    private let storageKey = "journeyProgressMap"
-
     private let healthStore = HKHealthStore()
     private let notificationService = JourneyNotificationService()
     private var distanceObserverQuery: HKObserverQuery?
@@ -32,7 +29,7 @@ class JourneyProgressService: ObservableObject {
         #if targetEnvironment(simulator)
         loadMockData()
         #else
-        if UserDefaults.standard.bool(forKey: onboardingCompletedKey) {
+        if Preferences.shared.bool(.hasCompletedOnboarding) {
             startObservingDistance()
         }
         #endif
@@ -42,7 +39,7 @@ class JourneyProgressService: ObservableObject {
     /// À appeler depuis ContentView une fois hasCompletedOnboarding passé à true.
     func startIfNeeded() {
         #if !targetEnvironment(simulator)
-        guard UserDefaults.standard.bool(forKey: onboardingCompletedKey) else { return }
+        guard Preferences.shared.bool(.hasCompletedOnboarding) else { return }
         startObservingDistance()
         #endif
     }
@@ -251,7 +248,7 @@ class JourneyProgressService: ObservableObject {
 
     /// Charge les progressions depuis UserDefaults.
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: storageKey),
+        guard let data = Preferences.shared.data(.journeyProgressMap),
               let decoded = try? JSONDecoder().decode([UUID: JourneyProgress].self, from: data)
         else { return }
         progressMap = decoded
@@ -260,6 +257,6 @@ class JourneyProgressService: ObservableObject {
     /// Sauvegarde les progressions dans UserDefaults.
     private func save() {
         guard let encoded = try? JSONEncoder().encode(progressMap) else { return }
-        UserDefaults.standard.set(encoded, forKey: storageKey)
+        Preferences.shared.set(encoded, for: .journeyProgressMap)
     }
 }

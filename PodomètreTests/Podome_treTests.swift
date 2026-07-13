@@ -448,26 +448,26 @@ struct OnboardingGoalsTests {
 struct OnboardingUserDefaultsTests {
 
     @Test func completedKeyMatchesConstant() {
-        #expect(onboardingCompletedKey == "hasCompletedOnboarding")
+        #expect(PreferenceKey.hasCompletedOnboarding.rawValue == "hasCompletedOnboarding")
     }
 
     @Test func defaultValueIsFalse() {
         let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
-        let value = suite.bool(forKey: onboardingCompletedKey)
+        let value = suite.bool(forKey: PreferenceKey.hasCompletedOnboarding.rawValue)
         #expect(value == false)
     }
 
     @Test func settingTrueIsPersisted() {
         let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
-        suite.set(true, forKey: onboardingCompletedKey)
-        #expect(suite.bool(forKey: onboardingCompletedKey) == true)
+        suite.set(true, forKey: PreferenceKey.hasCompletedOnboarding.rawValue)
+        #expect(suite.bool(forKey: PreferenceKey.hasCompletedOnboarding.rawValue) == true)
     }
 
     @Test func removingKeyResetsToFalse() {
         let suite = UserDefaults(suiteName: "test-onboarding-\(UUID().uuidString)")!
-        suite.set(true, forKey: onboardingCompletedKey)
-        suite.removeObject(forKey: onboardingCompletedKey)
-        #expect(suite.bool(forKey: onboardingCompletedKey) == false)
+        suite.set(true, forKey: PreferenceKey.hasCompletedOnboarding.rawValue)
+        suite.removeObject(forKey: PreferenceKey.hasCompletedOnboarding.rawValue)
+        #expect(suite.bool(forKey: PreferenceKey.hasCompletedOnboarding.rawValue) == false)
     }
 }
 
@@ -515,29 +515,29 @@ struct AphorismSelectionTests {
     }
 
     @Test func emptyRecueilReturnsNil() {
-        let manager = AphorismManager(aphorisms: [], defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: [], preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.aphorism(forDayOfYear: 1) == nil)
         #expect(manager.todayAphorism == nil)
     }
 
     @Test func firstDayReturnsFirst() {
-        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.aphorism(forDayOfYear: 1)?.id == 0)
     }
 
     @Test func lastIndexMapsToLast() {
-        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.aphorism(forDayOfYear: 400)?.id == 399)
     }
 
     @Test func wrapsAroundAfterCount() {
         // Année de 400+ jours impossible, mais le modulo doit rester sûr (366 > count possible).
-        let manager = AphorismManager(aphorisms: makeAphorisms(365), defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: makeAphorisms(365), preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.aphorism(forDayOfYear: 366)?.id == 0)
     }
 
     @Test func isStableForSameDay() {
-        let manager = AphorismManager(aphorisms: makeAphorisms(400), defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: makeAphorisms(400), preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.aphorism(forDayOfYear: 123)?.id == manager.aphorism(forDayOfYear: 123)?.id)
     }
 }
@@ -549,7 +549,7 @@ struct AphorismPopupLogicTests {
 
     private func makeManager(defaults: UserDefaults) -> AphorismManager {
         AphorismManager(aphorisms: [Aphorism(id: 1, text: "T", author: "A", category: "c")],
-                        defaults: defaults)
+                        preferences: Preferences(defaults: defaults))
     }
 
     @Test func enabledByDefaultWhenUnset() {
@@ -564,14 +564,14 @@ struct AphorismPopupLogicTests {
 
     @Test func hiddenWhenDisabled() {
         let defaults = freshDefaults()
-        defaults.set(false, forKey: aphorismEnabledKey)
+        defaults.set(false, forKey: PreferenceKey.aphorismPopupEnabled.rawValue)
         let manager = makeManager(defaults: defaults)
         #expect(manager.shouldShowPopup() == false)
     }
 
     @Test func hiddenWhenDisplayedToday() {
         let defaults = freshDefaults()
-        defaults.set(Date(), forKey: aphorismLastDisplayKey)
+        defaults.set(Date(), forKey: PreferenceKey.lastAphorismDisplayDate.rawValue)
         let manager = makeManager(defaults: defaults)
         #expect(manager.shouldShowPopup() == false)
     }
@@ -579,13 +579,13 @@ struct AphorismPopupLogicTests {
     @Test func showsWhenDisplayedYesterday() {
         let defaults = freshDefaults()
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        defaults.set(yesterday, forKey: aphorismLastDisplayKey)
+        defaults.set(yesterday, forKey: PreferenceKey.lastAphorismDisplayDate.rawValue)
         let manager = makeManager(defaults: defaults)
         #expect(manager.shouldShowPopup() == true)
     }
 
     @Test func emptyRecueilNeverShows() {
-        let manager = AphorismManager(aphorisms: [], defaults: freshDefaults())
+        let manager = AphorismManager(aphorisms: [], preferences: Preferences(defaults: freshDefaults()))
         #expect(manager.shouldShowPopup() == false)
     }
 
@@ -611,4 +611,48 @@ private func freshDefaults() -> UserDefaults {
     let defaults = UserDefaults(suiteName: name)!
     defaults.removePersistentDomain(forName: name)
     return defaults
+}
+
+// MARK: - Preferences
+
+@Suite("Preferences")
+struct PreferencesTests {
+
+    @Test func rawValuesMatchHistoricalKeys() {
+        // Garde-fou anti-régression : renommer un case casserait les données existantes.
+        #expect(PreferenceKey.dailyStepGoal.rawValue == "dailyStepGoal")
+        #expect(PreferenceKey.isDarkMode.rawValue == "isDarkMode")
+        #expect(PreferenceKey.aphorismPopupEnabled.rawValue == "aphorismPopupEnabled")
+        #expect(PreferenceKey.hasCompletedOnboarding.rawValue == "hasCompletedOnboarding")
+    }
+
+    @Test func allKeysAreUnique() {
+        let raws = PreferenceKey.allCases.map(\.rawValue)
+        #expect(Set(raws).count == raws.count)
+    }
+
+    @Test func roundTripsTypedValues() {
+        let prefs = Preferences(defaults: freshDefaults())
+        prefs.set(12_345, for: .dailyStepGoal)
+        prefs.set(true, for: .isDarkMode)
+        prefs.set("blue", for: .ringColorId)
+        #expect(prefs.integer(.dailyStepGoal) == 12_345)
+        #expect(prefs.bool(.isDarkMode) == true)
+        #expect(prefs.string(.ringColorId) == "blue")
+    }
+
+    @Test func hasValueDistinguishesUnsetFromFalse() {
+        let prefs = Preferences(defaults: freshDefaults())
+        #expect(prefs.hasValue(.aphorismPopupEnabled) == false)
+        prefs.set(false, for: .aphorismPopupEnabled)
+        #expect(prefs.hasValue(.aphorismPopupEnabled) == true)
+    }
+
+    @Test func removeObjectClearsValue() {
+        let prefs = Preferences(defaults: freshDefaults())
+        prefs.set(Date(), for: .lastAphorismDisplayDate)
+        #expect(prefs.date(.lastAphorismDisplayDate) != nil)
+        prefs.removeObject(.lastAphorismDisplayDate)
+        #expect(prefs.date(.lastAphorismDisplayDate) == nil)
+    }
 }
