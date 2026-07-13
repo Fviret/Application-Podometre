@@ -595,6 +595,14 @@ struct AphorismPopupLogicTests {
         manager.markAphorismDisplayed()
         #expect(manager.shouldShowPopup() == false)
     }
+
+    @Test func resetDailyGuardAllowsShowAgain() {
+        let manager = makeManager(defaults: freshDefaults())
+        manager.markAphorismDisplayed()
+        #expect(manager.shouldShowPopup() == false)
+        manager.resetDailyGuard()
+        #expect(manager.shouldShowPopup() == true)
+    }
 }
 
 /// Store UserDefaults isolé et vide pour chaque test.

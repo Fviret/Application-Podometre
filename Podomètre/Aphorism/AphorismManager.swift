@@ -72,6 +72,12 @@ final class AphorismManager: ObservableObject {
     func markAphorismDisplayed() {
         defaults.set(Date(), forKey: aphorismLastDisplayKey)
     }
+
+    /// Réinitialise la garde quotidienne : permet de revoir la popup aujourd'hui.
+    /// Appelé quand l'utilisateur réactive la pensée du jour dans les Paramètres.
+    func resetDailyGuard() {
+        defaults.removeObject(forKey: aphorismLastDisplayKey)
+    }
 }
 
 extension AphorismManager {

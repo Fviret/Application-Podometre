@@ -14,6 +14,7 @@ struct ContentView: View {
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
     @AppStorage(onboardingCompletedKey) private var hasCompletedOnboarding: Bool = false
+    @Environment(\.scenePhase) private var scenePhase
 
     /// Aphorisme affiché dans la popup matinale ; non-nil déclenche l'overlay.
     @State private var popupAphorism: Aphorism?
@@ -62,6 +63,11 @@ struct ContentView: View {
             guard completed else { return }
             journeyProgressService.startIfNeeded()
             presentDailyAphorismIfNeeded()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            // Re-tenter à chaque passage au premier plan (retour depuis l'arrière-plan),
+            // pas seulement au lancement à froid via .onAppear.
+            if phase == .active { presentDailyAphorismIfNeeded() }
         }
     }
 
