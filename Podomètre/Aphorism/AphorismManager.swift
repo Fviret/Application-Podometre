@@ -1,11 +1,6 @@
 import Foundation
 import Combine
 
-/// Clé UserDefaults : active/désactive la pensée du jour (popup + carte).
-let aphorismEnabledKey = "aphorismPopupEnabled"
-/// Clé UserDefaults : date du dernier affichage de la popup (garde 1x/jour).
-let aphorismLastDisplayKey = "lastAphorismDisplayDate"
-
 /// Service en charge du recueil d'aphorismes et de la logique « pensée du jour ».
 ///
 /// Charge le JSON du bundle une seule fois, expose l'aphorisme déterministe du jour
@@ -15,15 +10,15 @@ final class AphorismManager: ObservableObject {
     /// Recueil complet chargé depuis le bundle. Vide si le fichier est absent/illisible.
     @Published private(set) var aphorisms: [Aphorism]
 
-    private let defaults: UserDefaults
+    private let preferences: Preferences
     private let calendar = Calendar.current
 
     /// - Parameters:
     ///   - aphorisms: recueil injecté (tests) ; si `nil`, chargé depuis `bundle`.
-    ///   - defaults: store de persistance (injectable pour les tests).
+    ///   - preferences: store de persistance (injectable pour les tests).
     ///   - bundle: bundle où lire le JSON (défaut : `.main`).
-    init(aphorisms: [Aphorism]? = nil, defaults: UserDefaults = .standard, bundle: Bundle = .main) {
-        self.defaults = defaults
+    init(aphorisms: [Aphorism]? = nil, preferences: Preferences = .shared, bundle: Bundle = .main) {
+        self.preferences = preferences
         self.aphorisms = aphorisms ?? Self.loadAphorisms(from: bundle)
     }
 
@@ -54,15 +49,15 @@ final class AphorismManager: ObservableObject {
 
     /// Indique si l'utilisateur a activé la pensée du jour (défaut : activé).
     var isEnabled: Bool {
-        if defaults.object(forKey: aphorismEnabledKey) == nil { return true }
-        return defaults.bool(forKey: aphorismEnabledKey)
+        if !preferences.hasValue(.aphorismPopupEnabled) { return true }
+        return preferences.bool(.aphorismPopupEnabled)
     }
 
     /// Vrai si la popup doit s'afficher : fonctionnalité activée, recueil chargé,
     /// et aucune popup déjà affichée aujourd'hui.
     func shouldShowPopup() -> Bool {
         guard isEnabled, todayAphorism != nil else { return false }
-        guard let last = defaults.object(forKey: aphorismLastDisplayKey) as? Date else {
+        guard let last = preferences.date(.lastAphorismDisplayDate) else {
             return true
         }
         return !calendar.isDateInToday(last)
@@ -70,13 +65,13 @@ final class AphorismManager: ObservableObject {
 
     /// Mémorise que la popup a été affichée aujourd'hui (garde max 1x/jour).
     func markAphorismDisplayed() {
-        defaults.set(Date(), forKey: aphorismLastDisplayKey)
+        preferences.set(Date(), for: .lastAphorismDisplayDate)
     }
 
     /// Réinitialise la garde quotidienne : permet de revoir la popup aujourd'hui.
     /// Appelé quand l'utilisateur réactive la pensée du jour dans les Paramètres.
     func resetDailyGuard() {
-        defaults.removeObject(forKey: aphorismLastDisplayKey)
+        preferences.removeObject(.lastAphorismDisplayDate)
     }
 }
 

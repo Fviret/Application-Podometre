@@ -10,7 +10,7 @@ import UserNotifications
 class StepCountViewModel: ObservableObject {
 
     /// Identifiant de la couleur sélectionnée pour l'anneau. Persisté dans UserDefaults ; défaut "green".
-    @Published var ringColorId: String = UserDefaults.standard.string(forKey: "ringColorId") ?? "green"
+    @Published var ringColorId: String = Preferences.shared.string(.ringColorId) ?? "green"
 
     /// Couleur effective de l'anneau, dérivée de `ringColorId`.
     var ringColor: Color {
@@ -21,12 +21,12 @@ class StepCountViewModel: ObservableObject {
     /// Met à jour la couleur de l'anneau et la persiste dans UserDefaults.
     func setRingColor(_ id: String) {
         ringColorId = id
-        UserDefaults.standard.set(id, forKey: "ringColorId")
+        Preferences.shared.set(id, for: .ringColorId)
     }
 
     /// Active ou désactive les notifications de l'objectif journalier. Persisté dans UserDefaults.
-    @Published var notificationsEnabled: Bool = UserDefaults.standard.bool(forKey: "notificationsEnabled") {
-        didSet { UserDefaults.standard.set(notificationsEnabled, forKey: "notificationsEnabled") }
+    @Published var notificationsEnabled: Bool = Preferences.shared.bool(.notificationsEnabled) {
+        didSet { Preferences.shared.set(notificationsEnabled, for: .notificationsEnabled) }
     }
 
     /// Nombre de jours consécutifs où l'objectif quotidien a été atteint, en remontant depuis aujourd'hui.
@@ -36,13 +36,13 @@ class StepCountViewModel: ObservableObject {
     @Published var milestoneCounts: [String: Int] = [:]
 
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
-    @Published var completedJourneyIds: [String] = UserDefaults.standard.stringArray(forKey: "completedJourneyIds") ?? []
+    @Published var completedJourneyIds: [String] = Preferences.shared.stringArray(.completedJourneyIds) ?? []
 
     /// Marque un trajet comme complété si ce n'est pas déjà le cas.
     func markJourneyCompleted(_ id: String) {
         guard !completedJourneyIds.contains(id) else { return }
         completedJourneyIds.append(id)
-        UserDefaults.standard.set(completedJourneyIds, forKey: "completedJourneyIds")
+        Preferences.shared.set(completedJourneyIds, for: .completedJourneyIds)
     }
 
     /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
@@ -58,11 +58,11 @@ class StepCountViewModel: ObservableObject {
     /// `true` si une notification d'objectif a déjà été envoyée aujourd'hui (vérifie UserDefaults).
     private var goalNotifiedToday: Bool {
         get {
-            guard let saved = UserDefaults.standard.object(forKey: "goalNotifiedDate") as? Date else { return false }
+            guard let saved = Preferences.shared.date(.goalNotifiedDate) else { return false }
             return Calendar.current.isDateInToday(saved)
         }
         set {
-            if newValue { UserDefaults.standard.set(Date(), forKey: "goalNotifiedDate") }
+            if newValue { Preferences.shared.set(Date(), for: .goalNotifiedDate) }
         }
     }
 
@@ -188,10 +188,10 @@ class StepCountViewModel: ObservableObject {
 
     /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
     @Published var goal: Int = {
-        let stored = UserDefaults.standard.integer(forKey: "dailyStepGoal")
+        let stored = Preferences.shared.integer(.dailyStepGoal)
         return stored > 0 ? stored : 10_000
     }() {
-        didSet { UserDefaults.standard.set(goal, forKey: "dailyStepGoal") }
+        didSet { Preferences.shared.set(goal, for: .dailyStepGoal) }
     }
 
     /// Nombre de pas pour le jour sélectionné.

@@ -3,11 +3,11 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
     @ObservedObject var aphorismManager: AphorismManager
-    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
-    @AppStorage("journeyNotificationsEnabled") private var journeyNotificationsEnabled: Bool = true
-    @AppStorage("showWeatherForecast") private var showWeatherForecast: Bool = true
-    @AppStorage("showMonthCalendar") private var showMonthCalendar: Bool = true
-    @AppStorage("showWeeklyChart") private var showWeeklyChart: Bool = true
+    @AppStorage(.isDarkMode) private var isDarkMode: Bool = false
+    @AppStorage(.journeyNotificationsEnabled) private var journeyNotificationsEnabled: Bool = true
+    @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
+    @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
+    @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @State private var showPicker = false
 
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))

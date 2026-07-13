@@ -5,7 +5,7 @@ import SwiftUI
 /// Reçoit l'`AphorismManager` partagé pour afficher l'aphorisme courant.
 struct AphorismSettingsView: View {
     @ObservedObject var manager: AphorismManager
-    @AppStorage(aphorismEnabledKey) private var aphorismEnabled: Bool = true
+    @AppStorage(.aphorismPopupEnabled) private var aphorismEnabled: Bool = true
 
     var body: some View {
         Section("Pensée du jour") {
