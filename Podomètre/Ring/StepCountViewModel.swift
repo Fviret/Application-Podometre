@@ -1,5 +1,6 @@
 import Foundation
 import HealthKit
+import CoreMotion
 import SwiftUI
 import Combine
 import UserNotifications
@@ -265,6 +266,13 @@ class StepCountViewModel: ObservableObject {
     private var observerQuery: HKObserverQuery?
     private var observerQueryRegistered = false
 
+    /// Podomètre Core Motion pour l'affichage quasi temps réel des pas du jour au premier plan.
+    private let pedometer = CMPedometer()
+    private var isLiveUpdating = false
+    #if targetEnvironment(simulator)
+    private var mockLiveTimer: Timer?
+    #endif
+
     /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
@@ -513,6 +521,54 @@ class StepCountViewModel: ObservableObject {
             }
         }
         healthStore.execute(query)
+    }
+
+    // MARK: - Mise à jour live (Core Motion)
+
+    /// Démarre le suivi quasi temps réel des pas du jour via `CMPedometer`.
+    /// Ne s'active qu'au premier plan et pour aujourd'hui ; HealthKit reste la source de vérité.
+    func startLiveStepUpdates() {
+        guard selectedDayOffset == 0, !isLiveUpdating else { return }
+        isLiveUpdating = true
+
+        #if targetEnvironment(simulator)
+        // Simulateur : simule une marche (incréments réguliers) pour visualiser l'animation.
+        mockLiveTimer?.invalidate()
+        mockLiveTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                guard let self, self.selectedDayOffset == 0 else { return }
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    self.stepCount += Int.random(in: 8...25)
+                }
+            }
+        }
+        #else
+        guard CMPedometer.isStepCountingAvailable() else { isLiveUpdating = false; return }
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        pedometer.startUpdates(from: startOfDay) { [weak self] data, error in
+            guard let data, error == nil else { return }
+            let steps = data.numberOfSteps.intValue
+            Task { @MainActor in
+                guard let self, self.selectedDayOffset == 0 else { return }
+                // `max` : la valeur ne recule jamais dans la journée (HealthKit peut inclure d'autres sources).
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    self.stepCount = max(self.stepCount, steps)
+                }
+            }
+        }
+        #endif
+    }
+
+    /// Arrête le suivi live (arrière-plan, ou navigation vers un jour passé) pour préserver la batterie.
+    func stopLiveStepUpdates() {
+        guard isLiveUpdating else { return }
+        isLiveUpdating = false
+        #if targetEnvironment(simulator)
+        mockLiveTimer?.invalidate()
+        mockLiveTimer = nil
+        #else
+        pedometer.stopUpdates()
+        #endif
     }
 
     deinit {

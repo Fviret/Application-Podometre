@@ -15,6 +15,7 @@ struct StepRingView: View {
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
 
     private let ringDiameter: CGFloat = 240
     private let strokeWidth: CGFloat = 20
@@ -143,6 +144,7 @@ struct StepRingView: View {
         .onAppear {
             guard hasCompletedOnboarding else { return }
             viewModel.requestAuthorizationAndFetch()
+            viewModel.startLiveStepUpdates()
             if showWeatherForecast {
                 #if targetEnvironment(simulator)
                 walkingForecast = WalkingForecast(
@@ -188,6 +190,21 @@ struct StepRingView: View {
             // Limité à aujourd'hui pour ne pas se déclencher en naviguant sur un jour passé déjà complété.
             guard viewModel.selectedDayOffset == 0, oldValue < 1.0, newValue >= 1.0 else { return }
             celebrationHaptic.notificationOccurred(.success)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            // Recale HealthKit et (re)démarre le live à chaque retour au premier plan ; coupe le live en arrière-plan.
+            guard hasCompletedOnboarding else { return }
+            switch phase {
+            case .active:
+                viewModel.fetchSteps(for: viewModel.selectedDate)
+                viewModel.startLiveStepUpdates()
+            default:
+                viewModel.stopLiveStepUpdates()
+            }
+        }
+        .onChange(of: viewModel.selectedDayOffset) { _, offset in
+            // Le live ne concerne qu'aujourd'hui : on l'arrête sur un jour passé, on le relance au retour.
+            if offset == 0 { viewModel.startLiveStepUpdates() } else { viewModel.stopLiveStepUpdates() }
         }
     }
 
