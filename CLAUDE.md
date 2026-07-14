@@ -417,8 +417,13 @@ Conventions VoiceOver et Dynamic Type à respecter sur tous les écrans.
 NSHealthShareUsageDescription
 NSHealthUpdateUsageDescription
 NSUserNotificationsUsageDescription
+NSMotionUsageDescription   # Core Motion (CMPedometer) — pas en quasi temps réel
 ```
 
+> Les clés d'usage sont générées via `INFOPLIST_KEY_*` dans le projet (`GENERATE_INFOPLIST_FILE = YES`), pas dans un fichier Info.plist.
+
 Types HK lus : `stepCount`, `distanceWalkingRunning`
+
+**Pas en temps réel** : au premier plan et pour aujourd'hui, `StepCountViewModel` affiche les pas via `CMPedometer` (Core Motion, mise à jour ~1×/s en marchant). HealthKit reste la source de vérité (historique, streak, arrière-plan). Voir `startLiveStepUpdates()` / `stopLiveStepUpdates()`.
 
 Capacité HealthKit activée dans les entitlements du projet.
