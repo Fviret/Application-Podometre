@@ -19,6 +19,8 @@ struct StepRingView: View {
     private let ringDiameter: CGFloat = 240
     private let strokeWidth: CGFloat = 20
     private let haptic = UIImpactFeedbackGenerator(style: .light)
+    /// Retour haptique fort de célébration, déclenché à la complétion de l'objectif du jour.
+    private let celebrationHaptic = UINotificationFeedbackGenerator()
 
     var body: some View {
         ZStack {
@@ -180,6 +182,12 @@ struct StepRingView: View {
                 locationManager.requestLocation()
                 #endif
             }
+        }
+        .onChange(of: viewModel.progress) { oldValue, newValue in
+            // Retour haptique fort de célébration au franchissement de l'objectif du jour (100 %).
+            // Limité à aujourd'hui pour ne pas se déclencher en naviguant sur un jour passé déjà complété.
+            guard viewModel.selectedDayOffset == 0, oldValue < 1.0, newValue >= 1.0 else { return }
+            celebrationHaptic.notificationOccurred(.success)
         }
     }
 
