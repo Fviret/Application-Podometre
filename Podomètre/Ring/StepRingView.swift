@@ -69,11 +69,9 @@ struct StepRingView: View {
                                         .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.progress)
 
                                     VStack(spacing: 4) {
-                                        Text(viewModel.stepCount.formatted())
-                                            .font(.system(.largeTitle, design: .rounded).weight(.bold))
-                                            .foregroundStyle(Color.primary)
-                                            .contentTransition(.numericText())
-                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.stepCount)
+                                        // Compteur qui monte en douceur (incrémentation progressive) au lieu de sauter.
+                                        RollingNumberText(value: Double(viewModel.stepCount))
+                                            .animation(reduceMotion ? nil : .easeOut(duration: 0.6), value: viewModel.stepCount)
 
                                         Text("pas")
                                             .font(.system(.callout, design: .rounded).weight(.medium))
