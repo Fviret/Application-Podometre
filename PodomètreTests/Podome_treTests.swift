@@ -213,6 +213,34 @@ struct StepCountViewModelTests {
         #expect(vm.progress == 0.5)
     }
 
+    @Test func overflowIsZeroBelowGoal() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 9_000
+        vm.goal = 10_000
+        #expect(vm.overflowProgress == 0)
+    }
+
+    @Test func overflowHalfwayIntoSecondLap() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 15_000
+        vm.goal = 10_000
+        #expect(vm.overflowProgress == 0.5)
+    }
+
+    @Test func overflowClampsToOneLap() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 30_000
+        vm.goal = 10_000
+        #expect(vm.overflowProgress == 1.0)
+    }
+
+    @Test func uncappedPercentExceedsHundred() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 12_500
+        vm.goal = 10_000
+        #expect(vm.uncappedProgressPercent == 125)
+    }
+
     @Test func selectedDateLabelToday() async {
         let vm = StepCountViewModel()
         vm.selectedDayOffset = 0

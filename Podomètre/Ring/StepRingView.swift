@@ -58,7 +58,7 @@ struct StepRingView: View {
                                         .trim(from: 0, to: viewModel.progress)
                                         .stroke(
                                             LinearGradient(
-                                                colors: [viewModel.ringColor.opacity(0.7), viewModel.ringColor],
+                                                colors: [viewModel.ringColor.opacity(0.55), viewModel.ringColor],
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             ),
@@ -67,6 +67,24 @@ struct StepRingView: View {
                                         .frame(width: ringDiameter, height: ringDiameter)
                                         .rotationEffect(.degrees(-90))
                                         .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.progress)
+
+                                    // Arc de dépassement : superposé quand on dépasse l'objectif,
+                                    // dans une teinte plus claire pour voir la progression au-delà de 100 %.
+                                    if viewModel.overflowProgress > 0 {
+                                        Circle()
+                                            .trim(from: 0, to: viewModel.overflowProgress)
+                                            .stroke(
+                                                LinearGradient(
+                                                    colors: [viewModel.ringColor, Color.white.opacity(0.9)],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ),
+                                                style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
+                                            )
+                                            .frame(width: ringDiameter, height: ringDiameter)
+                                            .rotationEffect(.degrees(-90))
+                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.overflowProgress)
+                                    }
 
                                     VStack(spacing: 4) {
                                         Text(viewModel.stepCount.formatted())
@@ -82,7 +100,7 @@ struct StepRingView: View {
                                 }
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
-                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
+                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(viewModel.uncappedProgressPercent) %")
                                 .accessibilityIdentifier("step_ring")
 
                                 Text(viewModel.selectedDateLabel)

@@ -244,6 +244,19 @@ class StepCountViewModel: ObservableObject {
         min(Double(stepCount) / Double(goal), 1.0)
     }
 
+    /// Progression **au-delà** de l'objectif, entre 0.0 et 1.0 (un tour supplémentaire au maximum).
+    /// Vaut 0 tant que l'objectif n'est pas dépassé ; sert à dessiner l'arc de dépassement.
+    var overflowProgress: Double {
+        guard stepCount > goal, goal > 0 else { return 0 }
+        return min(Double(stepCount - goal) / Double(goal), 1.0)
+    }
+
+    /// Pourcentage de progression **non plafonné** (peut dépasser 100 %), pour l'accessibilité.
+    var uncappedProgressPercent: Int {
+        guard goal > 0 else { return 0 }
+        return Int((Double(stepCount) / Double(goal)) * 100)
+    }
+
     /// Date correspondant à `selectedDayOffset` jours avant aujourd'hui.
     var selectedDate: Date {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
