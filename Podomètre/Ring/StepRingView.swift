@@ -54,28 +54,48 @@ struct StepRingView: View {
                                         .stroke(Color(.systemGray5), lineWidth: strokeWidth)
                                         .frame(width: ringDiameter, height: ringDiameter)
 
-                                    // Anneau de progression : UN seul élément, dégradé angulaire progressif.
-                                    // Gradient symétrique (mêmes teintes aux deux extrémités) → quand l'objectif
-                                    // est atteint, la jonction en haut du cercle se fond au lieu d'une cassure nette.
-                                    // La teinte s'assombrit légèrement au fur et à mesure du dépassement de l'objectif.
+                                    // Anneau de base : progression jusqu'à l'objectif, léger dégradé.
                                     Circle()
                                         .trim(from: 0, to: viewModel.progress)
                                         .stroke(
                                             AngularGradient(
                                                 gradient: Gradient(colors: [
-                                                    viewModel.ringColor.opacity(0.45),
                                                     viewModel.ringColor,
-                                                    viewModel.ringColor.opacity(0.45)
+                                                    viewModel.ringColor.lightened(by: 0.12)
                                                 ]),
-                                                center: .center
+                                                center: .center,
+                                                startAngle: .degrees(0),
+                                                endAngle: .degrees(360 * max(viewModel.progress, 0.0001))
                                             ),
                                             style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
                                         )
                                         .frame(width: ringDiameter, height: ringDiameter)
                                         .rotationEffect(.degrees(-90))
-                                        .brightness(viewModel.overflowProgress * -0.15)
                                         .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.progress)
-                                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.overflowProgress)
+
+                                    // Arc de dépassement (façon anneaux d'Activité) : posé par-dessus dans une
+                                    // teinte plus claire, avec une ombre sous l'embout pour l'effet de profondeur
+                                    // là où il « repasse » au-dessus du départ.
+                                    if viewModel.overflowProgress > 0 {
+                                        Circle()
+                                            .trim(from: 0, to: viewModel.overflowProgress)
+                                            .stroke(
+                                                AngularGradient(
+                                                    gradient: Gradient(colors: [
+                                                        viewModel.ringColor.lightened(by: 0.10),
+                                                        viewModel.ringColor.lightened(by: 0.38)
+                                                    ]),
+                                                    center: .center,
+                                                    startAngle: .degrees(0),
+                                                    endAngle: .degrees(360 * max(viewModel.overflowProgress, 0.0001))
+                                                ),
+                                                style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
+                                            )
+                                            .frame(width: ringDiameter, height: ringDiameter)
+                                            .rotationEffect(.degrees(-90))
+                                            .shadow(color: .black.opacity(0.35), radius: 5, x: 0, y: 3)
+                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.overflowProgress)
+                                    }
 
                                     VStack(spacing: 4) {
                                         Text(viewModel.stepCount.formatted())

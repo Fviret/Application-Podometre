@@ -7,6 +7,22 @@ struct RingColorOption: Identifiable {
     let color: Color
 }
 
+extension Color {
+    /// Retourne une variante plus claire de la couleur (baisse la saturation, monte la luminosité).
+    /// Utilisé pour l'arc de dépassement de l'anneau (teinte plus douce que la couleur de base).
+    func lightened(by amount: Double = 0.25) -> Color {
+        let ui = UIColor(self)
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        guard ui.getHue(&h, saturation: &s, brightness: &b, alpha: &a) else { return self }
+        return Color(
+            hue: Double(h),
+            saturation: Double(max(s - amount, 0)),
+            brightness: Double(min(b + amount * 0.35, 1)),
+            opacity: Double(a)
+        )
+    }
+}
+
 /// Palette de couleurs disponibles pour personnaliser l'anneau.
 enum AppColors {
     static let ringColorOptions: [RingColorOption] = [
