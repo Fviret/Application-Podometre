@@ -54,14 +54,18 @@ struct StepRingView: View {
                                         .stroke(Color(.systemGray5), lineWidth: strokeWidth)
                                         .frame(width: ringDiameter, height: ringDiameter)
 
-                                    // Anneau de base : progression jusqu'à l'objectif, léger dégradé.
+                                    // Anneau unique : un seul cercle avec un dégradé de la couleur de base
+                                    // vers une teinte plus claire à l'embout. L'intensité de l'éclaircissement
+                                    // est calculée AU PRORATA du dépassement de l'objectif : léger avant
+                                    // l'objectif, de plus en plus marqué au-delà (0 → +40 %).
                                     Circle()
                                         .trim(from: 0, to: viewModel.progress)
                                         .stroke(
                                             AngularGradient(
                                                 gradient: Gradient(colors: [
                                                     viewModel.ringColor,
-                                                    viewModel.ringColor.lightened(by: 0.12)
+                                                    viewModel.ringColor.lightened(by: 0.06 + viewModel.overflowProgress * 0.40),
+                                                    viewModel.ringColor
                                                 ]),
                                                 center: .center,
                                                 startAngle: .degrees(0),
@@ -72,30 +76,7 @@ struct StepRingView: View {
                                         .frame(width: ringDiameter, height: ringDiameter)
                                         .rotationEffect(.degrees(-90))
                                         .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.progress)
-
-                                    // Arc de dépassement (façon anneaux d'Activité) : posé par-dessus dans une
-                                    // teinte plus claire, avec une ombre sous l'embout pour l'effet de profondeur
-                                    // là où il « repasse » au-dessus du départ.
-                                    if viewModel.overflowProgress > 0 {
-                                        Circle()
-                                            .trim(from: 0, to: viewModel.overflowProgress)
-                                            .stroke(
-                                                AngularGradient(
-                                                    gradient: Gradient(colors: [
-                                                        viewModel.ringColor.lightened(by: 0.10),
-                                                        viewModel.ringColor.lightened(by: 0.38)
-                                                    ]),
-                                                    center: .center,
-                                                    startAngle: .degrees(0),
-                                                    endAngle: .degrees(360 * max(viewModel.overflowProgress, 0.0001))
-                                                ),
-                                                style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
-                                            )
-                                            .frame(width: ringDiameter, height: ringDiameter)
-                                            .rotationEffect(.degrees(-90))
-                                            .shadow(color: .black.opacity(0.35), radius: 5, x: 0, y: 3)
-                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.overflowProgress)
-                                    }
+                                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.6), value: viewModel.overflowProgress)
 
                                     VStack(spacing: 4) {
                                         Text(viewModel.stepCount.formatted())
