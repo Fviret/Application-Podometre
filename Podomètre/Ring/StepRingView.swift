@@ -54,18 +54,18 @@ struct StepRingView: View {
                                         .stroke(Color(.systemGray5), lineWidth: strokeWidth)
                                         .frame(width: ringDiameter, height: ringDiameter)
 
-                                    // Anneau unique : un seul cercle avec un dégradé de la couleur de base
-                                    // vers une teinte plus claire à l'embout. L'intensité de l'éclaircissement
-                                    // est calculée AU PRORATA du dépassement de l'objectif : léger avant
-                                    // l'objectif, de plus en plus marqué au-delà (0 → +40 %).
+                                    // Anneau unique : un seul cercle, dégradé mappé sur l'arc parcouru —
+                                    // il commence au début du cercle (couleur de base) et finit à la position
+                                    // actuelle de progression (embout), dans une teinte plus claire.
+                                    // L'intensité de l'éclaircissement est calculée AU PRORATA du dépassement
+                                    // de l'objectif : légère avant l'objectif, marquée au-delà (0 → +40 %).
                                     Circle()
                                         .trim(from: 0, to: viewModel.progress)
                                         .stroke(
                                             AngularGradient(
                                                 gradient: Gradient(colors: [
                                                     viewModel.ringColor,
-                                                    viewModel.ringColor.lightened(by: 0.06 + viewModel.overflowProgress * 0.40),
-                                                    viewModel.ringColor
+                                                    viewModel.ringColor.lightened(by: 0.06 + viewModel.overflowProgress * 0.40)
                                                 ]),
                                                 center: .center,
                                                 startAngle: .degrees(0),
