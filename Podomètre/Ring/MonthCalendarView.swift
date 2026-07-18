@@ -134,9 +134,9 @@ struct MonthCalendarView: View {
             }
 
             Text("Total : \(monthlyTotal.formatted()) pas")
-                .font(.subheadline)
-                .foregroundStyle(Color.secondary)
-                .padding(.top, 16)
+                .font(.system(.title3, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.primary)
+                .padding(.top, 8)
         }
     }
 

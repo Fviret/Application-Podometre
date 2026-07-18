@@ -137,6 +137,7 @@ struct StepRingView: View {
 
                             MonthCalendarView(viewModel: viewModel)
                                 .padding(.horizontal, 24)
+                                .padding(.vertical, 8)
                         }
 
                         if showWeeklyChart {
@@ -145,6 +146,7 @@ struct StepRingView: View {
 
                             WeeklyBarChartView(viewModel: viewModel)
                                 .padding(.horizontal, 24)
+                                .padding(.vertical, 8)
                         }
                     }
                     .padding(.vertical, 32)
