@@ -308,8 +308,8 @@ class StepCountViewModel: ObservableObject {
         fetchMilestoneCounts()
         computeStreak()
 
-        // Pas du jour sélectionné
-        stepCount = selectedDayOffset == 0 ? 7_430 : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
+        // Pas du jour sélectionné (previewStepsOverride force une valeur pour les previews Xcode).
+        stepCount = selectedDayOffset == 0 ? (previewStepsOverride ?? 7_430) : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
 
         // Calendrier mensuel : données pour les 28 premiers jours
         let calendar = Calendar.current
@@ -571,9 +571,26 @@ class StepCountViewModel: ObservableObject {
         #endif
     }
 
+    /// Pas du jour forcés pour les previews Xcode (objectif atteint). `nil` = mock standard.
+    /// Utilisé uniquement par les `#Preview` pour visualiser l'écran en état « objectif atteint ».
+    var previewStepsOverride: Int?
+
     deinit {
         if let query = observerQuery {
             healthStore.stop(query)
         }
+    }
+}
+
+extension StepCountViewModel {
+    /// Instance de preview : objectif du jour **atteint** + série active,
+    /// pour visualiser la série 🔥 et l'anneau plein dans le canvas Xcode.
+    static var previewGoalReached: StepCountViewModel {
+        let vm = StepCountViewModel()
+        vm.goal = 10_000
+        vm.previewStepsOverride = 12_634
+        vm.stepCount = 12_634
+        vm.currentStreak = 5
+        return vm
     }
 }
