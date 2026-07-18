@@ -1,6 +1,6 @@
 # Pedometer App — CLAUDE.md
 
-<!-- last updated: 2026-07-12 — À mettre à jour à chaque fin de session -->
+<!-- last updated: 2026-07-16 — À mettre à jour à chaque fin de session -->
 
 ---
 
@@ -10,11 +10,15 @@
 
 | Champ | Valeur |
 |---|---|
-| Branche active | `dev` (PR #18 pensée du jour et #19 dev→main mergées) |
-| Dernière feature travaillée | Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0) |
-| Fichiers modifiés récemment | `Podomètre/Aphorism/*`, `ContentView.swift`, `Settings/SettingsView.swift`, `Podome_treApp.swift`, tests unitaires + UI, `.github/workflows/ios.yml` |
-| Bugs ouverts connus | — |
-| Prochaine tâche prévue | Améliorations pensée du jour (animation d'apparition, bouton de partage, notification) ou Widget iOS écran d'accueil |
+| Branche active | `dev` (PR #29 polish écran activité mergée ; PR #31 total mensuel + #32 piste anneau ouvertes) |
+| Dernière feature travaillée | Polish écran Activité — série 🔥 à l'objectif atteint, typo du total mensuel, piste de l'anneau retravaillée (dégradé + ombre interne), pas quasi temps réel (CMPedometer) + compteur qui roule, centralisation UserDefaults (`PreferenceKey`/`Preferences`) |
+| Fichiers modifiés récemment | `Podomètre/Ring/*` (StepRingView, StepCountViewModel, MonthCalendarView, WeeklyForecastBannerView, RollingNumberText), `Podomètre/Preferences/*`, `AppColors.swift` |
+| Bugs ouverts connus | Simulateur uniquement : le handler `scenePhase .active` appelle `fetchSteps` (HealthKit) qui renvoie 0 sur simulateur et écrase le mock (sans effet sur device) |
+| Prochaine tâche prévue | Suite du polish graphique (cartes groupées, halo à l'objectif atteint), ou carte « aujourd'hui » distance/temps actif/calories (HealthKit), ou classement social cross-platform (backend à décider) |
+
+### Idées explorées puis abandonnées (non mûres)
+- **Anneau avec visualisation du dépassement d'objectif** (arc de dépassement / dégradé au prorata) — plusieurs variantes testées, branche supprimée, à reprendre avec un concept plus abouti.
+- **Marges de sections en « cartes »** — tenté puis abandonné (préférer un vrai look cartes groupées le cas échéant).
 
 ---
 
