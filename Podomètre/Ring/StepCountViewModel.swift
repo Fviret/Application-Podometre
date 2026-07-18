@@ -36,6 +36,13 @@ class StepCountViewModel: ObservableObject {
     /// Nombre de jours où chaque seuil de pas a été atteint. Clé = StepMilestoneBadge.id.
     @Published var milestoneCounts: [String: Int] = [:]
 
+    /// Distance marche+course du jour, en km (HealthKit `distanceWalkingRunning`).
+    @Published var todayDistanceKm: Double = 0
+    /// Minutes d'exercice du jour (HealthKit `appleExerciseTime`). Souvent 0 sans Apple Watch.
+    @Published var todayActiveMinutes: Int = 0
+    /// Calories actives du jour, en kcal (HealthKit `activeEnergyBurned`). Souvent 0 sans Apple Watch.
+    @Published var todayActiveCalories: Int = 0
+
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
     @Published var completedJourneyIds: [String] = Preferences.shared.stringArray(.completedJourneyIds) ?? []
 
@@ -281,10 +288,12 @@ class StepCountViewModel: ObservableObject {
         #else
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
-              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned),
+              let exerciseType = HKQuantityType.quantityType(forIdentifier: .appleExerciseTime)
         else { return }
 
-        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType]) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType, exerciseType]) { [weak self] success, _ in
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true
@@ -295,6 +304,7 @@ class StepCountViewModel: ObservableObject {
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
                 self?.fetchMilestoneCounts()
+                self?.fetchTodayMetrics()
                 self?.computeStreak()
             }
         }
@@ -307,6 +317,11 @@ class StepCountViewModel: ObservableObject {
         isAuthorized = true
         fetchMilestoneCounts()
         computeStreak()
+
+        // Métriques du jour (mock simulateur)
+        todayDistanceKm = 5.6
+        todayActiveMinutes = 42
+        todayActiveCalories = 480
 
         // Pas du jour sélectionné (previewStepsOverride force une valeur pour les previews Xcode).
         stepCount = selectedDayOffset == 0 ? (previewStepsOverride ?? 7_430) : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
@@ -523,6 +538,40 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
+    // MARK: - Métriques du jour (distance, temps actif, calories)
+
+    /// Récupère les métriques du jour (distance, minutes d'exercice, calories actives).
+    /// Sur simulateur, injecte des valeurs fictives.
+    func fetchTodayMetrics() {
+        #if targetEnvironment(simulator)
+        todayDistanceKm = 5.6
+        todayActiveMinutes = 42
+        todayActiveCalories = 480
+        #else
+        fetchTodayQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo)) { [weak self] value in
+            self?.todayDistanceKm = value
+        }
+        fetchTodayQuantity(.appleExerciseTime, unit: .minute()) { [weak self] value in
+            self?.todayActiveMinutes = Int(value)
+        }
+        fetchTodayQuantity(.activeEnergyBurned, unit: .kilocalorie()) { [weak self] value in
+            self?.todayActiveCalories = Int(value)
+        }
+        #endif
+    }
+
+    /// Somme cumulée d'un type de quantité HealthKit sur la journée courante, convertie dans `unit`.
+    private func fetchTodayQuantity(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, completion: @escaping (Double) -> Void) {
+        guard let type = HKQuantityType.quantityType(forIdentifier: identifier) else { return }
+        let start = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: Date(), options: .strictStartDate)
+        let query = HKStatisticsQuery(quantityType: type, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            let value = result?.sumQuantity()?.doubleValue(for: unit) ?? 0
+            Task { @MainActor in completion(value) }
+        }
+        healthStore.execute(query)
+    }
+
     // MARK: - Mise à jour live (Core Motion)
 
     /// Démarre le suivi quasi temps réel des pas du jour via `CMPedometer`.
@@ -591,6 +640,9 @@ extension StepCountViewModel {
         vm.previewStepsOverride = 12_634
         vm.stepCount = 12_634
         vm.currentStreak = 5
+        vm.todayDistanceKm = 9.8
+        vm.todayActiveMinutes = 42
+        vm.todayActiveCalories = 480
         return vm
     }
 }

@@ -165,6 +165,10 @@ struct StepRingView: View {
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
+                        // Métriques du jour : distance, temps actif, calories (HealthKit).
+                        TodayMetricsView(viewModel: viewModel)
+                            .padding(.horizontal, 24)
+
                         if showWeatherForecast {
                             WeeklyForecastBannerView(forecasts: dailyForecasts, locationLabel: locationLabel)
                         }
@@ -245,6 +249,7 @@ struct StepRingView: View {
             switch phase {
             case .active:
                 viewModel.fetchSteps(for: viewModel.selectedDate)
+                viewModel.fetchTodayMetrics()
                 viewModel.startLiveStepUpdates()
             default:
                 viewModel.stopLiveStepUpdates()
