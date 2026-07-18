@@ -4,7 +4,13 @@ import SwiftUI
 /// Invisible tant que la localisation n'est pas accordée.
 struct WeeklyForecastBannerView: View {
     let forecasts: [DailyForecast]
+    var walkingForecast: WalkingForecast? = nil
+    /// Toutes les heures des 7 jours — filtrées par jour pour le détail.
+    var allHourly: [HourlyWeather] = []
     var locationLabel: String? = nil
+
+    /// Jour sélectionné au tap — présente la sheet de détail météo.
+    @State private var selectedForecast: DailyForecast?
 
     var body: some View {
         if !forecasts.isEmpty {
@@ -12,10 +18,23 @@ struct WeeklyForecastBannerView: View {
                 Divider()
                     .padding(.horizontal, 24)
 
+                Text("Météo · 7 jours")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+                    .accessibilityAddTraits(.isHeader)
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(forecasts.indices, id: \.self) { i in
-                            DayForecastCell(forecast: forecasts[i], isToday: i == 0)
+                            Button {
+                                selectedForecast = forecasts[i]
+                            } label: {
+                                DayForecastCell(forecast: forecasts[i], isToday: i == 0)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, 24)
@@ -26,17 +45,38 @@ struct WeeklyForecastBannerView: View {
                 if let label = locationLabel {
                     HStack(spacing: 4) {
                         Image(systemName: "location.fill")
-                            .font(.system(size: 9))
+                            .font(.system(size: 11))
                             .accessibilityHidden(true)
                         Text(label)
-                            .font(.caption2)
+                            .font(.caption)
                     }
                     .foregroundStyle(Color.secondary.opacity(0.6))
                     .padding(.bottom, 4)
                     .accessibilityLabel("Localisation : \(label)")
                 }
             }
+            .sheet(item: $selectedForecast) { forecast in
+                detailView(for: forecast)
+            }
         }
+    }
+
+    /// Construit la sheet de détail pour un jour, avec l'horaire de ce jour (filtré depuis les 7 jours).
+    private func detailView(for forecast: DailyForecast) -> WeatherDetailView {
+        let calendar = Calendar.current
+        let today = calendar.isDateInToday(forecast.date)
+        var dayHours = allHourly.filter { calendar.isDate($0.hour, inSameDayAs: forecast.date) }
+        if today {
+            // Aujourd'hui : ne garder que les heures à venir (pas les heures passées).
+            dayHours = dayHours.filter { $0.hour >= Date().addingTimeInterval(-3600) }
+        }
+        return WeatherDetailView(
+            forecast: forecast,
+            isToday: today,
+            hourly: dayHours,
+            nextRainHour: today ? walkingForecast?.nextRainHour : nil,
+            locationLabel: locationLabel
+        )
     }
 }
 
@@ -74,7 +114,7 @@ private struct DayForecastCell: View {
                 .font(.system(.caption2, design: .rounded).weight(isToday ? .semibold : .regular))
                 .foregroundStyle(isToday ? Color.primary : Color.secondary)
 
-            Text(weatherIcon(for: forecast.weatherCode))
+            Text(weatherEmoji(for: forecast.weatherCode))
                 .font(.system(size: 22))
                 .accessibilityHidden(true)
 
@@ -106,45 +146,6 @@ private struct DayForecastCell: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(a11yLabel)
-    }
-
-    /// Retourne l'emoji météo correspondant au code WMO.
-    private func weatherIcon(for code: Int) -> String {
-        switch code {
-        case 0:        return "☀️"
-        case 1:        return "🌤️"
-        case 2:        return "⛅"
-        case 3:        return "☁️"
-        case 45, 48:   return "🌫️"
-        case 51, 53, 55, 56, 57: return "🌦️"
-        case 61, 63, 65: return "🌧️"
-        case 66, 67:   return "🌨️"
-        case 71, 73, 75, 77: return "❄️"
-        case 80, 81, 82: return "🌧️"
-        case 85, 86:   return "🌨️"
-        case 95:       return "⛈️"
-        case 96, 99:   return "⛈️"
-        default:       return "🌡️"
-        }
-    }
-
-    /// Description textuelle du code météo WMO pour VoiceOver.
-    private func weatherDescription(for code: Int) -> String {
-        switch code {
-        case 0:        return "ciel dégagé"
-        case 1:        return "principalement dégagé"
-        case 2:        return "partiellement nuageux"
-        case 3:        return "couvert"
-        case 45, 48:   return "brouillard"
-        case 51...57:  return "bruine"
-        case 61, 63, 65: return "pluie"
-        case 66, 67:   return "pluie verglaçante"
-        case 71, 73, 75, 77: return "neige"
-        case 80, 81, 82: return "averses"
-        case 85, 86:   return "averses de neige"
-        case 95, 96, 99: return "orages"
-        default:       return "conditions variables"
-        }
     }
 }
 

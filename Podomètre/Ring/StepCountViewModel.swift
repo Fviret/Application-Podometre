@@ -1,5 +1,6 @@
 import Foundation
 import HealthKit
+import CoreMotion
 import SwiftUI
 import Combine
 import UserNotifications
@@ -34,6 +35,13 @@ class StepCountViewModel: ObservableObject {
 
     /// Nombre de jours où chaque seuil de pas a été atteint. Clé = StepMilestoneBadge.id.
     @Published var milestoneCounts: [String: Int] = [:]
+
+    /// Distance marche+course du jour, en km (HealthKit `distanceWalkingRunning`).
+    @Published var todayDistanceKm: Double = 0
+    /// Minutes actives du jour (marche/course/vélo), calculées via Core Motion — fonctionne sans Apple Watch.
+    @Published var todayActiveMinutes: Int = 0
+    /// Calories actives du jour, en kcal (HealthKit `activeEnergyBurned`). Souvent 0 sans Apple Watch.
+    @Published var todayActiveCalories: Int = 0
 
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
     @Published var completedJourneyIds: [String] = Preferences.shared.stringArray(.completedJourneyIds) ?? []
@@ -214,6 +222,7 @@ class StepCountViewModel: ObservableObject {
     @Published var selectedDayOffset: Int = 0 {
         didSet {
             fetchSteps(for: selectedDate)
+            fetchMetrics(for: selectedDate)
             syncSelectedMonth(to: selectedDate)
         }
     }
@@ -265,6 +274,15 @@ class StepCountViewModel: ObservableObject {
     private var observerQuery: HKObserverQuery?
     private var observerQueryRegistered = false
 
+    /// Podomètre Core Motion pour l'affichage quasi temps réel des pas du jour au premier plan.
+    private let pedometer = CMPedometer()
+    /// Historique d'activité (marche/course/vélo) pour calculer le temps actif sans Apple Watch.
+    private let activityManager = CMMotionActivityManager()
+    private var isLiveUpdating = false
+    #if targetEnvironment(simulator)
+    private var mockLiveTimer: Timer?
+    #endif
+
     /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
@@ -273,10 +291,11 @@ class StepCountViewModel: ObservableObject {
         #else
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
-              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
         else { return }
 
-        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType]) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] success, _ in
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true
@@ -287,6 +306,7 @@ class StepCountViewModel: ObservableObject {
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
                 self?.fetchMilestoneCounts()
+                self?.fetchMetrics(for: self?.selectedDate ?? Date())
                 self?.computeStreak()
             }
         }
@@ -300,8 +320,11 @@ class StepCountViewModel: ObservableObject {
         fetchMilestoneCounts()
         computeStreak()
 
-        // Pas du jour sélectionné
-        stepCount = selectedDayOffset == 0 ? 7_430 : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
+        // Métriques du jour sélectionné (mock simulateur)
+        fetchMetrics(for: selectedDate)
+
+        // Pas du jour sélectionné (previewStepsOverride force une valeur pour les previews Xcode).
+        stepCount = selectedDayOffset == 0 ? (previewStepsOverride ?? 7_430) : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
 
         // Calendrier mensuel : données pour les 28 premiers jours
         let calendar = Calendar.current
@@ -515,9 +538,133 @@ class StepCountViewModel: ObservableObject {
         healthStore.execute(query)
     }
 
+    // MARK: - Métriques du jour (distance, temps actif, calories)
+
+    /// Récupère les métriques (distance, minutes d'exercice, calories actives) pour le jour `date`.
+    /// Sur simulateur, injecte des valeurs fictives variant selon le jour.
+    func fetchMetrics(for date: Date) {
+        #if targetEnvironment(simulator)
+        let offset = max(0, Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0)
+        let distances: [Double] = [5.6, 3.2, 8.9, 6.7, 2.4, 9.6, 5.0]
+        let minutes = [42, 20, 65, 38, 15, 70, 33]
+        let calories = [480, 260, 720, 410, 180, 810, 390]
+        let i = offset % 7
+        todayDistanceKm = distances[i]
+        todayActiveMinutes = minutes[i]
+        todayActiveCalories = calories[i]
+        #else
+        let start = Calendar.current.startOfDay(for: date)
+        let end = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? date
+        fetchDayQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo), start: start, end: end) { [weak self] value in
+            self?.todayDistanceKm = value
+        }
+        fetchActiveMinutes(from: start, to: end)
+        fetchDayQuantity(.activeEnergyBurned, unit: .kilocalorie(), start: start, end: end) { [weak self] value in
+            self?.todayActiveCalories = Int(value)
+        }
+        #endif
+    }
+
+    /// Calcule le temps actif (min) sur `[start, end)` via Core Motion : somme des segments
+    /// marche/course/vélo de l'historique d'activité. Fonctionne sur iPhone seul (pas d'Apple Watch requise).
+    private func fetchActiveMinutes(from start: Date, to end: Date) {
+        guard CMMotionActivityManager.isActivityAvailable() else { return }
+        activityManager.queryActivityStarting(from: start, to: end, to: .main) { [weak self] activities, error in
+            guard let activities, error == nil else { return }
+            var activeSeconds: TimeInterval = 0
+            for (index, activity) in activities.enumerated() {
+                let isActive = (activity.walking || activity.running || activity.cycling) && activity.confidence != .low
+                guard isActive else { continue }
+                let segmentEnd = index + 1 < activities.count ? activities[index + 1].startDate : end
+                activeSeconds += segmentEnd.timeIntervalSince(activity.startDate)
+            }
+            let minutes = Int(activeSeconds / 60)
+            Task { @MainActor in self?.todayActiveMinutes = minutes }
+        }
+    }
+
+    /// Somme cumulée d'un type de quantité HealthKit sur l'intervalle `[start, end)`, convertie dans `unit`.
+    private func fetchDayQuantity(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, start: Date, end: Date, completion: @escaping (Double) -> Void) {
+        guard let type = HKQuantityType.quantityType(forIdentifier: identifier) else { return }
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        let query = HKStatisticsQuery(quantityType: type, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            let value = result?.sumQuantity()?.doubleValue(for: unit) ?? 0
+            Task { @MainActor in completion(value) }
+        }
+        healthStore.execute(query)
+    }
+
+    // MARK: - Mise à jour live (Core Motion)
+
+    /// Démarre le suivi quasi temps réel des pas du jour via `CMPedometer`.
+    /// Ne s'active qu'au premier plan et pour aujourd'hui ; HealthKit reste la source de vérité.
+    func startLiveStepUpdates() {
+        guard selectedDayOffset == 0, !isLiveUpdating else { return }
+        isLiveUpdating = true
+
+        #if targetEnvironment(simulator)
+        // Simulateur : simule une marche (incréments réguliers) pour visualiser l'animation.
+        mockLiveTimer?.invalidate()
+        mockLiveTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                guard let self, self.selectedDayOffset == 0 else { return }
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    self.stepCount += Int.random(in: 8...25)
+                }
+            }
+        }
+        #else
+        guard CMPedometer.isStepCountingAvailable() else { isLiveUpdating = false; return }
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        pedometer.startUpdates(from: startOfDay) { [weak self] data, error in
+            guard let data, error == nil else { return }
+            let steps = data.numberOfSteps.intValue
+            Task { @MainActor in
+                guard let self, self.selectedDayOffset == 0 else { return }
+                // `max` : la valeur ne recule jamais dans la journée (HealthKit peut inclure d'autres sources).
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    self.stepCount = max(self.stepCount, steps)
+                }
+            }
+        }
+        #endif
+    }
+
+    /// Arrête le suivi live (arrière-plan, ou navigation vers un jour passé) pour préserver la batterie.
+    func stopLiveStepUpdates() {
+        guard isLiveUpdating else { return }
+        isLiveUpdating = false
+        #if targetEnvironment(simulator)
+        mockLiveTimer?.invalidate()
+        mockLiveTimer = nil
+        #else
+        pedometer.stopUpdates()
+        #endif
+    }
+
+    /// Pas du jour forcés pour les previews Xcode (objectif atteint). `nil` = mock standard.
+    /// Utilisé uniquement par les `#Preview` pour visualiser l'écran en état « objectif atteint ».
+    var previewStepsOverride: Int?
+
     deinit {
         if let query = observerQuery {
             healthStore.stop(query)
         }
+    }
+}
+
+extension StepCountViewModel {
+    /// Instance de preview : objectif du jour **atteint** + série active,
+    /// pour visualiser la série 🔥 et l'anneau plein dans le canvas Xcode.
+    static var previewGoalReached: StepCountViewModel {
+        let vm = StepCountViewModel()
+        vm.goal = 10_000
+        vm.previewStepsOverride = 12_634
+        vm.stepCount = 12_634
+        vm.currentStreak = 5
+        vm.todayDistanceKm = 9.8
+        vm.todayActiveMinutes = 42
+        vm.todayActiveCalories = 480
+        return vm
     }
 }

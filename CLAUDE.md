@@ -1,6 +1,7 @@
 # Pedometer App — CLAUDE.md
 
-<!-- last updated: 2026-07-12 — À mettre à jour à chaque fin de session -->
+<!-- last updated: 2026-07-16 — À mettre à jour à chaque fin de session -->
+
 
 ---
 
@@ -10,11 +11,12 @@
 
 | Champ | Valeur |
 |---|---|
-| Branche active | `dev` (PR #18 pensée du jour et #19 dev→main mergées) |
-| Dernière feature travaillée | Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0) |
-| Fichiers modifiés récemment | `Podomètre/Aphorism/*`, `ContentView.swift`, `Settings/SettingsView.swift`, `Podome_treApp.swift`, tests unitaires + UI, `.github/workflows/ios.yml` |
-| Bugs ouverts connus | — |
-| Prochaine tâche prévue | Améliorations pensée du jour (animation d'apparition, bouton de partage, notification) ou Widget iOS écran d'accueil |
+| Branche active | `dev` (PR #29 polish écran activité mergée ; PR #31 total mensuel + #32 piste anneau ouvertes) |
+| Dernière feature travaillée | Polish écran Activité — série 🔥 à l'objectif atteint, typo du total mensuel, piste de l'anneau retravaillée (dégradé + ombre interne), pas quasi temps réel (CMPedometer) + compteur qui roule, centralisation UserDefaults (`PreferenceKey`/`Preferences`) |
+| Fichiers modifiés récemment | `Podomètre/Ring/*` (StepRingView, StepCountViewModel, MonthCalendarView, WeeklyForecastBannerView, RollingNumberText), `Podomètre/Preferences/*`, `AppColors.swift` |
+| Bugs ouverts connus | Simulateur uniquement : le handler `scenePhase .active` appelle `fetchSteps` (HealthKit) qui renvoie 0 sur simulateur et écrase le mock (sans effet sur device) |
+| Prochaine tâche prévue | Suite du polish graphique (cartes groupées, halo à l'objectif atteint), ou carte « aujourd'hui » distance/temps actif/calories (HealthKit), ou classement social cross-platform (backend à décider) |
+
 
 ---
 
@@ -163,6 +165,10 @@ Pedometer/
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
 | `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
 | `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
+| `showWeatherForecast` | `Bool` | Affiche météo/prévisions sur l'écran principal (défaut : activé) |
+| `showMonthCalendar` | `Bool` | Affiche le calendrier mensuel (défaut : activé) |
+| `showWeeklyChart` | `Bool` | Affiche le graphe hebdomadaire (défaut : activé) |
+| `showTodayMetrics` | `Bool` | Affiche les métriques du jour (distance/temps actif/calories) (défaut : activé) |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -417,8 +423,13 @@ Conventions VoiceOver et Dynamic Type à respecter sur tous les écrans.
 NSHealthShareUsageDescription
 NSHealthUpdateUsageDescription
 NSUserNotificationsUsageDescription
+NSMotionUsageDescription   # Core Motion (CMPedometer) — pas en quasi temps réel
 ```
 
+> Les clés d'usage sont générées via `INFOPLIST_KEY_*` dans le projet (`GENERATE_INFOPLIST_FILE = YES`), pas dans un fichier Info.plist.
+
 Types HK lus : `stepCount`, `distanceWalkingRunning`
+
+**Pas en temps réel** : au premier plan et pour aujourd'hui, `StepCountViewModel` affiche les pas via `CMPedometer` (Core Motion, mise à jour ~1×/s en marchant). HealthKit reste la source de vérité (historique, streak, arrière-plan). Voir `startLiveStepUpdates()` / `stopLiveStepUpdates()`.
 
 Capacité HealthKit activée dans les entitlements du projet.
