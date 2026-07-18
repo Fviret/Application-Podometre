@@ -249,7 +249,7 @@ struct StepRingView: View {
             switch phase {
             case .active:
                 viewModel.fetchSteps(for: viewModel.selectedDate)
-                viewModel.fetchTodayMetrics()
+                viewModel.fetchMetrics(for: viewModel.selectedDate)
                 viewModel.startLiveStepUpdates()
             default:
                 viewModel.stopLiveStepUpdates()

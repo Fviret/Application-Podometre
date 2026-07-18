@@ -222,6 +222,7 @@ class StepCountViewModel: ObservableObject {
     @Published var selectedDayOffset: Int = 0 {
         didSet {
             fetchSteps(for: selectedDate)
+            fetchMetrics(for: selectedDate)
             syncSelectedMonth(to: selectedDate)
         }
     }
@@ -304,7 +305,7 @@ class StepCountViewModel: ObservableObject {
                 self?.fetchMonthSteps()
                 self?.fetchWeeklyComparison()
                 self?.fetchMilestoneCounts()
-                self?.fetchTodayMetrics()
+                self?.fetchMetrics(for: self?.selectedDate ?? Date())
                 self?.computeStreak()
             }
         }
@@ -318,10 +319,8 @@ class StepCountViewModel: ObservableObject {
         fetchMilestoneCounts()
         computeStreak()
 
-        // Métriques du jour (mock simulateur)
-        todayDistanceKm = 5.6
-        todayActiveMinutes = 42
-        todayActiveCalories = 480
+        // Métriques du jour sélectionné (mock simulateur)
+        fetchMetrics(for: selectedDate)
 
         // Pas du jour sélectionné (previewStepsOverride force une valeur pour les previews Xcode).
         stepCount = selectedDayOffset == 0 ? (previewStepsOverride ?? 7_430) : [4_200, 11_350, 8_900, 3_100, 12_600, 9_870, 6_540][selectedDayOffset % 7]
@@ -540,31 +539,37 @@ class StepCountViewModel: ObservableObject {
 
     // MARK: - Métriques du jour (distance, temps actif, calories)
 
-    /// Récupère les métriques du jour (distance, minutes d'exercice, calories actives).
-    /// Sur simulateur, injecte des valeurs fictives.
-    func fetchTodayMetrics() {
+    /// Récupère les métriques (distance, minutes d'exercice, calories actives) pour le jour `date`.
+    /// Sur simulateur, injecte des valeurs fictives variant selon le jour.
+    func fetchMetrics(for date: Date) {
         #if targetEnvironment(simulator)
-        todayDistanceKm = 5.6
-        todayActiveMinutes = 42
-        todayActiveCalories = 480
+        let offset = max(0, Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0)
+        let distances: [Double] = [5.6, 3.2, 8.9, 6.7, 2.4, 9.6, 5.0]
+        let minutes = [42, 20, 65, 38, 15, 70, 33]
+        let calories = [480, 260, 720, 410, 180, 810, 390]
+        let i = offset % 7
+        todayDistanceKm = distances[i]
+        todayActiveMinutes = minutes[i]
+        todayActiveCalories = calories[i]
         #else
-        fetchTodayQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo)) { [weak self] value in
+        let start = Calendar.current.startOfDay(for: date)
+        let end = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? date
+        fetchDayQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo), start: start, end: end) { [weak self] value in
             self?.todayDistanceKm = value
         }
-        fetchTodayQuantity(.appleExerciseTime, unit: .minute()) { [weak self] value in
+        fetchDayQuantity(.appleExerciseTime, unit: .minute(), start: start, end: end) { [weak self] value in
             self?.todayActiveMinutes = Int(value)
         }
-        fetchTodayQuantity(.activeEnergyBurned, unit: .kilocalorie()) { [weak self] value in
+        fetchDayQuantity(.activeEnergyBurned, unit: .kilocalorie(), start: start, end: end) { [weak self] value in
             self?.todayActiveCalories = Int(value)
         }
         #endif
     }
 
-    /// Somme cumulée d'un type de quantité HealthKit sur la journée courante, convertie dans `unit`.
-    private func fetchTodayQuantity(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, completion: @escaping (Double) -> Void) {
+    /// Somme cumulée d'un type de quantité HealthKit sur l'intervalle `[start, end)`, convertie dans `unit`.
+    private func fetchDayQuantity(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, start: Date, end: Date, completion: @escaping (Double) -> Void) {
         guard let type = HKQuantityType.quantityType(forIdentifier: identifier) else { return }
-        let start = Calendar.current.startOfDay(for: Date())
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: Date(), options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
         let query = HKStatisticsQuery(quantityType: type, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
             let value = result?.sumQuantity()?.doubleValue(for: unit) ?? 0
             Task { @MainActor in completion(value) }
