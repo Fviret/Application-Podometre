@@ -38,7 +38,7 @@ class StepCountViewModel: ObservableObject {
 
     /// Distance marche+course du jour, en km (HealthKit `distanceWalkingRunning`).
     @Published var todayDistanceKm: Double = 0
-    /// Minutes d'exercice du jour (HealthKit `appleExerciseTime`). Souvent 0 sans Apple Watch.
+    /// Minutes actives du jour (marche/course/vélo), calculées via Core Motion — fonctionne sans Apple Watch.
     @Published var todayActiveMinutes: Int = 0
     /// Calories actives du jour, en kcal (HealthKit `activeEnergyBurned`). Souvent 0 sans Apple Watch.
     @Published var todayActiveCalories: Int = 0
@@ -276,6 +276,8 @@ class StepCountViewModel: ObservableObject {
 
     /// Podomètre Core Motion pour l'affichage quasi temps réel des pas du jour au premier plan.
     private let pedometer = CMPedometer()
+    /// Historique d'activité (marche/course/vélo) pour calculer le temps actif sans Apple Watch.
+    private let activityManager = CMMotionActivityManager()
     private var isLiveUpdating = false
     #if targetEnvironment(simulator)
     private var mockLiveTimer: Timer?
@@ -290,11 +292,10 @@ class StepCountViewModel: ObservableObject {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
               let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
-              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned),
-              let exerciseType = HKQuantityType.quantityType(forIdentifier: .appleExerciseTime)
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
         else { return }
 
-        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType, exerciseType]) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] success, _ in
             guard success else { return }
             Task { @MainActor in
                 self?.isAuthorized = true
@@ -557,13 +558,29 @@ class StepCountViewModel: ObservableObject {
         fetchDayQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo), start: start, end: end) { [weak self] value in
             self?.todayDistanceKm = value
         }
-        fetchDayQuantity(.appleExerciseTime, unit: .minute(), start: start, end: end) { [weak self] value in
-            self?.todayActiveMinutes = Int(value)
-        }
+        fetchActiveMinutes(from: start, to: end)
         fetchDayQuantity(.activeEnergyBurned, unit: .kilocalorie(), start: start, end: end) { [weak self] value in
             self?.todayActiveCalories = Int(value)
         }
         #endif
+    }
+
+    /// Calcule le temps actif (min) sur `[start, end)` via Core Motion : somme des segments
+    /// marche/course/vélo de l'historique d'activité. Fonctionne sur iPhone seul (pas d'Apple Watch requise).
+    private func fetchActiveMinutes(from start: Date, to end: Date) {
+        guard CMMotionActivityManager.isActivityAvailable() else { return }
+        activityManager.queryActivityStarting(from: start, to: end, to: .main) { [weak self] activities, error in
+            guard let activities, error == nil else { return }
+            var activeSeconds: TimeInterval = 0
+            for (index, activity) in activities.enumerated() {
+                let isActive = (activity.walking || activity.running || activity.cycling) && activity.confidence != .low
+                guard isActive else { continue }
+                let segmentEnd = index + 1 < activities.count ? activities[index + 1].startDate : end
+                activeSeconds += segmentEnd.timeIntervalSince(activity.startDate)
+            }
+            let minutes = Int(activeSeconds / 60)
+            Task { @MainActor in self?.todayActiveMinutes = minutes }
+        }
     }
 
     /// Somme cumulée d'un type de quantité HealthKit sur l'intervalle `[start, end)`, convertie dans `unit`.
