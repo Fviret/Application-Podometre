@@ -76,6 +76,18 @@ struct StepRingView: View {
                                         Text("pas")
                                             .font(.system(.callout, design: .rounded).weight(.medium))
                                             .foregroundStyle(Color.secondary)
+
+                                        // Série en cours : affichée sous « pas » quand l'objectif du jour est atteint.
+                                        if viewModel.selectedDayOffset == 0,
+                                           viewModel.stepCount >= viewModel.goal,
+                                           viewModel.currentStreak > 0 {
+                                            Text("🔥 \(viewModel.currentStreak) jour\(viewModel.currentStreak > 1 ? "s" : "") de suite")
+                                                .font(.system(.caption, design: .rounded).weight(.semibold))
+                                                .foregroundStyle(Color.secondary)
+                                                .padding(.top, 2)
+                                                .transition(.opacity.combined(with: .scale))
+                                                .accessibilityLabel("Série de \(viewModel.currentStreak) jour\(viewModel.currentStreak > 1 ? "s" : "") consécutif\(viewModel.currentStreak > 1 ? "s" : "")")
+                                        }
                                     }
                                 }
                                 .accessibilityElement(children: .ignore)
