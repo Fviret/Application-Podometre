@@ -2,6 +2,7 @@
 
 <!-- last updated: 2026-07-16 — À mettre à jour à chaque fin de session -->
 
+
 ---
 
 ## Contexte de reprise
@@ -16,9 +17,6 @@
 | Bugs ouverts connus | Simulateur uniquement : le handler `scenePhase .active` appelle `fetchSteps` (HealthKit) qui renvoie 0 sur simulateur et écrase le mock (sans effet sur device) |
 | Prochaine tâche prévue | Suite du polish graphique (cartes groupées, halo à l'objectif atteint), ou carte « aujourd'hui » distance/temps actif/calories (HealthKit), ou classement social cross-platform (backend à décider) |
 
-### Idées explorées puis abandonnées (non mûres)
-- **Anneau avec visualisation du dépassement d'objectif** (arc de dépassement / dégradé au prorata) — plusieurs variantes testées, branche supprimée, à reprendre avec un concept plus abouti.
-- **Marges de sections en « cartes »** — tenté puis abandonné (préférer un vrai look cartes groupées le cas échéant).
 
 ---
 
