@@ -33,4 +33,6 @@ enum PreferenceKey: String, CaseIterable {
     case showMonthCalendar
     /// Affiche le graphe hebdomadaire (`Bool`).
     case showWeeklyChart
+    /// Affiche la rangée de métriques du jour (distance, temps actif, calories) (`Bool`).
+    case showTodayMetrics
 }

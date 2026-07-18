@@ -12,6 +12,7 @@ struct StepRingView: View {
     @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
     @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
+    @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -166,8 +167,10 @@ struct StepRingView: View {
                             .foregroundStyle(Color.secondary)
 
                         // Métriques du jour : distance, temps actif, calories (HealthKit).
-                        TodayMetricsView(viewModel: viewModel)
-                            .padding(.horizontal, 24)
+                        if showTodayMetrics {
+                            TodayMetricsView(viewModel: viewModel)
+                                .padding(.horizontal, 24)
+                        }
 
                         if showWeatherForecast {
                             WeeklyForecastBannerView(forecasts: dailyForecasts, locationLabel: locationLabel)
