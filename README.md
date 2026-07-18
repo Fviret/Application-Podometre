@@ -18,9 +18,10 @@ Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru v
 
 ## Fonctionnalités
 
-- Anneau de progression en temps réel connecté à HealthKit
+- Anneau de progression en temps réel connecté à HealthKit, avec halo de célébration et pourcentage d'objectif à l'atteinte
+- Métriques du jour sous l'anneau : distance, temps actif (Core Motion) et calories, suivant le jour sélectionné
 - Navigation entre les jours, calendrier mensuel et graphe hebdomadaire
-- Bannière pluie imminente + prévisions météo 7 jours (Open-Meteo, sans clé API)
+- Bannière pluie imminente + prévisions météo 7 jours (Open-Meteo, sans clé API), avec écran de détail au tap sur un jour
 - Système de trajets avec progression sur distance réelle (walking + running)
 - Badges de pas et de trajets débloqués selon les performances
 - Streak de jours consécutifs où l'objectif est atteint
@@ -40,7 +41,10 @@ L'écran principal de l'app.
 </p>
 
 **Anneau de progression**
-Affiche les pas du jour sous forme d'un arc coloré, rempli proportionnellement à l'objectif quotidien. La couleur de l'anneau est personnalisable dans les Paramètres.
+Affiche les pas du jour sous forme d'un arc coloré, rempli proportionnellement à l'objectif quotidien. La couleur de l'anneau est personnalisable dans les Paramètres. Le centre affiche le compteur de pas, le pourcentage d'objectif atteint (non plafonné) et, dès l'objectif franchi aujourd'hui, la série 🔥 et un halo de célébration animé (respecte « Réduire les animations »).
+
+**Métriques du jour**
+Sous l'anneau, trois tuiles résument le jour sélectionné : distance parcourue (km), temps actif et calories. Le temps actif est calculé via Core Motion (segments marche / course / vélo), ce qui fonctionne sur iPhone seul sans Apple Watch. La ligne suit le jour choisi via les chevrons et se masque depuis les Paramètres.
 
 **Navigation par jour**
 Les chevrons gauche/droit permettent de consulter n'importe quel jour passé. Le label central affiche "Aujourd'hui", "Hier", ou la date courte.
@@ -64,6 +68,8 @@ Se rafraîchit toutes les 30 minutes. Masquée silencieusement en cas d'erreur r
 
 **Prévisions 7 jours**
 Scroll horizontal sous l'anneau affichant aujourd'hui et les 6 jours suivants : emoji météo WMO, températures min/max, précipitations si > 0,2 mm. Le jour actuel est mis en évidence. La ville est affichée en dessous via reverse geocoding.
+
+Un tap sur un jour ouvre un **écran de détail météo** : condition et emoji, max/min, précipitations et localisation, alerte pluie (pour aujourd'hui), et une liste compacte des prévisions du jour par créneaux horaires (00 h–02 h … 22 h–00 h). Les données horaires couvrent les 7 jours (Open-Meteo, sans clé), parsées en heure locale.
 
 <p align="center">
   <img width="500" alt="IMG_5094" src="https://github.com/user-attachments/assets/2444aabb-127b-4565-a50a-c9b990993dca" />
@@ -164,9 +170,10 @@ Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et 
 </p>
 
 **Mon écran principal**
-Trois toggles pour afficher ou masquer des sections de l'écran Activité :
+Quatre toggles pour afficher ou masquer des sections de l'écran Activité :
 
 - *Météo & prévisions* — bannière pluie + prévisions 7 jours (désactiver coupe aussi les appels réseau et la localisation)
+- *Métriques du jour* — distance · temps actif · calories sous l'anneau
 - *Calendrier mensuel* — grille du mois en cours
 - *Graphe hebdomadaire* — courbe de comparaison semaine en cours / précédente
 
@@ -258,7 +265,7 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 
 **Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
 
-**58 tests en 11 suites**
+**87 tests en 16 suites**
 
 | Suite | Ce qui est testé |
 |---|---|
@@ -276,22 +283,8 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 | `Aphorism decoding` | Décodage JSON du recueil (champs requis, tolérance aux anciens champs tone/year/source) |
 | `AphorismManager.aphorism(forDayOfYear:)` | Sélection déterministe par quantième (premier/dernier jour, wrap, stabilité, recueil vide) |
 | `AphorismManager.shouldShowPopup` | Garde 1x/jour (activé par défaut, désactivé, affiché aujourd'hui/hier, recueil vide, mémorisation) |
-
-**Couverture actuelle** : 72 tests unitaires (Swift Testing) + 7 tests UI (XCUITest)
-
-### Tests UI
-
-**Framework** : XCUITest — pilotés par variables d'environnement de lancement (`SKIP_ONBOARDING`, `RESET_APHORISM`, `DISABLE_APHORISM`).
-
-| Suite | Ce qui est testé |
-|---|---|
-| `OnboardingUITests` | Onboarding : slides, navigation, complétion, non-dismissable |
-| `TabNavigationUITests` | Navigation entre les onglets Activité / Trajets / Paramètres |
-| `ActivityUITests` | Écran Activité : anneau, label de date, chevrons de navigation |
-| `AphorismPopupUITests` | Popup « pensée du jour » : apparition à l'ouverture, fermeture via « Make my day », absence si désactivée |
-| `AphorismSettingsUITests` | Section Paramètres : présence du toggle et de la carte de l'aphorisme du jour |
-
-**Lancer les tests en CLI :**
+| `Preferences` | Clés typées : garde-fou anti-renommage, unicité, round-trip, `hasValue`, suppression |
+| `WeatherCode` | Mapping code WMO → emoji / description / libellé (conditions, bornes d'intervalle, fallback, casse) |
 
 ```bash
 # Lancer les tests unitaires en CLI
@@ -306,19 +299,22 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 
 ### Tests UI
 
-**Framework** : XCTest / XCUITest
+**Framework** : XCUITest — pilotés par variables d'environnement de lancement (`SKIP_ONBOARDING`, `RESET_ONBOARDING`, `RESET_APHORISM`, `DISABLE_APHORISM`).
 
-**16 tests en 3 suites** — couvrent les flux utilisateur principaux sur simulateur.
+**22 tests en 5 suites** — couvrent les flux utilisateur principaux sur simulateur.
 
-| Suite | Tests | Ce qui est vérifié |
-|---|---|---|
-| `OnboardingUITests` | 6 | Slides 1→4, boutons de navigation, protection anti-dismiss |
-| `TabNavigationUITests` | 5 | 3 onglets présents, navigation aller-retour |
-| `ActivityUITests` | 5 | Anneau visible, label de date, chevrons de navigation |
+| Suite | Ce qui est vérifié |
+|---|---|
+| `OnboardingUITests` | Slides 1→4, boutons de navigation, protection anti-dismiss |
+| `TabNavigationUITests` | 3 onglets présents, navigation aller-retour |
+| `ActivityUITests` | Anneau visible, label de date, chevrons de navigation |
+| `AphorismPopupUITests` | Popup « pensée du jour » : apparition à l'ouverture, fermeture via « Make my day », absence si désactivée |
+| `AphorismSettingsUITests` | Section Paramètres : présence du toggle et de la carte de l'aphorisme du jour |
 
-**Isolation des tests** : deux variables d'environnement contrôlent l'état UserDefaults au lancement :
+**Isolation des tests** : des variables d'environnement contrôlent l'état UserDefaults au lancement :
 - `RESET_ONBOARDING=1` — force l'onboarding (suites onboarding)
 - `SKIP_ONBOARDING=1` — bypasse l'onboarding (suites app principale)
+- `RESET_APHORISM` / `DISABLE_APHORISM` — contrôlent la popup « pensée du jour »
 
 ```bash
 # Lancer les tests UI en CLI
@@ -329,7 +325,7 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
   -only-testing:PodomètreUITests
 ```
 
-Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
+Ou via Xcode : `⌘U`
 
 ---
 
@@ -340,37 +336,28 @@ Ou via Xcode : `⌘U` (cible `PodomètreUITests`)
 ## Roadmap
 
 ### Terminé
-- [x] Anneau de progression en temps réel (HealthKit)
+- [x] Anneau de progression en temps réel (HealthKit), halo de célébration + pourcentage d'objectif
+- [x] Métriques du jour (distance · temps actif Core Motion · calories)
 - [x] Navigation par jour, calendrier mensuel, graphe hebdomadaire
-- [x] Bannière météo + prévisions 7 jours (Open-Meteo)
+- [x] Bannière météo + prévisions 7 jours (Open-Meteo) + écran de détail météo par jour
 - [x] Système de trajets avec progression sur distance réelle
 - [x] Badges de pas et de trajets
 - [x] Streak de jours consécutifs
 - [x] Notifications locales (objectif + jalons + completion)
-- [x] Personnalisation (couleur anneau, objectif, mode sombre)
+- [x] Personnalisation (couleur anneau, objectif, mode sombre, sections de l'écran principal)
 - [x] Onboarding
+- [x] Pensée du jour — popup matinale + carte dans les Paramètres (400 aphorismes CC0)
+- [x] Tests unitaires et UI (Swift Testing + XCUITest)
 
 ### Priorité haute — impact utilisateur immédiat
-- [ ] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets)
 - [ ] **Mode éco** — optimisation des appels HealthKit et météo en arrière-plan
 - [ ] **Slide récapitulative hebdomadaire** — bilan de la semaine affiché le lundi
 - [ ] **Widget iOS** — pas du jour + progression anneau sur l'écran d'accueil
 
 ### Priorité moyenne — enrichissement
+- [ ] **Pensée du jour** — animation d'apparition, bouton de partage, affichage en notification
 - [ ] **Export CSV** — historique de pas et distances
 - [ ] **Gamification RPG** — débloquer des récompenses selon les pas
 
 ### Vision long terme
 - [ ] **Développement 100 % IA agentique** — de la rédaction des user stories jusqu'au déploiement App Store, piloté par une IA agentique bout en bout : US → dev → tests → publication
-
----
-
-## Roadmap
-
-### Terminé récemment
-- Pensée du jour — popup matinale + carte dans les Paramètres (400 aphorismes CC0)
-
-### À venir
-- **Pensée du jour** — améliorations : animation d'apparition (bounce / fade-in), bouton de partage, affichage dans une notification
-- **Widget iOS** écran d'accueil (pas du jour + progression de l'anneau)
-- **Slide récapitulative hebdomadaire** affichée le lundi à la première ouverture de la semaine
