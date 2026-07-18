@@ -4,7 +4,11 @@ import SwiftUI
 /// Invisible tant que la localisation n'est pas accordée.
 struct WeeklyForecastBannerView: View {
     let forecasts: [DailyForecast]
+    var walkingForecast: WalkingForecast? = nil
     var locationLabel: String? = nil
+
+    /// Jour sélectionné au tap — présente la sheet de détail météo.
+    @State private var selectedForecast: DailyForecast?
 
     var body: some View {
         if !forecasts.isEmpty {
@@ -23,7 +27,12 @@ struct WeeklyForecastBannerView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(forecasts.indices, id: \.self) { i in
-                            DayForecastCell(forecast: forecasts[i], isToday: i == 0)
+                            Button {
+                                selectedForecast = forecasts[i]
+                            } label: {
+                                DayForecastCell(forecast: forecasts[i], isToday: i == 0)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, 24)
@@ -44,7 +53,22 @@ struct WeeklyForecastBannerView: View {
                     .accessibilityLabel("Localisation : \(label)")
                 }
             }
+            .sheet(item: $selectedForecast) { forecast in
+                detailView(for: forecast)
+            }
         }
+    }
+
+    /// Construit la sheet de détail pour un jour ; l'horaire n'est pertinent que pour aujourd'hui.
+    private func detailView(for forecast: DailyForecast) -> WeatherDetailView {
+        let today = Calendar.current.isDateInToday(forecast.date)
+        return WeatherDetailView(
+            forecast: forecast,
+            isToday: today,
+            hourly: today ? (walkingForecast?.hours ?? []) : [],
+            nextRainHour: today ? walkingForecast?.nextRainHour : nil,
+            locationLabel: locationLabel
+        )
     }
 }
 
@@ -82,7 +106,7 @@ private struct DayForecastCell: View {
                 .font(.system(.caption2, design: .rounded).weight(isToday ? .semibold : .regular))
                 .foregroundStyle(isToday ? Color.primary : Color.secondary)
 
-            Text(weatherIcon(for: forecast.weatherCode))
+            Text(weatherEmoji(for: forecast.weatherCode))
                 .font(.system(size: 22))
                 .accessibilityHidden(true)
 
@@ -114,45 +138,6 @@ private struct DayForecastCell: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(a11yLabel)
-    }
-
-    /// Retourne l'emoji météo correspondant au code WMO.
-    private func weatherIcon(for code: Int) -> String {
-        switch code {
-        case 0:        return "☀️"
-        case 1:        return "🌤️"
-        case 2:        return "⛅"
-        case 3:        return "☁️"
-        case 45, 48:   return "🌫️"
-        case 51, 53, 55, 56, 57: return "🌦️"
-        case 61, 63, 65: return "🌧️"
-        case 66, 67:   return "🌨️"
-        case 71, 73, 75, 77: return "❄️"
-        case 80, 81, 82: return "🌧️"
-        case 85, 86:   return "🌨️"
-        case 95:       return "⛈️"
-        case 96, 99:   return "⛈️"
-        default:       return "🌡️"
-        }
-    }
-
-    /// Description textuelle du code météo WMO pour VoiceOver.
-    private func weatherDescription(for code: Int) -> String {
-        switch code {
-        case 0:        return "ciel dégagé"
-        case 1:        return "principalement dégagé"
-        case 2:        return "partiellement nuageux"
-        case 3:        return "couvert"
-        case 45, 48:   return "brouillard"
-        case 51...57:  return "bruine"
-        case 61, 63, 65: return "pluie"
-        case 66, 67:   return "pluie verglaçante"
-        case 71, 73, 75, 77: return "neige"
-        case 80, 81, 82: return "averses"
-        case 85, 86:   return "averses de neige"
-        case 95, 96, 99: return "orages"
-        default:       return "conditions variables"
-        }
     }
 }
 
