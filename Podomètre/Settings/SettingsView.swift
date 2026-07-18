@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
     @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
+    @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @State private var showPicker = false
 
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
@@ -74,6 +75,7 @@ struct SettingsView: View {
                     Toggle("Mode sombre", isOn: $isDarkMode)
                 }
                 Section("Mon écran principal") {
+                    Toggle("Distance · temps actif · calories", isOn: $showTodayMetrics)
                     Toggle("Météo & prévisions", isOn: $showWeatherForecast)
                     Toggle("Calendrier mensuel", isOn: $showMonthCalendar)
                     Toggle("Graphe hebdomadaire", isOn: $showWeeklyChart)

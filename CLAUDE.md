@@ -167,6 +167,10 @@ Pedometer/
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
 | `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
 | `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
+| `showWeatherForecast` | `Bool` | Affiche météo/prévisions sur l'écran principal (défaut : activé) |
+| `showMonthCalendar` | `Bool` | Affiche le calendrier mensuel (défaut : activé) |
+| `showWeeklyChart` | `Bool` | Affiche le graphe hebdomadaire (défaut : activé) |
+| `showTodayMetrics` | `Bool` | Affiche les métriques du jour (distance/temps actif/calories) (défaut : activé) |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
