@@ -16,9 +16,9 @@ struct TodayMetricsView: View {
             )
             metricTile(
                 icon: "clock.fill",
-                value: "\(viewModel.todayActiveMinutes) min",
+                value: activeTimeText,
                 label: "Temps actif",
-                a11y: "Temps actif : \(viewModel.todayActiveMinutes) minutes"
+                a11y: "Temps actif : \(activeTimeAccessibility)"
             )
             metricTile(
                 icon: "flame.fill",
@@ -32,6 +32,25 @@ struct TodayMetricsView: View {
     /// Distance formatée avec une décimale (unité km), séparateur localisé.
     private var distanceText: String {
         viewModel.todayDistanceKm.formatted(.number.precision(.fractionLength(1))) + " km"
+    }
+
+    /// Temps actif formaté : « 45 min » sous 1 h, sinon « 1 h 14 min » (ou « 2 h » si pile).
+    private var activeTimeText: String {
+        let total = viewModel.todayActiveMinutes
+        guard total >= 60 else { return "\(total) min" }
+        let hours = total / 60
+        let minutes = total % 60
+        return minutes == 0 ? "\(hours) h" : "\(hours) h \(minutes) min"
+    }
+
+    /// Formulation accessible du temps actif (VoiceOver).
+    private var activeTimeAccessibility: String {
+        let total = viewModel.todayActiveMinutes
+        guard total >= 60 else { return "\(total) minutes" }
+        let hours = total / 60
+        let minutes = total % 60
+        let heure = hours > 1 ? "heures" : "heure"
+        return minutes == 0 ? "\(hours) \(heure)" : "\(hours) \(heure) \(minutes) minutes"
     }
 
     /// Tuile individuelle : icône teintée + valeur + libellé.
