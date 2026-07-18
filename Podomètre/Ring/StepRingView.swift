@@ -234,6 +234,10 @@ struct StepRingView: View {
     }
 }
 
-#Preview {
+#Preview("Objectif non atteint") {
     StepRingView(viewModel: StepCountViewModel())
+}
+
+#Preview("Objectif atteint (série 🔥)") {
+    StepRingView(viewModel: .previewGoalReached)
 }
