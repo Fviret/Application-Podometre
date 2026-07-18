@@ -85,27 +85,21 @@ struct WeatherDetailView: View {
                     let h = slot.forecast
                     HStack(spacing: 14) {
                         Text(slot.label)
-                            .font(.system(.subheadline, design: .rounded).weight(.medium))
-                            .foregroundStyle(Color.secondary)
-                            .frame(width: 108, alignment: .leading)
+                            .font(.system(.body, design: .rounded).weight(.medium))
+                            .foregroundStyle(Color.primary)
+                            .frame(width: 124, alignment: .leading)
 
                         Text(weatherEmoji(for: h.weatherCode))
-                            .font(.system(size: 22))
+                            .font(.system(size: 28))
                             .accessibilityHidden(true)
 
                         Spacer()
 
-                        if h.precipitationMm > 0.1 {
-                            Text("\(h.precipitationMm.formatted(.number.precision(.fractionLength(1)))) mm")
-                                .font(.caption)
-                                .foregroundStyle(Color.blue.opacity(0.85))
-                        }
-
                         Text("\(Int(h.temperature.rounded()))°")
-                            .font(.system(.body, design: .rounded).weight(.semibold))
-                            .frame(width: 44, alignment: .trailing)
+                            .font(.system(.title3, design: .rounded).weight(.semibold))
+                            .frame(width: 48, alignment: .trailing)
                     }
-                    .padding(.vertical, 11)
+                    .padding(.vertical, 15)
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(slotAccessibility(slot))
 
@@ -163,13 +157,13 @@ struct WeatherDetailView: View {
         let targets: [(hour: Int, label: String)] = [
             (0, "00 h – 02 h"),
             (2, "02 h – 05 h"),
-            (8, "08 h"),
-            (11, "11 h"),
-            (14, "14 h"),
-            (17, "17 h"),
-            (20, "20 h"),
-            (22, "22 h"),
-            (23, "Minuit")
+            (5, "05 h – 08 h"),
+            (8, "08 h – 11 h"),
+            (11, "11 h – 14 h"),
+            (14, "14 h – 17 h"),
+            (17, "17 h – 20 h"),
+            (20, "20 h – 22 h"),
+            (22, "22 h – 00 h")
         ]
         let calendar = Calendar.current
         return targets.compactMap { target in
@@ -179,10 +173,7 @@ struct WeatherDetailView: View {
     }
 
     private func slotAccessibility(_ slot: WeatherSlot) -> String {
-        let precip = slot.forecast.precipitationMm > 0.1
-            ? ", \(slot.forecast.precipitationMm.formatted(.number.precision(.fractionLength(1)))) mm de pluie"
-            : ""
-        return "\(slot.label), \(weatherDescription(for: slot.forecast.weatherCode)), \(Int(slot.forecast.temperature.rounded()))°\(precip)"
+        "\(slot.label), \(weatherDescription(for: slot.forecast.weatherCode)), \(Int(slot.forecast.temperature.rounded()))°"
     }
 }
 
