@@ -37,7 +37,7 @@ struct WeatherDetailView: View {
                                  neutral: false)
                     }
 
-                    if !hourly.isEmpty {
+                    if !slots.isEmpty {
                         hourlyList
                     }
                 }
@@ -73,21 +73,21 @@ struct WeatherDetailView: View {
 
     private var hourlyList: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Prochaines heures")
+            Text("Prévisions du jour")
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundStyle(Color.secondary)
                 .padding(.bottom, 8)
                 .accessibilityAddTraits(.isHeader)
 
             VStack(spacing: 0) {
-                ForEach(hourly.indices, id: \.self) { i in
-                    let h = hourly[i]
-                    let isNow = isToday && i == 0
+                ForEach(slots.indices, id: \.self) { i in
+                    let slot = slots[i]
+                    let h = slot.forecast
                     HStack(spacing: 14) {
-                        Text(isNow ? "Maintenant" : timeString(h.hour))
+                        Text(slot.label)
                             .font(.system(.subheadline, design: .rounded).weight(.medium))
-                            .foregroundStyle(isNow ? Color.primary : Color.secondary)
-                            .frame(width: 96, alignment: .leading)
+                            .foregroundStyle(Color.secondary)
+                            .frame(width: 108, alignment: .leading)
 
                         Text(weatherEmoji(for: h.weatherCode))
                             .font(.system(size: 22))
@@ -107,9 +107,9 @@ struct WeatherDetailView: View {
                     }
                     .padding(.vertical, 11)
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(hourAccessibility(index: i, hour: h))
+                    .accessibilityLabel(slotAccessibility(slot))
 
-                    if i < hourly.count - 1 {
+                    if i < slots.count - 1 {
                         Divider()
                     }
                 }
@@ -149,12 +149,40 @@ struct WeatherDetailView: View {
         return f.string(from: date)
     }
 
-    private func hourAccessibility(index: Int, hour: HourlyWeather) -> String {
-        let when = (isToday && index == 0) ? "Maintenant" : timeString(hour.hour)
-        let precip = hour.precipitationMm > 0.1
-            ? ", \(hour.precipitationMm.formatted(.number.precision(.fractionLength(1)))) mm de pluie"
+    // MARK: - Créneaux horaires compacts
+
+    /// Un créneau : un libellé (heure ou tranche) et la prévision représentative.
+    private struct WeatherSlot {
+        let label: String
+        let forecast: HourlyWeather
+    }
+
+    /// Créneaux compacts de la journée (nuit regroupée, puis toutes les ~3 h),
+    /// construits à partir des heures disponibles pour le jour affiché.
+    private var slots: [WeatherSlot] {
+        let targets: [(hour: Int, label: String)] = [
+            (0, "00 h – 02 h"),
+            (2, "02 h – 05 h"),
+            (8, "08 h"),
+            (11, "11 h"),
+            (14, "14 h"),
+            (17, "17 h"),
+            (20, "20 h"),
+            (22, "22 h"),
+            (23, "Minuit")
+        ]
+        let calendar = Calendar.current
+        return targets.compactMap { target in
+            guard let match = hourly.first(where: { calendar.component(.hour, from: $0.hour) == target.hour }) else { return nil }
+            return WeatherSlot(label: target.label, forecast: match)
+        }
+    }
+
+    private func slotAccessibility(_ slot: WeatherSlot) -> String {
+        let precip = slot.forecast.precipitationMm > 0.1
+            ? ", \(slot.forecast.precipitationMm.formatted(.number.precision(.fractionLength(1)))) mm de pluie"
             : ""
-        return "\(when), \(weatherDescription(for: hour.weatherCode)), \(Int(hour.temperature.rounded()))°\(precip)"
+        return "\(slot.label), \(weatherDescription(for: slot.forecast.weatherCode)), \(Int(slot.forecast.temperature.rounded()))°\(precip)"
     }
 }
 
