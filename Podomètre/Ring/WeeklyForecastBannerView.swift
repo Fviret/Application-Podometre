@@ -5,6 +5,8 @@ import SwiftUI
 struct WeeklyForecastBannerView: View {
     let forecasts: [DailyForecast]
     var walkingForecast: WalkingForecast? = nil
+    /// Toutes les heures des 7 jours — filtrées par jour pour le détail.
+    var allHourly: [HourlyWeather] = []
     var locationLabel: String? = nil
 
     /// Jour sélectionné au tap — présente la sheet de détail météo.
@@ -59,13 +61,19 @@ struct WeeklyForecastBannerView: View {
         }
     }
 
-    /// Construit la sheet de détail pour un jour ; l'horaire n'est pertinent que pour aujourd'hui.
+    /// Construit la sheet de détail pour un jour, avec l'horaire de ce jour (filtré depuis les 7 jours).
     private func detailView(for forecast: DailyForecast) -> WeatherDetailView {
-        let today = Calendar.current.isDateInToday(forecast.date)
+        let calendar = Calendar.current
+        let today = calendar.isDateInToday(forecast.date)
+        var dayHours = allHourly.filter { calendar.isDate($0.hour, inSameDayAs: forecast.date) }
+        if today {
+            // Aujourd'hui : ne garder que les heures à venir (pas les heures passées).
+            dayHours = dayHours.filter { $0.hour >= Date().addingTimeInterval(-3600) }
+        }
         return WeatherDetailView(
             forecast: forecast,
             isToday: today,
-            hourly: today ? (walkingForecast?.hours ?? []) : [],
+            hourly: dayHours,
             nextRainHour: today ? walkingForecast?.nextRainHour : nil,
             locationLabel: locationLabel
         )

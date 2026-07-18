@@ -88,6 +88,28 @@ actor WeatherService {
             return DailyForecast(date: date, weatherCode: code, tempMin: tmin, tempMax: tmax, precipitationMm: precip)
         }
     }
+
+    /// Retourne **toutes** les heures des 7 jours de prévision (pour le détail météo par jour).
+    func fetchHourly(lat: Double, lon: Double) async throws -> [HourlyWeather] {
+        let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(lat)&longitude=\(lon)&hourly=temperature_2m,precipitation,weathercode&forecast_days=7&timezone=auto"
+        guard let url = URL(string: urlString) else { throw URLError(.badURL) }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let json = try JSONDecoder().decode(OpenMeteoHourlyResponse.self, from: data)
+
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
+
+        return zip(json.hourly.time, zip(
+            json.hourly.precipitation,
+            zip(json.hourly.temperature_2m, json.hourly.weathercode)
+        ))
+        .compactMap { (timeStr, rest) -> HourlyWeather? in
+            let (precip, (temp, code)) = rest
+            guard let date = formatter.date(from: timeStr) else { return nil }
+            return HourlyWeather(hour: date, precipitationMm: precip, temperature: temp, weatherCode: code)
+        }
+    }
 }
 
 // MARK: - Codable

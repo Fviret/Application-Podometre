@@ -7,6 +7,8 @@ struct StepRingView: View {
     @StateObject private var locationManager = LocationManager()
     @State private var walkingForecast: WalkingForecast?
     @State private var dailyForecasts: [DailyForecast] = []
+    /// Toutes les heures des 7 jours de prévision — alimente le détail météo par jour.
+    @State private var allHourly: [HourlyWeather] = []
     @State private var locationLabel: String? = nil
 
     @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
@@ -181,7 +183,7 @@ struct StepRingView: View {
                         }
 
                         if showWeatherForecast {
-                            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, locationLabel: locationLabel)
+                            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
                         }
 
                         if showMonthCalendar {
@@ -226,6 +228,16 @@ struct StepRingView: View {
                     DailyForecast(date: Date().addingTimeInterval(86400 * 5), weatherCode: 2, tempMin: 14, tempMax: 21, precipitationMm: 0),
                     DailyForecast(date: Date().addingTimeInterval(86400 * 6), weatherCode: 0, tempMin: 16, tempMax: 25, precipitationMm: 0),
                 ]
+                // Horaire mock : quelques heures pour chacun des 7 jours (pour le détail par jour).
+                let startOfToday = Calendar.current.startOfDay(for: Date())
+                allHourly = (0..<7).flatMap { day -> [HourlyWeather] in
+                    [9, 12, 15, 18, 21].map { hour in
+                        let date = startOfToday.addingTimeInterval(Double(day) * 86400 + Double(hour) * 3600)
+                        let codes = [1, 61, 3, 0, 80, 2, 0]
+                        let precip = (day == 1 || day == 4) && (hour == 12 || hour == 15) ? 1.4 : 0
+                        return HourlyWeather(hour: date, precipitationMm: precip, temperature: Double(16 + (hour - 9) / 3), weatherCode: codes[day])
+                    }
+                }
                 #else
                 locationManager.requestLocation()
                 Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
@@ -278,8 +290,10 @@ struct StepRingView: View {
         let lon = loc.coordinate.longitude
         async let hourly = WeatherService.shared.fetch(lat: lat, lon: lon)
         async let daily = WeatherService.shared.fetchDaily(lat: lat, lon: lon)
+        async let allHours = WeatherService.shared.fetchHourly(lat: lat, lon: lon)
         walkingForecast = try? await hourly
         dailyForecasts = (try? await daily) ?? []
+        allHourly = (try? await allHours) ?? []
 
         let placemarks = try? await CLGeocoder().reverseGeocodeLocation(loc)
         if let place = placemarks?.first {

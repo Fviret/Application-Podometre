@@ -37,7 +37,7 @@ struct WeatherDetailView: View {
                                  neutral: false)
                     }
 
-                    if isToday, !hourly.isEmpty {
+                    if !hourly.isEmpty {
                         hourlyList
                     }
                 }
@@ -82,10 +82,11 @@ struct WeatherDetailView: View {
             VStack(spacing: 0) {
                 ForEach(hourly.indices, id: \.self) { i in
                     let h = hourly[i]
+                    let isNow = isToday && i == 0
                     HStack(spacing: 14) {
-                        Text(i == 0 ? "Maintenant" : timeString(h.hour))
+                        Text(isNow ? "Maintenant" : timeString(h.hour))
                             .font(.system(.subheadline, design: .rounded).weight(.medium))
-                            .foregroundStyle(i == 0 ? Color.primary : Color.secondary)
+                            .foregroundStyle(isNow ? Color.primary : Color.secondary)
                             .frame(width: 96, alignment: .leading)
 
                         Text(weatherEmoji(for: h.weatherCode))
@@ -149,7 +150,7 @@ struct WeatherDetailView: View {
     }
 
     private func hourAccessibility(index: Int, hour: HourlyWeather) -> String {
-        let when = index == 0 ? "Maintenant" : timeString(hour.hour)
+        let when = (isToday && index == 0) ? "Maintenant" : timeString(hour.hour)
         let precip = hour.precipitationMm > 0.1
             ? ", \(hour.precipitationMm.formatted(.number.precision(.fractionLength(1)))) mm de pluie"
             : ""
