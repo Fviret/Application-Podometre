@@ -23,6 +23,14 @@ struct StepRingView: View {
     /// Retour haptique fort de célébration, déclenché à la complétion de l'objectif du jour.
     private let celebrationHaptic = UINotificationFeedbackGenerator()
 
+    /// État du pulse du halo de célébration (objectif atteint).
+    @State private var haloPulse = false
+
+    /// Vrai quand l'objectif du jour est atteint pour aujourd'hui — pilote le halo et la série 🔥.
+    private var goalReachedToday: Bool {
+        viewModel.selectedDayOffset == 0 && viewModel.stepCount >= viewModel.goal
+    }
+
     var body: some View {
         ZStack {
             Color(uiColor: .systemBackground)
@@ -50,6 +58,26 @@ struct StepRingView: View {
 
                             VStack(spacing: 16) {
                                 ZStack {
+                                    // Halo de célébration : lueur colorée derrière l'anneau quand l'objectif
+                                    // du jour est atteint, avec un léger pulse à l'apparition (respecte reduceMotion).
+                                    if goalReachedToday {
+                                        Circle()
+                                            .fill(viewModel.ringColor)
+                                            .frame(width: ringDiameter, height: ringDiameter)
+                                            .blur(radius: 30)
+                                            .opacity(0.3)
+                                            .scaleEffect(haloPulse ? 1.05 : 0.9)
+                                            .accessibilityHidden(true)
+                                            .transition(.opacity)
+                                            .onAppear {
+                                                guard !reduceMotion else { haloPulse = true; return }
+                                                withAnimation(.spring(response: 0.7, dampingFraction: 0.55)) {
+                                                    haloPulse = true
+                                                }
+                                            }
+                                            .onDisappear { haloPulse = false }
+                                    }
+
                                     // Piste : léger dégradé (gray6 → gray5) + ombre interne discrète
                                     // pour donner de la profondeur (aspect « creusé ») sans surcharge.
                                     Circle()
