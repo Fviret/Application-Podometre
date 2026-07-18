@@ -624,6 +624,7 @@ struct PreferencesTests {
         #expect(PreferenceKey.isDarkMode.rawValue == "isDarkMode")
         #expect(PreferenceKey.aphorismPopupEnabled.rawValue == "aphorismPopupEnabled")
         #expect(PreferenceKey.hasCompletedOnboarding.rawValue == "hasCompletedOnboarding")
+        #expect(PreferenceKey.showTodayMetrics.rawValue == "showTodayMetrics")
     }
 
     @Test func allKeysAreUnique() {
@@ -654,5 +655,63 @@ struct PreferencesTests {
         #expect(prefs.date(.lastAphorismDisplayDate) != nil)
         prefs.removeObject(.lastAphorismDisplayDate)
         #expect(prefs.date(.lastAphorismDisplayDate) == nil)
+    }
+}
+
+// MARK: - WeatherCode (mapping WMO → emoji / description / libellé)
+
+@Suite("WeatherCode")
+struct WeatherCodeTests {
+
+    @Test func clearSkyMapsToSun() {
+        #expect(weatherEmoji(for: 0) == "☀️")
+        #expect(weatherDescription(for: 0) == "ciel dégagé")
+    }
+
+    @Test func overcastMapsToCloud() {
+        #expect(weatherEmoji(for: 3) == "☁️")
+        #expect(weatherDescription(for: 3) == "couvert")
+    }
+
+    @Test func rainCodesMapToRain() {
+        // Pluie (61,63,65) et averses (80,81,82) partagent le même emoji.
+        #expect(weatherEmoji(for: 61) == "🌧️")
+        #expect(weatherEmoji(for: 82) == "🌧️")
+        #expect(weatherDescription(for: 65) == "pluie")
+        #expect(weatherDescription(for: 80) == "averses")
+    }
+
+    @Test func thunderstormMapsToStorm() {
+        #expect(weatherEmoji(for: 95) == "⛈️")
+        #expect(weatherEmoji(for: 99) == "⛈️")
+        #expect(weatherDescription(for: 95) == "orages")
+    }
+
+    @Test func snowMapsToSnow() {
+        #expect(weatherEmoji(for: 71) == "❄️")
+        #expect(weatherDescription(for: 75) == "neige")
+    }
+
+    @Test func drizzleRangeMapsToDrizzle() {
+        // 51...57 est un intervalle : vérifie les bornes.
+        #expect(weatherDescription(for: 51) == "bruine")
+        #expect(weatherDescription(for: 57) == "bruine")
+    }
+
+    @Test func unknownCodeFallsBack() {
+        #expect(weatherEmoji(for: 999) == "🌡️")
+        #expect(weatherDescription(for: 999) == "conditions variables")
+    }
+
+    @Test func labelCapitalisesFirstLetter() {
+        #expect(weatherLabel(for: 0) == "Ciel dégagé")
+        #expect(weatherLabel(for: 3) == "Couvert")
+    }
+
+    @Test func labelMatchesDescriptionContent() {
+        // Le libellé ne doit différer de la description que par la casse initiale.
+        for code in [0, 2, 45, 61, 71, 95, 999] {
+            #expect(weatherLabel(for: code).lowercased() == weatherDescription(for: code))
+        }
     }
 }
