@@ -26,10 +26,10 @@ struct WeeklyForecastBannerView: View {
                 if let label = locationLabel {
                     HStack(spacing: 4) {
                         Image(systemName: "location.fill")
-                            .font(.system(size: 9))
+                            .font(.system(size: 11))
                             .accessibilityHidden(true)
                         Text(label)
-                            .font(.caption2)
+                            .font(.caption)
                     }
                     .foregroundStyle(Color.secondary.opacity(0.6))
                     .padding(.bottom, 4)
