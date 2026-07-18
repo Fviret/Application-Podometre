@@ -12,6 +12,14 @@ struct WeeklyForecastBannerView: View {
                 Divider()
                     .padding(.horizontal, 24)
 
+                Text("Météo · 7 jours")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+                    .accessibilityAddTraits(.isHeader)
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(forecasts.indices, id: \.self) { i in
