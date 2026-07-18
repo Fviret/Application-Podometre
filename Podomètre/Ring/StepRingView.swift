@@ -50,8 +50,18 @@ struct StepRingView: View {
 
                             VStack(spacing: 16) {
                                 ZStack {
+                                    // Piste : léger dégradé (gray6 → gray5) + ombre interne discrète
+                                    // pour donner de la profondeur (aspect « creusé ») sans surcharge.
                                     Circle()
-                                        .stroke(Color(.systemGray5), lineWidth: strokeWidth)
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [Color(.systemGray6), Color(.systemGray5)],
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                            .shadow(.inner(color: .black.opacity(0.12), radius: 3, y: 1)),
+                                            lineWidth: strokeWidth
+                                        )
                                         .frame(width: ringDiameter, height: ringDiameter)
 
                                     Circle()
