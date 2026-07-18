@@ -17,7 +17,8 @@ struct WalkingForecast {
 }
 
 /// Prévisions météo pour un jour donné.
-struct DailyForecast {
+struct DailyForecast: Identifiable {
+    var id: Date { date }
     let date: Date
     let weatherCode: Int
     let tempMin: Double

@@ -181,7 +181,7 @@ struct StepRingView: View {
                         }
 
                         if showWeatherForecast {
-                            WeeklyForecastBannerView(forecasts: dailyForecasts, locationLabel: locationLabel)
+                            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, locationLabel: locationLabel)
                         }
 
                         if showMonthCalendar {
