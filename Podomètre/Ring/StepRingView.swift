@@ -127,6 +127,14 @@ struct StepRingView: View {
                                                 .transition(.opacity.combined(with: .scale))
                                                 .accessibilityLabel("Série de \(viewModel.currentStreak) jour\(viewModel.currentStreak > 1 ? "s" : "") consécutif\(viewModel.currentStreak > 1 ? "s" : "")")
                                         }
+
+                                        // Pourcentage de l'objectif (non plafonné), sous « pas » / la série 🔥.
+                                        Text("\(Int(Double(viewModel.stepCount) / Double(max(viewModel.goal, 1)) * 100)) % de l'objectif")
+                                            .font(.system(.caption2, design: .rounded).weight(.medium))
+                                            .foregroundStyle(Color.secondary)
+                                            .contentTransition(.numericText())
+                                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: viewModel.stepCount)
+                                            .padding(.top, 1)
                                     }
                                 }
                                 .accessibilityElement(children: .ignore)
@@ -165,12 +173,6 @@ struct StepRingView: View {
                         Text("Objectif : \(viewModel.goal.formatted()) pas")
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
-
-                        Text("\(Int(Double(viewModel.stepCount) / Double(max(viewModel.goal, 1)) * 100)) % de l'objectif réussi")
-                            .font(.system(.footnote, design: .rounded).weight(.medium))
-                            .foregroundStyle(Color.secondary)
-                            .contentTransition(.numericText())
-                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: viewModel.stepCount)
 
                         // Métriques du jour : distance, temps actif, calories (HealthKit).
                         if showTodayMetrics {
