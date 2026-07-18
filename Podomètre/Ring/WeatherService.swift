@@ -97,8 +97,12 @@ actor WeatherService {
         let (data, _) = try await URLSession.shared.data(from: url)
         let json = try JSONDecoder().decode(OpenMeteoHourlyResponse.self, from: data)
 
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
+        // Open-Meteo (timezone=auto) renvoie des heures locales sans offset : les parser en heure locale
+        // pour que le filtrage « même jour » corresponde aux dates journalières (elles aussi locales).
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = .current
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
 
         return zip(json.hourly.time, zip(
             json.hourly.precipitation,
