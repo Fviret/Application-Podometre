@@ -166,6 +166,12 @@ struct StepRingView: View {
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
+                        Text("\(Int(viewModel.progress * 100)) % de l'objectif réussi")
+                            .font(.system(.footnote, design: .rounded).weight(.medium))
+                            .foregroundStyle(viewModel.ringColor)
+                            .contentTransition(.numericText())
+                            .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: viewModel.progress)
+
                         // Métriques du jour : distance, temps actif, calories (HealthKit).
                         if showTodayMetrics {
                             TodayMetricsView(viewModel: viewModel)
