@@ -215,10 +215,64 @@ private let journeyGR20 = Journey(
             description: "Départ officiel du GR20, au pied des montagnes corses. Le sentier plonge immédiatement dans le maquis odorant."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000014")!,
+            km: 19,
+            label: "Refuge de Carrozzu",
+            description: "Passerelle suspendue de la Spasimata et dalles inclinées : le GR20 montre déjà les dents. Le refuge s'accroche au-dessus d'un cirque sauvage."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000015")!,
+            km: 33,
+            label: "Auberge U Vallone",
+            description: "Au pied du Monte Cinto, plus haut sommet de Corse. La partie la plus alpine du parcours nord est franchie."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000016")!,
+            km: 47,
+            label: "Col de Vergio",
+            description: "Point le plus haut atteint par une route en Corse, entre forêts de pins laricio et estives. Le sentier bascule vers le centre de l'île."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000017")!,
+            km: 62,
+            label: "Refuge de Manganu",
+            description: "Au bord des pozzines, ces pelouses spongieuses gorgées d'eau. Les lacs glaciaires de Nino et Capitellu ne sont plus loin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000018")!,
+            km: 72,
+            label: "Refuge de Petra Piana",
+            description: "Perché sous les crêtes, face à un panorama de sommets déchiquetés. Le cœur minéral du GR20."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000012")!,
             km: 88,
-            label: "Vizzavone",
+            label: "Vizzavona",
             description: "Mi-parcours, accessible par le train. La forêt de laricio offre une pause bienvenue après les crêtes exposées."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000019")!,
+            km: 113,
+            label: "Refuge de Prati",
+            description: "Vaste replat herbeux ouvert sur la mer Tyrrhénienne à l'est. Le sud, plus doux, commence à se dessiner."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-00000000001A")!,
+            km: 123,
+            label: "Refuge d'Usciolu",
+            description: "Perché sur l'arête, réputé pour ses couchers de soleil. La redoutable « arête a Monda » attend au sud."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-00000000001B")!,
+            km: 140,
+            label: "Refuge d'Asinau",
+            description: "Sous les aiguilles de Bavella, cathédrales de granit orange. L'un des plus beaux décors de toute la traversée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-00000000001C")!,
+            km: 165,
+            label: "Refuge de Paliri",
+            description: "Dernier refuge avant l'arrivée, dans les pins et le maquis. La mer est déjà là, en contrebas."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0001-0001-0001-000000000013")!,
@@ -244,10 +298,22 @@ private let journeyCaminoFinal = Journey(
             description: "Dernière ville permettant d'obtenir la Compostela en marchant le minimum requis — 100 km à pied."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000026")!,
+            km: 12,
+            label: "Morgade",
+            description: "Hameau minuscule où se dresse la fameuse borne des 100 kilomètres. À partir d'ici, chaque pas rapproche vraiment de Santiago."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000022")!,
             km: 22,
             label: "Portomarín",
             description: "Village reconstruit après que l'ancien fut noyé sous le lac de Belesar dans les années 1960."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000027")!,
+            km: 40,
+            label: "Eirexe",
+            description: "Petit lieu-dit galicien parmi les hórreos, ces greniers de pierre sur pilotis. La campagne défile au rythme des vaches."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000023")!,
@@ -256,10 +322,28 @@ private let journeyCaminoFinal = Journey(
             description: "Nom lié aux rois wisigoths. Étape tranquille à mi-chemin du tronçon final, cœur de la Galice verte."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000028")!,
+            km: 62,
+            label: "Melide",
+            description: "Étape gourmande, capitale du poulpe à la galicienne — le pulpo á feira. Les pèlerins s'y attablent avant la dernière ligne."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000024")!,
             km: 80,
             label: "Arzúa",
             description: "Capitale du fromage galicien. À une journée de Santiago, les pèlerins sentent déjà la fin du chemin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000029")!,
+            km: 99,
+            label: "O Pedrouzo",
+            description: "Dernière halte avant la ville sainte, dans les bois d'eucalyptus. Demain, Santiago."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-00000000002A")!,
+            km: 106,
+            label: "Monte do Gozo",
+            description: "Le « mont de la joie » : de sa colline, les pèlerins aperçoivent pour la première fois les flèches de la cathédrale."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0002-0002-0002-000000000025")!,
@@ -367,16 +451,58 @@ private let journeyTMB = Journey(
             description: "Départ traditionnel du TMB, à quelques kilomètres de Chamonix. Le Mont Blanc domine déjà les crêtes."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000055")!,
+            km: 18,
+            label: "Les Contamines-Montjoie",
+            description: "Vallée verdoyante au pied du Col du Bonhomme. Dernier village animé avant la haute montagne côté français."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000056")!,
+            km: 34,
+            label: "Les Chapieux",
+            description: "Hameau isolé au fond d'un vallon sauvage, après les cols du Bonhomme et de la Croix. La solitude alpine dans toute sa pureté."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000057")!,
+            km: 48,
+            label: "Refuge Elisabetta",
+            description: "Franchissement du Col de la Seigne, porte d'entrée en Italie. Le glacier de la Lée Blanche domine le refuge."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000052")!,
             km: 75,
             label: "Courmayeur",
             description: "Côté italien du massif. Village alpin animé au pied du versant sud du Mont Blanc, sous un soleil plus généreux."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000058")!,
+            km: 90,
+            label: "Refuge Bonatti",
+            description: "Balcon suspendu face au versant italien du Mont Blanc, dédié au grand alpiniste Walter Bonatti. L'une des plus belles vues du tour."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000059")!,
+            km: 105,
+            label: "La Fouly",
+            description: "Entrée en Suisse par le Grand Col Ferret. Le val Ferret valaisan déroule ses alpages impeccables."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000053")!,
             km: 120,
             label: "Champex",
             description: "Lac de montagne suisse d'une sérénité absolue, perché à 1 470 mètres entre mélèzes et reflets parfaits."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-00000000005A")!,
+            km: 138,
+            label: "Col de la Forclaz",
+            description: "Balcon au-dessus de la vallée du Rhône, près de Trient et de son glacier. Le retour vers la France se prépare."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-00000000005B")!,
+            km: 155,
+            label: "Tré-le-Champ",
+            description: "Après le Col de Balme, retour en France face à la chaîne des Aiguilles Rouges. Les échelles métalliques pimentent la descente."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0005-0005-0005-000000000054")!,
