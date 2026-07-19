@@ -571,16 +571,58 @@ private let journeyRouteRoyalePerse = Journey(
             description: "Capitale perse, résidence d'hiver de Darius Ier. Point de départ de la route royale la plus rapide du monde antique."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000015")!,
+            km: 350,
+            label: "Pasargades",
+            description: "Première capitale perse fondée par Cyrus le Grand, où se dresse son tombeau. Berceau de la dynastie achéménide."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000012")!,
             km: 700,
             label: "Persépolis",
             description: "Capitale cérémonielle achéménide, où les tributs de l'empire entier affluaient à chaque printemps."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000016")!,
+            km: 1050,
+            label: "Ecbatane",
+            description: "Capitale des Mèdes, résidence d'été aux sept murailles colorées. Relais stratégique sur la route de l'ouest."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000013")!,
             km: 1400,
             label: "Mésopotamie",
             description: "Traversée du cœur de l'empire entre Tigre et Euphrate, berceau des civilisations et grenier du monde perse."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000017")!,
+            km: 1650,
+            label: "Babylone",
+            description: "La cité de la porte d'Ishtar et des jardins suspendus. Le cœur battant du monde antique sur l'Euphrate."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000018")!,
+            km: 1900,
+            label: "Ninive",
+            description: "Ancienne capitale assyrienne sur le Tigre, aux palais couverts de bas-reliefs de lions et de rois chasseurs."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000019")!,
+            km: 2100,
+            label: "Harran",
+            description: "Cité caravanière de Haute-Mésopotamie, célèbre pour son temple lunaire. Carrefour vers l'Anatolie."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-00000000001A")!,
+            km: 2300,
+            label: "Passage de l'Euphrate",
+            description: "Le grand fleuve franchi sur des barques de peaux gonflées. La route bascule vers les hauts plateaux anatoliens."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-00000000001B")!,
+            km: 2500,
+            label: "Gordion",
+            description: "Capitale phrygienne au nœud légendaire qu'Alexandre trancherait plus tard. Dernière grande étape avant la Lydie."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0001-0001-0001-000000000014")!,
@@ -612,16 +654,58 @@ private let journeyAlexandrePerse = Journey(
             description: "Première victoire décisive contre les satrapes perses en 334 av. J.-C. Alexandre manque d'y être tué."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000026")!,
+            km: 700,
+            label: "Sardes",
+            description: "La riche capitale lydienne se rend sans combat. L'Ionie grecque est libérée de la tutelle perse."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000027")!,
+            km: 900,
+            label: "Halicarnasse",
+            description: "Siège de la cité carienne et de son port. La flotte perse perd sa dernière grande base en mer Égée."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000023")!,
             km: 1100,
             label: "Bataille d'Issos",
             description: "Darius III en fuite, sa famille capturée. L'empire perse commence à vaciller sous les coups macédoniens."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000028")!,
+            km: 1500,
+            label: "Siège de Tyr",
+            description: "Sept mois de siège contre la cité phénicienne insulaire. Alexandre fait bâtir une digue jusqu'aux remparts."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000029")!,
+            km: 2100,
+            label: "Alexandrie d'Égypte",
+            description: "Alexandre trace lui-même le plan de la ville qui portera son nom et deviendra un phare de la culture antique."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-00000000002A")!,
+            km: 2500,
+            label: "Bataille de Gaugamèles",
+            description: "L'affrontement décisif contre Darius III. L'Empire perse achéménide s'effondre pour de bon en 331 av. J.-C."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000024")!,
             km: 2800,
             label: "Babylone",
             description: "La plus grande ville du monde prise sans combat. Alexandre se présente en libérateur plutôt qu'en conquérant."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-00000000002B")!,
+            km: 3600,
+            label: "Suse",
+            description: "Le trésor royal perse tombe intact aux mains d'Alexandre. Des richesses inouïes changent de camp."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-00000000002C")!,
+            km: 4200,
+            label: "Portes Persiques",
+            description: "Défilé montagneux défendu par les Perses, forcé de nuit par une manœuvre de contournement. Dernier verrou avant la capitale."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0002-0002-0002-000000000025")!,
@@ -653,6 +737,18 @@ private let journeyAlexandreComplet = Journey(
             description: "Premier arrêt symbolique — Alexandre se recueille sur la tombe d'Achille, le héros auquel il s'identifiait."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000039")!,
+            km: 1100,
+            label: "Bataille d'Issos",
+            description: "Première grande victoire contre Darius III en personne. La famille royale perse tombe aux mains d'Alexandre."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003A")!,
+            km: 2100,
+            label: "Tyr et l'Égypte",
+            description: "Après sept mois de siège contre Tyr, Alexandre descend en Égypte et fonde Alexandrie sur le delta du Nil."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000033")!,
             km: 4000,
             label: "Gaugamèles",
@@ -665,10 +761,28 @@ private let journeyAlexandreComplet = Journey(
             description: "Capitale cérémonielle persane. L'incendie reste l'acte le plus controversé de toute la conquête."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003B")!,
+            km: 6500,
+            label: "Ecbatane",
+            description: "Poursuite de Darius, retrouvé assassiné par ses propres satrapes. Alexandre lui offre des funérailles royales."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000035")!,
             km: 8000,
             label: "Bactres",
             description: "Aux portes de l'Asie centrale, Alexandre épouse Roxane. La résistance bactriène est la plus farouche rencontrée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003C")!,
+            km: 10000,
+            label: "Sogdiane",
+            description: "Deux ans de guérilla épuisante contre Spitamène dans les montagnes d'Asie centrale. La conquête la plus dure."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003D")!,
+            km: 12000,
+            label: "Hindū Kush",
+            description: "Franchissement des montagnes enneigées vers l'Inde. L'armée souffre du froid, de l'altitude et de la faim."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000036")!,
@@ -677,10 +791,34 @@ private let journeyAlexandreComplet = Journey(
             description: "Première grande cité indienne. Le roi Poros attend sur l'Hydaspe avec deux cents éléphants de guerre."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003E")!,
+            km: 15000,
+            label: "Bataille de l'Hydaspe",
+            description: "Victoire contre Poros et ses éléphants, sous la pluie de mousson. La bataille la plus coûteuse de la campagne."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000037")!,
             km: 17000,
             label: "Rivière Beas",
             description: "La mutinerie. Les soldats refusent d'avancer vers l'Inde profonde. Alexandre pleure dans sa tente, puis accepte de rentrer."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-00000000003F")!,
+            km: 21000,
+            label: "Désert de Gédrosie",
+            description: "La retraite cauchemardesque. Des milliers d'hommes meurent de soif dans les sables du Makran."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000040")!,
+            km: 26000,
+            label: "Noces de Suse",
+            description: "Alexandre marie ses officiers à des princesses perses pour fondre Grecs et Orientaux en un seul peuple."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000041")!,
+            km: 30000,
+            label: "Deuil d'Héphaïstion",
+            description: "La mort de son ami le plus cher, à Ecbatane, plonge Alexandre dans un deuil dévastateur."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0003-0003-0003-000000000038")!,
@@ -706,10 +844,34 @@ private let journeyRouteSoie = Journey(
             description: "Ancienne Chang'an, capitale des Han et des Tang. Les caravanes de chameaux chargées de soie partaient d'ici vers l'ouest."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000047")!,
+            km: 800,
+            label: "Lanzhou",
+            description: "Verrou du fleuve Jaune, porte du corridor du Hexi. Les caravanes s'y regroupent avant les grands déserts."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000048")!,
+            km: 1300,
+            label: "Jiayuguan",
+            description: "Extrémité ouest de la Grande Muraille, dernière forteresse de l'empire. Au-delà commençait l'inconnu."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000042")!,
             km: 2000,
             label: "Dunhuang",
             description: "Oasis du désert de Gobi, gardienne des Grottes de Mogao aux mille bouddhas sculptés dans la roche ocre."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000049")!,
+            km: 2600,
+            label: "Tourfan",
+            description: "Oasis sous le niveau de la mer, irriguée par les canaux karez. Vignes et bouddhas au cœur de la fournaise du Taklamakan."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-00000000004A")!,
+            km: 3000,
+            label: "Kashgar",
+            description: "Grand carrefour au pied du Pamir, où se rejoignent les routes du nord et du sud du désert."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000043")!,
@@ -718,10 +880,28 @@ private let journeyRouteSoie = Journey(
             description: "Joyau de l'Asie centrale, carrefour de toutes les caravanes. Tamerlan en fit la capitale de son empire au XIVe siècle."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-00000000004B")!,
+            km: 3900,
+            label: "Boukhara",
+            description: "Ville sainte aux cent médersas, joyau spirituel et marchand de l'Asie centrale."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-00000000004C")!,
+            km: 4200,
+            label: "Merv",
+            description: "Oasis géante du Turkménistan, l'une des plus grandes villes du monde médiéval avant sa destruction par les Mongols."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000044")!,
             km: 4500,
             label: "Persépolis",
             description: "L'ancienne capitale perse ruinée par Alexandre, toujours imposante sur le passage des marchands."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-00000000004D")!,
+            km: 5100,
+            label: "Bagdad",
+            description: "Capitale abbasside et sa Maison de la Sagesse, où le savoir grec, perse et indien se traduisait en arabe."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0004-0004-0004-000000000045")!,
@@ -753,10 +933,28 @@ private let journeyMarcoPolo = Journey(
             description: "Départ en 1271 avec son père et son oncle, marchands habitués des routes orientales."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000056")!,
+            km: 1200,
+            label: "Acre",
+            description: "Escale en Terre sainte. Les Polo y obtiennent des lettres du pape et de l'huile du Saint-Sépulcre pour le Grand Khan."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000052")!,
             km: 2000,
             label: "Constantinople",
             description: "Première grande escale dans la ville-carrefour de la Méditerranée orientale, centre du commerce mondial."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000057")!,
+            km: 2800,
+            label: "Trébizonde",
+            description: "Port de la mer Noire, terminus des routes caravanières d'Anatolie orientale."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000058")!,
+            km: 3600,
+            label: "Tabriz",
+            description: "Grande cité marchande de Perse, plaque tournante des perles, des soies et des épices."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000053")!,
@@ -765,10 +963,46 @@ private let journeyMarcoPolo = Journey(
             description: "Port du Golfe Persique. Marco vit des navires si fragiles qu'il refusa d'embarquer et continua par voie terrestre."
         ),
         Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000059")!,
+            km: 5800,
+            label: "Kerman",
+            description: "Ville persane réputée pour ses turquoises et ses tapis. Les Polo renoncent à la mer pour la piste terrestre."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-00000000005A")!,
+            km: 6200,
+            label: "Balkh",
+            description: "L'antique cité afghane, « mère des villes », ravagée par Gengis Khan mais toujours sur la route de l'est."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-00000000005B")!,
+            km: 6600,
+            label: "Pamir",
+            description: "Le « toit du monde ». Marco décrit un plateau si haut qu'aucun oiseau n'y vole et que le feu y brûle pâle."
+        ),
+        Milestone(
             id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000054")!,
             km: 7000,
             label: "Kashgar",
             description: "Oasis mythique au pied du Pamir, carrefour des routes vers l'Inde, la Perse et la Chine profonde."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-00000000005C")!,
+            km: 8000,
+            label: "Désert du Taklamakan",
+            description: "La traversée du « désert où l'on entre mais d'où l'on ne sort pas ». Des voix fantômes égarent les caravanes, dit Marco."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-00000000005D")!,
+            km: 9500,
+            label: "Dunhuang",
+            description: "Les grottes aux mille bouddhas marquent l'entrée dans le monde chinois. Le Grand Khan n'est plus si loin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-00000000005E")!,
+            km: 10800,
+            label: "Shangdu",
+            description: "Xanadu, la résidence d'été de Kubilaï Khan et son palais de plaisir devenu légendaire."
         ),
         Milestone(
             id: UUID(uuidString: "D4E5F6A7-0005-0005-0005-000000000055")!,
