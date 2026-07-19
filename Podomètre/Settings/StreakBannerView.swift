@@ -8,9 +8,7 @@ struct StreakBannerView: View {
     var body: some View {
         VStack(spacing: 6) {
             Section("Série en cours") {
-                Text("🔥")
-                    .font(.system(size: 60))
-                    .accessibilityHidden(true)
+                FlameStreakView(streak: streak, size: 76)
 
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(streak)")
