@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 /// Représente un seuil de pas quotidiens à atteindre pour débloquer un badge.
 struct StepMilestoneBadge: Identifiable {
@@ -9,25 +9,29 @@ struct StepMilestoneBadge: Identifiable {
     let label: String
     /// Nom d'un asset image à afficher à la place du cercle générique (optionnel).
     let imageName: String?
+    /// Couleur d'accent du badge (compteur, halo, cercle générique).
+    /// Indépendante de la couleur de l'anneau : la personnalisation n'y touche pas.
+    let tint: Color
 
-    init(id: String, threshold: Int, label: String, imageName: String? = nil) {
+    init(id: String, threshold: Int, label: String, imageName: String? = nil, tint: Color = .accentColor) {
         self.id = id
         self.threshold = threshold
         self.label = label
         self.imageName = imageName
+        self.tint = tint
     }
 }
 
 enum BadgeData {
-    // Chaque badge peut porter sa propre illustration via `imageName`.
-    // Tant que les assets dédiés (logo_10k, logo_20k, …) ne sont pas fournis,
-    // tous pointent vers `logo_5k` : il suffira de remplacer le nom au fur et à mesure.
+    // Chaque badge peut porter sa propre illustration (`imageName`) et sa propre couleur (`tint`).
+    // Ces couleurs sont fixes et NE dépendent PAS de la couleur d'anneau choisie dans les réglages :
+    // pour changer le fond/accent d'un badge, il suffit de modifier son `tint` ci-dessous.
     static let stepMilestoneBadges: [StepMilestoneBadge] = [
-        StepMilestoneBadge(id: "5k",   threshold: 5_000,   label: "5 000 pas",   imageName: "logo_5k"),
-        StepMilestoneBadge(id: "10k",  threshold: 10_000,  label: "10 000 pas",  imageName: "logo_5k"),
-        StepMilestoneBadge(id: "20k",  threshold: 20_000,  label: "20 000 pas",  imageName: "logo_5k"),
-        StepMilestoneBadge(id: "30k",  threshold: 30_000,  label: "30 000 pas",  imageName: "logo_5k"),
-        StepMilestoneBadge(id: "50k",  threshold: 50_000,  label: "50 000 pas",  imageName: "logo_5k"),
-        StepMilestoneBadge(id: "100k", threshold: 100_000, label: "100 000 pas", imageName: "logo_5k"),
+        StepMilestoneBadge(id: "5k",   threshold: 5_000,   label: "5 000 pas",   imageName: "logo_5k", tint: Color(red: 0.20, green: 0.78, blue: 0.35)),
+        StepMilestoneBadge(id: "10k",  threshold: 10_000,  label: "10 000 pas",  imageName: "logo_5k", tint: Color(red: 0.20, green: 0.60, blue: 0.95)),
+        StepMilestoneBadge(id: "20k",  threshold: 20_000,  label: "20 000 pas",  imageName: "logo_5k", tint: Color(red: 0.15, green: 0.80, blue: 0.75)),
+        StepMilestoneBadge(id: "30k",  threshold: 30_000,  label: "30 000 pas",  imageName: "logo_5k", tint: Color(red: 1.00, green: 0.62, blue: 0.10)),
+        StepMilestoneBadge(id: "50k",  threshold: 50_000,  label: "50 000 pas",  imageName: "logo_5k", tint: Color(red: 0.65, green: 0.30, blue: 0.95)),
+        StepMilestoneBadge(id: "100k", threshold: 100_000, label: "100 000 pas", imageName: "logo_5k", tint: Color(red: 0.95, green: 0.25, blue: 0.30)),
     ]
 }
