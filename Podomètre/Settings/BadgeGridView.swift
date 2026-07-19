@@ -48,18 +48,21 @@ struct StepMilestoneBadgeCell: View {
     @State private var showAlert = false
     private var isUnlocked: Bool { count > 0 }
 
+    /// Taille du logo du badge — ajuster ici pour toute la grille des seuils.
+    private let badgeSize: CGFloat = 92
+
     var body: some View {
         VStack(spacing: 4) {
             badgeVisual
-                .frame(width: 76, height: 76)
+                .frame(width: badgeSize, height: badgeSize)
                 .shadow(
                     color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
                     radius: 6, x: 0, y: 0
                 )
                 .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
-            // Sous le logo : le nombre de fois où le défi a été réussi (remplace le libellé d'objectif).
-            Text("\(count) fois")
+            // Sous le logo : le nombre de réussites (« - » si jamais atteint).
+            Text(isUnlocked ? "\(count)" : "-")
                 .font(.system(.caption2, design: .rounded).weight(.semibold))
                 .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary)
                 .opacity(isUnlocked ? 1 : 0.4)
