@@ -52,7 +52,7 @@ struct StepMilestoneBadgeCell: View {
     private let badgeSize: CGFloat = 92
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 6) {
             badgeVisual
                 .frame(width: badgeSize, height: badgeSize)
                 .shadow(
@@ -61,13 +61,23 @@ struct StepMilestoneBadgeCell: View {
                 )
                 .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
-            // Sous le logo : le nombre de réussites (« - » si jamais atteint).
-            Text(isUnlocked ? "\(count)" : "-")
-                .font(.system(.caption2, design: .rounded).weight(.semibold))
-                .foregroundStyle(isUnlocked ? badge.tint : Color.secondary)
-                .opacity(isUnlocked ? 1 : 0.4)
+            // Titre du badge (ex. « Objectif 5 K »).
+            Text(badge.title)
+                .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(isUnlocked ? Color.primary : Color.secondary)
+                .opacity(isUnlocked ? 1 : 0.5)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
+
+            // Pastille du nombre de réussites — masquée tant que l'objectif n'a jamais été atteint.
+            if isUnlocked {
+                Text("\(count) x")
+                    .font(.system(.caption2, design: .rounded).weight(.bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(badge.tint, in: Capsule())
+            }
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
