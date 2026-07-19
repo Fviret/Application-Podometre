@@ -221,6 +221,10 @@ class StepCountViewModel: ObservableObject {
     /// Chaque changement déclenche un fetch du jour et une synchro du mois affiché.
     @Published var selectedDayOffset: Int = 0 {
         didSet {
+            // Invalide la valeur du jour précédent avant de charger le nouveau jour.
+            // Sans ça, en revenant sur aujourd'hui, `stepCount` garde la valeur (élevée) de la veille :
+            // le halo « objectif atteint » clignote et une notification fantôme peut partir.
+            stepCount = 0
             fetchSteps(for: selectedDate)
             fetchMetrics(for: selectedDate)
             syncSelectedMonth(to: selectedDate)
@@ -529,9 +533,13 @@ class StepCountViewModel: ObservableObject {
         ) { [weak self] _, stats, _ in
             let steps = Int(stats?.sumQuantity()?.doubleValue(for: .count()) ?? 0)
             DispatchQueue.main.async {
-                self?.stepCount = steps
-                self?.checkAndNotifyGoalReached()
-                self?.computeStreak()
+                guard let self else { completion(); return }
+                // N'agit que si aujourd'hui est affiché : ne pas écraser l'affichage d'un jour passé
+                // ni notifier l'objectif sur la base d'une autre journée.
+                guard self.selectedDayOffset == 0 else { completion(); return }
+                self.stepCount = steps
+                self.checkAndNotifyGoalReached()
+                self.computeStreak()
                 completion()
             }
         }
