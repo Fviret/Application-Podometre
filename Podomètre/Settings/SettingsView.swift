@@ -111,5 +111,11 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: StepCountViewModel(), aphorismManager: .preview)
+    let viewModel = StepCountViewModel()
+    viewModel.goal = 10_000
+    viewModel.currentStreak = 12                                   // flamme rouge, 3 couches
+    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
+                                 "30k": 1, "50k": 0, "100k": 0]    // badges de seuil
+    allJourneys.prefix(4).forEach { viewModel.markJourneyCompleted($0.id.uuidString) } // badges de trajets
+    return SettingsView(viewModel: viewModel, aphorismManager: .preview)
 }
