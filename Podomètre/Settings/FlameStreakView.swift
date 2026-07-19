@@ -199,14 +199,51 @@ private extension Color {
 
 // MARK: - Preview
 
+/// Un cas de preview : une série et le libellé de ce qu'elle illustre.
+private struct FlameSample: Identifiable {
+    let days: Int
+    let note: String
+    var id: Int { days }
+}
+
+/// Couvre chaque palier de couleur et chaque nombre de couches, aux bornes.
+private let flameSamples: [FlameSample] = [
+    FlameSample(days: 0,  note: "braise"),      // spark, 1 couche
+    FlameSample(days: 1,  note: "orange · 1"),  // orange, 1 couche
+    FlameSample(days: 2,  note: "orange · 2"),  // orange, 2 couches
+    FlameSample(days: 3,  note: "orange · 3"),  // orange, 3 couches
+    FlameSample(days: 6,  note: "orange max"),
+    FlameSample(days: 7,  note: "rouge"),       // rouge, 3 couches
+    FlameSample(days: 13, note: "rouge max"),
+    FlameSample(days: 14, note: "vert"),        // vert
+    FlameSample(days: 20, note: "vert max"),
+    FlameSample(days: 21, note: "bleu"),        // bleu
+    FlameSample(days: 42, note: "bleu +"),
+]
+
 #Preview("Paliers de flamme") {
-    HStack(spacing: 24) {
-        ForEach([1, 5, 10, 17, 25], id: \.self) { days in
-            VStack {
-                FlameStreakView(streak: days, size: 72)
-                Text("\(days) j").font(.caption2).foregroundStyle(.secondary)
+    ScrollView(.horizontal) {
+        HStack(spacing: 20) {
+            ForEach(flameSamples) { sample in
+                VStack(spacing: 6) {
+                    FlameStreakView(streak: sample.days, size: 72)
+                    Text("\(sample.days) j").font(.caption2.weight(.semibold))
+                    Text(sample.note).font(.caption2).foregroundStyle(.secondary)
+                }
             }
         }
+        .padding(40)
     }
-    .padding(40)
+}
+
+#Preview("Flamme — bannière (série 7)") {
+    let viewModel = StepCountViewModel()
+    return List {
+        StreakBannerView(streak: 7, viewModel: viewModel)
+    }
+}
+
+#Preview("Flamme — grande (série 21)") {
+    FlameStreakView(streak: 21, size: 160)
+        .padding(60)
 }
