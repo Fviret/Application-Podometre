@@ -87,11 +87,41 @@ struct StepMilestoneBadgeCell: View {
             : "\(badge.label), jamais atteint")
         .accessibilityAddTraits(isUnlocked ? .isButton : [])
         .onTapGesture { if isUnlocked { showAlert = true } }
-        .alert(badge.label, isPresented: $showAlert) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("Vous avez réussi ce défi \(count) fois !")
+        .sheet(isPresented: $showAlert) {
+            detailSheet
+                .presentationDetents([.height(380)])
+                .presentationDragIndicator(.visible)
         }
+    }
+
+    /// Modale affichée au tap sur un badge débloqué : image, titre centré et compteur.
+    private var detailSheet: some View {
+        VStack(spacing: 18) {
+            badgeVisual
+                .frame(width: 120, height: 120)
+                .shadow(color: badge.tint.opacity(0.35), radius: 10, x: 0, y: 0)
+
+            Text(badge.title)
+                .font(.system(.title2, design: .rounded).weight(.bold))
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+
+            Text("\(count) x")
+                .font(.system(.headline, design: .rounded).weight(.bold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 5)
+                .background(badge.tint, in: Capsule())
+
+            Text("Objectif de \(badge.label) atteint en une seule journée, réussi \(count) fois.")
+                .font(.subheadline)
+                .foregroundStyle(Color.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.horizontal, 28)
+        .padding(.top, 32)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     /// Visuel du badge : image dédiée si `imageName` est défini, sinon cercle générique avec le compteur.
