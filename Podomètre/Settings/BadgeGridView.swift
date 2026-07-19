@@ -50,22 +50,25 @@ struct StepMilestoneBadgeCell: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            ZStack {
-                Circle()
-                    .fill(isUnlocked
-                          ? viewModel.ringColor.opacity(0.15)
-                          : Color.secondary.opacity(0.08))
-                    .frame(width: 52, height: 52)
-
-                Text("\(count)")
-                    .font(.system(.title3, design: .rounded).weight(.bold))
-                    .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary.opacity(0.35))
-            }
-            .shadow(
-                color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
-                radius: 6, x: 0, y: 0
-            )
-            .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
+            badgeVisual
+                .frame(width: 52, height: 52)
+                .shadow(
+                    color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
+                    radius: 6, x: 0, y: 0
+                )
+                .overlay(alignment: .bottomTrailing) {
+                    // Compteur de réussites en pastille (uniquement pour les badges illustrés).
+                    if badge.imageName != nil && isUnlocked {
+                        Text("\(count)")
+                            .font(.system(.caption2, design: .rounded).weight(.bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(viewModel.ringColor, in: Capsule())
+                            .offset(x: 4, y: 4)
+                    }
+                }
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
             Text(badge.label)
                 .font(.caption2)
@@ -85,6 +88,29 @@ struct StepMilestoneBadgeCell: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text("Vous avez réussi ce défi \(count) fois !")
+        }
+    }
+
+    /// Visuel du badge : image dédiée si `imageName` est défini, sinon cercle générique avec le compteur.
+    @ViewBuilder
+    private var badgeVisual: some View {
+        if let imageName = badge.imageName {
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .grayscale(isUnlocked ? 0 : 1)
+                .opacity(isUnlocked ? 1 : 0.35)
+        } else {
+            ZStack {
+                Circle()
+                    .fill(isUnlocked
+                          ? viewModel.ringColor.opacity(0.15)
+                          : Color.secondary.opacity(0.08))
+
+                Text("\(count)")
+                    .font(.system(.title3, design: .rounded).weight(.bold))
+                    .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary.opacity(0.35))
+            }
         }
     }
 }
