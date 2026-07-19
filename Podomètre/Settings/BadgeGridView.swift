@@ -161,7 +161,7 @@ struct BadgeCellView: View {
     var body: some View {
         VStack(spacing: 4) {
             Text(journey.emoji)
-                .font(.system(size: 56))
+                .font(.system(size: 46))
                 .accessibilityHidden(true)
                 .shadow(
                     color: isUnlocked ? viewModel.ringColor.opacity(0.5) : .clear,
