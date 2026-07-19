@@ -56,7 +56,7 @@ struct StepMilestoneBadgeCell: View {
             badgeVisual
                 .frame(width: badgeSize, height: badgeSize)
                 .shadow(
-                    color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
+                    color: isUnlocked ? badge.tint.opacity(0.3) : .clear,
                     radius: 6, x: 0, y: 0
                 )
                 .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
@@ -64,7 +64,7 @@ struct StepMilestoneBadgeCell: View {
             // Sous le logo : le nombre de réussites (« - » si jamais atteint).
             Text(isUnlocked ? "\(count)" : "-")
                 .font(.system(.caption2, design: .rounded).weight(.semibold))
-                .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary)
+                .foregroundStyle(isUnlocked ? badge.tint : Color.secondary)
                 .opacity(isUnlocked ? 1 : 0.4)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
@@ -97,12 +97,12 @@ struct StepMilestoneBadgeCell: View {
             ZStack {
                 Circle()
                     .fill(isUnlocked
-                          ? viewModel.ringColor.opacity(0.15)
+                          ? badge.tint.opacity(0.15)
                           : Color.secondary.opacity(0.08))
 
                 Text("\(count)")
                     .font(.system(.title3, design: .rounded).weight(.bold))
-                    .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary.opacity(0.35))
+                    .foregroundStyle(isUnlocked ? badge.tint : Color.secondary.opacity(0.35))
             }
         }
     }
