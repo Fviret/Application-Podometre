@@ -20,6 +20,11 @@ struct StepMilestoneBadge: Identifiable {
         self.imageName = imageName
         self.tint = tint
     }
+
+    /// Titre affiché sous l'image, ex. « Objectif 5 K ».
+    var title: String {
+        "Objectif \(threshold / 1000) K"
+    }
 }
 
 enum BadgeData {
