@@ -165,3 +165,44 @@ struct BadgeCellView: View {
         }
     }
 }
+
+#Preview("Badges — tous débloqués") {
+    let viewModel = StepCountViewModel()
+    viewModel.milestoneCounts = ["5k": 128, "10k": 64, "20k": 12, "30k": 5, "50k": 2, "100k": 1]
+    allJourneys.forEach { viewModel.markJourneyCompleted($0.id.uuidString) }
+    return List {
+        Section("Badges") {
+            BadgeGridView(viewModel: viewModel)
+        }
+    }
+}
+
+#Preview("Badges — tous verrouillés") {
+    let viewModel = StepCountViewModel()
+    viewModel.milestoneCounts = ["5k": 0, "10k": 0, "20k": 0, "30k": 0, "50k": 0, "100k": 0]
+    return List {
+        Section("Badges") {
+            BadgeGridView(viewModel: viewModel)
+        }
+    }
+}
+
+#Preview("Badge 5k — verrouillé vs débloqué") {
+    let unlockedVM = StepCountViewModel()
+    unlockedVM.milestoneCounts = ["5k": 47]
+    let lockedVM = StepCountViewModel()
+    lockedVM.milestoneCounts = ["5k": 0]
+    let badge = BadgeData.stepMilestoneBadges[0] // 5k, illustré (logo_5k)
+
+    return HStack(spacing: 40) {
+        VStack {
+            StepMilestoneBadgeCell(badge: badge, count: 47, viewModel: unlockedVM)
+            Text("Débloqué").font(.caption2).foregroundStyle(.secondary)
+        }
+        VStack {
+            StepMilestoneBadgeCell(badge: badge, count: 0, viewModel: lockedVM)
+            Text("Verrouillé").font(.caption2).foregroundStyle(.secondary)
+        }
+    }
+    .padding(40)
+}
