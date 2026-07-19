@@ -56,25 +56,15 @@ struct StepMilestoneBadgeCell: View {
                     color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
                     radius: 6, x: 0, y: 0
                 )
-                .overlay(alignment: .bottomTrailing) {
-                    // Compteur de réussites en pastille (uniquement pour les badges illustrés).
-                    if badge.imageName != nil && isUnlocked {
-                        Text("\(count)")
-                            .font(.system(.caption2, design: .rounded).weight(.bold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(viewModel.ringColor, in: Capsule())
-                            .offset(x: 4, y: 4)
-                    }
-                }
                 .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isUnlocked)
 
-            Text(badge.label)
-                .font(.caption2)
-                .foregroundStyle(isUnlocked ? Color.primary : Color.secondary)
+            // Sous le logo : le nombre de fois où le défi a été réussi (remplace le libellé d'objectif).
+            Text("\(count) fois")
+                .font(.system(.caption2, design: .rounded).weight(.semibold))
+                .foregroundStyle(isUnlocked ? viewModel.ringColor : Color.secondary)
                 .opacity(isUnlocked ? 1 : 0.4)
                 .lineLimit(1)
+                .minimumScaleFactor(0.7)
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
