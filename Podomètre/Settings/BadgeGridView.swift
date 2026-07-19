@@ -51,7 +51,7 @@ struct StepMilestoneBadgeCell: View {
     var body: some View {
         VStack(spacing: 4) {
             badgeVisual
-                .frame(width: 52, height: 52)
+                .frame(width: 76, height: 76)
                 .shadow(
                     color: isUnlocked ? viewModel.ringColor.opacity(0.3) : .clear,
                     radius: 6, x: 0, y: 0
