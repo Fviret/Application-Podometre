@@ -1030,10 +1030,28 @@ private let journeyOdysseeReel = Journey(
             description: "La guerre achevée, Ulysse prend la mer. Ithaque n'est qu'à quelques jours de navigation favorable."
         ),
         Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000017")!,
+            km: 150,
+            label: "Lotophages — Djerba",
+            description: "Chez les mangeurs de lotus, souvent situés à Djerba. Trois marins goûtent le fruit de l'oubli et refusent de repartir."
+        ),
+        Milestone(
             id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000012")!,
             km: 350,
             label: "Cyclopes — Sicile",
             description: "L'île de Polyphème. Ulysse lui crève l'œil avec un pieu d'olivier et s'échappe sous le ventre d'une brebis."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000018")!,
+            km: 450,
+            label: "Éole — Îles Éoliennes",
+            description: "Le dieu des vents enferme les vents contraires dans une outre. Ouverte par des marins jaloux, elle rejette la flotte au large."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000019")!,
+            km: 500,
+            label: "Lestrygons",
+            description: "Les géants cannibales fracassent onze des douze navires à coups de rochers. Seul celui d'Ulysse en réchappe."
         ),
         Milestone(
             id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000013")!,
@@ -1052,6 +1070,18 @@ private let journeyOdysseeReel = Journey(
             km: 650,
             label: "Charybde & Scylla — Détroit de Messine",
             description: "Entre le monstre aux six têtes et le tourbillon dévoreur de navires, six compagnons périssent."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-00000000001A")!,
+            km: 780,
+            label: "Ogygie — Calypso",
+            description: "L'île de la nymphe qui le retient et lui offre l'immortalité. Il préfère Ithaque et repart sur un simple radeau."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-00000000001B")!,
+            km: 850,
+            label: "Phéaciens — Corfou",
+            description: "Les marins de Schérie, souvent identifiée à Corfou, l'écoutent puis le déposent endormi sur sa terre natale."
         ),
         Milestone(
             id: UUID(uuidString: "E5F6A7B8-0001-0001-0001-000000000016")!,
@@ -1077,6 +1107,12 @@ private let journeyOdysseeComplet = Journey(
             description: "Départ après dix ans de siège. La flotte d'Ulysse compte douze navires et leurs équipages au complet."
         ),
         Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-000000000029")!,
+            km: 250,
+            label: "Cicones — Ismaros",
+            description: "Le premier pillage après Troie tourne mal : les Cicones contre-attaquent et tuent soixante-douze hommes d'Ulysse."
+        ),
+        Milestone(
             id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-000000000022")!,
             km: 600,
             label: "Pays des Lotophages",
@@ -1095,10 +1131,40 @@ private let journeyOdysseeComplet = Journey(
             description: "Le dieu des vents offre une outre contenant les vents contraires. Ouverte par les compagnons jaloux, elle renvoie tout le monde au départ."
         ),
         Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-00000000002A")!,
+            km: 2200,
+            label: "Lestrygons",
+            description: "Les géants cannibales coulent onze des douze navires. La flotte d'Ulysse est réduite à un seul vaisseau."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-00000000002B")!,
+            km: 2600,
+            label: "Circé — Aiaié",
+            description: "La magicienne de l'île d'Aiaié change l'équipage en pourceaux. Ulysse lui résiste et demeure un an à ses côtés."
+        ),
+        Milestone(
             id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-000000000025")!,
             km: 3200,
             label: "Pays des Morts",
             description: "Ulysse descend aux Enfers consulter le devin Tirésias. Il revoit Achille, Ajax et l'ombre de sa propre mère."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-00000000002C")!,
+            km: 3800,
+            label: "Les Sirènes",
+            description: "Ulysse se fait lier au mât pour entendre le chant mortel. Les rameurs, oreilles emplies de cire, forcent le passage."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-00000000002D")!,
+            km: 4200,
+            label: "Scylla & Charybde",
+            description: "Entre le monstre aux six gueules et le tourbillon qui engloutit les navires. Six compagnons sont happés d'un coup."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-00000000002E")!,
+            km: 4700,
+            label: "Île du Soleil — Thrinacie",
+            description: "Malgré l'interdit, les compagnons affamés dévorent les bœufs sacrés d'Hélios. Zeus foudroie le navire ; seul Ulysse survit."
         ),
         Milestone(
             id: UUID(uuidString: "E5F6A7B8-0002-0002-0002-000000000026")!,
@@ -1136,10 +1202,46 @@ private let journeyIliade = Journey(
             description: "Agamemnon rassemble les rois grecs. La flotte de mille navires se forme pour venger l'honneur de Ménélas."
         ),
         Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000033")!,
+            km: 50,
+            label: "Aulis",
+            description: "Le port du rassemblement. Pour obtenir des vents favorables, Agamemnon doit sacrifier sa propre fille, Iphigénie."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000034")!,
+            km: 150,
+            label: "Débarquement en Troade",
+            description: "Après la traversée de l'Égée, les Grecs abordent devant Troie. Protésilas, premier à sauter à terre, est le premier à tomber."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000035")!,
+            km: 230,
+            label: "La colère d'Achille",
+            description: "Agamemnon lui prend Briséis. Achille se retire sous sa tente et prive les Grecs de leur plus grand guerrier."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000036")!,
+            km: 290,
+            label: "Mort de Patrocle",
+            description: "Revêtu des armes d'Achille, Patrocle repousse les Troyens mais tombe sous les coups d'Hector. La douleur rappelle Achille au combat."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000037")!,
+            km: 340,
+            label: "Achille tue Hector",
+            description: "Le duel décisif sous les murs. Achille traîne le corps d'Hector autour de la cité avant de le rendre au vieux roi Priam."
+        ),
+        Milestone(
+            id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000038")!,
+            km: 370,
+            label: "Le cheval de bois",
+            description: "La ruse d'Ulysse : un cheval de bois géant abandonné devant les portes, que les Troyens introduisent eux-mêmes dans la ville."
+        ),
+        Milestone(
             id: UUID(uuidString: "E5F6A7B8-0003-0003-0003-000000000032")!,
             km: 400,
-            label: "Troie",
-            description: "Dix ans de siège. Hector contre Achille, le cheval de bois, la chute de la cité jugée inexpugnable."
+            label: "La chute de Troie",
+            description: "Dans la nuit, les Grecs sortis du cheval ouvrent les portes. Troie, jugée inexpugnable, s'effondre dans les flammes."
         ),
     ]
 )
