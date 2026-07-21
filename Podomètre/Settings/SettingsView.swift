@@ -11,6 +11,11 @@ struct SettingsView: View {
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @State private var showPicker = false
 
+    /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
+    /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
+    @ScaledMetric(relativeTo: .body) private var colorSwatchSize: CGFloat = 36
+    @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
+
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
 
     var body: some View {
@@ -53,7 +58,10 @@ struct SettingsView: View {
                         Spacer()
                     }
 
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
+                    // Grille adaptative : le nombre de colonnes s'ajuste à la largeur disponible
+                    // et à la taille des pastilles, au lieu de forcer 6 colonnes qui débordent
+                    // sur écran étroit ou en taille de texte Accessibilité.
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: colorTapTarget), spacing: 12)], spacing: 12) {
                         ForEach(AppColors.ringColorOptions) { option in
                             let isSelected = option.id == viewModel.ringColorId
                             Button {
@@ -62,15 +70,15 @@ struct SettingsView: View {
                                 ZStack {
                                     Circle()
                                         .fill(option.color)
-                                        .frame(width: 36, height: 36)
+                                        .frame(width: colorSwatchSize, height: colorSwatchSize)
                                     if isSelected {
                                         Circle()
                                             .stroke(Color.primary, lineWidth: 2)
-                                            .frame(width: 42, height: 42)
+                                            .frame(width: colorSwatchSize + 6, height: colorSwatchSize + 6)
                                     }
                                 }
                                 // Cible tactile d'au moins 44 pt, même si la pastille est plus petite.
-                                .frame(width: 44, height: 44)
+                                .frame(width: colorTapTarget, height: colorTapTarget)
                                 .contentShape(Circle())
                             }
                             .buttonStyle(.plain)
@@ -127,4 +135,15 @@ struct SettingsView: View {
                                  "30k": 1, "50k": 0, "100k": 0]    // badges de seuil
     allJourneys.prefix(4).forEach { viewModel.markJourneyCompleted($0.id.uuidString) } // badges de trajets
     return SettingsView(viewModel: viewModel, aphorismManager: .preview)
+}
+
+#Preview("Taille Accessibilité XXL") {
+    let viewModel = StepCountViewModel()
+    viewModel.goal = 10_000
+    viewModel.currentStreak = 12
+    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
+                                 "30k": 1, "50k": 0, "100k": 0]
+    // Vérifie que la grille de couleurs se réorganise au lieu de déborder.
+    return SettingsView(viewModel: viewModel, aphorismManager: .preview)
+        .dynamicTypeSize(.accessibility3)
 }
