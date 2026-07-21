@@ -24,7 +24,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Objectif quotidien") {
+                // MARK: Mon objectif
+                Section("Mon objectif") {
                     Button {
                         withAnimation { showPicker.toggle() }
                     } label: {
@@ -55,7 +56,8 @@ struct SettingsView: View {
                     }
                 }
 
-                Section("Personnalisation des couleurs") {
+                // MARK: Apparence
+                Section("Apparence") {
                     HStack {
                         Circle()
                             .fill(viewModel.ringColor)
@@ -99,25 +101,38 @@ struct SettingsView: View {
 
                     Toggle("Mode sombre", isOn: $isDarkMode)
                 }
-                Section("Mon écran principal") {
+
+                // MARK: Écran principal
+                Section {
                     Toggle("Distance · temps actif · calories", isOn: $showTodayMetrics)
                     Toggle("Météo & prévisions", isOn: $showWeatherForecast)
                     Toggle("Calendrier mensuel", isOn: $showMonthCalendar)
                     Toggle("Graphe hebdomadaire", isOn: $showWeeklyChart)
+                } header: {
+                    Text("Écran principal")
+                } footer: {
+                    Text("Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.")
                 }
 
+                // MARK: Contenu
                 AphorismSettingsView(manager: aphorismManager)
 
-                Section("Notifications") {
+                // MARK: Notifications
+                Section {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
                         .onChange(of: viewModel.notificationsEnabled) { _, enabled in
                             if enabled { viewModel.requestNotificationPermission() }
                         }
                     Toggle("Progression des trajets", isOn: $journeyNotificationsEnabled)
+                } header: {
+                    Text("Notifications")
+                } footer: {
+                    Text("L'objectif journalier est notifié une seule fois par jour.")
                 }
 
+                // MARK: Récompenses
                 if viewModel.currentStreak > 0 {
-                    Section {
+                    Section("Récompenses") {
                         StreakBannerView(streak: viewModel.currentStreak, viewModel: viewModel)
                     }
                 }
@@ -125,13 +140,37 @@ struct SettingsView: View {
                 Section {
                     BadgeGridView(viewModel: viewModel)
                 } header: {
-                    Text("Badges")
+                    Text(viewModel.currentStreak > 0 ? "Badges" : "Récompenses")
                 }
+
+                // MARK: À propos
+                aboutSection
             }
             .navigationTitle("Paramètres")
-
-
         }
+    }
+
+    /// Informations sur l'application : version, source des données, crédits.
+    private var aboutSection: some View {
+        Section {
+            LabeledContent("Version", value: appVersion)
+                .accessibilityElement(children: .combine)
+
+            LabeledContent("Données de santé", value: "HealthKit")
+                .accessibilityElement(children: .combine)
+        } header: {
+            Text("À propos")
+        } footer: {
+            Text("Vos pas et distances sont lus depuis HealthKit et ne quittent jamais votre iPhone. Recueil de pensées du jour : 400 aphorismes du domaine public (CC0).")
+        }
+    }
+
+    /// Version courte et numéro de build issus du bundle (ex. « 1.2 (34) »).
+    private var appVersion: String {
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = info?["CFBundleVersion"] as? String
+        return build.map { "\(short) (\($0))" } ?? short
     }
 }
 
