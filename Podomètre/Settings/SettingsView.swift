@@ -55,19 +55,28 @@ struct SettingsView: View {
 
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
                         ForEach(AppColors.ringColorOptions) { option in
-                            ZStack {
-                                Circle()
-                                    .fill(option.color)
-                                    .frame(width: 36, height: 36)
-                                if option.id == viewModel.ringColorId {
-                                    Circle()
-                                        .stroke(Color.primary, lineWidth: 2)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            .onTapGesture {
+                            let isSelected = option.id == viewModel.ringColorId
+                            Button {
                                 viewModel.setRingColor(option.id)
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill(option.color)
+                                        .frame(width: 36, height: 36)
+                                    if isSelected {
+                                        Circle()
+                                            .stroke(Color.primary, lineWidth: 2)
+                                            .frame(width: 42, height: 42)
+                                    }
+                                }
+                                // Cible tactile d'au moins 44 pt, même si la pastille est plus petite.
+                                .frame(width: 44, height: 44)
+                                .contentShape(Circle())
                             }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(option.name)
+                            .accessibilityHint("Définit la couleur de l'anneau")
+                            .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
                         }
                     }
                     .padding(.vertical, 4)
