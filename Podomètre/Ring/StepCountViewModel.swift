@@ -101,7 +101,8 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Calcule la série de jours consécutifs où l'objectif a été atteint, en remontant depuis aujourd'hui.
-    /// Aujourd'hui est inclus uniquement si `stepCount` >= `goal`. Plafond à 365 jours.
+    /// Ne dépend QUE d'aujourd'hui et de l'historique HealthKit — jamais du jour affiché (`stepCount`) :
+    /// naviguer sur un jour passé ne modifie pas la série. Plafond à 365 jours.
     func computeStreak() {
         Task {
             let result = await computeStreakAsync()
@@ -111,18 +112,16 @@ class StepCountViewModel: ObservableObject {
 
     private func computeStreakAsync() async -> Int {
         #if targetEnvironment(simulator)
-        return stepCount >= goal ? 5 : 4
+        // Valeur fictive fixe : indépendante du jour affiché.
+        return 4
         #else
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return 0 }
         let calendar = Calendar.current
         var streak = 0
         var offset = 0
 
-        if stepCount >= goal {
-            streak = 1
-            offset = 1
-        }
-
+        // On part d'aujourd'hui (offset 0) et on remonte tant que l'objectif est atteint.
+        // Chaque jour est lu depuis HealthKit : le calcul ne dépend pas de `stepCount` (jour affiché).
         while offset <= 365 {
             let date = calendar.date(byAdding: .day, value: -offset, to: Date()) ?? Date()
             let start = calendar.startOfDay(for: date)

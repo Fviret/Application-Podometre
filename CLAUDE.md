@@ -1,6 +1,6 @@
 # Pedometer App — CLAUDE.md
 
-<!-- last updated: 2026-07-16 — À mettre à jour à chaque fin de session -->
+<!-- last updated: 2026-07-21 — À mettre à jour à chaque fin de session -->
 
 
 ---
@@ -11,11 +11,12 @@
 
 | Champ | Valeur |
 |---|---|
-| Branche active | `dev` (PR #29 polish écran activité mergée ; PR #31 total mensuel + #32 piste anneau ouvertes) |
-| Dernière feature travaillée | Polish écran Activité — série 🔥 à l'objectif atteint, typo du total mensuel, piste de l'anneau retravaillée (dégradé + ombre interne), pas quasi temps réel (CMPedometer) + compteur qui roule, centralisation UserDefaults (`PreferenceKey`/`Preferences`) |
-| Fichiers modifiés récemment | `Podomètre/Ring/*` (StepRingView, StepCountViewModel, MonthCalendarView, WeeklyForecastBannerView, RollingNumberText), `Podomètre/Preferences/*`, `AppColors.swift` |
-| Bugs ouverts connus | Simulateur uniquement : le handler `scenePhase .active` appelle `fetchSteps` (HealthKit) qui renvoie 0 sur simulateur et écrase le mock (sans effet sur device) |
-| Prochaine tâche prévue | Suite du polish graphique (cartes groupées, halo à l'objectif atteint), ou carte « aujourd'hui » distance/temps actif/calories (HealthKit), ou classement social cross-platform (backend à décider) |
+| Branche active | `dev` (PR #53 doc arborescence ouverte ; #47→#52 mergées) |
+| Dernière feature travaillée | Refonte des badges (illustration + couleur par badge, titre « Objectif X K », pastille de réussites, modale de détail), flamme de série animée à paliers (`FlameStreakView`), densification des étapes de tous les trajets, accessibilité des Paramètres |
+| Fichiers modifiés récemment | `Podomètre/Settings/*` (SettingsView, BadgeData, BadgeGridView, FlameStreakView, StreakBannerView), `Podomètre/Journey/JourneyData.swift`, `Podomètre/Ring/StepCountViewModel.swift` |
+| Bugs ouverts connus | Simulateur uniquement : `fetchSteps` (HealthKit) renvoie 0 sur simulateur et écrase le mock lors de la navigation par jour (sans effet sur device) |
+| ⚠️ Travail non intégré | 3 changements sont **restés sur des branches distantes, absents de `dev`** : Dynamic Type de la grille de couleurs, retour haptique (couleur/objectif), et regroupement des sections + « À propos ». Présents sur `origin/feature/settings-sections-grouping`. La PR #51 a été mergée avant l'ajout de ces commits, et la PR #52 a été mergée dans la branche `fix/`, pas dans `dev`. → à réappliquer sur `dev`. |
+| Prochaine tâche prévue | Réintégrer le travail ci-dessus, puis extraire les récompenses (série + badges) des Paramètres vers un écran dédié ; ensuite : moteur d'histoires (fiction interactive au nombre de pas), widget iOS, récap hebdomadaire |
 
 
 ---
@@ -63,40 +64,71 @@ Le pattern retenu est le **callback** : `JourneyProgressService.onJourneyComplet
 
 ## Arborescence du projet
 
+Le projet est organisé **par feature**, pas en couches : chaque dossier regroupe ses Views, son ViewModel/service et ses modèles.
+
 ```
-Pedometer/
-├── App/
-│   └── PedometerApp.swift          # @main, point d'entrée
-├── Views/
-│   ├── ContentView.swift           # TabView racine, injection des services
-│   ├── Activity/
-│   │   ├── StepRingView.swift      # Anneau de progression + pas du jour
-│   │   ├── DayNavigationView.swift # Chevrons + sélecteur de jour
-│   │   └── WeeklyChartView.swift   # Courbe linéaire semaine en cours vs précédente
-│   ├── Calendar/
-│   │   └── MonthCalendarView.swift # Grille mensuelle des jours
-│   ├── Journey/
-│   │   ├── JourneyListView.swift   # Liste des 19 trajets par catégorie
-│   │   └── JourneyDetailView.swift # Détail d'un trajet + progression
-│   ├── Badges/
-│   │   └── BadgesView.swift        # Grille badges pas + badges trajets
-│   └── Settings/
-│       └── SettingsView.swift      # Objectif, couleur, notifications, mode sombre
-├── ViewModels/
-│   └── StepCountViewModel.swift    # Pas, objectif, streak, badges, couleur anneau
-├── Services/
-│   └── JourneyProgressService.swift # Progression trajets, distance HK, completion
-├── Models/
-│   ├── Journey.swift               # Struct Journey + 19 trajets définis
-│   ├── JourneyProgress.swift       # Codable : progression km, jalons, completion
-│   └── Badge.swift                 # Struct Badge (pas + trajets)
-├── Utils/
-│   └── AppColors.swift             # ringColorOptions, couleurs présets
-└── Resources/
-    └── Info.plist
+Podomètre/
+├── Podome_treApp.swift                 # @main, point d'entrée
+├── ContentView.swift                   # TabView racine, injection des services
+├── AppColors.swift                     # ringColorOptions, couleurs présets
+├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
+│   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
+│   ├── StepRingView.swift              # Anneau de progression + navigation par jour
+│   ├── RollingNumberText.swift         # Compteur de pas animé
+│   ├── TodayMetricsView.swift          # Distance · temps actif · calories
+│   ├── MonthCalendarView.swift         # Grille mensuelle des jours
+│   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente
+│   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
+│   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
+│   ├── WeatherCode.swift               # Codes WMO → emoji / description
+│   ├── WeatherBannerView.swift         # Bannière pluie imminente
+│   ├── WeeklyForecastBannerView.swift  # Prévisions 7 jours (tap → détail)
+│   └── WeatherDetailView.swift         # Détail météo d'un jour (créneaux horaires)
+├── Journey/                            # Trajets
+│   ├── JourneyModels.swift             # Journey, Milestone, JourneyProgress
+│   ├── JourneyData.swift               # Catalogue des 19 trajets et leurs étapes
+│   ├── JourneyProgressService.swift    # Progression, distance HK, completion
+│   ├── JourneyNotificationService.swift# Notifications jalons + completion
+│   ├── JourneyPickerView.swift         # Catalogue par catégorie
+│   ├── JourneyPreviewSheet.swift       # Prévisualisation avant démarrage
+│   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons
+├── Settings/                           # Paramètres et récompenses
+│   ├── SettingsView.swift              # Objectif, apparence, écran principal, notifs
+│   ├── BadgeData.swift                 # Seuils, illustration et couleur par badge
+│   ├── BadgeGridView.swift             # Grille badges de pas + badges de trajets
+│   ├── StreakBannerView.swift          # Bannière de série
+│   └── FlameStreakView.swift           # Flamme animée à paliers (série)
+├── Aphorism/                           # Pensée du jour
+│   ├── AphorismModels.swift            # Aphorism, AphorismData (Codable)
+│   ├── AphorismManager.swift           # Sélection déterministe + garde 1×/jour
+│   ├── AphorismPopupView.swift         # Popup matinale
+│   ├── AphorismCardView.swift          # Carte de l'aphorisme
+│   ├── AphorismSettingsView.swift      # Section Paramètres
+│   └── aphorisms_humor_400.json        # Recueil (400 aphorismes, CC0)
+├── Preferences/                        # Persistance UserDefaults centralisée
+│   ├── PreferenceKey.swift             # Enum de toutes les clés
+│   ├── Preferences.swift               # Wrapper typé, injectable pour les tests
+│   └── AppStorage+PreferenceKey.swift  # Extension @AppStorage(.maClé)
+└── Views/
+    └── Onboarding/
+        ├── OnboardingView.swift        # 4 slides, premier lancement
+        └── OnboardingGoals.swift       # Catalogue des objectifs proposés
+```
+
+Hors cible applicative, à la racine du dépôt :
+
+```
+├── Podome-tre-Info.plist               # Info.plist du projet
+├── PodomètreTests/                     # Tests unitaires (Swift Testing)
+├── PodomètreUITests/                   # Tests UI (XCUITest)
+└── .github/workflows/ios.yml           # CI : build de vérification sur les PR
 ```
 
 > Si tu crées un nouveau fichier, ajoute-le ici avant de committer.
+>
+> **Convention** : un nouveau fichier va dans le dossier de sa feature (`Ring/`, `Journey/`, `Settings/`, `Aphorism/`…). Ne pas recréer de découpage en couches (`Views/`, `ViewModels/`, `Models/`).
+>
+> ⚠️ `Views/Onboarding/` est le seul reliquat de l'ancienne convention `Views/` ; à déplacer vers `Onboarding/` lors d'un prochain passage.
 
 ---
 
