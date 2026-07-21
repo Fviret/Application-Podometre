@@ -16,6 +16,9 @@ struct SettingsView: View {
     @ScaledMetric(relativeTo: .body) private var colorSwatchSize: CGFloat = 36
     @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
 
+    /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
+    private let haptic = UIImpactFeedbackGenerator(style: .light)
+
     private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
 
     var body: some View {
@@ -44,6 +47,10 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(.wheel)
+                        // Léger cran haptique à chaque changement de valeur, comme sur l'anneau.
+                        .onChange(of: viewModel.goal) { _, _ in
+                            haptic.impactOccurred()
+                        }
                         .transition(.opacity.combined(with: .move(edge: .top)))
                     }
                 }
@@ -65,6 +72,7 @@ struct SettingsView: View {
                         ForEach(AppColors.ringColorOptions) { option in
                             let isSelected = option.id == viewModel.ringColorId
                             Button {
+                                haptic.impactOccurred()
                                 viewModel.setRingColor(option.id)
                             } label: {
                                 ZStack {
