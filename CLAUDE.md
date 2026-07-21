@@ -1,6 +1,6 @@
 # Pedometer App — CLAUDE.md
 
-<!-- last updated: 2026-07-16 — À mettre à jour à chaque fin de session -->
+<!-- last updated: 2026-07-21 — À mettre à jour à chaque fin de session -->
 
 
 ---
@@ -11,11 +11,12 @@
 
 | Champ | Valeur |
 |---|---|
-| Branche active | `dev` (PR #29 polish écran activité mergée ; PR #31 total mensuel + #32 piste anneau ouvertes) |
-| Dernière feature travaillée | Polish écran Activité — série 🔥 à l'objectif atteint, typo du total mensuel, piste de l'anneau retravaillée (dégradé + ombre interne), pas quasi temps réel (CMPedometer) + compteur qui roule, centralisation UserDefaults (`PreferenceKey`/`Preferences`) |
-| Fichiers modifiés récemment | `Podomètre/Ring/*` (StepRingView, StepCountViewModel, MonthCalendarView, WeeklyForecastBannerView, RollingNumberText), `Podomètre/Preferences/*`, `AppColors.swift` |
-| Bugs ouverts connus | Simulateur uniquement : le handler `scenePhase .active` appelle `fetchSteps` (HealthKit) qui renvoie 0 sur simulateur et écrase le mock (sans effet sur device) |
-| Prochaine tâche prévue | Suite du polish graphique (cartes groupées, halo à l'objectif atteint), ou carte « aujourd'hui » distance/temps actif/calories (HealthKit), ou classement social cross-platform (backend à décider) |
+| Branche active | `dev` (PR #53 doc arborescence ouverte ; #47→#52 mergées) |
+| Dernière feature travaillée | Refonte des badges (illustration + couleur par badge, titre « Objectif X K », pastille de réussites, modale de détail), flamme de série animée à paliers (`FlameStreakView`), densification des étapes de tous les trajets, accessibilité des Paramètres |
+| Fichiers modifiés récemment | `Podomètre/Settings/*` (SettingsView, BadgeData, BadgeGridView, FlameStreakView, StreakBannerView), `Podomètre/Journey/JourneyData.swift`, `Podomètre/Ring/StepCountViewModel.swift` |
+| Bugs ouverts connus | Simulateur uniquement : `fetchSteps` (HealthKit) renvoie 0 sur simulateur et écrase le mock lors de la navigation par jour (sans effet sur device) |
+| ⚠️ Travail non intégré | 3 changements sont **restés sur des branches distantes, absents de `dev`** : Dynamic Type de la grille de couleurs, retour haptique (couleur/objectif), et regroupement des sections + « À propos ». Présents sur `origin/feature/settings-sections-grouping`. La PR #51 a été mergée avant l'ajout de ces commits, et la PR #52 a été mergée dans la branche `fix/`, pas dans `dev`. → à réappliquer sur `dev`. |
+| Prochaine tâche prévue | Réintégrer le travail ci-dessus, puis extraire les récompenses (série + badges) des Paramètres vers un écran dédié ; ensuite : moteur d'histoires (fiction interactive au nombre de pas), widget iOS, récap hebdomadaire |
 
 
 ---
