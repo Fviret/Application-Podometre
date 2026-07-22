@@ -55,6 +55,9 @@ struct AphorismCardView: View {
         .accessibilityLabel("Pensée du jour. \(aphorism.text). \(aphorism.author). Catégorie \(aphorism.category).")
         .accessibilityAddTraits(allowsCopy ? .isButton : [])
         .accessibilityHint(allowsCopy ? "Appuyez deux fois pour copier la citation" : "")
+        // Action explicite : `onTapGesture` n'est pas activable de façon fiable par le
+        // Contrôle de sélection, le Contrôle vocal ou l'accès clavier.
+        .accessibilityAction { if allowsCopy { copyToClipboard() } }
     }
 
     /// Copie le texte de l'aphorisme et affiche un toast éphémère.

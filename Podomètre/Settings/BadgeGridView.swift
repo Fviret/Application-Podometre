@@ -73,7 +73,7 @@ struct StepMilestoneBadgeCell: View {
             if isUnlocked {
                 Text("\(count) x")
                     .font(.system(.caption2, design: .rounded).weight(.bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(badge.onTintColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
                     .background(badge.tint, in: Capsule())
@@ -86,6 +86,9 @@ struct StepMilestoneBadgeCell: View {
             ? "\(badge.label), atteint \(count) fois"
             : "\(badge.label), jamais atteint")
         .accessibilityAddTraits(isUnlocked ? .isButton : [])
+        // `onTapGesture` seul n'est pas activable de façon fiable par le Contrôle de sélection,
+        // le Contrôle vocal ou l'accès clavier : on expose une action d'accessibilité explicite.
+        .accessibilityAction { if isUnlocked { showAlert = true } }
         .onTapGesture { if isUnlocked { showAlert = true } }
         .sheet(isPresented: $showAlert) {
             detailSheet
@@ -108,7 +111,7 @@ struct StepMilestoneBadgeCell: View {
 
             Text("\(count) x")
                 .font(.system(.headline, design: .rounded).weight(.bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(badge.onTintColor)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 5)
                 .background(badge.tint, in: Capsule())
