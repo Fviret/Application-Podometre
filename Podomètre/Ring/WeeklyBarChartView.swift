@@ -140,7 +140,7 @@ struct WeeklyBarChartView: View {
                         .stroke(Color.secondary.opacity(0.2), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
 
                         Text(compactSteps(tick))
-                            .font(.system(size: 9))
+                            .font(.caption2)
                             .minimumScaleFactor(0.6)
                             .foregroundStyle(Color.secondary)
                             .frame(width: 28, alignment: .trailing)
@@ -158,7 +158,7 @@ struct WeeklyBarChartView: View {
                         .stroke(viewModel.ringColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
 
                         Text("moy. \(compactSteps(weekAverage))")
-                            .font(.system(size: 8))
+                            .font(.caption2)
                             .minimumScaleFactor(0.6)
                             .foregroundStyle(viewModel.ringColor.opacity(0.8))
                             .position(x: yAxisWidth + chartWidth / 2, y: y - 7)

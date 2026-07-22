@@ -25,6 +25,25 @@ struct StepMilestoneBadge: Identifiable {
     var title: String {
         "Objectif \(threshold / 1000) K"
     }
+
+    /// Couleur de texte lisible par-dessus `tint` : noir sur les teintes claires,
+    /// blanc sur les foncées. Le blanc systématique tombait sous le ratio de
+    /// contraste minimal sur l'orange et le vert clair.
+    var onTintColor: Color {
+        UIColor(tint).relativeLuminance > 0.179 ? .black : .white
+    }
+}
+
+private extension UIColor {
+    /// Luminance relative (WCAG) — sert à choisir un texte noir ou blanc.
+    var relativeLuminance: CGFloat {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        func linear(_ c: CGFloat) -> CGFloat {
+            c <= 0.03928 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
+        }
+        return 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b)
+    }
 }
 
 enum BadgeData {

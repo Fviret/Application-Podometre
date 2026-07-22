@@ -183,6 +183,12 @@ struct MonthCalendarView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(a11yLabel)
         .accessibilityAddTraits(future || steps == 0 ? [] : .isButton)
+        // Action explicite : `onTapGesture` n'est pas activable de façon fiable par le
+        // Contrôle de sélection, le Contrôle vocal ou l'accès clavier.
+        .accessibilityAction {
+            guard !future else { return }
+            viewModel.selectDate(cellDate)
+        }
         .onTapGesture {
             guard !future else { return }
             viewModel.selectDate(cellDate)
