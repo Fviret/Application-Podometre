@@ -480,9 +480,14 @@ class StepCountViewModel: ObservableObject {
         let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
             let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
             Task { @MainActor in
-                withAnimation(.easeInOut(duration: 0.6)) {
-                    self?.stepCount = Int(steps)
-                }
+                guard let self else { return }
+                // Ignore un résultat obsolète : si l'utilisateur a changé de jour entre-temps,
+                // une requête lancée pour un autre jour ne doit pas écraser `stepCount`
+                // (sinon halo/notification « fantômes » sur le jour désormais affiché).
+                guard Calendar.current.isDate(date, inSameDayAs: self.selectedDate) else { return }
+                // L'animation est déclarée dans StepRingView (avec sa garde reduceMotion) :
+                // le ViewModel ne fait qu'assigner la donnée.
+                self.stepCount = Int(steps)
             }
         }
 
@@ -615,9 +620,7 @@ class StepCountViewModel: ObservableObject {
         mockLiveTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    self.stepCount += Int.random(in: 8...25)
-                }
+                self.stepCount += Int.random(in: 8...25)
             }
         }
         #else
@@ -629,9 +632,7 @@ class StepCountViewModel: ObservableObject {
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }
                 // `max` : la valeur ne recule jamais dans la journée (HealthKit peut inclure d'autres sources).
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    self.stepCount = max(self.stepCount, steps)
-                }
+                self.stepCount = max(self.stepCount, steps)
             }
         }
         #endif
