@@ -528,10 +528,28 @@ private let journeyViaFrancigena = Journey(
             description: "Cité médiévale toscane aux remparts intacts. Point de départ de la section finale vers Rome."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000066")!,
+            km: 18,
+            label: "Altopascio",
+            description: "Ancien hospice des Chevaliers du Tau, qui guidaient les pèlerins à travers les marais. Sa cloche sonnait le soir pour rallier les égarés."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000067")!,
+            km: 45,
+            label: "San Miniato",
+            description: "Perchée entre Florence et Pise, dominée par la tour de Frédéric II. Ses collines embaument la truffe blanche à l'automne."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000062")!,
             km: 80,
             label: "San Gimignano",
             description: "Les tours médiévales surgissent au-dessus des vignes à Vernaccia. Classée au patrimoine mondial de l'Unesco."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000068")!,
+            km: 100,
+            label: "Monteriggioni",
+            description: "Bourg fortifié aux quatorze tours, cité par Dante dans l'Enfer. Un anneau de pierre intact posé sur une colline."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000063")!,
@@ -540,10 +558,52 @@ private let journeyViaFrancigena = Journey(
             description: "Le Palio, la Piazza del Campo en coquille, les couleurs siennées. Joyau de la Toscane médiévale."
         ),
         Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000069")!,
+            km: 160,
+            label: "San Quirico d'Orcia",
+            description: "Au cœur du Val d'Orcia et de ses collines ondulées bordées de cyprès. Les Horti Leonini offrent au pèlerin un jardin Renaissance."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006A")!,
+            km: 195,
+            label: "Radicofani",
+            description: "Forteresse posée sur un piton volcanique, longtemps repaire du brigand Ghino di Tacco. La vue embrasse toute la Toscane du Sud."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006B")!,
+            km: 225,
+            label: "Acquapendente",
+            description: "Sa basilique abrite une réplique du Saint-Sépulcre, étape spirituelle majeure du chemin. On entre ici dans le Latium."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006C")!,
+            km: 250,
+            label: "Bolsena",
+            description: "Sur les rives du plus grand lac volcanique d'Europe. Le miracle eucharistique de 1263 y fit naître la Fête-Dieu."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006D")!,
+            km: 270,
+            label: "Montefiascone",
+            description: "Sa coupole domine le lac de Bolsena. Le vin « Est! Est!! Est!!! » y aurait été baptisé par un évêque trop gourmand."
+        ),
+        Milestone(
             id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000064")!,
             km: 310,
             label: "Viterbe",
             description: "Ancienne résidence des papes au XIIIe siècle, cité médiévale remarquablement conservée dans le Latium."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006E")!,
+            km: 360,
+            label: "Sutri",
+            description: "Cité étrusque creusée dans le tuf, avec son amphithéâtre taillé à même la roche. La porte légendaire du Latium romain."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-00000000006F")!,
+            km: 405,
+            label: "La Storta",
+            description: "Dernière halte avant Rome, où saint Ignace eut sa vision. Du Monte Mario voisin, les pèlerins découvrent enfin la coupole de Saint-Pierre."
         ),
         Milestone(
             id: UUID(uuidString: "C3D4E5F6-0006-0006-0006-000000000065")!,
