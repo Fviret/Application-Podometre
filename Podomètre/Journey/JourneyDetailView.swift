@@ -6,6 +6,8 @@ struct JourneyDetailView: View {
 
     @EnvironmentObject private var progressService: JourneyProgressService
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     /// Étape sélectionnée pour affichage dans la sheet de détail.
     @State private var selectedMilestone: Milestone?
 
@@ -42,8 +44,14 @@ struct JourneyDetailView: View {
             .task {
                 await progressService.syncDistance(for: journey)
                 if let idx = lastUnlockedIndex {
-                    withAnimation {
+                    // Défilement automatique : c'est le type de mouvement que « Réduire les
+                    // animations » doit couper (troubles vestibulaires). On saute directement.
+                    if reduceMotion {
                         proxy.scrollTo("milestone-\(idx)", anchor: .center)
+                    } else {
+                        withAnimation {
+                            proxy.scrollTo("milestone-\(idx)", anchor: .center)
+                        }
                     }
                 }
             }

@@ -4,6 +4,7 @@ import SwiftUI
 struct OnboardingView: View {
 
     @ObservedObject var viewModel: StepCountViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @State private var page: Int = 0
     @State private var selectedGoal: Int = onboardingDefaultGoal
@@ -21,7 +22,7 @@ struct OnboardingView: View {
                     slide4(geo: geo).tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut, value: page)
+                .animation(reduceMotion ? nil : .easeInOut, value: page)
                 .ignoresSafeArea()
                 .padding(.top, geo.safeAreaInsets.top + 24)
 
@@ -285,7 +286,7 @@ struct OnboardingView: View {
                 Capsule()
                     .fill(i == page ? Color.accentColor : Color(.systemGray4))
                     .frame(width: i == page ? 20 : 8, height: 8)
-                    .animation(.easeInOut(duration: 0.25), value: page)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: page)
             }
         }
         .accessibilityElement(children: .ignore)
