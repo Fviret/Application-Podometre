@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: StepCountViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var journeyProgressService = JourneyProgressService()
     @StateObject private var aphorismManager = AphorismManager()
     @AppStorage(.isDarkMode) private var isDarkMode: Bool = false
@@ -45,7 +46,7 @@ struct ContentView: View {
         .overlay {
             if let aphorism = popupAphorism {
                 AphorismPopupView(aphorism: aphorism, accentColor: viewModel.ringColor) {
-                    withAnimation { popupAphorism = nil }
+                    withAnimation(reduceMotion ? nil : .default) { popupAphorism = nil }
                 }
             }
         }
@@ -78,7 +79,7 @@ struct ContentView: View {
               aphorismManager.shouldShowPopup(),
               let aphorism = aphorismManager.todayAphorism else { return }
         aphorismManager.markAphorismDisplayed()
-        withAnimation { popupAphorism = aphorism }
+        withAnimation(reduceMotion ? nil : .default) { popupAphorism = aphorism }
     }
 }
 

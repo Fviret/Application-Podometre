@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @State private var showPicker = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
     /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
@@ -27,7 +28,7 @@ struct SettingsView: View {
                 // MARK: Mon objectif
                 Section("Mon objectif") {
                     Button {
-                        withAnimation { showPicker.toggle() }
+                        withAnimation(reduceMotion ? nil : .default) { showPicker.toggle() }
                     } label: {
                         HStack {
                             Text("Pas par jour")
