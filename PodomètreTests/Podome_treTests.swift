@@ -306,6 +306,146 @@ struct StepCountViewModelTests {
     }
 }
 
+// MARK: - StepCountViewModel — navigation par jour (non-régression)
+
+/// Couvre les zones qui ont produit des régressions : halo et notification « fantômes »
+/// au changement de jour, et sélection de date depuis le calendrier.
+@Suite("StepCountViewModel — navigation par jour")
+@MainActor
+struct StepCountViewModelDayNavigationTests {
+
+    /// Garde-fou principal : changer de jour doit invalider le compteur affiché.
+    /// Sans ça, la valeur (élevée) de la veille subsiste en revenant sur aujourd'hui,
+    /// ce qui rallume le halo et peut déclencher une notification d'objectif.
+    @Test func changingDayResetsStepCount() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 12_000
+        vm.selectedDayOffset = 1
+        #expect(vm.stepCount == 0)
+    }
+
+    @Test func returningToTodayAlsoResetsStepCount() async {
+        let vm = StepCountViewModel()
+        vm.selectedDayOffset = 1
+        vm.stepCount = 12_000        // valeur du jour passé
+        vm.selectedDayOffset = 0     // retour sur aujourd'hui
+        #expect(vm.stepCount == 0)
+    }
+
+    @Test func selectedDateMatchesOffset() async {
+        let vm = StepCountViewModel()
+        vm.selectedDayOffset = 3
+        let expected = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+        #expect(Calendar.current.isDate(vm.selectedDate, inSameDayAs: expected))
+    }
+
+    @Test func selectDateSetsMatchingOffset() async {
+        let vm = StepCountViewModel()
+        let target = Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date()
+        vm.selectDate(target)
+        #expect(vm.selectedDayOffset == 5)
+    }
+
+    @Test func selectDateIgnoresFutureDates() async {
+        let vm = StepCountViewModel()
+        vm.selectedDayOffset = 2
+        let future = Calendar.current.date(byAdding: .day, value: 3, to: Date()) ?? Date()
+        vm.selectDate(future)
+        #expect(vm.selectedDayOffset == 2, "Une date future ne doit pas changer la sélection")
+    }
+
+    @Test func selectDateOnTodayReturnsToZero() async {
+        let vm = StepCountViewModel()
+        vm.selectedDayOffset = 4
+        vm.selectDate(Date())
+        #expect(vm.selectedDayOffset == 0)
+    }
+
+    @Test func displayedMonthFollowsMonthOffset() async {
+        let vm = StepCountViewModel()
+        vm.selectedMonthOffset = 2
+        let expected = Calendar.current.date(byAdding: .month, value: -2, to: Date()) ?? Date()
+        let calendar = Calendar.current
+        #expect(calendar.component(.month, from: vm.displayedMonth) == calendar.component(.month, from: expected))
+        #expect(calendar.component(.year, from: vm.displayedMonth) == calendar.component(.year, from: expected))
+    }
+}
+
+// MARK: - StepCountViewModel — série (non-régression)
+
+/// La série ne doit dépendre que d'aujourd'hui, jamais du jour affiché.
+@Suite("StepCountViewModel — série")
+@MainActor
+struct StepCountViewModelStreakTests {
+
+    /// Consulter un jour passé où l'objectif était atteint ne doit pas modifier la série.
+    @Test func streakUnaffectedByBrowsingPastDays() async {
+        let vm = StepCountViewModel()
+        vm.goal = 10_000
+        vm.computeStreak()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        let baseline = vm.currentStreak
+
+        vm.selectedDayOffset = 1
+        vm.stepCount = 20_000        // jour passé largement au-dessus de l'objectif
+        vm.computeStreak()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(vm.currentStreak == baseline,
+                "La série ne doit pas varier selon le jour consulté")
+    }
+
+    @Test func streakIsNeverNegative() async {
+        let vm = StepCountViewModel()
+        vm.computeStreak()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        #expect(vm.currentStreak >= 0)
+    }
+}
+
+// MARK: - StepCountViewModel — progression et objectif
+
+@Suite("StepCountViewModel — progression")
+@MainActor
+struct StepCountViewModelProgressTests {
+
+    @Test func progressExactlyAtGoalIsOne() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 10_000
+        vm.goal = 10_000
+        #expect(vm.progress == 1.0)
+    }
+
+    @Test func progressQuarter() async {
+        let vm = StepCountViewModel()
+        vm.stepCount = 2_500
+        vm.goal = 10_000
+        #expect(vm.progress == 0.25)
+    }
+
+    @Test func goalIsPersistedOnChange() async {
+        let vm = StepCountViewModel()
+        vm.goal = 12_500
+        #expect(Preferences.shared.integer(.dailyStepGoal) == 12_500)
+    }
+
+    @Test func ringColorIdIsPersistedOnChange() async {
+        let vm = StepCountViewModel()
+        let previous = vm.ringColorId
+        vm.setRingColor("blue")
+        #expect(Preferences.shared.string(.ringColorId) == "blue")
+        vm.setRingColor(previous)   // restaure l'état initial
+    }
+
+    @Test func unknownRingColorFallsBackToFirstOption() async {
+        let vm = StepCountViewModel()
+        let previous = vm.ringColorId
+        vm.setRingColor("couleur-inexistante")
+        #expect(vm.ringColor == AppColors.ringColorOptions[0].color)
+        vm.setRingColor(previous)
+    }
+}
+
 // MARK: - JourneyProgress persistence (Codable)
 
 @Suite("JourneyProgress — Codable")
