@@ -79,6 +79,7 @@ Podomètre/
 │   ├── TodayMetricsView.swift          # Distance · temps actif · calories
 │   ├── MonthCalendarView.swift         # Grille mensuelle des jours
 │   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente
+│   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
