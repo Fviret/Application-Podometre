@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- L'app ne suit pas l'utilisateur (pas de tracking cross-app, aucun SDK publicitaire). -->
+	<key>NSPrivacyTracking</key>
+	<false/>
+
+	<!-- Aucun domaine de suivi. -->
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+
+	<!-- Types de données « collectées » au sens Apple (transmises hors de l'appareil de manière
+	     persistante). L'app ne transmet aucune donnée de santé ni de localisation de façon
+	     persistante : les pas et la distance restent locaux (HealthKit), et la position n'est
+	     envoyée à Open-Meteo/reverse-geocoding que le temps de servir la requête météo, sans
+	     stockage ni lien avec l'identité. Aucune donnée collectée à déclarer. -->
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+
+	<!-- APIs à « raison requise » réellement utilisées. -->
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<!-- UserDefaults : persistance des préférences (objectif, couleur, toggles,
+			     progression des trajets) via le wrapper Preferences. -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<!-- CA92.1 : accès aux user defaults propres à l'app, en lecture/écriture. -->
+				<string>CA92.1</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
