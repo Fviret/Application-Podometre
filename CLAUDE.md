@@ -71,6 +71,7 @@ Podomètre/
 ├── Podome_treApp.swift                 # @main, point d'entrée
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
+├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
 │   ├── StepRingView.swift              # Anneau de progression + navigation par jour
