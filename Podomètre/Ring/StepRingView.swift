@@ -42,6 +42,11 @@ struct StepRingView: View {
             VStack(spacing: 0) {
                 WeatherBannerView(forecast: walkingForecast)
 
+                // Accès aux pas refusé : bannière non bloquante vers les Réglages.
+                if viewModel.healthAccessDenied {
+                    HealthAccessBannerView()
+                }
+
                 ScrollView {
                     VStack(spacing: 32) {
                         HStack(spacing: 0) {
@@ -274,6 +279,9 @@ struct StepRingView: View {
                 viewModel.fetchSteps(for: viewModel.selectedDate)
                 viewModel.fetchMetrics(for: viewModel.selectedDate)
                 viewModel.startLiveStepUpdates()
+                // Re-vérifie l'accès Santé : si l'utilisateur vient de l'autoriser dans les
+                // Réglages, la bannière disparaît au retour dans l'app.
+                viewModel.checkHealthAccess()
             default:
                 viewModel.stopLiveStepUpdates()
             }
