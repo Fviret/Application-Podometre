@@ -12,6 +12,8 @@ struct AphorismCardView: View {
 
     @State private var showCopiedToast = false
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("« \(aphorism.text) »")
@@ -65,9 +67,9 @@ struct AphorismCardView: View {
         UIPasteboard.general.string = "« \(aphorism.text) » — \(aphorism.author)"
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         UIAccessibility.post(notification: .announcement, argument: "Citation copiée")
-        withAnimation { showCopiedToast = true }
+        withAnimation(reduceMotion ? nil : .default) { showCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-            withAnimation { showCopiedToast = false }
+            withAnimation(reduceMotion ? nil : .default) { showCopiedToast = false }
         }
     }
 }
