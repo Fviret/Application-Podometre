@@ -28,6 +28,9 @@ struct SettingsView: View {
 
     /// Échelle animée de la valeur d'objectif — pilote l'effet « bounce » à l'incrément/décrément.
     @State private var goalScale: CGFloat = 1
+    /// Timer de répétition sur appui long, et intervalle courant (décroît → accélération).
+    @State private var repeatTimer: Timer?
+    @State private var repeatInterval: Double = 0.28
 
     var body: some View {
         NavigationStack {
@@ -36,9 +39,7 @@ struct SettingsView: View {
                 Section {
                     HStack(spacing: 20) {
                         Spacer()
-                        goalStepButton(system: "minus", enabled: viewModel.goal > goalMin) {
-                            changeGoal(by: -goalStep)
-                        }
+                        goalStepButton(system: "minus", delta: -goalStep, enabled: viewModel.goal > goalMin)
 
                         VStack(spacing: 0) {
                             Text(viewModel.goal.formatted())
@@ -62,9 +63,7 @@ struct SettingsView: View {
                             }
                         }
 
-                        goalStepButton(system: "plus", enabled: viewModel.goal < goalMax) {
-                            changeGoal(by: goalStep)
-                        }
+                        goalStepButton(system: "plus", delta: goalStep, enabled: viewModel.goal < goalMax)
                         Spacer()
                     }
                     .padding(.vertical, 6)
@@ -182,39 +181,92 @@ struct SettingsView: View {
 
     // MARK: - Sélecteur d'objectif
 
-    /// Modifie l'objectif d'un pas (borné), avec haptique et effet « bounce » directionnel.
-    private func changeGoal(by delta: Int) {
+    /// Applique un delta borné à l'objectif. Retourne `true` si la valeur a changé.
+    @discardableResult
+    private func applyGoalDelta(_ delta: Int) -> Bool {
         let newGoal = min(max(viewModel.goal + delta, goalMin), goalMax)
-        guard newGoal != viewModel.goal else { return }
+        guard newGoal != viewModel.goal else { return false }
         viewModel.goal = newGoal
+        return true
+    }
+
+    /// Changement unitaire (tap) : valeur + haptique + rebond directionnel.
+    private func changeGoal(by delta: Int) {
+        guard applyGoalDelta(delta) else { return }
         haptic.impactOccurred()
         bounce(grow: delta > 0)
     }
 
-    /// Anime la valeur : pic (grossissant si incrément, rétrécissant si décrément) puis retour
-    /// élastique à 1 → sensation de rebond. Neutralisé si « Réduire les animations » est actif.
+    /// Rebond de la valeur : pic (grossissant à l'incrément, rétrécissant au décrément) puis retour
+    /// élastique à 1. Deux transactions distinctes (via `completion`) — sinon SwiftUI coalesce le
+    /// pic et le retour et rien ne s'anime. Neutralisé si « Réduire les animations » est actif.
     private func bounce(grow: Bool) {
         guard !reduceMotion else { return }
-        goalScale = grow ? 1.3 : 0.75
-        withAnimation(.spring(response: 0.34, dampingFraction: 0.45)) {
+        withAnimation(.spring(response: 0.16, dampingFraction: 0.5)) {
+            goalScale = grow ? 1.3 : 0.75
+        } completion: {
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.42)) {
+                goalScale = 1
+            }
+        }
+    }
+
+    // MARK: Appui long (répétition accélérée)
+
+    /// Démarre la répétition sur maintien : la valeur reste agrandie/réduite et défile, en accélérant.
+    private func startRepeating(delta: Int) {
+        repeatInterval = 0.28
+        if !reduceMotion {
+            withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
+                goalScale = delta > 0 ? 1.18 : 0.85
+            }
+        }
+        tickRepeat(delta: delta)
+    }
+
+    /// Un pas de la répétition : s'arrête aux bornes, sinon rejoue plus vite (intervalle × 0,82).
+    private func tickRepeat(delta: Int) {
+        let atBound = (delta > 0 && viewModel.goal >= goalMax) || (delta < 0 && viewModel.goal <= goalMin)
+        guard !atBound, applyGoalDelta(delta) else { stopRepeating(); return }
+        haptic.impactOccurred()
+        repeatInterval = max(0.04, repeatInterval * 0.82)
+        repeatTimer?.invalidate()
+        repeatTimer = Timer.scheduledTimer(withTimeInterval: repeatInterval, repeats: false) { _ in
+            Task { @MainActor in tickRepeat(delta: delta) }
+        }
+    }
+
+    /// Arrête la répétition et ramène la valeur à sa taille normale (rebond de retour).
+    private func stopRepeating() {
+        guard repeatTimer != nil || goalScale != 1 else { return }
+        repeatTimer?.invalidate()
+        repeatTimer = nil
+        if !reduceMotion {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.45)) { goalScale = 1 }
+        } else {
             goalScale = 1
         }
     }
 
-    /// Bouton circulaire − / + du sélecteur d'objectif.
-    private func goalStepButton(system: String, enabled: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: system)
-                .font(.system(.body, weight: .semibold))
-                .foregroundStyle(enabled ? viewModel.ringColor : Color.secondary.opacity(0.4))
-                .frame(width: 44, height: 44)
-                .background(
-                    Circle().fill(enabled ? viewModel.ringColor.opacity(0.12) : Color.secondary.opacity(0.08))
-                )
-        }
-        .buttonStyle(.plain)
-        .disabled(!enabled)
-        .accessibilityLabel(system == "plus" ? "Augmenter l'objectif" : "Diminuer l'objectif")
+    /// Bouton circulaire − / + : tap = un pas ; appui long = répétition accélérée.
+    private func goalStepButton(system: String, delta: Int, enabled: Bool) -> some View {
+        Image(systemName: system)
+            .font(.system(.body, weight: .semibold))
+            .foregroundStyle(enabled ? viewModel.ringColor : Color.secondary.opacity(0.4))
+            .frame(width: 44, height: 44)
+            .background(
+                Circle().fill(enabled ? viewModel.ringColor.opacity(0.12) : Color.secondary.opacity(0.08))
+            )
+            .contentShape(Circle())
+            .onTapGesture { if enabled { changeGoal(by: delta) } }
+            .onLongPressGesture(minimumDuration: 0.35, maximumDistance: 40) {
+                if enabled { startRepeating(delta: delta) }
+            } onPressingChanged: { pressing in
+                if !pressing { stopRepeating() }
+            }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(delta > 0 ? "Augmenter l'objectif" : "Diminuer l'objectif")
+            .accessibilityAction { if enabled { changeGoal(by: delta) } }
     }
 
     /// Informations sur l'application : version, source des données, crédits.
