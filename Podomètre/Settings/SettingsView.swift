@@ -23,8 +23,8 @@ struct SettingsView: View {
 
     /// Bornes et pas du sélecteur d'objectif.
     private let goalStep = 500
-    private let goalMin = 5_000
-    private let goalMax = 20_000
+    private let goalMin = 500
+    private let goalMax = 100_000
 
     /// Échelle animée de la valeur d'objectif — pilote l'effet « bounce » à l'incrément/décrément.
     @State private var goalScale: CGFloat = 1
@@ -35,6 +35,7 @@ struct SettingsView: View {
                 // MARK: Mon objectif
                 Section {
                     HStack(spacing: 20) {
+                        Spacer()
                         goalStepButton(system: "minus", enabled: viewModel.goal > goalMin) {
                             changeGoal(by: -goalStep)
                         }
@@ -64,12 +65,13 @@ struct SettingsView: View {
                         goalStepButton(system: "plus", enabled: viewModel.goal < goalMax) {
                             changeGoal(by: goalStep)
                         }
+                        Spacer()
                     }
                     .padding(.vertical, 6)
                 } header: {
                     Text("Mon objectif")
                 } footer: {
-                    Text("Réglable par paliers de 500 pas, de 5 000 à 20 000.")
+                    Text("Réglable par paliers de 500 pas, de 500 à 100 000.")
                 }
 
                 // MARK: Apparence
