@@ -223,11 +223,17 @@ private struct JourneyCard: View {
         .environmentObject(StepCountViewModel())
 }
 
-#Preview("Avec progression") {
+#Preview("Avec trajet en cours") {
+    let gr20 = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
     let service = JourneyProgressService()
-    service.startJourney(allJourneys[0])
-    service.addKilometers(72, to: allJourneys[0])
+    service.startJourney(gr20)
+    service.addKilometers(72, to: gr20)
+
+    let viewModel = StepCountViewModel()
+    // Historique de pas pour alimenter la moyenne (donc l'ETA de la card).
+    viewModel.currentWeekSteps = [9_200, 11_400, 8_800, 10_100, 7_600, 12_300, 6_500]
+
     return JourneyPickerView()
         .environmentObject(service)
-        .environmentObject(StepCountViewModel())
+        .environmentObject(viewModel)
 }

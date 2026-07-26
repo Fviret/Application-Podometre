@@ -171,21 +171,46 @@ struct ActiveJourneyCardView: View {
     }
 }
 
-#Preview {
-    let journey = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
-    let progress = JourneyProgress(
+// MARK: - Preview
+
+/// Construit une progression fictive sur un trajet donné (km parcourus + jalons franchis déduits).
+private func previewProgress(_ journey: Journey, km: Double) -> JourneyProgress {
+    let unlocked = journey.sortedMilestones.filter { $0.km <= km }.map(\.id)
+    return JourneyProgress(
         journeyId: journey.id,
-        totalKm: 68,
-        unlockedMilestoneIds: Set(journey.sortedMilestones.prefix(4).map(\.id)),
+        totalKm: km,
+        unlockedMilestoneIds: Set(unlocked),
         startDate: Date().addingTimeInterval(-14 * 86400),
         lastUpdatedDate: Date()
     )
-    return ActiveJourneyCardView(
-        journey: journey,
-        progress: progress,
-        ringColor: AppColors.ringColorOptions[0].color,
-        averageDailySteps: 9_500,
-        onTap: {}
-    )
-    .padding()
+}
+
+private let previewGR20 = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
+
+#Preview("États de la card") {
+    let color = AppColors.ringColorOptions[0].color
+    return ScrollView {
+        VStack(spacing: 16) {
+            // Milieu de parcours, avec estimation d'arrivée
+            ActiveJourneyCardView(journey: previewGR20,
+                                  progress: previewProgress(previewGR20, km: 68),
+                                  ringColor: color, averageDailySteps: 9_500, onTap: {})
+
+            // Tout début (avant le 1er jalon → « Départ »)
+            ActiveJourneyCardView(journey: previewGR20,
+                                  progress: previewProgress(previewGR20, km: 4),
+                                  ringColor: color, averageDailySteps: 6_200, onTap: {})
+
+            // Proche de l'arrivée
+            ActiveJourneyCardView(journey: previewGR20,
+                                  progress: previewProgress(previewGR20, km: 172),
+                                  ringColor: color, averageDailySteps: 12_000, onTap: {})
+
+            // Sans historique de pas → pas d'ETA
+            ActiveJourneyCardView(journey: previewGR20,
+                                  progress: previewProgress(previewGR20, km: 90),
+                                  ringColor: color, averageDailySteps: nil, onTap: {})
+        }
+        .padding()
+    }
 }
