@@ -12,9 +12,12 @@ struct JourneyPickerView: View {
     /// Ordre d'affichage des catégories.
     private let categoryOrder: [JourneyCategory] = [.walk, .trail, .history, .myth]
 
-    /// Trajets groupés par catégorie.
+    /// Trajets groupés par catégorie, en excluant le trajet en cours
+    /// (déjà mis en avant dans la card épinglée en tête).
     private var grouped: [JourneyCategory: [Journey]] {
-        Dictionary(grouping: allJourneys, by: \.category)
+        let activeId = activeJourney?.journey.id
+        let journeys = allJourneys.filter { $0.id != activeId }
+        return Dictionary(grouping: journeys, by: \.category)
     }
 
     /// Trajet en cours à épingler : a une progression, n'est pas terminé, et n'a pas atteint 100 %.
