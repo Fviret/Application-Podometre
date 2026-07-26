@@ -28,9 +28,15 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
                 .padding(.top, geo.safeAreaInsets.top + 24)
 
-                // Overlay fixe en bas : dots + boutons (hauteur constante sur toutes les slides)
-                VStack(spacing: 12) {
+                // Overlay fixe en bas : progression + dots + boutons (hauteur constante sur toutes les slides)
+                VStack(spacing: 10) {
                     dots
+
+                    // Progression textuelle, en plus des dots (utile en accessibilité).
+                    Text("Étape \(page + 1) / 4")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondary)
+                        .accessibilityLabel("Étape \(page + 1) sur 4")
 
                     switch page {
                     case 3:
@@ -44,10 +50,11 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, geo.safeAreaInsets.bottom + 16)
-                .padding(.top, 20)
+                .padding(.top, 16)
+                // Fond raccord avec la slide (blanc sur les 2 premières, groupé ensuite),
+                // au lieu du matériau translucide.
                 .background(
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
+                    (page >= 2 ? Color(.systemGroupedBackground) : Color(.systemBackground))
                         .ignoresSafeArea(edges: .bottom)
                 )
             }
@@ -68,6 +75,8 @@ struct OnboardingView: View {
             Image("onboarding_activity")
                 .resizable()
                 .scaledToFit()
+                // Légèrement agrandie (déborde un peu sous le dégradé/légende) pour un visuel plus présent.
+                .padding(.horizontal, -14)
                 .accessibilityHidden(true)
 
             ZStack {
@@ -98,6 +107,8 @@ struct OnboardingView: View {
             Image("onboarding_journeys")
                 .resizable()
                 .scaledToFit()
+                // Légèrement agrandie (déborde un peu sous le dégradé/légende) pour un visuel plus présent.
+                .padding(.horizontal, -14)
                 .accessibilityHidden(true)
 
             ZStack {
@@ -302,8 +313,8 @@ struct OnboardingView: View {
                     .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: page)
             }
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Étape \(page + 1) sur 4")
+        // La progression textuelle (« Étape X / 4 ») porte l'info pour VoiceOver ; les dots sont décoratifs.
+        .accessibilityHidden(true)
         .accessibilityIdentifier("onboarding_dots")
     }
 
