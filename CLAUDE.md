@@ -91,6 +91,7 @@ Podomètre/
 │   ├── JourneyData.swift               # Catalogue des 19 trajets et leurs étapes
 │   ├── JourneyProgressService.swift    # Progression, distance HK, completion
 │   ├── JourneyNotificationService.swift# Notifications jalons + completion
+│   ├── ActiveJourneyCardView.swift     # Card du trajet en cours (progression + ETA), en tête du catalogue
 │   ├── JourneyPickerView.swift         # Catalogue par catégorie
 │   ├── JourneyPreviewSheet.swift       # Prévisualisation avant démarrage
 │   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons

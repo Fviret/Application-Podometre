@@ -261,6 +261,17 @@ class StepCountViewModel: ObservableObject {
         min(Double(stepCount) / Double(goal), 1.0)
     }
 
+    /// Moyenne de pas par jour sur les 6 jours pleins précédents (aujourd'hui exclu car partiel).
+    /// Sert à estimer une cadence de marche (ex. date d'arrivée sur un trajet). `nil` si l'historique
+    /// est vide/insuffisant (aucune estimation fiable possible).
+    var averageDailySteps: Int? {
+        guard currentWeekSteps.count == 7 else { return nil }
+        let fullDays = Array(currentWeekSteps.prefix(6)) // index 6 = aujourd'hui, écarté
+        let total = fullDays.reduce(0, +)
+        guard total > 0 else { return nil }
+        return total / fullDays.count
+    }
+
     /// Date correspondant à `selectedDayOffset` jours avant aujourd'hui.
     var selectedDate: Date {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()

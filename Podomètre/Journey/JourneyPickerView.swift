@@ -12,15 +12,44 @@ struct JourneyPickerView: View {
     /// Ordre d'affichage des catégories.
     private let categoryOrder: [JourneyCategory] = [.walk, .trail, .history, .myth]
 
-    /// Trajets groupés par catégorie.
+    /// Trajets groupés par catégorie, en excluant le trajet en cours
+    /// (déjà mis en avant dans la card épinglée en tête).
     private var grouped: [JourneyCategory: [Journey]] {
-        Dictionary(grouping: allJourneys, by: \.category)
+        let activeId = activeJourney?.journey.id
+        let journeys = allJourneys.filter { $0.id != activeId }
+        return Dictionary(grouping: journeys, by: \.category)
+    }
+
+    /// Trajet en cours à épingler : a une progression, n'est pas terminé, et n'a pas atteint 100 %.
+    /// S'il y en avait plusieurs, on retient le plus récemment mis à jour.
+    private var activeJourney: (journey: Journey, progress: JourneyProgress)? {
+        allJourneys
+            .compactMap { journey -> (Journey, JourneyProgress)? in
+                guard let progress = progressService.progress(for: journey),
+                      !stepViewModel.isJourneyCompleted(journey.id.uuidString),
+                      journey.progressPercent(for: progress) < 1.0
+                else { return nil }
+                return (journey, progress)
+            }
+            .max { $0.1.lastUpdatedDate < $1.1.lastUpdatedDate }
+            .map { (journey: $0.0, progress: $0.1) }
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24, pinnedViews: []) {
+                    // Trajet en cours épinglé en tête.
+                    if let active = activeJourney {
+                        ActiveJourneyCardView(
+                            journey: active.journey,
+                            progress: active.progress,
+                            ringColor: stepViewModel.ringColor,
+                            averageDailySteps: stepViewModel.averageDailySteps,
+                            onTap: { selectedJourney = active.journey }
+                        )
+                    }
+
                     ForEach(categoryOrder, id: \.self) { category in
                         if let journeys = grouped[category] {
                             categorySection(category, journeys: journeys)
@@ -96,6 +125,20 @@ private struct JourneyCard: View {
     private var hasProgress: Bool { progress != nil }
 
     var body: some View {
+        // Carte entièrement tappable pour les trajets non terminés ; les cartes « Terminé »
+        // restent non interactives (rien à ouvrir).
+        if isCompleted {
+            cardContent
+        } else {
+            Button(action: onAction) { cardContent }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(journey.name). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.\(hasProgress ? " Progression : \(Int(progressPercent * 100)) %." : "")")
+                .accessibilityHint(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+        }
+    }
+
+    private var cardContent: some View {
         VStack(alignment: .leading, spacing: 16) {
 
             HStack(alignment: .top, spacing: 14) {
@@ -169,17 +212,16 @@ private struct JourneyCard: View {
                     }
                 }
 
-                Button(action: onAction) {
-                    Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
-                        .font(.system(.subheadline, design: .rounded).weight(.medium))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(hasProgress ? ringColor : ringColor.opacity(0.12))
-                        .foregroundStyle(hasProgress ? Color.white : ringColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(hasProgress ? "Voir mes étapes pour \(journey.name)" : "Voir le trajet \(journey.name)")
+                // Pastille d'appel à l'action, purement visuelle : c'est la carte entière
+                // qui est le bouton (voir `body`), pas cette pastille.
+                Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+                    .font(.system(.subheadline, design: .rounded).weight(.medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(hasProgress ? ringColor : ringColor.opacity(0.12))
+                    .foregroundStyle(hasProgress ? Color.white : ringColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .accessibilityHidden(true)
             }
         }
         .padding(16)
@@ -197,11 +239,17 @@ private struct JourneyCard: View {
         .environmentObject(StepCountViewModel())
 }
 
-#Preview("Avec progression") {
+#Preview("Avec trajet en cours") {
+    let gr20 = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
     let service = JourneyProgressService()
-    service.startJourney(allJourneys[0])
-    service.addKilometers(72, to: allJourneys[0])
+    service.startJourney(gr20)
+    service.addKilometers(72, to: gr20)
+
+    let viewModel = StepCountViewModel()
+    // Historique de pas pour alimenter la moyenne (donc l'ETA de la card).
+    viewModel.currentWeekSteps = [9_200, 11_400, 8_800, 10_100, 7_600, 12_300, 6_500]
+
     return JourneyPickerView()
         .environmentObject(service)
-        .environmentObject(StepCountViewModel())
+        .environmentObject(viewModel)
 }
