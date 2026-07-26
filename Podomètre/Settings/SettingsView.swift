@@ -115,9 +115,6 @@ struct SettingsView: View {
                     Text("Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.")
                 }
 
-                // MARK: Contenu
-                AphorismSettingsView(manager: aphorismManager)
-
                 // MARK: Notifications
                 Section {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
@@ -130,6 +127,9 @@ struct SettingsView: View {
                 } footer: {
                     Text("L'objectif journalier est notifié une seule fois par jour.")
                 }
+
+                // MARK: Contenu
+                AphorismSettingsView(manager: aphorismManager)
 
                 // MARK: Récompenses
                 if viewModel.currentStreak > 0 {
