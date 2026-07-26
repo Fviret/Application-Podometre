@@ -16,53 +16,60 @@ struct SettingsView: View {
     @ScaledMetric(relativeTo: .body) private var colorSwatchSize: CGFloat = 36
     @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
-    /// Objectif affiché dans le sélecteur : « Effort · X pas » si l'objectif correspond à un
-    /// palier connu, sinon simplement « X pas » (cas d'une ancienne valeur personnalisée).
-    private var currentGoalDisplay: String {
-        if let effort = effortLabel(forGoal: viewModel.goal) {
-            return "\(effort) · \(viewModel.goal.formatted()) pas"
-        }
-        return "\(viewModel.goal.formatted()) pas"
-    }
+    /// Bornes et pas du sélecteur d'objectif.
+    private let goalStep = 500
+    private let goalMin = 5_000
+    private let goalMax = 20_000
+
+    /// Échelle animée de la valeur d'objectif — pilote l'effet « bounce » à l'incrément/décrément.
+    @State private var goalScale: CGFloat = 1
 
     var body: some View {
         NavigationStack {
             List {
                 // MARK: Mon objectif
                 Section {
-                    Menu {
-                        // Un choix par palier d'effort (léger → titan).
-                        ForEach(onboardingGoals, id: \.steps) { goal in
-                            Button {
-                                haptic.impactOccurred()
-                                viewModel.goal = goal.steps
-                            } label: {
-                                if goal.steps == viewModel.goal {
-                                    Label("\(goal.effort) · \(goal.label)", systemImage: "checkmark")
-                                } else {
-                                    Text("\(goal.effort) · \(goal.label)")
-                                }
-                            }
+                    HStack(spacing: 20) {
+                        goalStepButton(system: "minus", enabled: viewModel.goal > goalMin) {
+                            changeGoal(by: -goalStep)
                         }
-                    } label: {
-                        HStack {
-                            Text("Objectif quotidien")
+
+                        VStack(spacing: 0) {
+                            Text(viewModel.goal.formatted())
+                                .font(.system(.title2, design: .rounded).weight(.bold))
+                                .monospacedDigit()
                                 .foregroundStyle(Color.primary)
-                            Spacer()
-                            Text(currentGoalDisplay)
-                                .foregroundStyle(Color.secondary)
-                            Image(systemName: "chevron.up.chevron.down")
+                                .scaleEffect(goalScale)
+                            Text("pas / jour")
                                 .font(.caption)
                                 .foregroundStyle(Color.secondary)
                         }
+                        .frame(maxWidth: .infinity)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Objectif quotidien")
+                        .accessibilityValue("\(viewModel.goal.formatted()) pas")
+                        .accessibilityAdjustableAction { direction in
+                            switch direction {
+                            case .increment: changeGoal(by: goalStep)
+                            case .decrement: changeGoal(by: -goalStep)
+                            @unknown default: break
+                            }
+                        }
+
+                        goalStepButton(system: "plus", enabled: viewModel.goal < goalMax) {
+                            changeGoal(by: goalStep)
+                        }
                     }
+                    .padding(.vertical, 6)
                 } header: {
                     Text("Mon objectif")
                 } footer: {
-                    Text("Choisissez le nombre de pas selon l'effort visé.")
+                    Text("Réglable par paliers de 500 pas, de 5 000 à 20 000.")
                 }
 
                 // MARK: Apparence
@@ -169,6 +176,43 @@ struct SettingsView: View {
             }
             .navigationTitle("Paramètres")
         }
+    }
+
+    // MARK: - Sélecteur d'objectif
+
+    /// Modifie l'objectif d'un pas (borné), avec haptique et effet « bounce » directionnel.
+    private func changeGoal(by delta: Int) {
+        let newGoal = min(max(viewModel.goal + delta, goalMin), goalMax)
+        guard newGoal != viewModel.goal else { return }
+        viewModel.goal = newGoal
+        haptic.impactOccurred()
+        bounce(grow: delta > 0)
+    }
+
+    /// Anime la valeur : pic (grossissant si incrément, rétrécissant si décrément) puis retour
+    /// élastique à 1 → sensation de rebond. Neutralisé si « Réduire les animations » est actif.
+    private func bounce(grow: Bool) {
+        guard !reduceMotion else { return }
+        goalScale = grow ? 1.3 : 0.75
+        withAnimation(.spring(response: 0.34, dampingFraction: 0.45)) {
+            goalScale = 1
+        }
+    }
+
+    /// Bouton circulaire − / + du sélecteur d'objectif.
+    private func goalStepButton(system: String, enabled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: system)
+                .font(.system(.body, weight: .semibold))
+                .foregroundStyle(enabled ? viewModel.ringColor : Color.secondary.opacity(0.4))
+                .frame(width: 44, height: 44)
+                .background(
+                    Circle().fill(enabled ? viewModel.ringColor.opacity(0.12) : Color.secondary.opacity(0.08))
+                )
+        }
+        .buttonStyle(.plain)
+        .disabled(!enabled)
+        .accessibilityLabel(system == "plus" ? "Augmenter l'objectif" : "Diminuer l'objectif")
     }
 
     /// Informations sur l'application : version, source des données, crédits.
