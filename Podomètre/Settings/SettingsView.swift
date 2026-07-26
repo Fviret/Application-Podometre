@@ -10,8 +10,6 @@ struct SettingsView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
-    @State private var showPicker = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
     /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
@@ -21,41 +19,50 @@ struct SettingsView: View {
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
-    private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
+    /// Objectif affiché dans le sélecteur : « Effort · X pas » si l'objectif correspond à un
+    /// palier connu, sinon simplement « X pas » (cas d'une ancienne valeur personnalisée).
+    private var currentGoalDisplay: String {
+        if let effort = effortLabel(forGoal: viewModel.goal) {
+            return "\(effort) · \(viewModel.goal.formatted()) pas"
+        }
+        return "\(viewModel.goal.formatted()) pas"
+    }
 
     var body: some View {
         NavigationStack {
             List {
                 // MARK: Mon objectif
-                Section("Mon objectif") {
-                    Button {
-                        withAnimation(reduceMotion ? nil : .default) { showPicker.toggle() }
+                Section {
+                    Menu {
+                        // Un choix par palier d'effort (léger → titan).
+                        ForEach(onboardingGoals, id: \.steps) { goal in
+                            Button {
+                                haptic.impactOccurred()
+                                viewModel.goal = goal.steps
+                            } label: {
+                                if goal.steps == viewModel.goal {
+                                    Label("\(goal.effort) · \(goal.label)", systemImage: "checkmark")
+                                } else {
+                                    Text("\(goal.effort) · \(goal.label)")
+                                }
+                            }
+                        }
                     } label: {
                         HStack {
-                            Text("Pas par jour")
+                            Text("Objectif quotidien")
                                 .foregroundStyle(Color.primary)
                             Spacer()
-                            Text(viewModel.goal.formatted())
+                            Text(currentGoalDisplay)
                                 .foregroundStyle(Color.secondary)
-                            Image(systemName: showPicker ? "chevron.up" : "chevron.down")
+                            Image(systemName: "chevron.up.chevron.down")
                                 .font(.caption)
                                 .foregroundStyle(Color.secondary)
                         }
                     }
-
-                    if showPicker {
-                        Picker("Pas par jour", selection: $viewModel.goal) {
-                            ForEach(goalOptions, id: \.self) { value in
-                                Text(value.formatted()).tag(value)
-                            }
-                        }
-                        .pickerStyle(.wheel)
-                        // Léger cran haptique à chaque changement de valeur, comme sur l'anneau.
-                        .onChange(of: viewModel.goal) { _, _ in
-                            haptic.impactOccurred()
-                        }
-                        .transition(.opacity.combined(with: .move(edge: .top)))
-                    }
+                } header: {
+                    Text("Mon objectif")
+                } footer: {
+                    Text("Choisissez le nombre de pas selon l'effort visé.")
                 }
 
                 // MARK: Apparence
