@@ -17,10 +17,36 @@ struct JourneyPickerView: View {
         Dictionary(grouping: allJourneys, by: \.category)
     }
 
+    /// Trajet en cours à épingler : a une progression, n'est pas terminé, et n'a pas atteint 100 %.
+    /// S'il y en avait plusieurs, on retient le plus récemment mis à jour.
+    private var activeJourney: (journey: Journey, progress: JourneyProgress)? {
+        allJourneys
+            .compactMap { journey -> (Journey, JourneyProgress)? in
+                guard let progress = progressService.progress(for: journey),
+                      !stepViewModel.isJourneyCompleted(journey.id.uuidString),
+                      journey.progressPercent(for: progress) < 1.0
+                else { return nil }
+                return (journey, progress)
+            }
+            .max { $0.1.lastUpdatedDate < $1.1.lastUpdatedDate }
+            .map { (journey: $0.0, progress: $0.1) }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24, pinnedViews: []) {
+                    // Trajet en cours épinglé en tête.
+                    if let active = activeJourney {
+                        ActiveJourneyCardView(
+                            journey: active.journey,
+                            progress: active.progress,
+                            ringColor: stepViewModel.ringColor,
+                            averageDailySteps: stepViewModel.averageDailySteps,
+                            onTap: { selectedJourney = active.journey }
+                        )
+                    }
+
                     ForEach(categoryOrder, id: \.self) { category in
                         if let journeys = grouped[category] {
                             categorySection(category, journeys: journeys)
