@@ -22,7 +22,9 @@ struct OnboardingView: View {
                     slide4(geo: geo).tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(reduceMotion ? nil : .easeInOut, value: page)
+                // Ne PAS appliquer `.animation(value: page)` ici : sur un TabView paginé, cela
+                // annule le geste de balayage interactif (le style `.page` anime déjà nativement
+                // ses transitions). Sans cette ligne, le swipe au doigt fonctionne à nouveau.
                 .ignoresSafeArea()
                 .padding(.top, geo.safeAreaInsets.top + 24)
 
@@ -51,6 +53,11 @@ struct OnboardingView: View {
             }
         }
         .interactiveDismissDisabled()
+        .onAppear {
+            // Pré-sélectionne l'objectif courant : en revisionnant l'onboarding depuis les
+            // Paramètres, terminer ne doit pas réinitialiser l'objectif déjà choisi.
+            selectedGoal = onboardingGoals.first { $0.steps == viewModel.goal }?.steps ?? onboardingDefaultGoal
+        }
     }
 
     // MARK: - Slides
@@ -75,7 +82,7 @@ struct OnboardingView: View {
 
                 slideCaption(
                     title: "Vos pas du jour, en un coup d'œil",
-                    subtitle: "Suivez votre progression quotidienne et naviguez dans votre historique."
+                    subtitle: "Progression en temps réel, distance, météo et série de jours réussis — avec calendrier et historique."
                 )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -105,7 +112,7 @@ struct OnboardingView: View {
 
                 slideCaption(
                     title: "Marchez vers des destinations légendaires",
-                    subtitle: "Vos kilomètres réels vous font avancer sur le GR20, Compostelle ou l'Odyssée d'Ulysse."
+                    subtitle: "Vos kilomètres réels débloquent des étapes racontées et des badges, du GR20 à l'Odyssée d'Ulysse."
                 )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -158,6 +165,12 @@ struct OnboardingView: View {
                     .font(.caption)
                     .foregroundStyle(Color(UIColor.tertiaryLabel))
                     .multilineTextAlignment(.center)
+
+                Label("L'autorisation vous sera demandée à l'ouverture de l'app.", systemImage: "hand.tap")
+                    .font(.caption)
+                    .foregroundStyle(viewModel.ringColor)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 4)
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 32)
