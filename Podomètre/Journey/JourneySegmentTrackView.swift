@@ -72,3 +72,45 @@ struct JourneySegmentTrackView: View {
         .accessibilityLabel("Segment en cours : de \(leftLabel) à \(rightLabel), prochaine étape dans \(kmToNext.formatted(.number.precision(.fractionLength(1)))) km")
     }
 }
+
+// MARK: - Preview
+
+/// Progression fictive : km parcourus + jalons franchis déduits automatiquement.
+private func previewProgress(_ journey: Journey, km: Double) -> JourneyProgress {
+    JourneyProgress(
+        journeyId: journey.id,
+        totalKm: km,
+        unlockedMilestoneIds: Set(journey.sortedMilestones.filter { $0.km <= km }.map(\.id)),
+        startDate: Date(),
+        lastUpdatedDate: Date()
+    )
+}
+
+#Preview("Tracé de segment") {
+    let journey = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
+    let tint = AppColors.ringColorOptions[0].color
+
+    return VStack(alignment: .leading, spacing: 28) {
+        // Tout début (avant le 1er jalon → « Départ »)
+        VStack(alignment: .leading) {
+            Text("Début (4 km)").font(.caption).foregroundStyle(.secondary)
+            JourneySegmentTrackView(journey: journey, progress: previewProgress(journey, km: 4), tint: tint)
+        }
+        // Milieu d'un segment
+        VStack(alignment: .leading) {
+            Text("Milieu (68 km)").font(.caption).foregroundStyle(.secondary)
+            JourneySegmentTrackView(journey: journey, progress: previewProgress(journey, km: 68), tint: tint)
+        }
+        // Juste avant un jalon
+        VStack(alignment: .leading) {
+            Text("Proche du jalon (86 km)").font(.caption).foregroundStyle(.secondary)
+            JourneySegmentTrackView(journey: journey, progress: previewProgress(journey, km: 86), tint: tint)
+        }
+        // Fin de parcours (dernier segment → « Arrivée »)
+        VStack(alignment: .leading) {
+            Text("Dernier segment (172 km)").font(.caption).foregroundStyle(.secondary)
+            JourneySegmentTrackView(journey: journey, progress: previewProgress(journey, km: 172), tint: tint)
+        }
+    }
+    .padding()
+}
