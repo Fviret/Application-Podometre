@@ -150,7 +150,7 @@ La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date d
 </p>
 
 **Objectif quotidien**
-Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, streak, notifications).
+Stepper allant de 500 à 100 000 pas (par pallier de  500), L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, streak, notifications).
 
 **Personnalisation des couleurs**
 6 couleurs disponibles pour l'anneau de progression. La couleur sélectionnée se propage à l'ensemble de l'app : anneau, calendrier, graphe, badges, trajets.
@@ -356,7 +356,6 @@ Ou via Xcode : `⌘U`
 
 ### Priorité moyenne — enrichissement
 - [ ] **Pensée du jour** — animation d'apparition, bouton de partage, affichage en notification
-- [ ] **Export CSV** — historique de pas et distances
 - [ ] **Gamification RPG** — débloquer des récompenses selon les pas
 
 ### Vision long terme
