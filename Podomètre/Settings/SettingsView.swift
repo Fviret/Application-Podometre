@@ -10,52 +10,74 @@ struct SettingsView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
-    @State private var showPicker = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
     /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
     @ScaledMetric(relativeTo: .body) private var colorSwatchSize: CGFloat = 36
     @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
-    private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
+    /// Bornes et pas du sélecteur d'objectif.
+    private let goalStep = 500
+    private let goalMin = 500
+    private let goalMax = 100_000
+
+    /// Déclencheur du rebond : incrémenté à chaque changement de valeur → `keyframeAnimator`
+    /// rejoue l'animation de façon fiable, même entre deux taps rapprochés.
+    @State private var goalBumpTrigger = 0
+    /// Sens du dernier changement : grossit à l'incrément, rétrécit au décrément.
+    @State private var lastBumpGrow = true
+    /// Timer de répétition sur appui long, et intervalle courant (décroît → accélération).
+    @State private var repeatTimer: Timer?
+    @State private var repeatInterval: Double = 0.28
+    /// `true` uniquement pendant un appui long (distingue le maintien d'un tap court).
+    @State private var isRepeating = false
 
     var body: some View {
         NavigationStack {
             List {
                 // MARK: Mon objectif
-                Section("Mon objectif") {
-                    Button {
-                        withAnimation(reduceMotion ? nil : .default) { showPicker.toggle() }
-                    } label: {
-                        HStack {
-                            Text("Pas par jour")
-                                .foregroundStyle(Color.primary)
-                            Spacer()
+                Section {
+                    HStack(spacing: 20) {
+                        Spacer()
+                        goalStepButton(system: "minus", delta: -goalStep, enabled: viewModel.goal > goalMin)
+
+                        VStack(spacing: 0) {
                             Text(viewModel.goal.formatted())
-                                .foregroundStyle(Color.secondary)
-                            Image(systemName: showPicker ? "chevron.up" : "chevron.down")
+                                .font(.system(.title2, design: .rounded).weight(.bold))
+                                .monospacedDigit()
+                                .foregroundStyle(Color.primary)
+                                .modifier(GoalBounceEffect(trigger: goalBumpTrigger,
+                                                           grow: lastBumpGrow,
+                                                           enabled: !reduceMotion))
+                            Text("pas / jour")
                                 .font(.caption)
                                 .foregroundStyle(Color.secondary)
                         }
-                    }
-
-                    if showPicker {
-                        Picker("Pas par jour", selection: $viewModel.goal) {
-                            ForEach(goalOptions, id: \.self) { value in
-                                Text(value.formatted()).tag(value)
+                        .frame(maxWidth: .infinity)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Objectif quotidien")
+                        .accessibilityValue("\(viewModel.goal.formatted()) pas")
+                        .accessibilityAdjustableAction { direction in
+                            switch direction {
+                            case .increment: changeGoal(by: goalStep)
+                            case .decrement: changeGoal(by: -goalStep)
+                            @unknown default: break
                             }
                         }
-                        .pickerStyle(.wheel)
-                        // Léger cran haptique à chaque changement de valeur, comme sur l'anneau.
-                        .onChange(of: viewModel.goal) { _, _ in
-                            haptic.impactOccurred()
-                        }
-                        .transition(.opacity.combined(with: .move(edge: .top)))
+
+                        goalStepButton(system: "plus", delta: goalStep, enabled: viewModel.goal < goalMax)
+                        Spacer()
                     }
+                    .padding(.vertical, 6)
+                } header: {
+                    Text("Mon objectif")
+                } footer: {
+                    Text("Réglable par paliers de 500 pas, de 500 à 100 000.")
                 }
 
                 // MARK: Apparence
@@ -164,6 +186,82 @@ struct SettingsView: View {
         }
     }
 
+    // MARK: - Sélecteur d'objectif
+
+    /// Applique un delta borné à l'objectif. Retourne `true` si la valeur a changé.
+    @discardableResult
+    private func applyGoalDelta(_ delta: Int) -> Bool {
+        let newGoal = min(max(viewModel.goal + delta, goalMin), goalMax)
+        guard newGoal != viewModel.goal else { return false }
+        viewModel.goal = newGoal
+        return true
+    }
+
+    /// Déclenche un rebond directionnel de la valeur (via le `keyframeAnimator` de la vue).
+    private func bump(grow: Bool) {
+        lastBumpGrow = grow
+        goalBumpTrigger &+= 1
+    }
+
+    /// Changement unitaire (tap) : valeur + haptique + rebond.
+    private func changeGoal(by delta: Int) {
+        guard applyGoalDelta(delta) else { return }
+        haptic.impactOccurred()
+        bump(grow: delta > 0)
+    }
+
+    // MARK: Appui long (répétition accélérée)
+
+    /// Démarre la répétition sur maintien : un rebond initial, puis la valeur défile en accélérant.
+    private func startRepeating(delta: Int) {
+        isRepeating = true
+        repeatInterval = 0.28
+        bump(grow: delta > 0)
+        tickRepeat(delta: delta, isFirst: true)
+    }
+
+    /// Un pas de la répétition : s'arrête aux bornes, sinon rejoue plus vite (intervalle × 0,82).
+    /// Pas de rebond par cran (éviter le scintillement) — seul le défilement de la valeur bouge.
+    private func tickRepeat(delta: Int, isFirst: Bool = false) {
+        let atBound = (delta > 0 && viewModel.goal >= goalMax) || (delta < 0 && viewModel.goal <= goalMin)
+        guard !atBound, applyGoalDelta(delta) else { stopRepeating(); return }
+        if !isFirst { haptic.impactOccurred() }
+        repeatInterval = max(0.04, repeatInterval * 0.82)
+        repeatTimer?.invalidate()
+        repeatTimer = Timer.scheduledTimer(withTimeInterval: repeatInterval, repeats: false) { _ in
+            Task { @MainActor in tickRepeat(delta: delta) }
+        }
+    }
+
+    /// Arrête la répétition. Ne fait rien pour un tap court (aucune répétition en cours).
+    private func stopRepeating() {
+        guard isRepeating else { return }
+        isRepeating = false
+        repeatTimer?.invalidate()
+        repeatTimer = nil
+    }
+
+    /// Bouton circulaire − / + : tap = un pas ; appui long = répétition accélérée.
+    private func goalStepButton(system: String, delta: Int, enabled: Bool) -> some View {
+        Image(systemName: system)
+            .font(.system(.body, weight: .semibold))
+            .foregroundStyle(enabled ? viewModel.ringColor : Color.secondary.opacity(0.4))
+            .frame(width: 44, height: 44)
+            .background(
+                Circle().fill(enabled ? viewModel.ringColor.opacity(0.12) : Color.secondary.opacity(0.08))
+            )
+            .contentShape(Circle())
+            .onTapGesture { if enabled { changeGoal(by: delta) } }
+            .onLongPressGesture(minimumDuration: 0.35, maximumDistance: 40) {
+                if enabled { startRepeating(delta: delta) }
+            } onPressingChanged: { pressing in
+                if !pressing { stopRepeating() }
+            }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(delta > 0 ? "Augmenter l'objectif" : "Diminuer l'objectif")
+            .accessibilityAction { if enabled { changeGoal(by: delta) } }
+    }
+
     /// Informations sur l'application : version, source des données, crédits.
     private var aboutSection: some View {
         Section {
@@ -185,6 +283,33 @@ struct SettingsView: View {
         let short = info?["CFBundleShortVersionString"] as? String ?? "—"
         let build = info?["CFBundleVersion"] as? String
         return build.map { "\(short) (\($0))" } ?? short
+    }
+}
+
+// MARK: - Effet de rebond de la valeur d'objectif
+
+/// Anime la valeur d'objectif à chaque changement de `trigger` : pic (grossissant si `grow`,
+/// rétrécissant sinon) puis retour élastique. Le `keyframeAnimator` redémarre proprement à
+/// chaque incrément du trigger — le rebond se joue donc de façon fiable même entre deux taps
+/// rapprochés. Neutralisé quand `enabled` est faux (« Réduire les animations »).
+private struct GoalBounceEffect: ViewModifier {
+    let trigger: Int
+    let grow: Bool
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        if enabled {
+            content.keyframeAnimator(initialValue: 1.0, trigger: trigger) { view, scale in
+                view.scaleEffect(scale)
+            } keyframes: { _ in
+                KeyframeTrack {
+                    CubicKeyframe(grow ? 1.28 : 0.74, duration: 0.13)
+                    SpringKeyframe(1.0, duration: 0.34, spring: .bouncy(duration: 0.34, extraBounce: 0.35))
+                }
+            }
+        } else {
+            content
+        }
     }
 }
 
