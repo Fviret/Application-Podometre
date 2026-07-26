@@ -31,6 +31,9 @@ struct SettingsView: View {
     /// Timer de répétition sur appui long, et intervalle courant (décroît → accélération).
     @State private var repeatTimer: Timer?
     @State private var repeatInterval: Double = 0.28
+    /// `true` uniquement pendant un appui long : évite que le relâchement d'un tap court
+    /// n'appelle `stopRepeating()` et n'écrase le rebond en cours.
+    @State private var isRepeating = false
 
     var body: some View {
         NavigationStack {
@@ -215,6 +218,7 @@ struct SettingsView: View {
 
     /// Démarre la répétition sur maintien : la valeur reste agrandie/réduite et défile, en accélérant.
     private func startRepeating(delta: Int) {
+        isRepeating = true
         repeatInterval = 0.28
         if !reduceMotion {
             withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
@@ -236,9 +240,11 @@ struct SettingsView: View {
         }
     }
 
-    /// Arrête la répétition et ramène la valeur à sa taille normale (rebond de retour).
+    /// Arrête la répétition et ramène la valeur à sa taille normale. Ne fait rien pour un tap court
+    /// (aucune répétition en cours) afin de ne pas écraser le rebond du tap.
     private func stopRepeating() {
-        guard repeatTimer != nil || goalScale != 1 else { return }
+        guard isRepeating else { return }
+        isRepeating = false
         repeatTimer?.invalidate()
         repeatTimer = nil
         if !reduceMotion {
