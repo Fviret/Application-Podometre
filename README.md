@@ -19,15 +19,16 @@ Podomètre transforme vos pas quotidiens en voyage. Chaque kilomètre parcouru v
 ## Fonctionnalités
 
 - Anneau de progression en temps réel connecté à HealthKit, avec halo de célébration et pourcentage d'objectif à l'atteinte
+- Navigation entre les jours par chevrons **ou par swipe sur l'anneau**, calendrier mensuel et graphe hebdomadaire
 - Métriques du jour sous l'anneau : distance, temps actif (Core Motion) et calories, suivant le jour sélectionné
-- Navigation entre les jours, calendrier mensuel et graphe hebdomadaire
 - Bannière pluie imminente + prévisions météo 7 jours (Open-Meteo, sans clé API), avec écran de détail au tap sur un jour
-- Système de trajets avec progression sur distance réelle (walking + running)
+- Système de trajets avec progression sur distance réelle (walking + running), et **card du trajet en cours épinglée** (progression jusqu'à la prochaine étape + date d'arrivée estimée)
 - Badges de pas et de trajets débloqués selon les performances
-- Streak de jours consécutifs où l'objectif est atteint
+- Série de jours consécutifs, matérialisée par une **flamme animée à paliers de couleur**
 - Notifications locales : objectif journalier et jalons de trajet (toggles indépendants)
-- Personnalisation : couleur de l'anneau, objectif quotidien, mode sombre, sections de l'écran principal
+- Personnalisation : couleur de l'anneau, objectif quotidien (stepper), mode sombre, sections de l'écran principal
 - Pensée du jour : popup matinale (1x/jour) et carte dans les Paramètres — recueil de 400 aphorismes (domaine public CC0)
+- Confidentialité : aucune donnée ne quitte l'iPhone ; Privacy Manifest fourni, gestion du refus d'accès HealthKit
 
 ---
 
@@ -47,10 +48,13 @@ Affiche les pas du jour sous forme d'un arc coloré, rempli proportionnellement 
 Sous l'anneau, trois tuiles résument le jour sélectionné : distance parcourue (km), temps actif et calories. Le temps actif est calculé via Core Motion (segments marche / course / vélo), ce qui fonctionne sur iPhone seul sans Apple Watch. La ligne suit le jour choisi via les chevrons et se masque depuis les Paramètres.
 
 **Navigation par jour**
-Les chevrons gauche/droit permettent de consulter n'importe quel jour passé. Le label central affiche "Aujourd'hui", "Hier", ou la date courte.
+Les chevrons gauche/droit — ou un **swipe horizontal sur l'anneau** — permettent de consulter n'importe quel jour passé (jamais dans le futur). Le label central affiche "Aujourd'hui", "Hier", ou la date courte.
 <p align="center">
 <img width="500" alt="IMG_5091" src="https://github.com/user-attachments/assets/8b405308-47cd-40c8-a855-50dd0952b72c" />
 </p>
+
+**Accès HealthKit refusé**
+Si l'app ne reçoit aucun pas alors que l'autorisation a déjà été demandée (accès refusé), une bannière non bloquante explique la situation et propose d'ouvrir les Réglages. L'app reste utilisable (trajets, pensée du jour) sans les données de santé.
 
 
 **Bannière pluie**
@@ -104,6 +108,9 @@ Catalogue de 19 trajets organisés en 4 catégories.
   <img width="150" alt="IMG_5086" src="https://github.com/user-attachments/assets/246ac810-011f-4dc9-add2-66d95ca52528" />
 </p>
 
+**Card du trajet en cours**
+Quand un trajet est démarré, il est épinglé en haut de l'écran (et retiré de la liste) : pourcentage global, tracé du segment entre le dernier jalon franchi et le prochain avec un marqueur « tu es ici », distance jusqu'à la prochaine étape, et **date d'arrivée estimée** à partir de la moyenne de pas récente.
+
 **Catégories disponibles**
 
 | Catégorie | Description |
@@ -112,6 +119,8 @@ Catalogue de 19 trajets organisés en 4 catégories.
 | 🏔️ Sentiers | Grands sentiers européens (GR20, Camino, TMB…) |
 | 👑 Histoire | Routes historiques (Route de la Soie, Alexandre…) |
 | 🔱 Mythes & Épopées | Trajets mythologiques (Odyssée, Iliade…) |
+
+Chaque trajet est densément jalonné d'**étapes authentiques** (refuges, villes, batailles, escales mythologiques réels) pour maintenir une récompense régulière.
 
 **États d'un trajet**
 
@@ -149,10 +158,12 @@ La distance est lue depuis HealthKit (`distanceWalkingRunning`) depuis la date d
 
 </p>
 
-**Objectif quotidien**
-Picker de 5 000 à 20 000 pas (par paliers de 500). L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, streak, notifications).
+Les sections sont regroupées par intention : **Mon objectif · Apparence · Écran principal · Notifications · Pensée du jour · Récompenses · À propos**.
 
-**Personnalisation des couleurs**
+**Mon objectif**
+Stepper − / + par paliers de 500 pas, de 500 à 100 000 (appui long pour un défilement accéléré, léger rebond de la valeur à chaque changement). L'objectif est persisté et utilisé partout dans l'app (anneau, calendrier, série, notifications).
+
+**Personnalisation des couleurs** *(section Apparence)*
 6 couleurs disponibles pour l'anneau de progression. La couleur sélectionnée se propage à l'ensemble de l'app : anneau, calendrier, graphe, badges, trajets.
 
 | Couleur | Nom |
@@ -182,8 +193,10 @@ Quatre toggles pour afficher ou masquer des sections de l'écran Activité :
 - *Progression des trajets* — notifications aux jalons kilométriques et à la completion d'un trajet. Toggle indépendant de l'objectif journalier.
 
 
-**Streak 🔥**
-Nombre de jours consécutifs où l'objectif a été atteint, affiché uniquement quand la série est active (≥ 1 jour). Calculé via HealthKit en remontant jour par jour depuis aujourd'hui.
+**Série (récompenses)**
+Nombre de jours consécutifs où l'objectif a été atteint, affiché uniquement quand la série est active (≥ 1 jour). Calculé via HealthKit en remontant depuis aujourd'hui — indépendant du jour consulté à l'écran. Matérialisée par une **flamme animée** dont la couleur et le nombre de couches évoluent avec la série (braise grise → orange → rouge → vert → bleu à 21 jours), figée si « Réduire les animations » est actif.
+
+À propos : version de l'app, source des données, mention de confidentialité et licence CC0 du recueil d'aphorismes ; bouton « Revoir la présentation » pour relancer l'onboarding.
 
 **Badges**
 
@@ -265,7 +278,7 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 
 **Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
 
-**87 tests en 16 suites**
+**101 tests en 19 suites**
 
 | Suite | Ce qui est testé |
 |---|---|
@@ -285,6 +298,9 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 | `AphorismManager.shouldShowPopup` | Garde 1x/jour (activé par défaut, désactivé, affiché aujourd'hui/hier, recueil vide, mémorisation) |
 | `Preferences` | Clés typées : garde-fou anti-renommage, unicité, round-trip, `hasValue`, suppression |
 | `WeatherCode` | Mapping code WMO → emoji / description / libellé (conditions, bornes d'intervalle, fallback, casse) |
+| `StepCountViewModel — navigation par jour` | Invalidation du compteur au changement de jour, `selectDate`, dates futures ignorées |
+| `StepCountViewModel — série` | Série indépendante du jour affiché, jamais négative |
+| `StepCountViewModel — progression` | Progression au seuil/fractionnaire, persistance objectif et couleur, repli couleur inconnue |
 
 ```bash
 # Lancer les tests unitaires en CLI
@@ -340,16 +356,22 @@ Ou via Xcode : `⌘U`
 - [x] Métriques du jour (distance · temps actif Core Motion · calories)
 - [x] Navigation par jour, calendrier mensuel, graphe hebdomadaire
 - [x] Bannière météo + prévisions 7 jours (Open-Meteo) + écran de détail météo par jour
-- [x] Système de trajets avec progression sur distance réelle
-- [x] Badges de pas et de trajets
-- [x] Streak de jours consécutifs
+- [x] Système de trajets avec progression sur distance réelle + card du trajet en cours (progression + ETA)
+- [x] Catalogue densément jalonné (19 trajets, étapes authentiques)
+- [x] Badges de pas et de trajets (illustration + couleur par badge, modale de détail)
+- [x] Série de jours consécutifs — flamme animée à paliers
+- [x] Navigation par jour au swipe sur l'anneau
 - [x] Notifications locales (objectif + jalons + completion)
-- [x] Personnalisation (couleur anneau, objectif, mode sombre, sections de l'écran principal)
+- [x] Personnalisation (couleur anneau, objectif stepper, mode sombre, sections de l'écran principal)
 - [x] Onboarding
 - [x] Pensée du jour — popup matinale + carte dans les Paramètres (400 aphorismes CC0)
+- [x] Accessibilité (VoiceOver, Dynamic Type, « Réduire les animations »)
+- [x] Conformité App Store — Privacy Manifest, gestion du refus d'accès HealthKit
 - [x] Tests unitaires et UI (Swift Testing + XCUITest)
 
 ### Priorité haute — impact utilisateur immédiat
+- [ ] **Publication App Store / Play Store**
+- [ ] **Classement entre amis** (backend, cross-platform)
 - [ ] **Mode éco** — optimisation des appels HealthKit et météo en arrière-plan
 - [ ] **Slide récapitulative hebdomadaire** — bilan de la semaine affiché le lundi
 - [ ] **Widget iOS** — pas du jour + progression anneau sur l'écran d'accueil
