@@ -98,6 +98,13 @@ struct JourneyDetailView: View {
                         .font(.caption2)
                         .foregroundStyle(Color.secondary)
                 }
+
+                // Tracé du segment en cours (dernier jalon → prochain, « tu es ici »),
+                // cohérent avec la card du trajet en cours.
+                if progressPercent < 1.0 {
+                    JourneySegmentTrackView(journey: journey, progress: p, tint: .accentColor)
+                        .padding(.top, 4)
+                }
             }
 
             if progressPercent >= 1.0 {
