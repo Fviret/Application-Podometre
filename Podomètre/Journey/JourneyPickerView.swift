@@ -125,6 +125,20 @@ private struct JourneyCard: View {
     private var hasProgress: Bool { progress != nil }
 
     var body: some View {
+        // Carte entièrement tappable pour les trajets non terminés ; les cartes « Terminé »
+        // restent non interactives (rien à ouvrir).
+        if isCompleted {
+            cardContent
+        } else {
+            Button(action: onAction) { cardContent }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(journey.name). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.\(hasProgress ? " Progression : \(Int(progressPercent * 100)) %." : "")")
+                .accessibilityHint(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+        }
+    }
+
+    private var cardContent: some View {
         VStack(alignment: .leading, spacing: 16) {
 
             HStack(alignment: .top, spacing: 14) {
@@ -198,17 +212,16 @@ private struct JourneyCard: View {
                     }
                 }
 
-                Button(action: onAction) {
-                    Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
-                        .font(.system(.subheadline, design: .rounded).weight(.medium))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(hasProgress ? ringColor : ringColor.opacity(0.12))
-                        .foregroundStyle(hasProgress ? Color.white : ringColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(hasProgress ? "Voir mes étapes pour \(journey.name)" : "Voir le trajet \(journey.name)")
+                // Pastille d'appel à l'action, purement visuelle : c'est la carte entière
+                // qui est le bouton (voir `body`), pas cette pastille.
+                Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+                    .font(.system(.subheadline, design: .rounded).weight(.medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(hasProgress ? ringColor : ringColor.opacity(0.12))
+                    .foregroundStyle(hasProgress ? Color.white : ringColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .accessibilityHidden(true)
             }
         }
         .padding(16)
