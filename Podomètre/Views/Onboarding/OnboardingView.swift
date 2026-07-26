@@ -53,6 +53,11 @@ struct OnboardingView: View {
             }
         }
         .interactiveDismissDisabled()
+        .onAppear {
+            // Pré-sélectionne l'objectif courant : en revisionnant l'onboarding depuis les
+            // Paramètres, terminer ne doit pas réinitialiser l'objectif déjà choisi.
+            selectedGoal = onboardingGoals.first { $0.steps == viewModel.goal }?.steps ?? onboardingDefaultGoal
+        }
     }
 
     // MARK: - Slides

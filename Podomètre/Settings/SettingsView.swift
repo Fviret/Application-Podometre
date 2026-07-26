@@ -9,6 +9,7 @@ struct SettingsView: View {
     @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @State private var showPicker = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -142,6 +143,18 @@ struct SettingsView: View {
                     BadgeGridView(viewModel: viewModel)
                 } header: {
                     Text(viewModel.currentStreak > 0 ? "Badges" : "Récompenses")
+                }
+
+                // MARK: Revoir la présentation
+                Section {
+                    Button {
+                        // Ré-affiche l'onboarding (fullScreenCover piloté par cette clé à la racine).
+                        hasCompletedOnboarding = false
+                    } label: {
+                        Label("Revoir la présentation", systemImage: "sparkles")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.secondary)
+                    }
                 }
 
                 // MARK: À propos
