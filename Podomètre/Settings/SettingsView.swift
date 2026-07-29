@@ -161,12 +161,6 @@ struct SettingsView: View {
                     }
                 }
 
-                Section {
-                    BadgeGridView(viewModel: viewModel)
-                } header: {
-                    Text(viewModel.currentStreak > 0 ? "Badges" : "Récompenses")
-                }
-
                 // MARK: Revoir la présentation
                 Section {
                     Button {
@@ -316,10 +310,7 @@ private struct GoalBounceEffect: ViewModifier {
 #Preview {
     let viewModel = StepCountViewModel()
     viewModel.goal = 10_000
-    viewModel.currentStreak = 12                                   // flamme rouge, 3 couches
-    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
-                                 "30k": 1, "50k": 0, "100k": 0]    // badges de seuil
-    allJourneys.prefix(4).forEach { viewModel.markJourneyCompleted($0.id.uuidString) } // badges de trajets
+    viewModel.currentStreak = 12 // flamme rouge, 3 couches
     return SettingsView(viewModel: viewModel, aphorismManager: .preview)
 }
 
@@ -327,8 +318,6 @@ private struct GoalBounceEffect: ViewModifier {
     let viewModel = StepCountViewModel()
     viewModel.goal = 10_000
     viewModel.currentStreak = 12
-    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
-                                 "30k": 1, "50k": 0, "100k": 0]
     // Vérifie que la grille de couleurs se réorganise au lieu de déborder.
     return SettingsView(viewModel: viewModel, aphorismManager: .preview)
         .dynamicTypeSize(.accessibility3)

@@ -99,8 +99,7 @@ Podomètre/
 │   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons
 ├── Settings/                           # Paramètres et récompenses
 │   ├── SettingsView.swift              # Objectif, apparence, écran principal, notifs
-│   ├── BadgeData.swift                 # Seuils, illustration et couleur par badge
-│   ├── BadgeGridView.swift             # Grille badges de pas + badges de trajets
+│   ├── BadgeData.swift                 # Seuils/illustration des badges de pas (données uniquement, plus affiché en UI)
 │   ├── StreakBannerView.swift          # Bannière de série
 │   └── FlameStreakView.swift           # Flamme animée à paliers (série)
 ├── Aphorism/                           # Pensée du jour
@@ -178,14 +177,16 @@ Hors cible applicative, à la racine du dépôt :
 - Notifications : toggle objectif journalier (1x/jour max)
 - Mode sombre : toggle, appliqué via `.preferredColorScheme` sur le `TabView`
 - Streak : série de jours consécutifs (flamme 🔥), cachée si streak = 0
-- Badges : grille de seuils de pas (5k→100k avec compteur) + badges de trajets (emoji)
+- Plus de grille de badges dans les Paramètres : les badges de trajets vivent désormais sur l'écran Trajets (voir ci-dessous) ; les badges de seuils de pas n'ont plus d'écran (données conservées dans `BadgeData`/`StepCountViewModel.milestoneCounts`, réutilisables pour une future UI)
 
 ### Système de trajets
 - 19 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
 - Progression via `distanceWalkingRunning` depuis `startDate` (requête idempotente)
 - `HKObserverQuery` live sur la distance — mise à jour sans ouvrir la vue
 - Jalons (milestones) débloqués au fil du km, avec notification locale
-- Completion : badge débloqué + notification + état "Terminé" dans l'UI
+- Catégories repliables (accordéon) dans le catalogue ; compteur = trajets restants (non terminés)
+- Trajets terminés : grille de badges compacts (emoji + nom) en tête de chaque catégorie ; tap → popup avec date de complétion (`journeyCompletionDates`)
+- Completion : badge débloqué + notification + popup de détail (pas de navigation vers l'écran de détail, qui dépend de la progression en cours — supprimée à la complétion)
 
 ---
 
