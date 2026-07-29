@@ -46,16 +46,34 @@ class StepCountViewModel: ObservableObject {
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
     @Published var completedJourneyIds: [String] = Preferences.shared.stringArray(.completedJourneyIds) ?? []
 
-    /// Marque un trajet comme complété si ce n'est pas déjà le cas.
+    /// Date de complétion par UUID de trajet. Persisté dans UserDefaults (JSON).
+    @Published var journeyCompletionDates: [String: Date] = {
+        guard let data = Preferences.shared.data(.journeyCompletionDates),
+              let decoded = try? JSONDecoder().decode([String: Date].self, from: data)
+        else { return [:] }
+        return decoded
+    }()
+
+    /// Marque un trajet comme complété si ce n'est pas déjà le cas, avec la date du jour.
     func markJourneyCompleted(_ id: String) {
         guard !completedJourneyIds.contains(id) else { return }
         completedJourneyIds.append(id)
         Preferences.shared.set(completedJourneyIds, for: .completedJourneyIds)
+
+        journeyCompletionDates[id] = Date()
+        if let encoded = try? JSONEncoder().encode(journeyCompletionDates) {
+            Preferences.shared.set(encoded, for: .journeyCompletionDates)
+        }
     }
 
     /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
     func isJourneyCompleted(_ id: String) -> Bool {
         completedJourneyIds.contains(id)
+    }
+
+    /// Retourne la date de complétion du trajet, ou `nil` si non terminé ou antérieur à l'ajout de cette donnée.
+    func completionDate(for id: String) -> Date? {
+        journeyCompletionDates[id]
     }
 
     /// Demande l'autorisation de notifications (alerte, son, badge).

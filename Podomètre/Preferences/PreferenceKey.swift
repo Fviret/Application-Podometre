@@ -17,6 +17,8 @@ enum PreferenceKey: String, CaseIterable {
     case isDarkMode
     /// UUIDs des trajets terminés (`[String]`).
     case completedJourneyIds
+    /// `[String: Date]` encodé (`Data` JSON) — date de complétion par UUID de trajet.
+    case journeyCompletionDates
     /// `[UUID: JourneyProgress]` encodé (`Data` JSON).
     case journeyProgressMap
     /// Toggle pensée du jour (`Bool`, défaut activé).

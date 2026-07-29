@@ -8,6 +8,8 @@ struct JourneyPickerView: View {
     @State private var selectedJourney: Journey?
     /// Trajet dont on affiche la prévisualisation (nouveau ou déjà en cours).
     @State private var journeyToPreview: Journey?
+    /// Trajet terminé dont on affiche la popup de détail (date de complétion), au tap sur son badge.
+    @State private var completedJourneyForDetail: Journey?
     /// Catégories actuellement dépliées. Repliées par défaut pour alléger le scroll ;
     /// initialisée dans `onAppear` avec la catégorie ayant une progression, si besoin.
     @State private var expandedCategories: Set<JourneyCategory> = []
@@ -105,6 +107,14 @@ struct JourneyPickerView: View {
                     selectedJourney = journey
                 }
             }
+            .sheet(item: $completedJourneyForDetail) { journey in
+                CompletedJourneyDetailSheet(
+                    journey: journey,
+                    completionDate: stepViewModel.completionDate(for: journey.id.uuidString)
+                )
+                .presentationDetents([.height(340)])
+                .presentationDragIndicator(.visible)
+            }
         }
     }
 
@@ -113,9 +123,11 @@ struct JourneyPickerView: View {
     @ViewBuilder
     private func categorySection(_ category: JourneyCategory, journeys: [Journey]) -> some View {
         let isExpanded = expandedCategories.contains(category)
-        // Trajets encore à faire dans la catégorie (exclut les terminés) : c'est ce
-        // compteur, pas le total, qui a du sens pour inciter à en démarrer un nouveau.
-        let remainingCount = journeys.filter { !stepViewModel.isJourneyCompleted($0.id.uuidString) }.count
+        // Trajets terminés affichés en badges compacts en tête d'accordéon ; le reste
+        // en cards complètes. Le compteur du header ne porte que sur les restants,
+        // seuls pertinents pour inciter à démarrer un nouveau trajet.
+        let completedJourneys = journeys.filter { stepViewModel.isJourneyCompleted($0.id.uuidString) }
+        let remainingJourneys = journeys.filter { !stepViewModel.isJourneyCompleted($0.id.uuidString) }
 
         VStack(alignment: .leading, spacing: 12) {
             Button {
@@ -127,7 +139,7 @@ struct JourneyPickerView: View {
                         .foregroundStyle(Color.secondary)
                         .kerning(1.2)
 
-                    Text("(\(remainingCount))")
+                    Text("(\(remainingJourneys.count))")
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(Color.secondary.opacity(0.7))
 
@@ -142,16 +154,23 @@ struct JourneyPickerView: View {
             }
             .buttonStyle(.plain)
             .accessibilityAddTraits([.isHeader, .isButton])
-            .accessibilityLabel("\(category.rawValue), \(remainingCount) trajets restants")
+            .accessibilityLabel("\(category.rawValue), \(remainingJourneys.count) trajets restants")
             .accessibilityValue(isExpanded ? "Déplié" : "Replié")
             .accessibilityHint(isExpanded ? "Touchez pour replier" : "Touchez pour déplier")
 
             if isExpanded {
-                ForEach(journeys) { journey in
+                if !completedJourneys.isEmpty {
+                    CompletedJourneyBadgeGrid(
+                        journeys: completedJourneys,
+                        ringColor: stepViewModel.ringColor,
+                        onSelect: { completedJourneyForDetail = $0 }
+                    )
+                }
+
+                ForEach(remainingJourneys) { journey in
                     JourneyCard(
                         journey: journey,
                         progress: progressService.progress(for: journey),
-                        isCompleted: stepViewModel.isJourneyCompleted(journey.id.uuidString),
                         ringColor: stepViewModel.ringColor,
                         onAction: { journeyToPreview = journey }
                     )
@@ -181,11 +200,11 @@ struct JourneyPickerView: View {
 
 // MARK: - JourneyCard
 
-/// Card d'un trajet dans le catalogue.
+/// Card d'un trajet non terminé dans le catalogue. Les trajets terminés sont
+/// affichés à part, en badges compacts (`CompletedJourneyBadgeGrid`).
 private struct JourneyCard: View {
     let journey: Journey
     let progress: JourneyProgress?
-    let isCompleted: Bool
     let ringColor: Color
     let onAction: () -> Void
 
@@ -199,17 +218,11 @@ private struct JourneyCard: View {
     private var hasProgress: Bool { progress != nil }
 
     var body: some View {
-        // Carte entièrement tappable pour les trajets non terminés ; les cartes « Terminé »
-        // restent non interactives (rien à ouvrir).
-        if isCompleted {
-            cardContent
-        } else {
-            Button(action: onAction) { cardContent }
-                .buttonStyle(.plain)
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(journey.name). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.\(hasProgress ? " Progression : \(Int(progressPercent * 100)) %." : "")")
-                .accessibilityHint(hasProgress ? "Voir mes étapes" : "Voir le trajet")
-        }
+        Button(action: onAction) { cardContent }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(journey.name). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.\(hasProgress ? " Progression : \(Int(progressPercent * 100)) %." : "")")
+            .accessibilityHint(hasProgress ? "Voir mes étapes" : "Voir le trajet")
     }
 
     private var cardContent: some View {
@@ -248,64 +261,156 @@ private struct JourneyCard: View {
             }
             .accessibilityElement(children: .combine)
 
-            if isCompleted {
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                        .accessibilityHidden(true)
-                    Text("Terminé")
-                        .font(.system(.subheadline, design: .rounded).weight(.medium))
+            if let progress {
+                VStack(alignment: .leading, spacing: 6) {
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.secondary.opacity(0.15))
+                                .frame(height: 6)
+
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(ringColor)
+                                .frame(width: geo.size.width * progressPercent, height: 6)
+                        }
+                    }
+                    .frame(height: 6)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
+
+                    Text(String(format: "%.1f / %.0f km", progress.totalKm, journey.totalKm))
+                        .font(.caption2)
+                        .foregroundStyle(Color.secondary)
                 }
-                .foregroundStyle(ringColor)
+            }
+
+            // Pastille d'appel à l'action, purement visuelle : c'est la carte entière
+            // qui est le bouton (voir `body`), pas cette pastille.
+            Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
+                .font(.system(.subheadline, design: .rounded).weight(.medium))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
-                .background(ringColor.opacity(0.1))
+                .background(hasProgress ? ringColor : ringColor.opacity(0.12))
+                .foregroundStyle(hasProgress ? Color.white : ringColor)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(journey.name), trajet terminé")
-            } else {
-                if let progress {
-                    VStack(alignment: .leading, spacing: 6) {
-                        GeometryReader { geo in
-                            ZStack(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color.secondary.opacity(0.15))
-                                    .frame(height: 6)
-
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(ringColor)
-                                    .frame(width: geo.size.width * progressPercent, height: 6)
-                            }
-                        }
-                        .frame(height: 6)
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
-
-                        Text(String(format: "%.1f / %.0f km", progress.totalKm, journey.totalKm))
-                            .font(.caption2)
-                            .foregroundStyle(Color.secondary)
-                    }
-                }
-
-                // Pastille d'appel à l'action, purement visuelle : c'est la carte entière
-                // qui est le bouton (voir `body`), pas cette pastille.
-                Text(hasProgress ? "Voir mes étapes" : "Voir le trajet")
-                    .font(.system(.subheadline, design: .rounded).weight(.medium))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(hasProgress ? ringColor : ringColor.opacity(0.12))
-                    .foregroundStyle(hasProgress ? Color.white : ringColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .accessibilityHidden(true)
-            }
+                .accessibilityHidden(true)
         }
         .padding(16)
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .opacity(isCompleted ? 0.6 : 1.0)
+    }
+}
+
+// MARK: - CompletedJourneyBadgeGrid
+
+/// Grille compacte des trajets terminés d'une catégorie, affichée en tête de l'accordéon.
+/// Chaque badge est tappable et ouvre le détail du trajet, qui affiche la date de complétion.
+private struct CompletedJourneyBadgeGrid: View {
+    let journeys: [Journey]
+    let ringColor: Color
+    let onSelect: (Journey) -> Void
+
+    private let columns = [GridItem(.adaptive(minimum: 72, maximum: 92), spacing: 14)]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("TERMINÉS")
+                .font(.system(.caption2, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.secondary.opacity(0.7))
+                .kerning(1)
+
+            LazyVGrid(columns: columns, alignment: .leading, spacing: 14) {
+                ForEach(journeys) { journey in
+                    Button {
+                        onSelect(journey)
+                    } label: {
+                        VStack(spacing: 4) {
+                            Text(journey.emoji)
+                                .font(.system(size: 34))
+                                .shadow(color: ringColor.opacity(0.4), radius: 6, x: 0, y: 0)
+                                .accessibilityHidden(true)
+
+                            Text(journey.name)
+                                .font(.caption2)
+                                .foregroundStyle(Color.primary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(journey.name), trajet terminé")
+                    .accessibilityHint("Touchez pour voir la date de complétion")
+                    .accessibilityAddTraits(.isButton)
+                }
+            }
+        }
+        .padding(.bottom, 4)
+    }
+}
+
+// MARK: - CompletedJourneyDetailSheet
+
+/// Popup affichée au tap sur un badge de trajet terminé : emoji, nom, date de complétion.
+private struct CompletedJourneyDetailSheet: View {
+    let journey: Journey
+    let completionDate: Date?
+
+    private var dateText: String {
+        guard let completionDate else { return "Date inconnue" }
+        return completionDate.formatted(.dateTime.day().month(.wide).year())
+    }
+
+    var body: some View {
+        VStack(spacing: 18) {
+            Text(journey.emoji)
+                .font(.system(size: 64))
+                .accessibilityHidden(true)
+
+            VStack(spacing: 4) {
+                Text(journey.name)
+                    .font(.system(.title2, design: .rounded).weight(.bold))
+                    .multilineTextAlignment(.center)
+                Text(journey.subtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            HStack(spacing: 8) {
+                Image(systemName: "checkmark.seal.fill")
+                Text("Terminé le \(dateText)")
+            }
+            .font(.system(.subheadline, design: .rounded).weight(.semibold))
+            .foregroundStyle(Color.accentColor)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(Color.accentColor.opacity(0.12), in: Capsule())
+
+            Label(String(format: "%.0f km · %d étapes", journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
+                .font(.caption)
+                .foregroundStyle(Color.secondary)
+        }
+        .padding(.horizontal, 28)
+        .padding(.top, 36)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(journey.name), terminé le \(dateText). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.")
     }
 }
 
 // MARK: - Preview
+
+#Preview("Popup — trajet terminé") {
+    let journey = allJourneys[0]
+    return CompletedJourneyDetailSheet(journey: journey, completionDate: Date())
+}
+
+#Preview("Popup — date inconnue") {
+    let journey = allJourneys[0]
+    return CompletedJourneyDetailSheet(journey: journey, completionDate: nil)
+}
 
 #Preview("Sans trajet en cours (incitation)") {
     // JourneyProgressService charge depuis UserDefaults.standard (réel) : une progression
@@ -327,6 +432,7 @@ private struct JourneyCard: View {
     // autre preview/exécution dans le même process serait rechargée.
     Preferences.shared.removeObject(.journeyProgressMap)
     Preferences.shared.removeObject(.completedJourneyIds)
+    Preferences.shared.removeObject(.journeyCompletionDates)
 
     let walks = allJourneys.filter { $0.category == .walk }.prefix(2)
     let viewModel = StepCountViewModel()
