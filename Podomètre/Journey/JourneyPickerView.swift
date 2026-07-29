@@ -13,6 +13,10 @@ struct JourneyPickerView: View {
     @State private var expandedCategories: Set<JourneyCategory> = []
     @State private var hasInitializedExpansion = false
 
+    /// Force les catégories dépliées à l'affichage initial, à la place du calcul
+    /// automatique (catégorie ayant une progression). Réservé aux previews/tests.
+    var initiallyExpandedCategories: Set<JourneyCategory>?
+
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Ordre d'affichage des catégories.
@@ -73,10 +77,14 @@ struct JourneyPickerView: View {
                 // pour ne pas la cacher derrière un accordéon replié au premier affichage.
                 guard !hasInitializedExpansion else { return }
                 hasInitializedExpansion = true
-                let startedCategories = allJourneys
-                    .filter { progressService.progress(for: $0) != nil }
-                    .map(\.category)
-                expandedCategories = Set(startedCategories)
+                if let initiallyExpandedCategories {
+                    expandedCategories = initiallyExpandedCategories
+                } else {
+                    let startedCategories = allJourneys
+                        .filter { progressService.progress(for: $0) != nil }
+                        .map(\.category)
+                    expandedCategories = Set(startedCategories)
+                }
             }
             .navigationTitle("Trajets")
             .navigationDestination(item: $selectedJourney) { journey in
@@ -306,6 +314,24 @@ private struct JourneyCard: View {
     viewModel.currentWeekSteps = [8_100, 9_400, 7_200, 10_600, 6_800, 11_200, 5_900]
 
     return JourneyPickerView()
+        .environmentObject(JourneyProgressService(injectMockData: false))
+        .environmentObject(viewModel)
+}
+
+#Preview("Catégorie avec 2 trajets terminés") {
+    // Purge les clés persistées (UserDefaults.standard réel) pour garantir un état
+    // reproductible : sans ça, une progression ou une complétion laissée par une
+    // autre preview/exécution dans le même process serait rechargée.
+    Preferences.shared.removeObject(.journeyProgressMap)
+    Preferences.shared.removeObject(.completedJourneyIds)
+
+    let walks = allJourneys.filter { $0.category == .walk }.prefix(2)
+    let viewModel = StepCountViewModel()
+    for journey in walks {
+        viewModel.markJourneyCompleted(journey.id.uuidString)
+    }
+
+    return JourneyPickerView(initiallyExpandedCategories: [.walk])
         .environmentObject(JourneyProgressService(injectMockData: false))
         .environmentObject(viewModel)
 }
