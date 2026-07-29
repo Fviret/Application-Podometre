@@ -12,7 +12,7 @@ struct AphorismSettingsView: View {
             Toggle(isOn: $aphorismEnabled) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Afficher la pensée du jour")
-                    Text("Une pensée s'affiche à la première ouverture du jour")
+                    Text("Une pensée s'affiche à la première ouverture du jour, avec un rappel à midi si l'app n'a pas encore été ouverte")
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                 }
@@ -20,8 +20,13 @@ struct AphorismSettingsView: View {
             .accessibilityIdentifier("aphorism_toggle")
             .accessibilityLabel("Afficher la pensée du jour")
             .onChange(of: aphorismEnabled) { _, enabled in
-                // Réactiver la pensée du jour réarme la garde pour la revoir aujourd'hui.
-                if enabled { manager.resetDailyGuard() }
+                if enabled {
+                    // Réactiver la pensée du jour réarme la garde pour la revoir aujourd'hui.
+                    manager.resetDailyGuard()
+                    Task { await manager.scheduleNoonReminderIfNeeded() }
+                } else {
+                    manager.cancelNoonReminder()
+                }
             }
 
             if let aphorism = manager.todayAphorism {

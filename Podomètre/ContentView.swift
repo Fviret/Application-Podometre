@@ -56,6 +56,7 @@ struct ContentView: View {
             }
             journeyProgressService.notificationsEnabled = journeyNotificationsEnabled
             presentDailyAphorismIfNeeded()
+            scheduleAphorismReminder()
         }
         .onChange(of: journeyNotificationsEnabled) { _, enabled in
             journeyProgressService.notificationsEnabled = enabled
@@ -64,11 +65,15 @@ struct ContentView: View {
             guard completed else { return }
             journeyProgressService.startIfNeeded()
             presentDailyAphorismIfNeeded()
+            scheduleAphorismReminder()
         }
         .onChange(of: scenePhase) { _, phase in
             // Re-tenter à chaque passage au premier plan (retour depuis l'arrière-plan),
             // pas seulement au lancement à froid via .onAppear.
-            if phase == .active { presentDailyAphorismIfNeeded() }
+            if phase == .active {
+                presentDailyAphorismIfNeeded()
+                scheduleAphorismReminder()
+            }
         }
     }
 
@@ -80,6 +85,14 @@ struct ContentView: View {
               let aphorism = aphorismManager.todayAphorism else { return }
         aphorismManager.markAphorismDisplayed()
         withAnimation(reduceMotion ? nil : .default) { popupAphorism = aphorism }
+    }
+
+    /// (Re)programme le rappel de midi de la pensée du jour pour demain. Appelé à chaque
+    /// ouverture/retour au premier plan, indépendamment de l'affichage de la popup :
+    /// l'app étant déjà ouverte aujourd'hui, seul un rappel pour demain a du sens.
+    private func scheduleAphorismReminder() {
+        guard hasCompletedOnboarding else { return }
+        Task { await aphorismManager.scheduleNoonReminderIfNeeded() }
     }
 }
 

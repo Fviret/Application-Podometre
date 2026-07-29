@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import UserNotifications
 
 /// Service en charge du recueil d'aphorismes et de la logique « pensée du jour ».
 ///
@@ -12,6 +13,10 @@ final class AphorismManager: ObservableObject {
 
     private let preferences: Preferences
     private let calendar = Calendar.current
+    private let notificationCenter = UNUserNotificationCenter.current()
+
+    /// Identifiant du rappel de midi — réutilisé pour remplacer/annuler la notification en attente.
+    private let noonReminderIdentifier = "aphorism-noon-reminder"
 
     /// - Parameters:
     ///   - aphorisms: recueil injecté (tests) ; si `nil`, chargé depuis `bundle`.
@@ -72,6 +77,56 @@ final class AphorismManager: ObservableObject {
     /// Appelé quand l'utilisateur réactive la pensée du jour dans les Paramètres.
     func resetDailyGuard() {
         preferences.removeObject(.lastAphorismDisplayDate)
+    }
+
+    // MARK: - Rappel de midi
+
+    /// (Re)programme le rappel de midi pour **demain**, ou l'annule si la fonctionnalité est
+    /// désactivée ou si le recueil n'a rien à proposer ce jour-là.
+    ///
+    /// Appelé à chaque ouverture de l'app (`onAppear` + retour au premier plan) : l'app venant
+    /// d'être ouverte aujourd'hui, aucun rappel n'a de sens pour aujourd'hui — seul celui de
+    /// demain est utile, au cas où l'utilisateur ne rouvrirait pas l'app avant midi ce jour-là.
+    /// Un rappel de midi ne peut donc jamais être en attente pour le jour courant : la condition
+    /// « app déjà ouverte aujourd'hui → pas de notification » est ainsi automatiquement respectée.
+    func scheduleNoonReminderIfNeeded() async {
+        guard isEnabled else {
+            cancelNoonReminder()
+            return
+        }
+
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+        let tomorrowDayOfYear = calendar.ordinality(of: .day, in: .year, for: tomorrow) ?? 1
+        guard aphorism(forDayOfYear: tomorrowDayOfYear) != nil else {
+            cancelNoonReminder()
+            return
+        }
+
+        if await notificationCenter.notificationSettings().authorizationStatus == .notDetermined {
+            try? await notificationCenter.requestAuthorization(options: [.alert, .sound])
+        }
+        guard await notificationCenter.notificationSettings().authorizationStatus == .authorized else { return }
+
+        var components = calendar.dateComponents([.year, .month, .day], from: tomorrow)
+        components.hour = 12
+        components.minute = 0
+
+        let content = UNMutableNotificationContent()
+        content.title = "Pensée du jour"
+        content.body = "Une nouvelle pensée t'attend aujourd'hui."
+        content.sound = .default
+
+        // Même identifiant à chaque appel : remplace automatiquement le rappel précédemment
+        // programmé (pas besoin de l'annuler explicitement avant de reprogrammer).
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        let request = UNNotificationRequest(identifier: noonReminderIdentifier, content: content, trigger: trigger)
+        try? await notificationCenter.add(request)
+    }
+
+    /// Annule le rappel de midi programmé, s'il y en a un. Appelé quand l'utilisateur
+    /// désactive la pensée du jour dans les Paramètres.
+    func cancelNoonReminder() {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [noonReminderIdentifier])
     }
 }
 

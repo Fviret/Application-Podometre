@@ -403,7 +403,7 @@ git push origin main
 - [x] Notifications locales (objectif + jalons + completion)
 - [x] Couleur de l'anneau personnalisable
 - [x] Mode sombre
-- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0)
+- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0) + rappel notification de midi si l'app n'a pas encore été ouverte
 
 ### Priorité haute — impact utilisateur immédiat
 - [x] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets, pensée du jour)
@@ -412,7 +412,7 @@ git push origin main
 - [ ] **Widget iOS écran d'accueil** — pas du jour + progression anneau
 
 ### Priorité moyenne — enrichissement
-- [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage, affichage dans une notification
+- [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage
 - [ ] **Export CSV** — historique de pas et distances exportable
 - [ ] **Gamification RPG** — débloquer des actions selon les pas (concept en cours d'évaluation)
 
