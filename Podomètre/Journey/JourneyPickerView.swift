@@ -8,6 +8,16 @@ struct JourneyPickerView: View {
     @State private var selectedJourney: Journey?
     /// Trajet dont on affiche la prévisualisation (nouveau ou déjà en cours).
     @State private var journeyToPreview: Journey?
+    /// Catégories actuellement dépliées. Repliées par défaut pour alléger le scroll ;
+    /// initialisée dans `onAppear` avec la catégorie ayant une progression, si besoin.
+    @State private var expandedCategories: Set<JourneyCategory> = []
+    @State private var hasInitializedExpansion = false
+
+    /// Force les catégories dépliées à l'affichage initial, à la place du calcul
+    /// automatique (catégorie ayant une progression). Réservé aux previews/tests.
+    var initiallyExpandedCategories: Set<JourneyCategory>?
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Ordre d'affichage des catégories.
     private let categoryOrder: [JourneyCategory] = [.walk, .trail, .history, .myth]
@@ -62,6 +72,20 @@ struct JourneyPickerView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
             }
+            .onAppear {
+                // Déplie une seule fois la catégorie contenant un trajet déjà commencé,
+                // pour ne pas la cacher derrière un accordéon replié au premier affichage.
+                guard !hasInitializedExpansion else { return }
+                hasInitializedExpansion = true
+                if let initiallyExpandedCategories {
+                    expandedCategories = initiallyExpandedCategories
+                } else {
+                    let startedCategories = allJourneys
+                        .filter { progressService.progress(for: $0) != nil }
+                        .map(\.category)
+                    expandedCategories = Set(startedCategories)
+                }
+            }
             .navigationTitle("Trajets")
             .navigationDestination(item: $selectedJourney) { journey in
                 JourneyDetailView(journey: journey)
@@ -88,22 +112,69 @@ struct JourneyPickerView: View {
 
     @ViewBuilder
     private func categorySection(_ category: JourneyCategory, journeys: [Journey]) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(category.rawValue.uppercased())
-                .font(.system(.caption, design: .rounded).weight(.semibold))
-                .foregroundStyle(Color.secondary)
-                .kerning(1.2)
-                .accessibilityAddTraits(.isHeader)
+        let isExpanded = expandedCategories.contains(category)
+        // Trajets encore à faire dans la catégorie (exclut les terminés) : c'est ce
+        // compteur, pas le total, qui a du sens pour inciter à en démarrer un nouveau.
+        let remainingCount = journeys.filter { !stepViewModel.isJourneyCompleted($0.id.uuidString) }.count
 
-            ForEach(journeys) { journey in
-                JourneyCard(
-                    journey: journey,
-                    progress: progressService.progress(for: journey),
-                    isCompleted: stepViewModel.isJourneyCompleted(journey.id.uuidString),
-                    ringColor: stepViewModel.ringColor,
-                    onAction: { journeyToPreview = journey }
-                )
+        VStack(alignment: .leading, spacing: 12) {
+            Button {
+                toggleCategory(category)
+            } label: {
+                HStack(spacing: 6) {
+                    Text(category.rawValue.uppercased())
+                        .font(.system(.caption, design: .rounded).weight(.semibold))
+                        .foregroundStyle(Color.secondary)
+                        .kerning(1.2)
+
+                    Text("(\(remainingCount))")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundStyle(Color.secondary.opacity(0.7))
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color.secondary)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                }
+                .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
+            .accessibilityAddTraits([.isHeader, .isButton])
+            .accessibilityLabel("\(category.rawValue), \(remainingCount) trajets restants")
+            .accessibilityValue(isExpanded ? "Déplié" : "Replié")
+            .accessibilityHint(isExpanded ? "Touchez pour replier" : "Touchez pour déplier")
+
+            if isExpanded {
+                ForEach(journeys) { journey in
+                    JourneyCard(
+                        journey: journey,
+                        progress: progressService.progress(for: journey),
+                        isCompleted: stepViewModel.isJourneyCompleted(journey.id.uuidString),
+                        ringColor: stepViewModel.ringColor,
+                        onAction: { journeyToPreview = journey }
+                    )
+                }
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+    }
+
+    /// Replie/déplie une catégorie. Le mouvement d'accordéon est coupé si
+    /// « Réduire les animations » est activé (accessibilité vestibulaire).
+    private func toggleCategory(_ category: JourneyCategory) {
+        let toggle = {
+            if expandedCategories.contains(category) {
+                expandedCategories.remove(category)
+            } else {
+                expandedCategories.insert(category)
+            }
+        }
+        if reduceMotion {
+            toggle()
+        } else {
+            withAnimation(.easeInOut(duration: 0.25), toggle)
         }
     }
 }
@@ -250,7 +321,25 @@ private struct JourneyCard: View {
         .environmentObject(viewModel)
 }
 
-#Preview("Avec trajet en cours") {
+#Preview("Catégorie avec 2 trajets terminés") {
+    // Purge les clés persistées (UserDefaults.standard réel) pour garantir un état
+    // reproductible : sans ça, une progression ou une complétion laissée par une
+    // autre preview/exécution dans le même process serait rechargée.
+    Preferences.shared.removeObject(.journeyProgressMap)
+    Preferences.shared.removeObject(.completedJourneyIds)
+
+    let walks = allJourneys.filter { $0.category == .walk }.prefix(2)
+    let viewModel = StepCountViewModel()
+    for journey in walks {
+        viewModel.markJourneyCompleted(journey.id.uuidString)
+    }
+
+    return JourneyPickerView(initiallyExpandedCategories: [.walk])
+        .environmentObject(JourneyProgressService(injectMockData: false))
+        .environmentObject(viewModel)
+}
+
+#Preview("Avec trajet en cours (catégorie dépliée)") {
     let gr20 = allJourneys.first { $0.name.contains("GR20") } ?? allJourneys[5]
     let service = JourneyProgressService()
     service.startJourney(gr20)
