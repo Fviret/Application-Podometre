@@ -250,10 +250,14 @@ private struct JourneyCard: View {
 
 // MARK: - Preview
 
-#Preview("Catalogue") {
-    JourneyPickerView()
+#Preview("Sans trajet en cours (incitation)") {
+    // Service vide → aucun trajet en cours → la card d'incitation s'affiche en tête.
+    let viewModel = StepCountViewModel()
+    viewModel.currentWeekSteps = [8_100, 9_400, 7_200, 10_600, 6_800, 11_200, 5_900]
+
+    return JourneyPickerView()
         .environmentObject(JourneyProgressService())
-        .environmentObject(StepCountViewModel())
+        .environmentObject(viewModel)
 }
 
 #Preview("Avec trajet en cours") {
