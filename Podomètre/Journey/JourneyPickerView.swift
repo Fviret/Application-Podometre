@@ -237,7 +237,11 @@ private struct JourneyCard: View {
 // MARK: - Preview
 
 #Preview("Sans trajet en cours (incitation)") {
-    // injectMockData: false → aucun trajet en cours → la card d'incitation s'affiche en tête.
+    // JourneyProgressService charge depuis UserDefaults.standard (réel) : une progression
+    // persistée par une autre preview/exécution dans le même process serait rechargée
+    // malgré injectMockData: false. On la purge explicitement pour garantir l'état vide.
+    Preferences.shared.removeObject(.journeyProgressMap)
+
     let viewModel = StepCountViewModel()
     viewModel.currentWeekSteps = [8_100, 9_400, 7_200, 10_600, 6_800, 11_200, 5_900]
 
