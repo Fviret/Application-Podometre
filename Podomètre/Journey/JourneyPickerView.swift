@@ -35,16 +35,6 @@ struct JourneyPickerView: View {
             .map { (journey: $0.0, progress: $0.1) }
     }
 
-    /// Trajet suggéré pour un premier départ quand aucun n'est en cours : la promenade
-    /// non terminée la plus courte, à défaut le trajet non terminé le plus court.
-    private var suggestedStarterJourney: Journey? {
-        let notCompleted = allJourneys.filter {
-            !stepViewModel.isJourneyCompleted($0.id.uuidString)
-        }
-        let walks = notCompleted.filter { $0.category == .walk }
-        return (walks.isEmpty ? notCompleted : walks).min { $0.totalKm < $1.totalKm }
-    }
-
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -59,12 +49,8 @@ struct JourneyPickerView: View {
                             averageDailySteps: stepViewModel.averageDailySteps,
                             onTap: { selectedJourney = active.journey }
                         )
-                    } else if let suggested = suggestedStarterJourney {
-                        StartJourneyPromptCardView(
-                            suggestedJourney: suggested,
-                            ringColor: stepViewModel.ringColor,
-                            onTap: { journeyToPreview = suggested }
-                        )
+                    } else {
+                        StartJourneyPromptCardView(ringColor: stepViewModel.ringColor)
                     }
 
                     ForEach(categoryOrder, id: \.self) { category in
