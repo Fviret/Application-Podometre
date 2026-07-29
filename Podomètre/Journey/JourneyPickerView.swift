@@ -237,12 +237,12 @@ private struct JourneyCard: View {
 // MARK: - Preview
 
 #Preview("Sans trajet en cours (incitation)") {
-    // Service vide → aucun trajet en cours → la card d'incitation s'affiche en tête.
+    // injectMockData: false → aucun trajet en cours → la card d'incitation s'affiche en tête.
     let viewModel = StepCountViewModel()
     viewModel.currentWeekSteps = [8_100, 9_400, 7_200, 10_600, 6_800, 11_200, 5_900]
 
     return JourneyPickerView()
-        .environmentObject(JourneyProgressService())
+        .environmentObject(JourneyProgressService(injectMockData: false))
         .environmentObject(viewModel)
 }
 
