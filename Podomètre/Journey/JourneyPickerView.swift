@@ -113,6 +113,9 @@ struct JourneyPickerView: View {
     @ViewBuilder
     private func categorySection(_ category: JourneyCategory, journeys: [Journey]) -> some View {
         let isExpanded = expandedCategories.contains(category)
+        // Trajets encore à faire dans la catégorie (exclut les terminés) : c'est ce
+        // compteur, pas le total, qui a du sens pour inciter à en démarrer un nouveau.
+        let remainingCount = journeys.filter { !stepViewModel.isJourneyCompleted($0.id.uuidString) }.count
 
         VStack(alignment: .leading, spacing: 12) {
             Button {
@@ -124,7 +127,7 @@ struct JourneyPickerView: View {
                         .foregroundStyle(Color.secondary)
                         .kerning(1.2)
 
-                    Text("(\(journeys.count))")
+                    Text("(\(remainingCount))")
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(Color.secondary.opacity(0.7))
 
@@ -139,7 +142,7 @@ struct JourneyPickerView: View {
             }
             .buttonStyle(.plain)
             .accessibilityAddTraits([.isHeader, .isButton])
-            .accessibilityLabel("\(category.rawValue), \(journeys.count) trajets")
+            .accessibilityLabel("\(category.rawValue), \(remainingCount) trajets restants")
             .accessibilityValue(isExpanded ? "Déplié" : "Replié")
             .accessibilityHint(isExpanded ? "Touchez pour replier" : "Touchez pour déplier")
 
