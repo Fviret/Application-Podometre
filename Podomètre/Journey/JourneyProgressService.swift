@@ -24,10 +24,14 @@ class JourneyProgressService: ObservableObject {
     /// Étapes nouvellement débloquées lors du dernier sync — consommées par la vue pour afficher une sheet.
     @Published var newlyUnlockedMilestones: [Milestone] = []
 
-    init() {
+    /// - Parameter injectMockData: sur simulateur, injecte un trajet en cours fictif.
+    ///   Passer `false` pour prévisualiser l'état « aucun trajet en cours ».
+    init(injectMockData: Bool = true) {
         load()
         #if targetEnvironment(simulator)
-        loadMockData()
+        if injectMockData {
+            loadMockData()
+        }
         #else
         if Preferences.shared.bool(.hasCompletedOnboarding) {
             startObservingDistance()

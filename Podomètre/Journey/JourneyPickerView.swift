@@ -39,7 +39,8 @@ struct JourneyPickerView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24, pinnedViews: []) {
-                    // Trajet en cours épinglé en tête.
+                    // Trajet en cours épinglé en tête ; sinon, card d'incitation
+                    // au démarrage (même emplacement, mêmes dimensions).
                     if let active = activeJourney {
                         ActiveJourneyCardView(
                             journey: active.journey,
@@ -48,6 +49,8 @@ struct JourneyPickerView: View {
                             averageDailySteps: stepViewModel.averageDailySteps,
                             onTap: { selectedJourney = active.journey }
                         )
+                    } else {
+                        StartJourneyPromptCardView(ringColor: stepViewModel.ringColor)
                     }
 
                     ForEach(categoryOrder, id: \.self) { category in
@@ -233,10 +236,18 @@ private struct JourneyCard: View {
 
 // MARK: - Preview
 
-#Preview("Catalogue") {
-    JourneyPickerView()
-        .environmentObject(JourneyProgressService())
-        .environmentObject(StepCountViewModel())
+#Preview("Sans trajet en cours (incitation)") {
+    // JourneyProgressService charge depuis UserDefaults.standard (réel) : une progression
+    // persistée par une autre preview/exécution dans le même process serait rechargée
+    // malgré injectMockData: false. On la purge explicitement pour garantir l'état vide.
+    Preferences.shared.removeObject(.journeyProgressMap)
+
+    let viewModel = StepCountViewModel()
+    viewModel.currentWeekSteps = [8_100, 9_400, 7_200, 10_600, 6_800, 11_200, 5_900]
+
+    return JourneyPickerView()
+        .environmentObject(JourneyProgressService(injectMockData: false))
+        .environmentObject(viewModel)
 }
 
 #Preview("Avec trajet en cours") {

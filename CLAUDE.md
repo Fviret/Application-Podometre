@@ -92,6 +92,7 @@ Podomètre/
 │   ├── JourneyProgressService.swift    # Progression, distance HK, completion
 │   ├── JourneyNotificationService.swift# Notifications jalons + completion
 │   ├── ActiveJourneyCardView.swift     # Card du trajet en cours (progression + ETA), en tête du catalogue
+│   ├── StartJourneyPromptCardView.swift# Card d'incitation au démarrage (aucun trajet en cours), même gabarit
 │   ├── JourneySegmentTrackView.swift   # Tracé du segment courant (jalon → jalon, « tu es ici »), partagé card + détail
 │   ├── JourneyPickerView.swift         # Catalogue par catégorie
 │   ├── JourneyPreviewSheet.swift       # Prévisualisation avant démarrage
