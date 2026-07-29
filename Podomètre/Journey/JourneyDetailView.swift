@@ -5,7 +5,6 @@ struct JourneyDetailView: View {
     let journey: Journey
 
     @EnvironmentObject private var progressService: JourneyProgressService
-    @EnvironmentObject private var stepViewModel: StepCountViewModel
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -19,13 +18,6 @@ struct JourneyDetailView: View {
     private var progressPercent: Double {
         guard let p = progress else { return 0 }
         return journey.progressPercent(for: p)
-    }
-
-    /// Date de complétion formatée (ex. "12 juillet 2026"), ou `nil` si non terminé
-    /// ou terminé avant l'introduction de cette donnée.
-    private var completionDateText: String? {
-        guard let date = stepViewModel.completionDate(for: journey.id.uuidString) else { return nil }
-        return date.formatted(.dateTime.day().month(.wide).year())
     }
 
     /// Dernier jalon débloqué (pour l'ancrage du ScrollView).
@@ -122,24 +114,16 @@ struct JourneyDetailView: View {
                         .foregroundStyle(Color.accentColor)
                         .accessibilityHidden(true)
 
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Vous avez achevé ce trajet !")
-                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                            .foregroundStyle(Color.primary)
-
-                        if let completionDateText {
-                            Text("Terminé le \(completionDateText)")
-                                .font(.caption)
-                                .foregroundStyle(Color.secondary)
-                        }
-                    }
+                    Text("Vous avez achevé ce trajet !")
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(Color.primary)
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.accentColor.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel(completionDateText.map { "Trajet achevé, terminé le \($0)" } ?? "Trajet achevé")
+                .accessibilityLabel("Trajet achevé")
             } else if let p = progress, let next = journey.nextMilestone(for: p) {
                 let remaining = next.km - p.totalKm
                 HStack(spacing: 10) {
@@ -289,22 +273,5 @@ private struct MilestoneDetailSheet: View {
     return NavigationStack {
         JourneyDetailView(journey: journey)
             .environmentObject(service)
-            .environmentObject(StepCountViewModel())
-    }
-}
-
-#Preview("Trajet achevé — avec date de complétion") {
-    let journey = allJourneys[0]
-    let service = JourneyProgressService()
-    service.startJourney(journey)
-    service.addKilometers(journey.totalKm, to: journey)
-
-    let viewModel = StepCountViewModel()
-    viewModel.markJourneyCompleted(journey.id.uuidString)
-
-    return NavigationStack {
-        JourneyDetailView(journey: journey)
-            .environmentObject(service)
-            .environmentObject(viewModel)
     }
 }

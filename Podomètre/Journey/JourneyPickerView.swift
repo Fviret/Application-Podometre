@@ -8,6 +8,8 @@ struct JourneyPickerView: View {
     @State private var selectedJourney: Journey?
     /// Trajet dont on affiche la prévisualisation (nouveau ou déjà en cours).
     @State private var journeyToPreview: Journey?
+    /// Trajet terminé dont on affiche la popup de détail (date de complétion), au tap sur son badge.
+    @State private var completedJourneyForDetail: Journey?
     /// Catégories actuellement dépliées. Repliées par défaut pour alléger le scroll ;
     /// initialisée dans `onAppear` avec la catégorie ayant une progression, si besoin.
     @State private var expandedCategories: Set<JourneyCategory> = []
@@ -105,6 +107,14 @@ struct JourneyPickerView: View {
                     selectedJourney = journey
                 }
             }
+            .sheet(item: $completedJourneyForDetail) { journey in
+                CompletedJourneyDetailSheet(
+                    journey: journey,
+                    completionDate: stepViewModel.completionDate(for: journey.id.uuidString)
+                )
+                .presentationDetents([.height(340)])
+                .presentationDragIndicator(.visible)
+            }
         }
     }
 
@@ -153,7 +163,7 @@ struct JourneyPickerView: View {
                     CompletedJourneyBadgeGrid(
                         journeys: completedJourneys,
                         ringColor: stepViewModel.ringColor,
-                        onSelect: { selectedJourney = $0 }
+                        onSelect: { completedJourneyForDetail = $0 }
                     )
                 }
 
@@ -340,7 +350,67 @@ private struct CompletedJourneyBadgeGrid: View {
     }
 }
 
+// MARK: - CompletedJourneyDetailSheet
+
+/// Popup affichée au tap sur un badge de trajet terminé : emoji, nom, date de complétion.
+private struct CompletedJourneyDetailSheet: View {
+    let journey: Journey
+    let completionDate: Date?
+
+    private var dateText: String {
+        guard let completionDate else { return "Date inconnue" }
+        return completionDate.formatted(.dateTime.day().month(.wide).year())
+    }
+
+    var body: some View {
+        VStack(spacing: 18) {
+            Text(journey.emoji)
+                .font(.system(size: 64))
+                .accessibilityHidden(true)
+
+            VStack(spacing: 4) {
+                Text(journey.name)
+                    .font(.system(.title2, design: .rounded).weight(.bold))
+                    .multilineTextAlignment(.center)
+                Text(journey.subtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            HStack(spacing: 8) {
+                Image(systemName: "checkmark.seal.fill")
+                Text("Terminé le \(dateText)")
+            }
+            .font(.system(.subheadline, design: .rounded).weight(.semibold))
+            .foregroundStyle(Color.accentColor)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(Color.accentColor.opacity(0.12), in: Capsule())
+
+            Label(String(format: "%.0f km · %d étapes", journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
+                .font(.caption)
+                .foregroundStyle(Color.secondary)
+        }
+        .padding(.horizontal, 28)
+        .padding(.top, 36)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(journey.name), terminé le \(dateText). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.")
+    }
+}
+
 // MARK: - Preview
+
+#Preview("Popup — trajet terminé") {
+    let journey = allJourneys[0]
+    return CompletedJourneyDetailSheet(journey: journey, completionDate: Date())
+}
+
+#Preview("Popup — date inconnue") {
+    let journey = allJourneys[0]
+    return CompletedJourneyDetailSheet(journey: journey, completionDate: nil)
+}
 
 #Preview("Sans trajet en cours (incitation)") {
     // JourneyProgressService charge depuis UserDefaults.standard (réel) : une progression
