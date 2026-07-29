@@ -199,6 +199,7 @@ Hors cible applicative, à la racine du dépôt :
 | `goalNotifiedDate` | `Date` | Garde pour max 1 notif/jour |
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
+| `journeyCompletionDates` | `Data` (JSON) | `[String: Date]` — date de complétion par UUID de trajet |
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
 | `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
 | `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
