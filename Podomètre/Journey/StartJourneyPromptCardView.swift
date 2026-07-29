@@ -39,9 +39,28 @@ struct StartJourneyPromptCardView: View {
 // MARK: - Preview
 
 #Preview("Incitation — aucun trajet") {
+    ScrollView {
+        VStack(alignment: .leading, spacing: 24) {
+            // La card telle qu'affichée en tête du catalogue.
+            StartJourneyPromptCardView(ringColor: AppColors.ringColorOptions[0].color)
+
+            // Amorce de catalogue pour situer la card dans son contexte réel.
+            Text("PROMENADES")
+                .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.secondary)
+                .kerning(1.2)
+        }
+        .padding(20)
+    }
+    .background(Color(.systemGroupedBackground))
+}
+
+#Preview("Incitation — mode sombre") {
     VStack {
-        StartJourneyPromptCardView(ringColor: AppColors.ringColorOptions[0].color)
+        StartJourneyPromptCardView(ringColor: AppColors.ringColorOptions[3].color)
         Spacer()
     }
-    .padding()
+    .padding(20)
+    .background(Color(.systemGroupedBackground))
+    .preferredColorScheme(.dark)
 }
