@@ -172,21 +172,46 @@ struct HistoryDetailView: View {
             }
             .accessibilityElement(children: .combine)
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("\(stats.allTimeTotalDistanceKm.formatted(.number.precision(.fractionLength(0)))) km parcourus")
-                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                    .foregroundStyle(Color.primary)
-
-                ProgressView(value: currentTourProgress)
-                    .tint(viewModel.ringColor)
-
-                Text(worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
-                    .font(.caption)
+            VStack(spacing: 6) {
+                Text("\(stats.allTimeTotalDistanceKm.formatted(.number.precision(.fractionLength(0)))) km")
+                    .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                    .foregroundStyle(viewModel.ringColor)
+                Text("parcourus depuis le début du suivi")
+                    .font(.subheadline)
                     .foregroundStyle(Color.secondary)
             }
+            .accessibilityElement(children: .combine)
+
+            VStack(spacing: 12) {
+                // Piste + point de position, même principe que le tracé de segment des trajets :
+                // le point marque où on en est dans le tour en cours, pas juste une barre pleine.
+                GeometryReader { geo in
+                    let width = geo.size.width
+                    ZStack(alignment: .leading) {
+                        Capsule()
+                            .fill(Color.secondary.opacity(0.15))
+                            .frame(height: 10)
+
+                        Capsule()
+                            .fill(viewModel.ringColor)
+                            .frame(width: max(10, width * currentTourProgress), height: 10)
+
+                        Circle()
+                            .fill(viewModel.ringColor)
+                            .frame(width: 22, height: 22)
+                            .overlay(Circle().strokeBorder(Color(.secondarySystemBackground), lineWidth: 3))
+                            .shadow(color: viewModel.ringColor.opacity(0.4), radius: 4, x: 0, y: 0)
+                            .offset(x: width * currentTourProgress - 11)
+                    }
+                }
+                .frame(height: 22)
+
+                Text(worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.primary)
+            }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(Int(stats.allTimeTotalDistanceKm.rounded())) kilomètres parcourus. "
-                + worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
+            .accessibilityLabel(worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
