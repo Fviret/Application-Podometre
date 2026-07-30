@@ -205,6 +205,49 @@ private struct WeeklyTrendSection: View {
         weeklyAverages.indices.contains(selectedIndex) ? weeklyAverages[selectedIndex] : nil
     }
 
+    private var previousWeek: HistoryStats.WeeklyAverage? {
+        weeklyAverages.indices.contains(selectedIndex - 1) ? weeklyAverages[selectedIndex - 1] : nil
+    }
+
+    /// Écart (en pas) en deçà duquel les deux moyennes sont considérées équivalentes.
+    private let trendNeutralThreshold = 500
+
+    private enum WeekTrend { case down, flat, up }
+
+    /// Tendance de la semaine sélectionnée par rapport à celle juste avant elle dans le graphe.
+    /// `nil` si aucune semaine précédente n'est disponible (première semaine du graphe).
+    private var trend: WeekTrend? {
+        guard let selectedWeek, let previousWeek else { return nil }
+        let diff = selectedWeek.average - previousWeek.average
+        if abs(diff) <= trendNeutralThreshold { return .flat }
+        return diff > 0 ? .up : .down
+    }
+
+    private var trendColor: Color {
+        switch trend {
+        case .down: return .red
+        case .flat, .none: return .secondary
+        case .up: return ringColor
+        }
+    }
+
+    private var trendSystemImage: String {
+        switch trend {
+        case .down: return "arrow.down"
+        case .flat, .none: return "minus"
+        case .up: return "arrow.up"
+        }
+    }
+
+    private var trendA11yText: String? {
+        switch trend {
+        case .down: return "en baisse par rapport à la semaine précédente"
+        case .flat: return "stable par rapport à la semaine précédente"
+        case .up: return "en hausse par rapport à la semaine précédente"
+        case .none: return nil
+        }
+    }
+
     private func rangeLabel(_ week: HistoryStats.WeeklyAverage) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "fr_FR")
@@ -242,10 +285,24 @@ private struct WeeklyTrendSection: View {
                     Text(rangeLabel(selectedWeek))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
-                    Text("\(selectedWeek.average.formatted()) pas/jour en moyenne")
-                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                        .foregroundStyle(ringColor)
+
+                    HStack(spacing: 6) {
+                        Text("\(selectedWeek.average.formatted()) pas/jour en moyenne")
+                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                            .foregroundStyle(ringColor)
+
+                        if trend != nil {
+                            Image(systemName: trendSystemImage)
+                                .font(.caption2.weight(.bold))
+                                .foregroundStyle(trendColor)
+                                .frame(width: 18, height: 18)
+                                .background(trendColor.opacity(0.15), in: Circle())
+                        }
+                    }
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(rangeLabel(selectedWeek)), \(selectedWeek.average.formatted()) pas par jour en moyenne"
+                    + (trendA11yText.map { ", \($0)" } ?? ""))
             }
         }
         .padding(16)
