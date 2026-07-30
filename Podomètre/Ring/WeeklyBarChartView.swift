@@ -251,25 +251,33 @@ struct WeeklyBarChartView: View {
             .accessibilityLabel(a11ySummary)
 
             if weekAverage > 0, previousWeekAverage > 0 {
-                averageTrendPill
+                HStack {
+                    Spacer(minLength: 0)
+                    averageTrendPill
+                    Spacer(minLength: 0)
+                }
             }
         }
     }
 
-    /// Pastille de comparaison des moyennes quotidiennes des deux semaines, colorée selon la tendance.
+    /// Pastille de comparaison des moyennes quotidiennes des deux semaines : seule la flèche
+    /// est colorée selon la tendance (cercle), le texte reste neutre.
     private var averageTrendPill: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 8) {
             Image(systemName: trendSystemImage)
                 .font(.caption2.weight(.bold))
+                .foregroundStyle(trendColor)
+                .frame(width: 20, height: 20)
+                .background(trendColor.opacity(0.15), in: Circle())
                 .accessibilityHidden(true)
 
             Text("Moyenne : \(weekAverage.formatted()) pas/jour")
                 .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.secondary)
         }
-        .foregroundStyle(trendColor)
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(trendColor.opacity(0.12), in: Capsule())
+        .background(Color.secondary.opacity(0.08), in: Capsule())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Moyenne quotidienne : \(weekAverage.formatted()) pas, \(trendA11yText) (\(previousWeekAverage.formatted()) pas)")
     }
