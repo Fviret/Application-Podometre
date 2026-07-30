@@ -46,7 +46,7 @@ struct HistoryDetailView: View {
     /// des autres records — c'est la récompense la plus symbolique de l'app.
     private func longestStreakSection(_ stats: HistoryStats) -> some View {
         VStack(spacing: 10) {
-            FlameStreakView(streak: stats.longestStreakEver, size: 100)
+            FlameStreakView(streak: stats.longestStreakEver, size: 180)
 
             Text("\(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")")
                 .font(.system(.title, design: .rounded).weight(.bold))
