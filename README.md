@@ -102,7 +102,7 @@ Courbe des 7 derniers jours (semaine en cours en couleur, semaine précédente e
 
 ### Trajets
 
-Catalogue de 22 trajets organisés en 4 catégories.
+Catalogue de 27 trajets organisés en 4 catégories.
 
 <p align="center">
   <img width="150" alt="IMG_5086" src="https://github.com/user-attachments/assets/246ac810-011f-4dc9-add2-66d95ca52528" />
@@ -358,7 +358,7 @@ Ou via Xcode : `⌘U`
 - [x] Navigation par jour, calendrier mensuel, graphe hebdomadaire
 - [x] Bannière météo + prévisions 7 jours (Open-Meteo) + écran de détail météo par jour
 - [x] Système de trajets avec progression sur distance réelle + card du trajet en cours (progression + ETA)
-- [x] Catalogue densément jalonné (22 trajets, étapes authentiques)
+- [x] Catalogue densément jalonné (27 trajets, étapes authentiques)
 - [x] Badges de pas et de trajets (illustration + couleur par badge, modale de détail)
 - [x] Série de jours consécutifs — flamme animée à paliers
 - [x] Navigation par jour au swipe sur l'anneau

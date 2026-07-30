@@ -8,6 +8,11 @@ let allJourneys: [Journey] = [
     journeyWalk10k,
     journeyWalk21k,
     journeyWalk42k,
+    journeyAmeliePoulain,
+    journeyBeforeSunrise,
+    journeyNottingHill,
+    journeyRocky,
+    journeyLostInTranslation,
     // Sentiers
     journeyGR20,
     journeyCaminoFinal,
@@ -198,6 +203,259 @@ private let journeyWalk42k = Journey(
             km: 42,
             label: "Avenue Foch",
             description: "L'arrivée. 42,195 km parcourus à travers Paris. La médaille, les jambes en feu, et la fierté qui ne passe pas."
+        ),
+    ]
+)
+
+private let journeyAmeliePoulain = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000006")!,
+    name: "Amélie Poulain — Montmartre",
+    subtitle: "Café des Deux Moulins → Canal Saint-Martin — 4 km",
+    totalKm: 4,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000061")!,
+            km: 0,
+            label: "Café des Deux Moulins",
+            description: "Amélie y est serveuse. On la voit casser la croûte brûlée de la crème brûlée avec le dos de sa cuillère."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000062")!,
+            km: 0.8,
+            label: "Épicerie Collignon",
+            description: "Amélie s'en prend à l'épicier tyrannique : pantoufles réarrangées, réveil déréglé, petite vengeance discrète."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000063")!,
+            km: 1.5,
+            label: "Marché Saint-Pierre",
+            description: "Le quartier textile qu'elle traverse en chemin, entre les rouleaux de tissus empilés sur les trottoirs."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000064")!,
+            km: 2.2,
+            label: "Son appartement, passage des Abbesses",
+            description: "Là où elle vit, observe le monde par sa fenêtre et invente ses petits complots bienveillants."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000065")!,
+            km: 2.8,
+            label: "Le Consulat",
+            description: "Le café où travaille Nino, qu'elle épie de loin avant d'oser l'approcher."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000066")!,
+            km: 3.3,
+            label: "Parvis du Sacré-Cœur",
+            description: "Vue sur tout Paris. Un des lieux de rendez-vous les plus emblématiques du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000067")!,
+            km: 3.7,
+            label: "Ricochets sur le Canal Saint-Martin",
+            description: "Amélie fait des ricochets, seule, dans un des instants les plus contemplatifs du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000068")!,
+            km: 4,
+            label: "Canal Saint-Martin",
+            description: "Fin du parcours au bord de l'eau, dans la lumière si particulière du Paris d'Amélie."
+        ),
+    ]
+)
+
+private let journeyBeforeSunrise = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000007")!,
+    name: "Before Sunrise — Vienne de nuit",
+    subtitle: "Gare de Vienne → Pont sur le Danube — 7 km",
+    totalKm: 7,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000071")!,
+            km: 0,
+            label: "Gare de Vienne",
+            description: "Jesse et Céline descendent du train ensemble, sur un coup de tête qui va changer une nuit — et peut-être une vie."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000072")!,
+            km: 1,
+            label: "Tram nocturne",
+            description: "Première vraie conversation, premières confidences, à travers les vitres embuées d'un tramway viennois."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000073")!,
+            km: 2,
+            label: "Café Sperl",
+            description: "Discussion existentielle autour d'un café viennois — l'amour, le temps, la peur de se rater."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000074")!,
+            km: 3.5,
+            label: "Disquaire, cabine d'écoute",
+            description: "Le moment gênant et tendre où ils écoutent un disque ensemble, sans jamais oser se regarder."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000075")!,
+            km: 4.5,
+            label: "Cimetière central de Vienne",
+            description: "Déambulation parmi les tombes, réflexions à voix haute sur le temps qui passe et la mort qui attend."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000076")!,
+            km: 5.5,
+            label: "Petit parc au bord du Danube",
+            description: "Un slam improvisé par un inconnu du parc, pour une poignée de pièces — un des instants les plus tendres du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000077")!,
+            km: 6.2,
+            label: "Grande roue du Prater",
+            description: "Premier baiser, suspendu dans une cabine au-dessus des lumières de Vienne."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000078")!,
+            km: 7,
+            label: "Pont sur le Danube",
+            description: "L'aube approche. La promesse fragile de se retrouver, six mois plus tard, sur ce même quai."
+        ),
+    ]
+)
+
+private let journeyNottingHill = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000008")!,
+    name: "Notting Hill — Portobello Road",
+    subtitle: "Librairie de William → Hôtel Ritz — 3 km",
+    totalKm: 3,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000081")!,
+            km: 0,
+            label: "Librairie de voyage de William",
+            description: "Anna Scott y entre par hasard, incognito, et bouleverse sans le savoir la vie tranquille d'un libraire."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000082")!,
+            km: 0.6,
+            label: "Portobello Market",
+            description: "La traversée du marché au fil des saisons, en un seul plan-séquence devenu culte."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000083")!,
+            km: 1.2,
+            label: "Le café du coin",
+            description: "William renverse du jus d'orange sur Anna en se faisant passer pour un journaliste — un mensonge maladroit et charmant."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000084")!,
+            km: 1.8,
+            label: "La porte bleue",
+            description: "La façade la plus photographiée du film, devenue un symbole du quartier bien au-delà de l'écran."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000085")!,
+            km: 2.4,
+            label: "Jardin communal secret",
+            description: "Ils escaladent la grille pour s'y retrouver, loin des paparazzis, dans un des rares moments de calme du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000086")!,
+            km: 3,
+            label: "Hôtel Ritz",
+            description: "Conférence de presse finale : William déclare publiquement son amour devant les caméras du monde entier."
+        ),
+    ]
+)
+
+private let journeyRocky = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000009")!,
+    name: "Rocky — les marches du musée",
+    subtitle: "Marché italien de Philadelphie → Museum of Art — 3 km",
+    totalKm: 3,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000091")!,
+            km: 0,
+            label: "Marché italien de South Philly",
+            description: "Entraînement à l'aube. Rocky salue les commerçants et attrape une orange au vol, sans ralentir."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000092")!,
+            km: 1,
+            label: "Rue résidentielle de South Philly",
+            description: "Course matinale à travers les quartiers populaires qui l'ont vu grandir."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000093")!,
+            km: 2,
+            label: "Fontaine de Logan Square",
+            description: "Une courte pause pendant l'entraînement, le souffle repris avant la dernière ligne droite."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000094")!,
+            km: 2.6,
+            label: "Escaliers du Philadelphia Museum of Art",
+            description: "La montée légendaire, bras levés au sommet — un des instants les plus imités du cinéma."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000095")!,
+            km: 3,
+            label: "Statue de Rocky",
+            description: "Au pied des marches, désormais un lieu de pèlerinage pour les fans venus refaire la montée."
+        ),
+    ]
+)
+
+private let journeyLostInTranslation = Journey(
+    id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-00000000000A")!,
+    name: "Lost in Translation — Tokyo de nuit",
+    subtitle: "Park Hyatt Tokyo → départ du bar — 6 km",
+    totalKm: 6,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A1")!,
+            km: 0,
+            label: "Bar du Park Hyatt Tokyo",
+            description: "Bob et Charlotte se croisent au bar, un premier regard complice au-dessus de la ville illuminée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A2")!,
+            km: 1.5,
+            label: "Croisement de Shibuya",
+            description: "Immersion dans la foule et les néons de Tokyo — un sentiment de solitude au milieu de la multitude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A3")!,
+            km: 3,
+            label: "Salle de karaoké",
+            description: "Soirée improvisée entre amis. Bob chante « More Than This », perruque rose sur la tête."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A4")!,
+            km: 4.5,
+            label: "Golden Gai (Shinjuku)",
+            description: "Ruelles de bars minuscules, à peine plus larges qu'un couloir — la nuit tokyoïte la plus électrique."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A5")!,
+            km: 5.5,
+            label: "Temple bouddhiste",
+            description: "Charlotte s'y rend seule, en quête de sens, loin du vertige de la ville."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A6")!,
+            km: 6,
+            label: "Départ du Park Hyatt",
+            description: "Un adieu chuchoté à l'oreille, resté l'un des mystères les plus discutés du cinéma."
         ),
     ]
 )
