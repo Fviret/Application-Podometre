@@ -5,6 +5,9 @@ import SwiftUI
 struct WeeklyBarChartView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
+    /// Affiche l'écran d'historique complet (tendance multi-semaines, totaux mensuels, records).
+    @State private var showHistory = false
+
     private let chartHeight: CGFloat = 140
     private let yAxisWidth: CGFloat = 32
     private let labelRowHeight: CGFloat = 20
@@ -247,8 +250,13 @@ struct WeeklyBarChartView: View {
                 }
             }
             .frame(height: chartHeight + labelRowGap + labelRowHeight)
+            .contentShape(Rectangle())
+            .onTapGesture { showHistory = true }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(a11ySummary)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint("Touchez pour voir l'historique complet")
+            .accessibilityAction { showHistory = true }
 
             if weekAverage > 0, previousWeekAverage > 0 {
                 HStack {
@@ -257,6 +265,9 @@ struct WeeklyBarChartView: View {
                     Spacer(minLength: 0)
                 }
             }
+        }
+        .sheet(isPresented: $showHistory) {
+            HistoryDetailView(viewModel: viewModel)
         }
     }
 
