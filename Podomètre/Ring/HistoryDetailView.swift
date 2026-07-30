@@ -13,6 +13,7 @@ struct HistoryDetailView: View {
                     if let stats = viewModel.historyStats {
                         WeeklyTrendSection(weeklyAverages: stats.weeklyAverages, ringColor: viewModel.ringColor)
                         YearlyTotalsSection(yearlyTotals: stats.yearlyTotals, ringColor: viewModel.ringColor)
+                        longestStreakSection(stats)
                         recordsSection(stats)
                         allTimeSection(stats)
                     } else {
@@ -39,6 +40,29 @@ struct HistoryDetailView: View {
     }
 
 
+    // MARK: - Plus longue série (mise en avant)
+
+    /// Met en avant la plus longue série jamais réalisée avec la flamme animée, séparément
+    /// des autres records — c'est la récompense la plus symbolique de l'app.
+    private func longestStreakSection(_ stats: HistoryStats) -> some View {
+        VStack(spacing: 10) {
+            FlameStreakView(streak: stats.longestStreakEver, size: 100)
+
+            Text("\(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")")
+                .font(.system(.title, design: .rounded).weight(.bold))
+                .foregroundStyle(Color.primary)
+
+            Text("Plus longue série jamais réalisée")
+                .font(.subheadline)
+                .foregroundStyle(Color.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Plus longue série jamais réalisée : \(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")")
+    }
+
     // MARK: - Records personnels
 
     private func recordsSection(_ stats: HistoryStats) -> some View {
@@ -53,14 +77,48 @@ struct HistoryDetailView: View {
             )
 
             recordRow(
-                icon: "flame.fill",
-                title: "Plus longue série",
-                value: "\(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")",
-                subtitle: nil
+                icon: "calendar",
+                title: "Meilleure semaine",
+                value: "\(stats.bestWeekTotal.formatted()) pas",
+                subtitle: weekRangeLabel(start: stats.bestWeekStartDate, end: stats.bestWeekEndDate)
             )
+
+            recordRow(
+                icon: "star.fill",
+                title: "Meilleure année",
+                value: "\(stats.bestYearTotal.formatted()) pas",
+                subtitle: stats.bestYear.map(String.init)
+            )
+
+            if stats.perfectWeekCount > 0 {
+                recordRow(
+                    icon: "checkmark.seal.fill",
+                    title: "Semaines parfaites",
+                    value: "\(stats.perfectWeekCount) semaine\(stats.perfectWeekCount > 1 ? "s" : "")",
+                    subtitle: nil
+                )
+            }
+
+            if stats.perfectMonthCount > 0 {
+                recordRow(
+                    icon: "checkmark.seal.fill",
+                    title: "Mois parfaits",
+                    value: "\(stats.perfectMonthCount) mois",
+                    subtitle: nil
+                )
+            }
         }
         .padding(16)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    /// Formate un intervalle de dates (ex. "1 juin – 7 juin"), `nil` si l'une des deux bornes manque.
+    private func weekRangeLabel(start: Date?, end: Date?) -> String? {
+        guard let start, let end else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.setLocalizedDateFormatFromTemplate("d MMMM")
+        return "\(formatter.string(from: start)) – \(formatter.string(from: end))"
     }
 
     private func recordRow(icon: String, title: String, value: String, subtitle: String?) -> some View {

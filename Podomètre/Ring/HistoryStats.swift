@@ -41,6 +41,18 @@ struct HistoryStats {
     /// Meilleur jour jamais enregistré.
     var bestDaySteps: Int = 0
     var bestDayDate: Date?
+    /// Meilleure semaine jamais enregistrée (même découpage que `weeklyAverages` : blocs de
+    /// 7 jours ancrés sur aujourd'hui, étendus à tout l'historique disponible).
+    var bestWeekTotal: Int = 0
+    var bestWeekStartDate: Date?
+    var bestWeekEndDate: Date?
+    /// Année civile avec le plus grand total de pas (parmi `yearlyTotals`).
+    var bestYearTotal: Int = 0
+    var bestYear: Int?
+    /// Nombre de semaines (mêmes blocs de 7 jours) où l'objectif a été atteint tous les jours.
+    var perfectWeekCount: Int = 0
+    /// Nombre de mois civils où l'objectif a été atteint tous les jours du mois.
+    var perfectMonthCount: Int = 0
     /// Plus longue série de jours consécutifs avec objectif atteint, jamais réalisée
     /// (indépendante de `currentStreak`, qui ne reflète que la série en cours).
     var longestStreakEver: Int = 0
@@ -110,6 +122,85 @@ struct HistoryStats {
             stats.bestDayDate = best.key
         }
 
+        if let bestYearEntry = stats.yearlyTotals.max(by: { $0.yearTotal < $1.yearTotal }) {
+            stats.bestYearTotal = bestYearEntry.yearTotal
+            stats.bestYear = bestYearEntry.year
+        }
+
+        // Meilleure semaine + semaines parfaites : mêmes blocs de 7 jours ancrés sur aujourd'hui
+        // que `weeklyAverages`, mais étendus à tout l'historique disponible (pas seulement `weekCount`).
+        if let earliestDate = dailySteps.keys.min() {
+            let totalWeeks = max(0, (calendar.dateComponents([.day], from: earliestDate, to: today).day ?? 0) / 7 + 1)
+            var bestWeekTotal = -1
+            var bestWeekStart: Date?
+            var bestWeekEnd: Date?
+            var perfectWeeks = 0
+
+            for weekIndex in 0..<totalWeeks {
+                guard let endDate = calendar.date(byAdding: .day, value: -(weekIndex * 7), to: today),
+                      let startDate = calendar.date(byAdding: .day, value: -(weekIndex * 7 + 6), to: today)
+                else { continue }
+
+                var weekTotal = 0
+                var allReachGoal = goal > 0
+                for dayOffset in 0..<7 {
+                    guard let date = calendar.date(byAdding: .day, value: -(weekIndex * 7 + dayOffset), to: today) else {
+                        allReachGoal = false
+                        continue
+                    }
+                    let steps = dailySteps[date] ?? 0
+                    weekTotal += steps
+                    if steps < goal { allReachGoal = false }
+                }
+
+                if weekTotal > bestWeekTotal {
+                    bestWeekTotal = weekTotal
+                    bestWeekStart = startDate
+                    bestWeekEnd = endDate
+                }
+                if allReachGoal { perfectWeeks += 1 }
+            }
+
+            stats.bestWeekTotal = max(bestWeekTotal, 0)
+            stats.bestWeekStartDate = bestWeekStart
+            stats.bestWeekEndDate = bestWeekEnd
+            stats.perfectWeekCount = perfectWeeks
+        }
+
+        // Mois parfaits : chaque jour du mois civil (calendrier, pas les blocs de 7 jours
+        // ci-dessus) a atteint l'objectif. Parcourt les mois du plus ancien à l'actuel via un
+        // index entier (année × 12 + mois) pour éviter une boucle de dates fragile.
+        if goal > 0, let earliestDate = dailySteps.keys.min() {
+            let startComponents = calendar.dateComponents([.year, .month], from: earliestDate)
+            let startIndex = (startComponents.year ?? currentYear) * 12 + ((startComponents.month ?? 1) - 1)
+            let endIndex = currentYear * 12 + (currentMonth - 1)
+
+            var perfectMonths = 0
+            if startIndex <= endIndex {
+                for index in startIndex...endIndex {
+                    let year = index / 12
+                    let month = index % 12 + 1
+
+                    var monthStart = DateComponents()
+                    monthStart.year = year
+                    monthStart.month = month
+                    monthStart.day = 1
+                    guard let monthDate = calendar.date(from: monthStart),
+                          let range = calendar.range(of: .day, in: .month, for: monthDate)
+                    else { continue }
+
+                    let allReachGoal = range.allSatisfy { day -> Bool in
+                        var dayComponents = monthStart
+                        dayComponents.day = day
+                        guard let date = calendar.date(from: dayComponents) else { return false }
+                        return (dailySteps[calendar.startOfDay(for: date)] ?? 0) >= goal
+                    }
+                    if allReachGoal { perfectMonths += 1 }
+                }
+            }
+            stats.perfectMonthCount = perfectMonths
+        }
+
         // Série la plus longue : ne parcourt que les jours présents (pas > 0). Un jour manquant
         // (0 pas) casse naturellement la continuité, la vérification d'adjacence (J+1) suffit —
         // pas besoin d'itérer explicitement les jours à 0.
@@ -173,6 +264,13 @@ extension HistoryStats {
         ]
         stats.bestDaySteps = 24_680
         stats.bestDayDate = Calendar.current.date(byAdding: .day, value: -42, to: Date())
+        stats.bestWeekTotal = 68_400
+        stats.bestWeekEndDate = Calendar.current.date(byAdding: .day, value: -21, to: today)
+        stats.bestWeekStartDate = Calendar.current.date(byAdding: .day, value: -27, to: today)
+        stats.bestYearTotal = lastYearTotals.reduce(0, +)
+        stats.bestYear = currentYear - 1
+        stats.perfectWeekCount = 2
+        stats.perfectMonthCount = 0
         stats.longestStreakEver = 11
         stats.allTimeTotalSteps = 2_845_320
         return stats
