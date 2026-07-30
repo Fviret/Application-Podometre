@@ -378,7 +378,6 @@ Ou via Xcode : `⌘U`
 
 ### Priorité moyenne — enrichissement
 - [ ] **Pensée du jour** — animation d'apparition, bouton de partage, affichage en notification
-- [ ] **Export CSV** — historique de pas et distances
 - [ ] **Gamification RPG** — débloquer des récompenses selon les pas
 
 ### Vision long terme
