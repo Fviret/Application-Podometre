@@ -855,3 +855,172 @@ struct WeatherCodeTests {
         }
     }
 }
+
+// MARK: - HistoryStats.compute (écran d'historique)
+
+@Suite("HistoryStats.compute")
+struct HistoryStatsComputeTests {
+
+    private let calendar = Calendar.current
+
+    /// Début du jour, `n` jours avant aujourd'hui.
+    private func daysAgo(_ n: Int) -> Date {
+        calendar.date(byAdding: .day, value: -n, to: calendar.startOfDay(for: Date()))!
+    }
+
+    private func weekdayFrenchName(_ weekday: Int) -> String {
+        ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][weekday - 1]
+    }
+
+    @Test func emptyDailyStepsReturnsDefaultStats() {
+        let stats = HistoryStats.compute(dailySteps: [:], goal: 10_000, calendar: calendar)
+        #expect(stats.weeklyAverages.isEmpty)
+        #expect(stats.yearlyTotals.isEmpty)
+        #expect(stats.bestDaySteps == 0)
+        #expect(stats.allTimeTotalSteps == 0)
+    }
+
+    @Test func weeklyAveragesHasExpectedCountAndOrder() {
+        let daily: [Date: Int] = [daysAgo(0): 8_000, daysAgo(1): 6_000]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+
+        #expect(stats.weeklyAverages.count == HistoryStats.weekCount)
+        // La semaine la plus récente (0...6 jours) est en dernier, et se termine aujourd'hui.
+        let mostRecent = stats.weeklyAverages.last
+        #expect(mostRecent?.endDate == calendar.startOfDay(for: Date()))
+        #expect(mostRecent?.average == 7_000) // (8 000 + 6 000) / 2
+    }
+
+    @Test func bestDayPicksMaximum() {
+        let daily: [Date: Int] = [daysAgo(0): 5_000, daysAgo(3): 24_000, daysAgo(10): 9_000]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.bestDaySteps == 24_000)
+        #expect(stats.bestDayDate == daysAgo(3))
+    }
+
+    @Test func bestWeekPicksHighestTotalBlock() {
+        var daily: [Date: Int] = [:]
+        // Semaine en cours (0...6 jours) : total modeste.
+        for offset in 0...6 { daily[daysAgo(offset)] = 1_000 }
+        // Semaine précédente (7...13 jours) : total bien plus élevé.
+        for offset in 7...13 { daily[daysAgo(offset)] = 9_000 }
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.bestWeekTotal == 9_000 * 7)
+        #expect(stats.bestWeekStartDate == daysAgo(13))
+        #expect(stats.bestWeekEndDate == daysAgo(7))
+    }
+
+    @Test func perfectWeekCountsOnlyFullyReachedWeeks() {
+        var daily: [Date: Int] = [:]
+        // Semaine précédente (7...13) : parfaite, chaque jour atteint l'objectif.
+        for offset in 7...13 { daily[daysAgo(offset)] = 10_000 }
+        // Semaine en cours (0...6) : un jour sous l'objectif -> pas parfaite.
+        for offset in 0...6 { daily[daysAgo(offset)] = offset == 0 ? 5_000 : 10_000 }
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.perfectWeekCount == 1)
+    }
+
+    @Test func longestStreakEverFindsMaxConsecutiveRun() {
+        var daily: [Date: Int] = [:]
+        // Série de 5 jours (10...14), coupure (jour 9 absent), puis série de 3 jours (0...2).
+        for offset in 10...14 { daily[daysAgo(offset)] = 10_000 }
+        for offset in 0...2 { daily[daysAgo(offset)] = 10_000 }
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.longestStreakEver == 5)
+    }
+
+    @Test func perfectMonthCountsFullyReachedPastMonth() throws {
+        let today = calendar.startOfDay(for: Date())
+        let lastMonthDate = try #require(calendar.date(byAdding: .month, value: -1, to: today))
+        let components = calendar.dateComponents([.year, .month], from: lastMonthDate)
+        let firstOfLastMonth = try #require(calendar.date(from: components))
+        let range = try #require(calendar.range(of: .day, in: .month, for: firstOfLastMonth))
+
+        var daily: [Date: Int] = [:]
+        for day in range {
+            var dayComponents = components
+            dayComponents.day = day
+            if let date = calendar.date(from: dayComponents) {
+                daily[calendar.startOfDay(for: date)] = 10_000
+            }
+        }
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.perfectMonthCount == 1)
+    }
+
+    @Test func allTimeTotalStepsSumsEveryDay() {
+        let daily: [Date: Int] = [daysAgo(0): 1_000, daysAgo(1): 2_000, daysAgo(2): 3_000]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.allTimeTotalSteps == 6_000)
+    }
+
+    @Test func totalGoalReachedDaysCountsIndependentlyOfStreaks() {
+        let daily: [Date: Int] = [
+            daysAgo(0): 12_000,  // atteint
+            daysAgo(1): 4_000,   // pas atteint
+            daysAgo(5): 11_000,  // atteint, isolé (hors série)
+        ]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.totalGoalReachedDays == 2)
+    }
+
+    @Test func currentYearFutureMonthsAreFlaggedAndExcludedFromTotal() throws {
+        let currentMonth = calendar.component(.month, from: Date())
+        let currentYear = calendar.component(.year, from: Date())
+        let daily: [Date: Int] = [daysAgo(0): 5_000]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+
+        let yearEntry = try #require(stats.yearlyTotals.first { $0.year == currentYear })
+        for (index, month) in yearEntry.months.enumerated() {
+            let monthNumber = index + 1
+            if monthNumber > currentMonth {
+                #expect(month.isFuture, "Le mois \(monthNumber) devrait être futur")
+                #expect(month.total == 0)
+            } else {
+                #expect(!month.isFuture, "Le mois \(monthNumber) ne devrait pas être futur")
+            }
+        }
+    }
+
+    @Test func bestMonthLabelIncludesYear() {
+        // Total énorme sur aujourd'hui pour garantir que son mois devient le meilleur.
+        let daily: [Date: Int] = [daysAgo(0): 500_000]
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        let currentYear = calendar.component(.year, from: Date())
+        #expect(stats.bestMonthTotal == 500_000)
+        #expect(stats.bestMonthLabel?.contains("\(currentYear)") == true)
+    }
+
+    @Test func bestYearPicksHighestYearTotal() throws {
+        let oneYearAgo = try #require(calendar.date(byAdding: .year, value: -1, to: Date()))
+        let lastYear = calendar.component(.year, from: oneYearAgo)
+        let daily: [Date: Int] = [
+            daysAgo(0): 5_000,                                    // année en cours, petit total
+            calendar.startOfDay(for: oneYearAgo): 900_000,        // année précédente, total énorme
+        ]
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        #expect(stats.bestYear == lastYear)
+        #expect(stats.bestYearTotal == 900_000)
+    }
+
+    @Test func mostActiveWeekdayPicksHighestAverage() {
+        var daily: [Date: Int] = [:]
+        for offset in 0..<28 {
+            daily[daysAgo(offset)] = 5_000
+        }
+        // Ces décalages (multiples de 7) tombent tous sur le même jour de semaine qu'aujourd'hui.
+        daily[daysAgo(0)] = 30_000
+        daily[daysAgo(7)] = 30_000
+        daily[daysAgo(14)] = 30_000
+        daily[daysAgo(21)] = 30_000
+
+        let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
+        let todayWeekday = calendar.component(.weekday, from: Date())
+        #expect(stats.mostActiveWeekdayName == weekdayFrenchName(todayWeekday))
+    }
+}

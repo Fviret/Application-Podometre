@@ -278,7 +278,7 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 
 **Framework** : Swift Testing (`@Suite` / `@Test` / `#expect`)
 
-**101 tests en 19 suites**
+**114 tests en 20 suites**
 
 | Suite | Ce qui est testé |
 |---|---|
@@ -301,6 +301,7 @@ Deux niveaux de tests : logique métier (unitaires) et interface utilisateur (UI
 | `StepCountViewModel — navigation par jour` | Invalidation du compteur au changement de jour, `selectDate`, dates futures ignorées |
 | `StepCountViewModel — série` | Série indépendante du jour affiché, jamais négative |
 | `StepCountViewModel — progression` | Progression au seuil/fractionnaire, persistance objectif et couleur, repli couleur inconnue |
+| `HistoryStats.compute` | Tendance hebdo, meilleure semaine/mois/année, semaines/mois parfaits, plus longue série, jour le plus actif, jours objectif atteint, mois futurs de l'année en cours |
 
 ```bash
 # Lancer les tests unitaires en CLI
