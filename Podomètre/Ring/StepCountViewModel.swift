@@ -36,6 +36,10 @@ class StepCountViewModel: ObservableObject {
     /// Nombre de jours où chaque seuil de pas a été atteint. Clé = StepMilestoneBadge.id.
     @Published var milestoneCounts: [String: Int] = [:]
 
+    /// Statistiques de l'écran d'historique (tendance, totaux mensuels, records). `nil` tant que
+    /// `fetchHistoryStats()` n'a pas été appelée (calcul à la demande, coûteux sur tout l'historique).
+    @Published var historyStats: HistoryStats?
+
     /// Distance marche+course du jour, en km (HealthKit `distanceWalkingRunning`).
     @Published var todayDistanceKm: Double = 0
     /// Minutes actives du jour (marche/course/vélo), calculées via Core Motion — fonctionne sans Apple Watch.
@@ -204,6 +208,49 @@ class StepCountViewModel: ObservableObject {
 
             Task { @MainActor in
                 self?.milestoneCounts = counts
+            }
+        }
+
+        healthStore.execute(query)
+        #endif
+    }
+
+    /// Récupère tout l'historique HealthKit disponible et calcule `historyStats` (tendance
+    /// multi-semaines, totaux mensuels, taux de réussite, records). Appelé à l'ouverture de
+    /// l'écran d'historique — coûteux, pas de rafraîchissement automatique en arrière-plan.
+    func fetchHistoryStats() {
+        #if targetEnvironment(simulator)
+        historyStats = .mock
+        #else
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+
+        let calendar = Calendar.current
+        let intervalComponents = DateComponents(day: 1)
+        let anchorDate = calendar.startOfDay(for: Date(timeIntervalSince1970: 0))
+        let predicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
+        let currentGoal = goal
+
+        let query = HKStatisticsCollectionQuery(
+            quantityType: stepType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum,
+            anchorDate: anchorDate,
+            intervalComponents: intervalComponents
+        )
+
+        query.initialResultsHandler = { [weak self] _, results, _ in
+            guard let results else { return }
+            var dailySteps: [Date: Int] = [:]
+
+            results.enumerateStatistics(from: .distantPast, to: Date()) { statistics, _ in
+                let steps = Int(statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+                guard steps > 0 else { return }
+                dailySteps[calendar.startOfDay(for: statistics.startDate)] = steps
+            }
+
+            let stats = HistoryStats.compute(dailySteps: dailySteps, goal: currentGoal, calendar: calendar)
+            Task { @MainActor in
+                self?.historyStats = stats
             }
         }
 

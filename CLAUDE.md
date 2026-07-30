@@ -78,7 +78,9 @@ Podomètre/
 │   ├── RollingNumberText.swift         # Compteur de pas animé
 │   ├── TodayMetricsView.swift          # Distance · temps actif · calories
 │   ├── MonthCalendarView.swift         # Grille mensuelle des jours
-│   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente
+│   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente ; tap → HistoryDetailView
+│   ├── HistoryStats.swift              # Modèle + calcul des statistiques d'historique (tendance, records)
+│   ├── HistoryDetailView.swift         # Écran d'historique : tendance multi-semaines, totaux mensuels, records
 │   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
@@ -170,6 +172,8 @@ Hors cible applicative, à la racine du dépôt :
 - Courbe linéaire maison (sans Swift Charts)
 - Compare semaine en cours vs semaine précédente
 - Inclut le jour en cours via `stepCount` live
+- Pastille de tendance de la moyenne quotidienne (rouge/neutre/couleur anneau vs semaine précédente)
+- Tap sur le graphe → `HistoryDetailView` (tendance sur 10 semaines, totaux des 12 derniers mois, taux de réussite de l'objectif sur 30/90/365 jours, records personnels, cumul total de pas). Calcul à la demande sur tout l'historique HealthKit (`StepCountViewModel.fetchHistoryStats()`), non persisté.
 
 ### Paramètres
 - Objectif quotidien : picker 5 000–20 000 pas
