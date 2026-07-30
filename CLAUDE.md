@@ -90,7 +90,7 @@ Podomètre/
 │   └── WeatherDetailView.swift         # Détail météo d'un jour (créneaux horaires)
 ├── Journey/                            # Trajets
 │   ├── JourneyModels.swift             # Journey, Milestone, JourneyProgress
-│   ├── JourneyData.swift               # Catalogue des 19 trajets et leurs étapes
+│   ├── JourneyData.swift               # Catalogue des 27 trajets et leurs étapes
 │   ├── JourneyProgressService.swift    # Progression, distance HK, completion
 │   ├── JourneyNotificationService.swift# Notifications jalons + completion
 │   ├── ActiveJourneyCardView.swift     # Card du trajet en cours (progression + ETA), en tête du catalogue
@@ -184,7 +184,7 @@ Hors cible applicative, à la racine du dépôt :
 - Plus de grille de badges dans les Paramètres : les badges de trajets vivent désormais sur l'écran Trajets (voir ci-dessous) ; les badges de seuils de pas n'ont plus d'écran (données conservées dans `BadgeData`/`StepCountViewModel.milestoneCounts`, réutilisables pour une future UI)
 
 ### Système de trajets
-- 19 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
+- 27 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
 - Progression via `distanceWalkingRunning` depuis `startDate` (requête idempotente)
 - `HKObserverQuery` live sur la distance — mise à jour sans ouvrir la vue
 - Jalons (milestones) débloqués au fil du km, avec notification locale

@@ -8,6 +8,11 @@ let allJourneys: [Journey] = [
     journeyWalk10k,
     journeyWalk21k,
     journeyWalk42k,
+    journeyAmeliePoulain,
+    journeyBeforeSunrise,
+    journeyNottingHill,
+    journeyRocky,
+    journeyLostInTranslation,
     // Sentiers
     journeyGR20,
     journeyCaminoFinal,
@@ -15,12 +20,16 @@ let allJourneys: [Journey] = [
     journeyViaPlata,
     journeyTMB,
     journeyViaFrancigena,
+    journeySentierDouaniers,
+    journeyStevenson,
+    journeyGR20Nord,
     // Histoire
     journeyRouteRoyalePerse,
     journeyAlexandrePerse,
     journeyAlexandreComplet,
     journeyRouteSoie,
     journeyMarcoPolo,
+    journeyHannibal,
     // Mythes & Épopées
     journeyOdysseeReel,
     journeyOdysseeComplet,
@@ -194,6 +203,259 @@ private let journeyWalk42k = Journey(
             km: 42,
             label: "Avenue Foch",
             description: "L'arrivée. 42,195 km parcourus à travers Paris. La médaille, les jambes en feu, et la fierté qui ne passe pas."
+        ),
+    ]
+)
+
+private let journeyAmeliePoulain = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000006")!,
+    name: "Amélie Poulain — Montmartre",
+    subtitle: "Café des Deux Moulins → Canal Saint-Martin — 4 km",
+    totalKm: 4,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000061")!,
+            km: 0,
+            label: "Café des Deux Moulins",
+            description: "Amélie y est serveuse. On la voit casser la croûte brûlée de la crème brûlée avec le dos de sa cuillère."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000062")!,
+            km: 0.8,
+            label: "Épicerie Collignon",
+            description: "Amélie s'en prend à l'épicier tyrannique : pantoufles réarrangées, réveil déréglé, petite vengeance discrète."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000063")!,
+            km: 1.5,
+            label: "Marché Saint-Pierre",
+            description: "Le quartier textile qu'elle traverse en chemin, entre les rouleaux de tissus empilés sur les trottoirs."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000064")!,
+            km: 2.2,
+            label: "Son appartement, passage des Abbesses",
+            description: "Là où elle vit, observe le monde par sa fenêtre et invente ses petits complots bienveillants."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000065")!,
+            km: 2.8,
+            label: "Le Consulat",
+            description: "Le café où travaille Nino, qu'elle épie de loin avant d'oser l'approcher."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000066")!,
+            km: 3.3,
+            label: "Parvis du Sacré-Cœur",
+            description: "Vue sur tout Paris. Un des lieux de rendez-vous les plus emblématiques du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000067")!,
+            km: 3.7,
+            label: "Ricochets sur le Canal Saint-Martin",
+            description: "Amélie fait des ricochets, seule, dans un des instants les plus contemplatifs du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0006-0006-0006-000000000068")!,
+            km: 4,
+            label: "Canal Saint-Martin",
+            description: "Fin du parcours au bord de l'eau, dans la lumière si particulière du Paris d'Amélie."
+        ),
+    ]
+)
+
+private let journeyBeforeSunrise = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000007")!,
+    name: "Before Sunrise — Vienne de nuit",
+    subtitle: "Gare de Vienne → Pont sur le Danube — 7 km",
+    totalKm: 7,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000071")!,
+            km: 0,
+            label: "Gare de Vienne",
+            description: "Jesse et Céline descendent du train ensemble, sur un coup de tête qui va changer une nuit — et peut-être une vie."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000072")!,
+            km: 1,
+            label: "Tram nocturne",
+            description: "Première vraie conversation, premières confidences, à travers les vitres embuées d'un tramway viennois."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000073")!,
+            km: 2,
+            label: "Café Sperl",
+            description: "Discussion existentielle autour d'un café viennois — l'amour, le temps, la peur de se rater."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000074")!,
+            km: 3.5,
+            label: "Disquaire, cabine d'écoute",
+            description: "Le moment gênant et tendre où ils écoutent un disque ensemble, sans jamais oser se regarder."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000075")!,
+            km: 4.5,
+            label: "Cimetière central de Vienne",
+            description: "Déambulation parmi les tombes, réflexions à voix haute sur le temps qui passe et la mort qui attend."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000076")!,
+            km: 5.5,
+            label: "Petit parc au bord du Danube",
+            description: "Un slam improvisé par un inconnu du parc, pour une poignée de pièces — un des instants les plus tendres du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000077")!,
+            km: 6.2,
+            label: "Grande roue du Prater",
+            description: "Premier baiser, suspendu dans une cabine au-dessus des lumières de Vienne."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0007-0007-0007-000000000078")!,
+            km: 7,
+            label: "Pont sur le Danube",
+            description: "L'aube approche. La promesse fragile de se retrouver, six mois plus tard, sur ce même quai."
+        ),
+    ]
+)
+
+private let journeyNottingHill = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000008")!,
+    name: "Notting Hill — Portobello Road",
+    subtitle: "Librairie de William → Hôtel Ritz — 3 km",
+    totalKm: 3,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000081")!,
+            km: 0,
+            label: "Librairie de voyage de William",
+            description: "Anna Scott y entre par hasard, incognito, et bouleverse sans le savoir la vie tranquille d'un libraire."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000082")!,
+            km: 0.6,
+            label: "Portobello Market",
+            description: "La traversée du marché au fil des saisons, en un seul plan-séquence devenu culte."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000083")!,
+            km: 1.2,
+            label: "Le café du coin",
+            description: "William renverse du jus d'orange sur Anna en se faisant passer pour un journaliste — un mensonge maladroit et charmant."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000084")!,
+            km: 1.8,
+            label: "La porte bleue",
+            description: "La façade la plus photographiée du film, devenue un symbole du quartier bien au-delà de l'écran."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000085")!,
+            km: 2.4,
+            label: "Jardin communal secret",
+            description: "Ils escaladent la grille pour s'y retrouver, loin des paparazzis, dans un des rares moments de calme du film."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0008-0008-0008-000000000086")!,
+            km: 3,
+            label: "Hôtel Ritz",
+            description: "Conférence de presse finale : William déclare publiquement son amour devant les caméras du monde entier."
+        ),
+    ]
+)
+
+private let journeyRocky = Journey(
+    id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000009")!,
+    name: "Rocky — les marches du musée",
+    subtitle: "Marché italien de Philadelphie → Museum of Art — 3 km",
+    totalKm: 3,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000091")!,
+            km: 0,
+            label: "Marché italien de South Philly",
+            description: "Entraînement à l'aube. Rocky salue les commerçants et attrape une orange au vol, sans ralentir."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000092")!,
+            km: 1,
+            label: "Rue résidentielle de South Philly",
+            description: "Course matinale à travers les quartiers populaires qui l'ont vu grandir."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000093")!,
+            km: 2,
+            label: "Fontaine de Logan Square",
+            description: "Une courte pause pendant l'entraînement, le souffle repris avant la dernière ligne droite."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000094")!,
+            km: 2.6,
+            label: "Escaliers du Philadelphia Museum of Art",
+            description: "La montée légendaire, bras levés au sommet — un des instants les plus imités du cinéma."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-0009-0009-0009-000000000095")!,
+            km: 3,
+            label: "Statue de Rocky",
+            description: "Au pied des marches, désormais un lieu de pèlerinage pour les fans venus refaire la montée."
+        ),
+    ]
+)
+
+private let journeyLostInTranslation = Journey(
+    id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-00000000000A")!,
+    name: "Lost in Translation — Tokyo de nuit",
+    subtitle: "Park Hyatt Tokyo → départ du bar — 6 km",
+    totalKm: 6,
+    category: .walk,
+    emoji: "🎬",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A1")!,
+            km: 0,
+            label: "Bar du Park Hyatt Tokyo",
+            description: "Bob et Charlotte se croisent au bar, un premier regard complice au-dessus de la ville illuminée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A2")!,
+            km: 1.5,
+            label: "Croisement de Shibuya",
+            description: "Immersion dans la foule et les néons de Tokyo — un sentiment de solitude au milieu de la multitude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A3")!,
+            km: 3,
+            label: "Salle de karaoké",
+            description: "Soirée improvisée entre amis. Bob chante « More Than This », perruque rose sur la tête."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A4")!,
+            km: 4.5,
+            label: "Golden Gai (Shinjuku)",
+            description: "Ruelles de bars minuscules, à peine plus larges qu'un couloir — la nuit tokyoïte la plus électrique."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A5")!,
+            km: 5.5,
+            label: "Temple bouddhiste",
+            description: "Charlotte s'y rend seule, en quête de sens, loin du vertige de la ville."
+        ),
+        Milestone(
+            id: UUID(uuidString: "F6A7B8C9-000A-000A-000A-0000000000A6")!,
+            km: 6,
+            label: "Départ du Park Hyatt",
+            description: "Un adieu chuchoté à l'oreille, resté l'un des mystères les plus discutés du cinéma."
         ),
     ]
 )
@@ -610,6 +872,129 @@ private let journeyViaFrancigena = Journey(
             km: 420,
             label: "Rome",
             description: "La basilique Saint-Pierre au bout du chemin. Le pèlerin arrive dans la Ville Éternelle après des semaines de Toscane."
+        ),
+    ]
+)
+
+private let journeySentierDouaniers = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000007")!,
+    name: "Sentier des Douaniers",
+    subtitle: "Cap Fréhel → Dahouet — 65 km",
+    totalKm: 65,
+    category: .trail,
+    emoji: "🌊",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000071")!,
+            km: 0,
+            label: "Cap Fréhel",
+            description: "Le grand phare rouge et blanc domine des falaises de grès rose. Départ face à la Manche, embruns garantis."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000072")!,
+            km: 15,
+            label: "Pointe de la Latte",
+            description: "Le fort la Latte, forteresse médiévale posée sur un îlot rocheux relié par une passerelle au-dessus du vide."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000073")!,
+            km: 35,
+            label: "Erquy",
+            description: "Le port aux bateaux de pêche à la coquille Saint-Jacques, niché entre landes de bruyère et plages de sable fin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000074")!,
+            km: 45,
+            label: "Cap d'Erquy",
+            description: "Falaises de grès rose et landes sauvages. Un des plus beaux points de vue de la Côte d'Émeraude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000075")!,
+            km: 65,
+            label: "Dahouet",
+            description: "Petit port discret niché dans une ria, longtemps ignoré des cartes marines pour rester secret des pêcheurs locaux."
+        ),
+    ]
+)
+
+private let journeyStevenson = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000008")!,
+    name: "Chemin de Stevenson",
+    subtitle: "Le Puy-en-Velay → La Bastide-Puylaurent — 75 km",
+    totalKm: 75,
+    category: .trail,
+    emoji: "🫏",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000081")!,
+            km: 0,
+            label: "Le Puy-en-Velay",
+            description: "Départ au pied de la statue de Notre-Dame-de-France, sur les traces de Robert Louis Stevenson et de son ânesse Modestine."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000082")!,
+            km: 21,
+            label: "Bouchet-Saint-Nicolas",
+            description: "Le village où Stevenson acheta Modestine. Les premiers plateaux du Velay, à l'air déjà plus rude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000083")!,
+            km: 44,
+            label: "Pradelles",
+            description: "Village fortifié perché sur son éperon rocheux, aux portes de la Lozère et de ses grands espaces vides."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000084")!,
+            km: 58,
+            label: "Langogne",
+            description: "Halte au bord de l'Allier naissant. Stevenson y écrivit ses premières impressions désabusées sur son ânesse récalcitrante."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000085")!,
+            km: 75,
+            label: "La Bastide-Puylaurent",
+            description: "Aux portes des Cévennes, le point d'arrivée de cette première étape — le chemin continue vers l'Ardèche pour qui veut poursuivre."
+        ),
+    ]
+)
+
+private let journeyGR20Nord = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000009")!,
+    name: "GR20 Nord",
+    subtitle: "Calenzana → Vizzavona — 90 km",
+    totalKm: 90,
+    category: .trail,
+    emoji: "⛰️",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000091")!,
+            km: 0,
+            label: "Calenzana",
+            description: "Le clocher baroque du village balata marque le vrai départ du GR20 — réputé le plus difficile d'Europe."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000092")!,
+            km: 19,
+            label: "Refuge de Carrozzu",
+            description: "Passerelle suspendue de la Spasimata et dalles inclinées : le GR20 montre déjà les dents. Le refuge s'accroche au-dessus d'un cirque sauvage."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000093")!,
+            km: 35,
+            label: "Refuge de Tighjettu",
+            description: "Isolé au cœur du massif, entouré de sommets acérés. Un des refuges les plus reculés de toute la traversée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000094")!,
+            km: 55,
+            label: "Refuge de Ciottulu di i Mori",
+            description: "Perché à plus de 1 900 m sous le Paglia Orba, un des plus beaux promontoires de l'île pour un lever de soleil."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000095")!,
+            km: 90,
+            label: "Vizzavona",
+            description: "Le village-frontière entre le nord alpin et le sud plus doux du GR20 — la moitié du chemin, à l'ombre de la forêt de pins laricio."
         ),
     ]
 )
@@ -1069,6 +1454,89 @@ private let journeyMarcoPolo = Journey(
             km: 12000,
             label: "Pékin",
             description: "La cour de Kubilaï Khan. Marco Polo y passa dix-sept ans comme gouverneur et émissaire du Grand Khan."
+        ),
+    ]
+)
+
+private let journeyHannibal = Journey(
+    id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000006")!,
+    name: "Hannibal — traversée des Alpes",
+    subtitle: "Carthagène → Italie — 218 av. J.-C.",
+    totalKm: 1500,
+    category: .history,
+    emoji: "🐘",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000061")!,
+            km: 0,
+            label: "Carthagène (Nouvelle-Carthage)",
+            description: "Départ de l'armée punique, éléphants en tête. Hannibal a juré une haine éternelle à Rome."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000062")!,
+            km: 130,
+            label: "Passage de l'Èbre",
+            description: "Dernier fleuve avant la Gaule. L'armée s'allège des troupes jugées les moins sûres avant de s'engager plus loin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000063")!,
+            km: 350,
+            label: "Pyrénées franchies",
+            description: "Le col du Perthus laisse les tribus ibères derrière. Devant, la Gaule tout entière reste à traverser."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000064")!,
+            km: 550,
+            label: "Gaule narbonnaise",
+            description: "Marche à travers un territoire officiellement neutre, mais où chaque tribu croisée peut basculer dans un camp ou l'autre."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000065")!,
+            km: 750,
+            label: "Passage du Rhône",
+            description: "Les éléphants transbordés sur des radeaux, terrifiés par l'eau, face aux Volques massés sur l'autre rive."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000066")!,
+            km: 950,
+            label: "Contreforts alpins",
+            description: "Les Allobroges harcèlent la colonne dans les défilés étroits. Les premiers chariots basculent dans le vide."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000067")!,
+            km: 1100,
+            label: "Ascension du col",
+            description: "Neige précoce, éboulements, la colonne s'étire sur des kilomètres. Le froid tue plus sûrement que les tribus locales."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000068")!,
+            km: 1200,
+            label: "Sommet du col",
+            description: "Hannibal montre à ses hommes épuisés la plaine du Pô en contrebas. L'Italie, enfin visible, redonne courage à l'armée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000069")!,
+            km: 1300,
+            label: "Descente périlleuse",
+            description: "Verglas et glissades sur un sentier à peine tracé. Plusieurs éléphants glissent et sont perdus dans la descente."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006A")!,
+            km: 1400,
+            label: "Sortie des Alpes",
+            description: "Le territoire des Taurins s'ouvre enfin. Après quinze jours de montagne, l'armée touche la plaine italienne."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006B")!,
+            km: 1450,
+            label: "Siège de Turin",
+            description: "Première victoire sur le sol italien. La cité prise sert de base de ravitaillement pour l'armée exsangue."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006C")!,
+            km: 1500,
+            label: "Bataille de la Trébie",
+            description: "Première grande victoire face aux légions romaines. Rome découvre qu'un général vient de traverser l'infranchissable."
         ),
     ]
 )
