@@ -57,12 +57,12 @@ struct JourneySegmentTrackView: View {
             .frame(height: 14)
 
             HStack {
-                Text(leftLabel)
+                Text(LocalizedStringKey(leftLabel))
                     .font(.caption2)
                     .foregroundStyle(Color.secondary)
                     .lineLimit(1)
                 Spacer(minLength: 12)
-                Text(rightLabel)
+                Text(LocalizedStringKey(rightLabel))
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(Color.primary)
                     .lineLimit(1)

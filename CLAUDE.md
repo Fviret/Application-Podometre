@@ -457,10 +457,11 @@ Infrastructure posée (`Localizable.xcstrings`, langue source française), **tra
 - Le français reste la langue source (`developmentRegion = fr`) ; l'anglais n'est pas encore ajouté comme langue cible dans le catalogue.
 - **Prochaines étapes** (dans l'ordre) :
   1. ~~Migration technique (String Catalog, zéro traduction)~~ ✅
-  2. Traduction du contenu hors pensée du jour (interface + jalons de trajets) vers l'anglais
+  2. Traduction du contenu hors pensée du jour vers l'anglais — **jalons de trajets terminés** : les 28 trajets (Promenades, Sentiers, Histoire, Mythes & Épopées), 505 chaînes dans `Localizable.xcstrings`. Restent les chaînes d'interface (Settings, Historique, onboarding…), non encore traduites (le compilateur les a extraites automatiquement au build mais aucune valeur `en` n'a encore été ajoutée).
   3. Recherche d'un recueil d'aphorismes équivalent en anglais (domaine public/CC0) — ne pas traduire le recueil français, l'humour et la licence ne survivent pas à la traduction
   4. Intégration du contenu « pensée du jour » anglais pour les appareils en anglais
 - Ne pas traduire avant que le catalogue de contenu (trajets, jalons) soit stabilisé, sous peine de retraduire en boucle à chaque ajout.
+- **Mécanisme pour le contenu des trajets** (`JourneyData.swift`) : les chaînes y sont des *données*, pas des littéraux `Text("...")` — le compilateur ne les extrait donc pas automatiquement. Les vues qui les affichent utilisent `Text(LocalizedStringKey(journey.name))` (au lieu de `Text(journey.name)`) pour forcer une recherche dans le String Catalog au runtime ; les traductions sont ajoutées à la main dans `Localizable.xcstrings`, avec le texte français exact comme clé. **Limite connue** : les phrases composées (ex. « Prochaine étape : **X** dans Y km ») et les libellés d'accessibilité/notifications ne sont pas encore couverts par ce mécanisme — la partie fixe du gabarit se traduit, mais le nom du jalon inséré reste en français dans ces phrases précises.
 
 ---
 
