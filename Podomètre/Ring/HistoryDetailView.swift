@@ -12,7 +12,7 @@ struct HistoryDetailView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     if let stats = viewModel.historyStats {
                         WeeklyTrendSection(weeklyAverages: stats.weeklyAverages, ringColor: viewModel.ringColor)
-                        monthlyTotalsSection(stats)
+                        YearlyTotalsSection(yearlyTotals: stats.yearlyTotals, ringColor: viewModel.ringColor)
                         goalSuccessSection(stats)
                         recordsSection(stats)
                         allTimeSection(stats)
@@ -39,35 +39,6 @@ struct HistoryDetailView: View {
         }
     }
 
-    // MARK: - Totaux mensuels
-
-    private func monthlyTotalsSection(_ stats: HistoryStats) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("Totaux mensuels")
-
-            let maxValue = max(stats.monthlyTotals.map(\.total).max() ?? 1, 1)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .bottom, spacing: 10) {
-                    ForEach(stats.monthlyTotals) { month in
-                        VStack(spacing: 4) {
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(viewModel.ringColor.opacity(0.7))
-                                .frame(width: 20, height: max(4, CGFloat(month.total) / CGFloat(maxValue) * 100))
-                            Text(month.label)
-                                .font(.caption2)
-                                .foregroundStyle(Color.secondary)
-                        }
-                    }
-                }
-                .frame(height: 124, alignment: .bottom)
-            }
-        }
-        .padding(16)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Totaux mensuels : "
-            + stats.monthlyTotals.map { "\($0.label), \($0.total.formatted()) pas" }.joined(separator: ", "))
-    }
 
     // MARK: - Taux de réussite de l'objectif
 
@@ -303,6 +274,110 @@ private struct WeeklyTrendSection: View {
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("\(rangeLabel(selectedWeek)), \(selectedWeek.average.formatted()) pas par jour en moyenne"
                     + (trendA11yText.map { ", \($0)" } ?? ""))
+            }
+        }
+        .padding(16)
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
+    }
+}
+
+// MARK: - YearlyTotalsSection
+
+/// Totaux mensuels d'une année civile complète (janvier à décembre). Les mois pas encore
+/// vécus sont grisés, à une hauteur de référence (moyenne des mois déjà vécus de l'année),
+/// pour ne pas les afficher comme un « 0 » trompeur. Balayage horizontal pour changer d'année,
+/// aussi loin que l'historique HealthKit disponible ; année en cours par défaut.
+private struct YearlyTotalsSection: View {
+    let yearlyTotals: [HistoryStats.YearlyTotals]
+    let ringColor: Color
+
+    @State private var selectedIndex: Int
+    private let haptic = UIImpactFeedbackGenerator(style: .light)
+
+    init(yearlyTotals: [HistoryStats.YearlyTotals], ringColor: Color) {
+        self.yearlyTotals = yearlyTotals
+        self.ringColor = ringColor
+        _selectedIndex = State(initialValue: max(0, yearlyTotals.count - 1))
+    }
+
+    private var selectedYear: HistoryStats.YearlyTotals? {
+        yearlyTotals.indices.contains(selectedIndex) ? yearlyTotals[selectedIndex] : nil
+    }
+
+    /// Moyenne des mois déjà vécus de l'année sélectionnée — sert de hauteur de référence
+    /// pour les barres grisées des mois futurs (au lieu d'un « 0 » qui laisserait croire à une absence de données).
+    private func averageOfLivedMonths(_ year: HistoryStats.YearlyTotals) -> Int {
+        let lived = year.months.filter { !$0.isFuture }.map(\.total)
+        guard !lived.isEmpty else { return 0 }
+        return lived.reduce(0, +) / lived.count
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Totaux mensuels")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.primary)
+                Spacer()
+                if let selectedYear {
+                    Text(String(selectedYear.year))
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(Color.secondary)
+                }
+            }
+
+            if let selectedYear {
+                let averageSoFar = averageOfLivedMonths(selectedYear)
+                let maxValue = max(selectedYear.months.map(\.total).max() ?? 1, averageSoFar, 1)
+
+                HStack(alignment: .bottom, spacing: 6) {
+                    ForEach(selectedYear.months) { month in
+                        VStack(spacing: 4) {
+                            let value = month.isFuture ? averageSoFar : month.total
+                            RoundedRectangle(cornerRadius: 3)
+                                .fill(month.isFuture ? Color.secondary.opacity(0.15) : ringColor.opacity(0.7))
+                                .frame(height: max(4, CGFloat(value) / CGFloat(maxValue) * 100))
+                            Text(month.label)
+                                .font(.caption2)
+                                .foregroundStyle(month.isFuture ? Color.secondary.opacity(0.5) : Color.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+                .frame(height: 124, alignment: .bottom)
+                .contentShape(Rectangle())
+                // Balayage horizontal pour changer d'année, même convention que la navigation
+                // par jour de l'anneau (seuil 44pt, dominance horizontale, haptique léger).
+                .gesture(
+                    DragGesture(minimumDistance: 24)
+                        .onEnded { dragValue in
+                            guard abs(dragValue.translation.width) > abs(dragValue.translation.height),
+                                  abs(dragValue.translation.width) > 44 else { return }
+                            if dragValue.translation.width > 0, selectedIndex > 0 {
+                                haptic.impactOccurred()
+                                selectedIndex -= 1
+                            } else if dragValue.translation.width < 0, selectedIndex < yearlyTotals.count - 1 {
+                                haptic.impactOccurred()
+                                selectedIndex += 1
+                            }
+                        }
+                )
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Totaux mensuels \(selectedYear.year) : "
+                    + selectedYear.months.map { $0.isFuture ? "\($0.label), à venir" : "\($0.label), \($0.total.formatted()) pas" }.joined(separator: ", "))
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: if selectedIndex < yearlyTotals.count - 1 { selectedIndex += 1 }
+                    case .decrement: if selectedIndex > 0 { selectedIndex -= 1 }
+                    @unknown default: break
+                    }
+                }
+
+                Text("Total \(selectedYear.year) : \(selectedYear.yearTotal.formatted()) pas")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(ringColor)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 2)
             }
         }
         .padding(16)

@@ -9,6 +9,18 @@ struct HistoryStats {
         let id = UUID()
         let label: String
         let total: Int
+        /// `true` si ce mois n'est pas encore vécu (postérieur au mois courant, dans l'année courante).
+        let isFuture: Bool
+    }
+
+    /// Les 12 mois d'une année civile, du plus ancien historique disponible à l'année en cours.
+    struct YearlyTotals: Identifiable {
+        let id = UUID()
+        let year: Int
+        /// Janvier à décembre, dans l'ordre.
+        let months: [MonthlyTotal]
+        /// Somme des mois déjà vécus (les mois futurs comptent pour 0).
+        let yearTotal: Int
     }
 
     /// Une semaine affichée dans le graphe de tendance, avec ses bornes de dates.
@@ -24,8 +36,8 @@ struct HistoryStats {
 
     /// Moyenne de pas par semaine sur les dernières semaines, la plus ancienne en premier.
     var weeklyAverages: [WeeklyAverage] = []
-    /// Total de pas par mois sur les derniers mois, le plus ancien en premier.
-    var monthlyTotals: [MonthlyTotal] = []
+    /// Totaux mensuels par année civile, de la plus ancienne (historique disponible) à l'année en cours.
+    var yearlyTotals: [YearlyTotals] = []
     /// Taux de réussite de l'objectif *courant*, appliqué rétroactivement (0...1) — aucun
     /// historique d'objectif n'est conservé, seul l'objectif actuel est connu.
     var goalSuccessRate30: Double = 0
@@ -40,9 +52,8 @@ struct HistoryStats {
     /// Cumul de pas depuis la première donnée HealthKit disponible.
     var allTimeTotalSteps: Int = 0
 
-    /// Nombre de semaines / mois couverts par les graphes.
+    /// Nombre de semaines couvertes par le graphe de tendance.
     static let weekCount = 10
-    static let monthCount = 12
 
     /// Calcule les statistiques à partir d'un dictionnaire jour → pas (les jours à 0 pas sont
     /// absents du dictionnaire ; la logique de série ci-dessous en tient compte).
@@ -73,14 +84,30 @@ struct HistoryStats {
         monthFormatter.locale = Locale(identifier: "fr_FR")
         monthFormatter.setLocalizedDateFormatFromTemplate("MMM")
 
-        stats.monthlyTotals = (0..<monthCount).reversed().compactMap { monthIndex -> MonthlyTotal? in
-            guard let monthDate = calendar.date(byAdding: .month, value: -monthIndex, to: today) else { return nil }
-            let target = calendar.dateComponents([.year, .month], from: monthDate)
-            let total = dailySteps.filter {
-                let components = calendar.dateComponents([.year, .month], from: $0.key)
-                return components.year == target.year && components.month == target.month
-            }.values.reduce(0, +)
-            return MonthlyTotal(label: monthFormatter.string(from: monthDate).capitalized, total: total)
+        // Une entrée par année civile complète, de la plus ancienne donnée disponible à l'année en cours.
+        let currentYear = calendar.component(.year, from: today)
+        let currentMonth = calendar.component(.month, from: today)
+        let earliestYear = dailySteps.keys.map { calendar.component(.year, from: $0) }.min() ?? currentYear
+
+        stats.yearlyTotals = (earliestYear...currentYear).map { year in
+            var yearTotal = 0
+            let months: [MonthlyTotal] = (1...12).map { monthNumber in
+                let isFuture = year == currentYear && monthNumber > currentMonth
+                let total = isFuture ? 0 : dailySteps.filter {
+                    let components = calendar.dateComponents([.year, .month], from: $0.key)
+                    return components.year == year && components.month == monthNumber
+                }.values.reduce(0, +)
+                yearTotal += total
+
+                var labelComponents = DateComponents()
+                labelComponents.year = year
+                labelComponents.month = monthNumber
+                labelComponents.day = 1
+                let label = calendar.date(from: labelComponents).map { monthFormatter.string(from: $0).capitalized } ?? "\(monthNumber)"
+
+                return MonthlyTotal(label: label, total: total, isFuture: isFuture)
+            }
+            return YearlyTotals(year: year, months: months, yearTotal: yearTotal)
         }
 
         func successRate(overDays days: Int) -> Double {
@@ -141,11 +168,27 @@ extension HistoryStats {
             let startDate = Calendar.current.date(byAdding: .day, value: -(weekIndex * 7 + 6), to: today) ?? today
             return WeeklyAverage(average: average, startDate: startDate, endDate: endDate)
         }
-        stats.monthlyTotals = [
-            ("Sept.", 210_000), ("Oct.", 245_000), ("Nov.", 231_000), ("Déc.", 198_000),
-            ("Janv.", 256_000), ("Févr.", 241_000), ("Mars", 279_000), ("Avr.", 262_000),
-            ("Mai", 288_000), ("Juin", 271_000), ("Juil.", 195_000), ("Août", 231_000)
-        ].map { MonthlyTotal(label: $0.0, total: $0.1) }
+        let currentYear = Calendar.current.component(.year, from: today)
+        let currentMonth = Calendar.current.component(.month, from: today)
+        let monthLabels = ["Janv.", "Févr.", "Mars", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."]
+
+        // Année en cours : mois vécus avec des totaux réalistes, le reste grisé (futur).
+        let thisYearTotals = [26_500, 24_800, 28_900, 27_100, 30_200, 29_400, 25_100, 27_800, 28_600, 26_900, 24_300, 27_200]
+        let thisYearMonths = (1...12).map { month -> MonthlyTotal in
+            let isFuture = month > currentMonth
+            return MonthlyTotal(label: monthLabels[month - 1], total: isFuture ? 0 : thisYearTotals[month - 1], isFuture: isFuture)
+        }
+
+        // Année précédente : complète, tous les mois vécus.
+        let lastYearTotals = [23_400, 22_100, 25_600, 24_800, 27_300, 26_700, 22_900, 25_400, 26_100, 24_600, 22_800, 24_900]
+        let lastYearMonths = (1...12).map { month in
+            MonthlyTotal(label: monthLabels[month - 1], total: lastYearTotals[month - 1], isFuture: false)
+        }
+
+        stats.yearlyTotals = [
+            YearlyTotals(year: currentYear - 1, months: lastYearMonths, yearTotal: lastYearTotals.reduce(0, +)),
+            YearlyTotals(year: currentYear, months: thisYearMonths, yearTotal: thisYearMonths.map(\.total).reduce(0, +))
+        ]
         stats.goalSuccessRate30 = 0.63
         stats.goalSuccessRate90 = 0.58
         stats.goalSuccessRate365 = 0.51
