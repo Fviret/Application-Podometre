@@ -64,7 +64,7 @@ struct ActiveJourneyCardView: View {
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(Color.secondary)
                             .textCase(.uppercase)
-                        Text(journey.name)
+                        Text(LocalizedStringKey(journey.name))
                             .font(.system(.headline, design: .rounded))
                             .foregroundStyle(Color.primary)
                             .lineLimit(1)

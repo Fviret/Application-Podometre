@@ -73,11 +73,11 @@ struct JourneyPreviewSheet: View {
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(journey.name)
+                    Text(LocalizedStringKey(journey.name))
                         .font(.system(.title3, design: .rounded).weight(.bold))
                         .foregroundStyle(Color.primary)
 
-                    Text(journey.subtitle)
+                    Text(LocalizedStringKey(journey.subtitle))
                         .font(.subheadline)
                         .foregroundStyle(Color.secondary)
                 }
@@ -221,7 +221,7 @@ private struct MilestonePreviewRow: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text(milestone.label)
+                    Text(LocalizedStringKey(milestone.label))
                         .font(.system(.body, design: .rounded).weight(.semibold))
                         .foregroundStyle(Color.primary)
 
@@ -232,7 +232,7 @@ private struct MilestonePreviewRow: View {
                         .foregroundStyle(Color.secondary)
                 }
 
-                Text(milestone.description)
+                Text(LocalizedStringKey(milestone.description))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
                     .lineLimit(2)
