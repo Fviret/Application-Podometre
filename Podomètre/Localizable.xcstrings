@@ -1,7 +1,1246 @@
 {
-  "sourceLanguage" : "fr",
-  "strings" : {
-
+  "sourceLanguage": "fr",
+  "strings": {
+    "Tour des Tuileries": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuileries Loop"
+          }
+        }
+      }
+    },
+    "Du Louvre à la Concorde — 2,5 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From the Louvre to Concorde — 2.5 km"
+          }
+        }
+      }
+    },
+    "Pyramide du Louvre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louvre Pyramid"
+          }
+        }
+      }
+    },
+    "Départ face à la pyramide de verre. Les cours du palais s'ouvrent sur un des musées les plus visités au monde.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point facing the glass pyramid. The palace courtyards open onto one of the most visited museums in the world."
+          }
+        }
+      }
+    },
+    "Bassin octogonal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octagonal Basin"
+          }
+        }
+      }
+    },
+    "Centre géométrique du jardin. Les chaises vertes, les enfants aux voiliers, le soleil sur l'eau — Paris au ralenti.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The garden's geometric centerpiece. Green chairs, children with toy sailboats, sunlight on the water — Paris in slow motion."
+          }
+        }
+      }
+    },
+    "Place de la Concorde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place de la Concorde"
+          }
+        }
+      }
+    },
+    "L'obélisque de Louxor marque l'arrivée. La plus grande place de Paris s'ouvre sur les Champs-Élysées à l'ouest.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Luxor obelisk marks the finish. Paris's largest square opens onto the Champs-Élysées to the west."
+          }
+        }
+      }
+    },
+    "Berges de la Seine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seine Riverbanks"
+          }
+        }
+      }
+    },
+    "Notre-Dame → Tour Eiffel — 5 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notre-Dame → Eiffel Tower — 5 km"
+          }
+        }
+      }
+    },
+    "Notre-Dame de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notre-Dame de Paris"
+          }
+        }
+      }
+    },
+    "Départ face au parvis de la cathédrale, sur l'Île de la Cité. La Seine coule de chaque côté.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point facing the cathedral square, on the Île de la Cité. The Seine flows on both sides."
+          }
+        }
+      }
+    },
+    "Pont des Arts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pont des Arts"
+          }
+        }
+      }
+    },
+    "Le pont piéton aux anciens cadenas d'amour. Vue dégagée sur l'Institut de France et le Louvre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The pedestrian bridge once covered in love padlocks. Open view of the Institut de France and the Louvre."
+          }
+        }
+      }
+    },
+    "Tour Eiffel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eiffel Tower"
+          }
+        }
+      }
+    },
+    "La dame de fer vue depuis le Champ-de-Mars. Depuis les berges, elle apparaît d'un coup au détour du pont de l'Alma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The iron lady seen from the Champ-de-Mars. From the riverbanks, she suddenly appears past the Pont de l'Alma."
+          }
+        }
+      }
+    },
+    "Boucle de Central Park": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Central Park Loop"
+          }
+        }
+      }
+    },
+    "Le grand tour du parc new-yorkais — 10 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The grand tour of New York's park — 10 km"
+          }
+        }
+      }
+    },
+    "Grand Army Plaza": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand Army Plaza"
+          }
+        }
+      }
+    },
+    "Entrée sud du parc, à deux pas du Plaza Hotel. Les calèches attendent, les gratte-ciel de Midtown encadrent les premiers arbres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The park's southern entrance, steps from the Plaza Hotel. Horse-drawn carriages wait, Midtown skyscrapers frame the first trees."
+          }
+        }
+      }
+    },
+    "Bethesda Fountain": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bethesda Fountain"
+          }
+        }
+      }
+    },
+    "La fontaine de l'Ange des Eaux, cœur romantique du parc. Les terrasses donnent sur le lac et ses barques.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Angel of the Waters fountain, the park's romantic heart. Terraces overlook the lake and its rowboats."
+          }
+        }
+      }
+    },
+    "Harlem Meer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harlem Meer"
+          }
+        }
+      }
+    },
+    "Lac tranquille à l'angle nord-est, loin de l'agitation touristique. Les colverts y hivernent, les New-Yorkais y pêchent.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A quiet lake at the northeast corner, far from the tourist bustle. Mallards winter here, New Yorkers fish here."
+          }
+        }
+      }
+    },
+    "Strawberry Fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strawberry Fields"
+          }
+        }
+      }
+    },
+    "Mosaïque « Imagine » en hommage à John Lennon, qui habitait le Dakota Building juste en face. Bouclage du tour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ‘Imagine’ mosaic honoring John Lennon, who lived right across the street at the Dakota Building. The loop closes here."
+          }
+        }
+      }
+    },
+    "Semi-marathon de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paris Half Marathon"
+          }
+        }
+      }
+    },
+    "Hôtel de Ville → Champs-Élysées — 21 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City Hall → Champs-Élysées — 21 km"
+          }
+        }
+      }
+    },
+    "Hôtel de Ville": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City Hall"
+          }
+        }
+      }
+    },
+    "Départ sur le parvis. La Seine est à deux pas, les bâtiments haussmanniens bordent les premiers kilomètres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point on the square. The Seine is steps away, Haussmann-era buildings line the first kilometers."
+          }
+        }
+      }
+    },
+    "Bois de Vincennes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vincennes Woods"
+          }
+        }
+      }
+    },
+    "Le poumon vert de l'est parisien. Les allées forestières offrent un répit après les boulevards.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eastern Paris's green lung. Forest paths offer a break from the boulevards."
+          }
+        }
+      }
+    },
+    "Place de la Nation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place de la Nation"
+          }
+        }
+      }
+    },
+    "La grande place ronde marque le retour vers le centre. Les jambes commencent à parler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The great round square marks the turn back toward the center. Legs start to complain."
+          }
+        }
+      }
+    },
+    "Champs-Élysées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Champs-Élysées"
+          }
+        }
+      }
+    },
+    "Arrivée sur la plus belle avenue du monde. 21,1 km dans les jambes et tout Paris pour récompense.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish on the most beautiful avenue in the world. 21.1 km in the legs, and all of Paris as a reward."
+          }
+        }
+      }
+    },
+    "Marathon de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paris Marathon"
+          }
+        }
+      }
+    },
+    "La boucle mythique — 42 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The legendary loop — 42 km"
+          }
+        }
+      }
+    },
+    "Départ au pied de l'Arc de Triomphe. Des dizaines de milliers de coureurs s'élancent chaque année en avril.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point at the foot of the Arc de Triomphe. Tens of thousands of runners set off every year in April."
+          }
+        }
+      }
+    },
+    "Bois de Boulogne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boulogne Woods"
+          }
+        }
+      }
+    },
+    "Première grande bouffée d'air vert. Les allées du bois absorbent les premiers kilomètres dans leurs feuillages.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First big breath of green air. The woods' pathways absorb the first kilometers in their foliage."
+          }
+        }
+      }
+    },
+    "Mi-parcours — Bastille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halfway Point — Bastille"
+          }
+        }
+      }
+    },
+    "La moitié est franchie. La place de la Bastille et ses colonnes marquent le point de bascule mental du marathon.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The halfway mark. Place de la Bastille and its column mark the marathon's mental turning point."
+          }
+        }
+      }
+    },
+    "Le redoutable km 30 — le mur du marathon. Les arbres du bois sont là pour souffler avant le retour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The dreaded km 30 — the marathon wall. The woods' trees are there to help you catch your breath before the return."
+          }
+        }
+      }
+    },
+    "Avenue Foch": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avenue Foch"
+          }
+        }
+      }
+    },
+    "L'arrivée. 42,195 km parcourus à travers Paris. La médaille, les jambes en feu, et la fierté qui ne passe pas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The finish. 42.195 km covered across Paris. The medal, legs on fire, and pride that never fades."
+          }
+        }
+      }
+    },
+    "Amélie Poulain — Montmartre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie Poulain — Montmartre"
+          }
+        }
+      }
+    },
+    "Café des Deux Moulins → Canal Saint-Martin — 4 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café des Deux Moulins → Canal Saint-Martin — 4 km"
+          }
+        }
+      }
+    },
+    "Café des Deux Moulins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café des Deux Moulins"
+          }
+        }
+      }
+    },
+    "Amélie y est serveuse. On la voit casser la croûte brûlée de la crème brûlée avec le dos de sa cuillère.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie works here as a waitress. We see her crack the burnt top of a crème brûlée with the back of her spoon."
+          }
+        }
+      }
+    },
+    "Épicerie Collignon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épicerie Collignon"
+          }
+        }
+      }
+    },
+    "Amélie s'en prend à l'épicier tyrannique : pantoufles réarrangées, réveil déréglé, petite vengeance discrète.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie targets the tyrannical grocer: rearranged slippers, a reset alarm clock, a small quiet act of revenge."
+          }
+        }
+      }
+    },
+    "Marché Saint-Pierre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marché Saint-Pierre"
+          }
+        }
+      }
+    },
+    "Le quartier textile qu'elle traverse en chemin, entre les rouleaux de tissus empilés sur les trottoirs.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The textile district she crosses along the way, past bolts of fabric stacked on the sidewalks."
+          }
+        }
+      }
+    },
+    "Son appartement, passage des Abbesses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Apartment, Passage des Abbesses"
+          }
+        }
+      }
+    },
+    "Là où elle vit, observe le monde par sa fenêtre et invente ses petits complots bienveillants.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where she lives, watches the world through her window, and dreams up her small acts of kindness."
+          }
+        }
+      }
+    },
+    "Le Consulat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Consulat"
+          }
+        }
+      }
+    },
+    "Le café où travaille Nino, qu'elle épie de loin avant d'oser l'approcher.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The café where Nino works, whom she spies on from a distance before daring to approach."
+          }
+        }
+      }
+    },
+    "Parvis du Sacré-Cœur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sacré-Cœur Square"
+          }
+        }
+      }
+    },
+    "Vue sur tout Paris. Un des lieux de rendez-vous les plus emblématiques du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A view over all of Paris. One of the film's most iconic meeting spots."
+          }
+        }
+      }
+    },
+    "Ricochets sur le Canal Saint-Martin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipping Stones on Canal Saint-Martin"
+          }
+        }
+      }
+    },
+    "Amélie fait des ricochets, seule, dans un des instants les plus contemplatifs du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie skips stones, alone, in one of the film's most contemplative moments."
+          }
+        }
+      }
+    },
+    "Canal Saint-Martin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canal Saint-Martin"
+          }
+        }
+      }
+    },
+    "Fin du parcours au bord de l'eau, dans la lumière si particulière du Paris d'Amélie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The route ends by the water, in the light so particular to Amélie's Paris."
+          }
+        }
+      }
+    },
+    "Before Sunrise — Vienne de nuit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before Sunrise — Vienna by Night"
+          }
+        }
+      }
+    },
+    "Gare de Vienne → Pont sur le Danube — 7 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Train Station → Danube Bridge — 7 km"
+          }
+        }
+      }
+    },
+    "Gare de Vienne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Train Station"
+          }
+        }
+      }
+    },
+    "Jesse et Céline descendent du train ensemble, sur un coup de tête qui va changer une nuit — et peut-être une vie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jesse and Céline get off the train together, on a whim that will change one night — and maybe a life."
+          }
+        }
+      }
+    },
+    "Tram nocturne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Tram"
+          }
+        }
+      }
+    },
+    "Première vraie conversation, premières confidences, à travers les vitres embuées d'un tramway viennois.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first real conversation, first confidences, through the fogged-up windows of a Viennese tram."
+          }
+        }
+      }
+    },
+    "Café Sperl": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café Sperl"
+          }
+        }
+      }
+    },
+    "Discussion existentielle autour d'un café viennois — l'amour, le temps, la peur de se rater.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An existential conversation over a Viennese coffee — love, time, the fear of missing out."
+          }
+        }
+      }
+    },
+    "Disquaire, cabine d'écoute": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Store, Listening Booth"
+          }
+        }
+      }
+    },
+    "Le moment gênant et tendre où ils écoutent un disque ensemble, sans jamais oser se regarder.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The awkward, tender moment where they listen to a record together, never quite daring to look at each other."
+          }
+        }
+      }
+    },
+    "Cimetière central de Vienne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Central Cemetery"
+          }
+        }
+      }
+    },
+    "Déambulation parmi les tombes, réflexions à voix haute sur le temps qui passe et la mort qui attend.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wandering among the graves, thinking aloud about passing time and waiting death."
+          }
+        }
+      }
+    },
+    "Petit parc au bord du Danube": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small Park by the Danube"
+          }
+        }
+      }
+    },
+    "Un slam improvisé par un inconnu du parc, pour une poignée de pièces — un des instants les plus tendres du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An impromptu slam poem from a stranger in the park, for a handful of coins — one of the film's tenderest moments."
+          }
+        }
+      }
+    },
+    "Grande roue du Prater": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prater Ferris Wheel"
+          }
+        }
+      }
+    },
+    "Premier baiser, suspendu dans une cabine au-dessus des lumières de Vienne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First kiss, suspended in a cabin above the lights of Vienna."
+          }
+        }
+      }
+    },
+    "Pont sur le Danube": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danube Bridge"
+          }
+        }
+      }
+    },
+    "L'aube approche. La promesse fragile de se retrouver, six mois plus tard, sur ce même quai.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dawn approaches. The fragile promise to meet again, six months later, on this same platform."
+          }
+        }
+      }
+    },
+    "Notting Hill — Portobello Road": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notting Hill — Portobello Road"
+          }
+        }
+      }
+    },
+    "Librairie de William → Hôtel Ritz — 3 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William's Bookshop → The Ritz — 3 km"
+          }
+        }
+      }
+    },
+    "Librairie de voyage de William": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William's Travel Bookshop"
+          }
+        }
+      }
+    },
+    "Anna Scott y entre par hasard, incognito, et bouleverse sans le savoir la vie tranquille d'un libraire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anna Scott walks in by chance, incognito, unknowingly turning a quiet bookseller's life upside down."
+          }
+        }
+      }
+    },
+    "Portobello Market": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portobello Market"
+          }
+        }
+      }
+    },
+    "La traversée du marché au fil des saisons, en un seul plan-séquence devenu culte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The market crossed through the changing seasons, in a single cult-favorite tracking shot."
+          }
+        }
+      }
+    },
+    "Le café du coin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Corner Café"
+          }
+        }
+      }
+    },
+    "William renverse du jus d'orange sur Anna en se faisant passer pour un journaliste — un mensonge maladroit et charmant.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William spills orange juice on Anna while pretending to be a journalist — an awkward, charming lie."
+          }
+        }
+      }
+    },
+    "La porte bleue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Blue Door"
+          }
+        }
+      }
+    },
+    "La façade la plus photographiée du film, devenue un symbole du quartier bien au-delà de l'écran.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The film's most photographed façade, now a neighborhood symbol far beyond the screen."
+          }
+        }
+      }
+    },
+    "Jardin communal secret": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secret Communal Garden"
+          }
+        }
+      }
+    },
+    "Ils escaladent la grille pour s'y retrouver, loin des paparazzis, dans un des rares moments de calme du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "They climb the fence to meet there, away from the paparazzi, in one of the film's rare quiet moments."
+          }
+        }
+      }
+    },
+    "Hôtel Ritz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Ritz"
+          }
+        }
+      }
+    },
+    "Conférence de presse finale : William déclare publiquement son amour devant les caméras du monde entier.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final press conference: William publicly declares his love in front of the world's cameras."
+          }
+        }
+      }
+    },
+    "Rocky — les marches du musée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rocky — The Museum Steps"
+          }
+        }
+      }
+    },
+    "Marché italien de Philadelphie → Museum of Art — 3 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Philadelphia's Italian Market → Museum of Art — 3 km"
+          }
+        }
+      }
+    },
+    "Marché italien de South Philly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "South Philly's Italian Market"
+          }
+        }
+      }
+    },
+    "Entraînement à l'aube. Rocky salue les commerçants et attrape une orange au vol, sans ralentir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Training at dawn. Rocky greets the shopkeepers and catches an orange in mid-air, without breaking stride."
+          }
+        }
+      }
+    },
+    "Rue résidentielle de South Philly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "South Philly Residential Street"
+          }
+        }
+      }
+    },
+    "Course matinale à travers les quartiers populaires qui l'ont vu grandir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Morning run through the working-class neighborhoods that raised him."
+          }
+        }
+      }
+    },
+    "Fontaine de Logan Square": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Logan Square Fountain"
+          }
+        }
+      }
+    },
+    "Une courte pause pendant l'entraînement, le souffle repris avant la dernière ligne droite.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A short break during training, catching his breath before the home stretch."
+          }
+        }
+      }
+    },
+    "Escaliers du Philadelphia Museum of Art": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Philadelphia Museum of Art Steps"
+          }
+        }
+      }
+    },
+    "La montée légendaire, bras levés au sommet — un des instants les plus imités du cinéma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The legendary climb, arms raised at the top — one of the most imitated moments in cinema."
+          }
+        }
+      }
+    },
+    "Statue de Rocky": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rocky Statue"
+          }
+        }
+      }
+    },
+    "Au pied des marches, désormais un lieu de pèlerinage pour les fans venus refaire la montée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the foot of the steps, now a pilgrimage site for fans who come to relive the climb."
+          }
+        }
+      }
+    },
+    "Lost in Translation — Tokyo de nuit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lost in Translation — Tokyo by Night"
+          }
+        }
+      }
+    },
+    "Park Hyatt Tokyo → départ du bar — 6 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Park Hyatt Tokyo → The Bar Farewell — 6 km"
+          }
+        }
+      }
+    },
+    "Bar du Park Hyatt Tokyo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Park Hyatt Tokyo Bar"
+          }
+        }
+      }
+    },
+    "Bob et Charlotte se croisent au bar, un premier regard complice au-dessus de la ville illuminée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bob and Charlotte first meet at the bar, a first knowing glance above the illuminated city."
+          }
+        }
+      }
+    },
+    "Croisement de Shibuya": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shibuya Crossing"
+          }
+        }
+      }
+    },
+    "Immersion dans la foule et les néons de Tokyo — un sentiment de solitude au milieu de la multitude.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immersion in Tokyo's crowds and neon lights — a feeling of solitude in the middle of the multitude."
+          }
+        }
+      }
+    },
+    "Salle de karaoké": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karaoke Room"
+          }
+        }
+      }
+    },
+    "Soirée improvisée entre amis. Bob chante « More Than This », perruque rose sur la tête.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An impromptu night out with friends. Bob sings ‘More Than This,’ pink wig on his head."
+          }
+        }
+      }
+    },
+    "Golden Gai (Shinjuku)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Golden Gai (Shinjuku)"
+          }
+        }
+      }
+    },
+    "Ruelles de bars minuscules, à peine plus larges qu'un couloir — la nuit tokyoïte la plus électrique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alleys of tiny bars, barely wider than a hallway — Tokyo's most electric night."
+          }
+        }
+      }
+    },
+    "Temple bouddhiste": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddhist Temple"
+          }
+        }
+      }
+    },
+    "Charlotte s'y rend seule, en quête de sens, loin du vertige de la ville.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charlotte goes there alone, searching for meaning, far from the city's dizzying pace."
+          }
+        }
+      }
+    },
+    "Départ du Park Hyatt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leaving the Park Hyatt"
+          }
+        }
+      }
+    },
+    "Un adieu chuchoté à l'oreille, resté l'un des mystères les plus discutés du cinéma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A whispered goodbye, still one of cinema's most debated mysteries."
+          }
+        }
+      }
+    },
+    "Départ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Arrivée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish"
+          }
+        }
+      }
+    }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

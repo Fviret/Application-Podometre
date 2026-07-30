@@ -200,12 +200,12 @@ private struct MilestoneRow: View {
 
             Button(action: onTap) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(milestone.label)
+                    Text(LocalizedStringKey(milestone.label))
                         .font(.system(.callout, design: .rounded).weight(.semibold))
                         .foregroundStyle(isUnlocked ? Color.primary : Color.secondary)
 
                     if isUnlocked {
-                        Text(milestone.description)
+                        Text(LocalizedStringKey(milestone.description))
                             .font(.caption)
                             .foregroundStyle(Color.secondary)
                             .lineLimit(1)
@@ -240,11 +240,11 @@ private struct MilestoneDetailSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(milestone.label)
+                    Text(LocalizedStringKey(milestone.label))
                         .font(.system(.title, design: .rounded).weight(.bold))
                         .foregroundStyle(Color.primary)
 
-                    Text(milestone.description)
+                    Text(LocalizedStringKey(milestone.description))
                         .font(.body)
                         .foregroundStyle(Color.primary)
                         .lineSpacing(6)

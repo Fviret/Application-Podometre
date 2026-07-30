@@ -237,11 +237,11 @@ private struct JourneyCard: View {
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(journey.name)
+                    Text(LocalizedStringKey(journey.name))
                         .font(.system(.headline, design: .rounded))
                         .foregroundStyle(Color.primary)
 
-                    Text(journey.subtitle)
+                    Text(LocalizedStringKey(journey.subtitle))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                         .lineLimit(2)
@@ -330,7 +330,7 @@ private struct CompletedJourneyBadgeGrid: View {
                                 .shadow(color: ringColor.opacity(0.4), radius: 6, x: 0, y: 0)
                                 .accessibilityHidden(true)
 
-                            Text(journey.name)
+                            Text(LocalizedStringKey(journey.name))
                                 .font(.caption2)
                                 .foregroundStyle(Color.primary)
                                 .lineLimit(1)
@@ -369,10 +369,10 @@ private struct CompletedJourneyDetailSheet: View {
                 .accessibilityHidden(true)
 
             VStack(spacing: 4) {
-                Text(journey.name)
+                Text(LocalizedStringKey(journey.name))
                     .font(.system(.title2, design: .rounded).weight(.bold))
                     .multilineTextAlignment(.center)
-                Text(journey.subtitle)
+                Text(LocalizedStringKey(journey.subtitle))
                     .font(.subheadline)
                     .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.center)
