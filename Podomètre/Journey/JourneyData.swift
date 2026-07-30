@@ -15,12 +15,16 @@ let allJourneys: [Journey] = [
     journeyViaPlata,
     journeyTMB,
     journeyViaFrancigena,
+    journeySentierDouaniers,
+    journeyStevenson,
+    journeyGR20Nord,
     // Histoire
     journeyRouteRoyalePerse,
     journeyAlexandrePerse,
     journeyAlexandreComplet,
     journeyRouteSoie,
     journeyMarcoPolo,
+    journeyHannibal,
     // Mythes & Épopées
     journeyOdysseeReel,
     journeyOdysseeComplet,
@@ -614,6 +618,129 @@ private let journeyViaFrancigena = Journey(
     ]
 )
 
+private let journeySentierDouaniers = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000007")!,
+    name: "Sentier des Douaniers",
+    subtitle: "Cap Fréhel → Dahouet — 65 km",
+    totalKm: 65,
+    category: .trail,
+    emoji: "🌊",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000071")!,
+            km: 0,
+            label: "Cap Fréhel",
+            description: "Le grand phare rouge et blanc domine des falaises de grès rose. Départ face à la Manche, embruns garantis."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000072")!,
+            km: 15,
+            label: "Pointe de la Latte",
+            description: "Le fort la Latte, forteresse médiévale posée sur un îlot rocheux relié par une passerelle au-dessus du vide."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000073")!,
+            km: 35,
+            label: "Erquy",
+            description: "Le port aux bateaux de pêche à la coquille Saint-Jacques, niché entre landes de bruyère et plages de sable fin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000074")!,
+            km: 45,
+            label: "Cap d'Erquy",
+            description: "Falaises de grès rose et landes sauvages. Un des plus beaux points de vue de la Côte d'Émeraude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0007-0007-0007-000000000075")!,
+            km: 65,
+            label: "Dahouet",
+            description: "Petit port discret niché dans une ria, longtemps ignoré des cartes marines pour rester secret des pêcheurs locaux."
+        ),
+    ]
+)
+
+private let journeyStevenson = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000008")!,
+    name: "Chemin de Stevenson",
+    subtitle: "Le Puy-en-Velay → La Bastide-Puylaurent — 75 km",
+    totalKm: 75,
+    category: .trail,
+    emoji: "🫏",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000081")!,
+            km: 0,
+            label: "Le Puy-en-Velay",
+            description: "Départ au pied de la statue de Notre-Dame-de-France, sur les traces de Robert Louis Stevenson et de son ânesse Modestine."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000082")!,
+            km: 21,
+            label: "Bouchet-Saint-Nicolas",
+            description: "Le village où Stevenson acheta Modestine. Les premiers plateaux du Velay, à l'air déjà plus rude."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000083")!,
+            km: 44,
+            label: "Pradelles",
+            description: "Village fortifié perché sur son éperon rocheux, aux portes de la Lozère et de ses grands espaces vides."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000084")!,
+            km: 58,
+            label: "Langogne",
+            description: "Halte au bord de l'Allier naissant. Stevenson y écrivit ses premières impressions désabusées sur son ânesse récalcitrante."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0008-0008-0008-000000000085")!,
+            km: 75,
+            label: "La Bastide-Puylaurent",
+            description: "Aux portes des Cévennes, le point d'arrivée de cette première étape — le chemin continue vers l'Ardèche pour qui veut poursuivre."
+        ),
+    ]
+)
+
+private let journeyGR20Nord = Journey(
+    id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000009")!,
+    name: "GR20 Nord",
+    subtitle: "Calenzana → Vizzavona — 90 km",
+    totalKm: 90,
+    category: .trail,
+    emoji: "⛰️",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000091")!,
+            km: 0,
+            label: "Calenzana",
+            description: "Le clocher baroque du village balata marque le vrai départ du GR20 — réputé le plus difficile d'Europe."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000092")!,
+            km: 19,
+            label: "Refuge de Carrozzu",
+            description: "Passerelle suspendue de la Spasimata et dalles inclinées : le GR20 montre déjà les dents. Le refuge s'accroche au-dessus d'un cirque sauvage."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000093")!,
+            km: 35,
+            label: "Refuge de Tighjettu",
+            description: "Isolé au cœur du massif, entouré de sommets acérés. Un des refuges les plus reculés de toute la traversée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000094")!,
+            km: 55,
+            label: "Refuge de Ciottulu di i Mori",
+            description: "Perché à plus de 1 900 m sous le Paglia Orba, un des plus beaux promontoires de l'île pour un lever de soleil."
+        ),
+        Milestone(
+            id: UUID(uuidString: "C3D4E5F6-0009-0009-0009-000000000095")!,
+            km: 90,
+            label: "Vizzavona",
+            description: "Le village-frontière entre le nord alpin et le sud plus doux du GR20 — la moitié du chemin, à l'ombre de la forêt de pins laricio."
+        ),
+    ]
+)
+
 // MARK: - Histoire
 
 private let journeyRouteRoyalePerse = Journey(
@@ -1069,6 +1196,89 @@ private let journeyMarcoPolo = Journey(
             km: 12000,
             label: "Pékin",
             description: "La cour de Kubilaï Khan. Marco Polo y passa dix-sept ans comme gouverneur et émissaire du Grand Khan."
+        ),
+    ]
+)
+
+private let journeyHannibal = Journey(
+    id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000006")!,
+    name: "Hannibal — traversée des Alpes",
+    subtitle: "Carthagène → Italie — 218 av. J.-C.",
+    totalKm: 1500,
+    category: .history,
+    emoji: "🐘",
+    milestones: [
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000061")!,
+            km: 0,
+            label: "Carthagène (Nouvelle-Carthage)",
+            description: "Départ de l'armée punique, éléphants en tête. Hannibal a juré une haine éternelle à Rome."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000062")!,
+            km: 130,
+            label: "Passage de l'Èbre",
+            description: "Dernier fleuve avant la Gaule. L'armée s'allège des troupes jugées les moins sûres avant de s'engager plus loin."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000063")!,
+            km: 350,
+            label: "Pyrénées franchies",
+            description: "Le col du Perthus laisse les tribus ibères derrière. Devant, la Gaule tout entière reste à traverser."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000064")!,
+            km: 550,
+            label: "Gaule narbonnaise",
+            description: "Marche à travers un territoire officiellement neutre, mais où chaque tribu croisée peut basculer dans un camp ou l'autre."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000065")!,
+            km: 750,
+            label: "Passage du Rhône",
+            description: "Les éléphants transbordés sur des radeaux, terrifiés par l'eau, face aux Volques massés sur l'autre rive."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000066")!,
+            km: 950,
+            label: "Contreforts alpins",
+            description: "Les Allobroges harcèlent la colonne dans les défilés étroits. Les premiers chariots basculent dans le vide."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000067")!,
+            km: 1100,
+            label: "Ascension du col",
+            description: "Neige précoce, éboulements, la colonne s'étire sur des kilomètres. Le froid tue plus sûrement que les tribus locales."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000068")!,
+            km: 1200,
+            label: "Sommet du col",
+            description: "Hannibal montre à ses hommes épuisés la plaine du Pô en contrebas. L'Italie, enfin visible, redonne courage à l'armée."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-000000000069")!,
+            km: 1300,
+            label: "Descente périlleuse",
+            description: "Verglas et glissades sur un sentier à peine tracé. Plusieurs éléphants glissent et sont perdus dans la descente."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006A")!,
+            km: 1400,
+            label: "Sortie des Alpes",
+            description: "Le territoire des Taurins s'ouvre enfin. Après quinze jours de montagne, l'armée touche la plaine italienne."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006B")!,
+            km: 1450,
+            label: "Siège de Turin",
+            description: "Première victoire sur le sol italien. La cité prise sert de base de ravitaillement pour l'armée exsangue."
+        ),
+        Milestone(
+            id: UUID(uuidString: "D4E5F6A7-0006-0006-0006-00000000006C")!,
+            km: 1500,
+            label: "Bataille de la Trébie",
+            description: "Première grande victoire face aux légions romaines. Rome découvre qu'un général vient de traverser l'infranchissable."
         ),
     ]
 )
