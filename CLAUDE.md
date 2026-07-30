@@ -111,7 +111,8 @@ Podomètre/
 │   ├── AphorismPopupView.swift         # Popup matinale
 │   ├── AphorismCardView.swift          # Carte de l'aphorisme
 │   ├── AphorismSettingsView.swift      # Section Paramètres
-│   └── aphorisms_humor_400.json        # Recueil (400 aphorismes, CC0)
+│   ├── aphorisms_humor_400.json        # Recueil français (400 aphorismes, CC0)
+│   └── aphorisms_humor_en.json         # Recueil anglais (89 aphorismes, domaine public — Wilde/Bierce/Twain/Franklin)
 ├── Preferences/                        # Persistance UserDefaults centralisée
 │   ├── PreferenceKey.swift             # Enum de toutes les clés
 │   ├── Preferences.swift               # Wrapper typé, injectable pour les tests
@@ -457,9 +458,9 @@ Infrastructure posée (`Localizable.xcstrings`, langue source française), **tra
 - Le français reste la langue source (`developmentRegion = fr`) ; l'anglais n'est pas encore ajouté comme langue cible dans le catalogue.
 - **Prochaines étapes** (dans l'ordre) :
   1. ~~Migration technique (String Catalog, zéro traduction)~~ ✅
-  2. Traduction du contenu hors pensée du jour (interface + jalons de trajets) vers l'anglais
-  3. Recherche d'un recueil d'aphorismes équivalent en anglais (domaine public/CC0) — ne pas traduire le recueil français, l'humour et la licence ne survivent pas à la traduction
-  4. Intégration du contenu « pensée du jour » anglais pour les appareils en anglais
+  2. Traduction du contenu hors pensée du jour (interface + jalons de trajets) vers l'anglais — **en cours** : catégorie Promenades traduite (10 trajets, 124 chaînes). Restent Sentiers, Histoire, Mythes & Épopées (~4 400 mots de jalons) + les chaînes d'interface (Settings, Historique, onboarding…).
+  3. ~~Recherche d'un recueil d'aphorismes équivalent en anglais~~ ✅ — `aphorisms_humor_en.json`, 89 citations vérifiées d'auteurs authentiquement domaine public (Oscar Wilde, Ambrose Bierce, Mark Twain, Benjamin Franklin — œuvres antérieures à 1929). Volontairement plus court que le recueil français (400) : seules les citations à l'attribution certaine ont été retenues, pas de remplissage pour atteindre un chiffre rond. Extensible plus tard avec d'autres auteurs du domaine public, sans changer le mécanisme.
+  4. ~~Intégration du contenu « pensée du jour » anglais~~ ✅ — `AphorismManager.resourceName(for:)` choisit le recueil selon `bundle.preferredLocalizations` (pas `Locale.current`, pour respecter le repli d'Apple si la langue système n'est pas supportée par l'app).
 - Ne pas traduire avant que le catalogue de contenu (trajets, jalons) soit stabilisé, sous peine de retraduire en boucle à chaque ajout.
 
 ---
