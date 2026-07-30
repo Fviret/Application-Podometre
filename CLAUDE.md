@@ -457,7 +457,7 @@ Infrastructure posée (`Localizable.xcstrings`, langue source française), **tra
 - Le français reste la langue source (`developmentRegion = fr`) ; l'anglais n'est pas encore ajouté comme langue cible dans le catalogue.
 - **Prochaines étapes** (dans l'ordre) :
   1. ~~Migration technique (String Catalog, zéro traduction)~~ ✅
-  2. Traduction du contenu hors pensée du jour (interface + jalons de trajets) vers l'anglais — **en cours** : catégorie Promenades traduite (10 trajets, 124 chaînes). Restent Sentiers, Histoire, Mythes & Épopées (~4 400 mots de jalons) + les chaînes d'interface (Settings, Historique, onboarding…).
+  2. Traduction du contenu hors pensée du jour vers l'anglais — **jalons de trajets terminés** : les 28 trajets (Promenades, Sentiers, Histoire, Mythes & Épopées), 505 chaînes dans `Localizable.xcstrings`. Restent les chaînes d'interface (Settings, Historique, onboarding…), non encore traduites (le compilateur les a extraites automatiquement au build mais aucune valeur `en` n'a encore été ajoutée).
   3. Recherche d'un recueil d'aphorismes équivalent en anglais (domaine public/CC0) — ne pas traduire le recueil français, l'humour et la licence ne survivent pas à la traduction
   4. Intégration du contenu « pensée du jour » anglais pour les appareils en anglais
 - Ne pas traduire avant que le catalogue de contenu (trajets, jalons) soit stabilisé, sous peine de retraduire en boucle à chaque ajout.
