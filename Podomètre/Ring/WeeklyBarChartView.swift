@@ -37,6 +37,50 @@ struct WeeklyBarChartView: View {
         return nonZero.reduce(0, +) / nonZero.count
     }
 
+    /// Moyenne des jours de la semaine précédente ayant au moins un pas enregistré.
+    private var previousWeekAverage: Int {
+        let nonZero = viewModel.previousWeekSteps.filter { $0 > 0 }
+        guard !nonZero.isEmpty else { return 0 }
+        return nonZero.reduce(0, +) / nonZero.count
+    }
+
+    /// Écart (en pas) en deçà duquel les deux moyennes sont considérées équivalentes.
+    private let trendNeutralThreshold = 500
+
+    /// Tendance de la moyenne en cours par rapport à la semaine précédente.
+    private enum WeekTrend { case down, flat, up }
+
+    private var weekTrend: WeekTrend {
+        let diff = weekAverage - previousWeekAverage
+        if abs(diff) <= trendNeutralThreshold { return .flat }
+        return diff > 0 ? .up : .down
+    }
+
+    /// Couleur de la pastille : rougeâtre en baisse, neutre stable, couleur de l'anneau en hausse.
+    private var trendColor: Color {
+        switch weekTrend {
+        case .down: return .red
+        case .flat: return .secondary
+        case .up: return viewModel.ringColor
+        }
+    }
+
+    private var trendSystemImage: String {
+        switch weekTrend {
+        case .down: return "arrow.down"
+        case .flat: return "minus"
+        case .up: return "arrow.up"
+        }
+    }
+
+    private var trendA11yText: String {
+        switch weekTrend {
+        case .down: return "en baisse par rapport à la semaine précédente"
+        case .flat: return "stable par rapport à la semaine précédente"
+        case .up: return "en hausse par rapport à la semaine précédente"
+        }
+    }
+
     /// Valeur maximale de l'axe Y, arrondie au multiple de 5 000 supérieur au max des deux semaines.
     private var yMax: Int {
         let maxValue = max(1, (viewModel.currentWeekSteps + viewModel.previousWeekSteps).max() ?? 1)
@@ -205,7 +249,37 @@ struct WeeklyBarChartView: View {
             .frame(height: chartHeight + labelRowGap + labelRowHeight)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(a11ySummary)
+
+            if weekAverage > 0, previousWeekAverage > 0 {
+                HStack {
+                    Spacer(minLength: 0)
+                    averageTrendPill
+                    Spacer(minLength: 0)
+                }
+            }
         }
+    }
+
+    /// Pastille de comparaison des moyennes quotidiennes des deux semaines : seule la flèche
+    /// est colorée selon la tendance (cercle), le texte reste neutre.
+    private var averageTrendPill: some View {
+        HStack(spacing: 8) {
+            Image(systemName: trendSystemImage)
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(trendColor)
+                .frame(width: 20, height: 20)
+                .background(trendColor.opacity(0.15), in: Circle())
+                .accessibilityHidden(true)
+
+            Text("Moyenne : \(weekAverage.formatted()) pas/jour")
+                .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.secondary)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(Color.secondary.opacity(0.08), in: Capsule())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Moyenne quotidienne : \(weekAverage.formatted()) pas, \(trendA11yText) (\(previousWeekAverage.formatted()) pas)")
     }
 }
 
@@ -213,6 +287,30 @@ struct WeeklyBarChartView: View {
     let viewModel = StepCountViewModel()
     viewModel.currentWeekSteps = [3200, 7800, 10500, 9100, 4300, 11200, 6400]
     viewModel.previousWeekSteps = [5000, 6200, 8900, 7700, 3100, 9800, 10100]
+    return WeeklyBarChartView(viewModel: viewModel)
+        .padding()
+}
+
+#Preview("Moyenne en baisse") {
+    let viewModel = StepCountViewModel()
+    viewModel.currentWeekSteps = [3200, 4800, 5500, 4100, 3300, 5200, 4400] // moy. ~4 357
+    viewModel.previousWeekSteps = [8000, 9200, 8900, 9700, 8100, 9800, 10100] // moy. ~9 114
+    return WeeklyBarChartView(viewModel: viewModel)
+        .padding()
+}
+
+#Preview("Moyenne stable") {
+    let viewModel = StepCountViewModel()
+    viewModel.currentWeekSteps = [8200, 9400, 7200, 10600, 6800, 11200, 5900] // moy. ~8 471
+    viewModel.previousWeekSteps = [8600, 9100, 7800, 10100, 7200, 10800, 6200] // moy. ~8 543
+    return WeeklyBarChartView(viewModel: viewModel)
+        .padding()
+}
+
+#Preview("Moyenne en hausse") {
+    let viewModel = StepCountViewModel()
+    viewModel.currentWeekSteps = [9200, 11400, 8800, 10100, 7600, 12300, 6500] // moy. ~9 414
+    viewModel.previousWeekSteps = [4200, 5100, 3900, 4700, 3300, 5600, 4800] // moy. ~4 514
     return WeeklyBarChartView(viewModel: viewModel)
         .padding()
 }
