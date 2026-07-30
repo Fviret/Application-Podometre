@@ -72,6 +72,7 @@ Podomètre/
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
 ├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
+├── Localizable.xcstrings               # String Catalog — langue source française, extraction automatique par le compilateur
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
 │   ├── StepRingView.swift              # Anneau de progression + navigation par jour
@@ -445,6 +446,21 @@ Conventions VoiceOver et Dynamic Type à respecter sur tous les écrans.
 ### Ne pas faire
 - Ne pas désactiver `.accessibilityElement` sur un élément interactif
 - Ne pas utiliser des couleurs seules pour véhiculer une information (toujours doubler avec un texte ou une icône)
+
+---
+
+## Localisation
+
+Infrastructure posée (`Localizable.xcstrings`, langue source française), **traduction pas encore commencée**.
+
+- Convention **source-as-key** : on continue d'écrire les `Text("...")` directement en français, sans clé symbolique. Le compilateur Swift extrait automatiquement chaque chaîne dans le String Catalog à la compilation (`SWIFT_EMIT_LOC_STRINGS = YES` sur la cible principale) — aucune friction au quotidien, pas d'étape manuelle.
+- Le français reste la langue source (`developmentRegion = fr`) ; l'anglais n'est pas encore ajouté comme langue cible dans le catalogue.
+- **Prochaines étapes** (dans l'ordre) :
+  1. ~~Migration technique (String Catalog, zéro traduction)~~ ✅
+  2. Traduction du contenu hors pensée du jour (interface + jalons de trajets) vers l'anglais
+  3. Recherche d'un recueil d'aphorismes équivalent en anglais (domaine public/CC0) — ne pas traduire le recueil français, l'humour et la licence ne survivent pas à la traduction
+  4. Intégration du contenu « pensée du jour » anglais pour les appareils en anglais
+- Ne pas traduire avant que le catalogue de contenu (trajets, jalons) soit stabilisé, sous peine de retraduire en boucle à chaque ajout.
 
 ---
 
