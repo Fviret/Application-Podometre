@@ -11,8 +11,19 @@ struct HistoryStats {
         let total: Int
     }
 
+    /// Une semaine affichée dans le graphe de tendance, avec ses bornes de dates.
+    struct WeeklyAverage: Identifiable {
+        let id = UUID()
+        /// Moyenne de pas/jour sur les jours de la semaine ayant au moins un pas enregistré.
+        let average: Int
+        /// Premier jour de la semaine (le plus ancien).
+        let startDate: Date
+        /// Dernier jour de la semaine (le plus récent — aujourd'hui pour la semaine en cours).
+        let endDate: Date
+    }
+
     /// Moyenne de pas par semaine sur les dernières semaines, la plus ancienne en premier.
-    var weeklyAverages: [Int] = []
+    var weeklyAverages: [WeeklyAverage] = []
     /// Total de pas par mois sur les derniers mois, le plus ancien en premier.
     var monthlyTotals: [MonthlyTotal] = []
     /// Taux de réussite de l'objectif *courant*, appliqué rétroactivement (0...1) — aucun
@@ -41,7 +52,7 @@ struct HistoryStats {
 
         let today = calendar.startOfDay(for: Date())
 
-        stats.weeklyAverages = (0..<weekCount).reversed().map { weekIndex in
+        stats.weeklyAverages = (0..<weekCount).reversed().compactMap { weekIndex -> WeeklyAverage? in
             var total = 0
             var count = 0
             for dayOffset in 0..<7 {
@@ -52,7 +63,10 @@ struct HistoryStats {
                     count += 1
                 }
             }
-            return count > 0 ? total / count : 0
+            guard let endDate = calendar.date(byAdding: .day, value: -(weekIndex * 7), to: today),
+                  let startDate = calendar.date(byAdding: .day, value: -(weekIndex * 7 + 6), to: today)
+            else { return nil }
+            return WeeklyAverage(average: count > 0 ? total / count : 0, startDate: startDate, endDate: endDate)
         }
 
         let monthFormatter = DateFormatter()
@@ -119,7 +133,14 @@ extension HistoryStats {
     /// Instance de prévisualisation avec des valeurs réalistes (utilisée aussi sur simulateur).
     static var mock: HistoryStats {
         var stats = HistoryStats()
-        stats.weeklyAverages = [6_200, 7_100, 8_300, 7_600, 9_100, 8_800, 9_400, 8_700, 9_900, 9_300]
+        let today = Calendar.current.startOfDay(for: Date())
+        let rawAverages = [6_200, 7_100, 8_300, 7_600, 9_100, 8_800, 9_400, 8_700, 9_900, 9_300]
+        stats.weeklyAverages = rawAverages.enumerated().map { index, average in
+            let weekIndex = rawAverages.count - 1 - index
+            let endDate = Calendar.current.date(byAdding: .day, value: -(weekIndex * 7), to: today) ?? today
+            let startDate = Calendar.current.date(byAdding: .day, value: -(weekIndex * 7 + 6), to: today) ?? today
+            return WeeklyAverage(average: average, startDate: startDate, endDate: endDate)
+        }
         stats.monthlyTotals = [
             ("Sept.", 210_000), ("Oct.", 245_000), ("Nov.", 231_000), ("Déc.", 198_000),
             ("Janv.", 256_000), ("Févr.", 241_000), ("Mars", 279_000), ("Avr.", 262_000),

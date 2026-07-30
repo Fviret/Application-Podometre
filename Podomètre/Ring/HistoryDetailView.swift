@@ -11,7 +11,7 @@ struct HistoryDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     if let stats = viewModel.historyStats {
-                        weeklyTrendSection(stats)
+                        WeeklyTrendSection(weeklyAverages: stats.weeklyAverages, ringColor: viewModel.ringColor)
                         monthlyTotalsSection(stats)
                         goalSuccessSection(stats)
                         recordsSection(stats)
@@ -37,34 +37,6 @@ struct HistoryDetailView: View {
                 viewModel.fetchHistoryStats()
             }
         }
-    }
-
-    // MARK: - Tendance multi-semaines
-
-    private func weeklyTrendSection(_ stats: HistoryStats) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("Tendance sur \(HistoryStats.weekCount) semaines")
-
-            let maxValue = max(stats.weeklyAverages.max() ?? 1, 1)
-            HStack(alignment: .bottom, spacing: 6) {
-                ForEach(Array(stats.weeklyAverages.enumerated()), id: \.offset) { index, average in
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(viewModel.ringColor.opacity(index == stats.weeklyAverages.count - 1 ? 1 : 0.45))
-                        .frame(height: max(4, CGFloat(average) / CGFloat(maxValue) * 100))
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            .frame(height: 100, alignment: .bottom)
-
-            Text("Semaine la plus récente à droite")
-                .font(.caption2)
-                .foregroundStyle(Color.secondary)
-        }
-        .padding(16)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Tendance sur \(HistoryStats.weekCount) semaines. Moyennes, de la plus ancienne à la plus récente : "
-            + stats.weeklyAverages.map { $0.formatted() }.joined(separator: ", ") + " pas.")
     }
 
     // MARK: - Totaux mensuels
@@ -209,6 +181,75 @@ struct HistoryDetailView: View {
         formatter.locale = Locale(identifier: "fr_FR")
         formatter.setLocalizedDateFormatFromTemplate("d MMMM")
         return formatter.string(from: date)
+    }
+}
+
+// MARK: - WeeklyTrendSection
+
+/// Graphe de tendance sur `HistoryStats.weekCount` semaines. Chaque barre est tappable : la
+/// sélection affiche en dessous l'intervalle de dates et la moyenne quotidienne de la semaine
+/// choisie. La semaine la plus récente est sélectionnée par défaut.
+private struct WeeklyTrendSection: View {
+    let weeklyAverages: [HistoryStats.WeeklyAverage]
+    let ringColor: Color
+
+    @State private var selectedIndex: Int
+
+    init(weeklyAverages: [HistoryStats.WeeklyAverage], ringColor: Color) {
+        self.weeklyAverages = weeklyAverages
+        self.ringColor = ringColor
+        _selectedIndex = State(initialValue: max(0, weeklyAverages.count - 1))
+    }
+
+    private var selectedWeek: HistoryStats.WeeklyAverage? {
+        weeklyAverages.indices.contains(selectedIndex) ? weeklyAverages[selectedIndex] : nil
+    }
+
+    private func rangeLabel(_ week: HistoryStats.WeeklyAverage) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.setLocalizedDateFormatFromTemplate("d MMMM")
+        return "\(formatter.string(from: week.startDate)) – \(formatter.string(from: week.endDate))"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Tendance sur \(HistoryStats.weekCount) semaines")
+                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                .foregroundStyle(Color.primary)
+
+            let maxValue = max(weeklyAverages.map(\.average).max() ?? 1, 1)
+            HStack(alignment: .bottom, spacing: 6) {
+                ForEach(Array(weeklyAverages.enumerated()), id: \.offset) { index, week in
+                    Button {
+                        selectedIndex = index
+                    } label: {
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(index == selectedIndex ? ringColor : ringColor.opacity(0.3))
+                            .frame(height: max(4, CGFloat(week.average) / CGFloat(maxValue) * 100))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Semaine du \(rangeLabel(week))")
+                    .accessibilityValue("\(week.average.formatted()) pas par jour en moyenne")
+                    .accessibilityAddTraits(.isButton)
+                }
+            }
+            .frame(height: 100, alignment: .bottom)
+
+            if let selectedWeek {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(rangeLabel(selectedWeek))
+                        .font(.caption)
+                        .foregroundStyle(Color.secondary)
+                    Text("\(selectedWeek.average.formatted()) pas/jour en moyenne")
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(ringColor)
+                }
+            }
+        }
+        .padding(16)
+        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
     }
 }
 
