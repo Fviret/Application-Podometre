@@ -337,9 +337,13 @@ private struct YearlyTotalsSection: View {
                             RoundedRectangle(cornerRadius: 3)
                                 .fill(month.isFuture ? Color.secondary.opacity(0.15) : ringColor.opacity(0.7))
                                 .frame(height: max(4, CGFloat(value) / CGFloat(maxValue) * 100))
-                            Text(month.label)
-                                .font(.caption2)
+                            // Lettre unique (au lieu de l'abréviation complète) : largeur fixe pour
+                            // toutes les colonnes, sinon les libellés de largeur inégale ("Févr." vs
+                            // "Mai") faussent la répartition de l'HStack et désalignent la grille.
+                            Text(String(month.label.prefix(1)).uppercased())
+                                .font(.caption2.weight(.semibold))
                                 .foregroundStyle(month.isFuture ? Color.secondary.opacity(0.5) : Color.secondary)
+                                .frame(width: 16)
                         }
                         .frame(maxWidth: .infinity)
                     }
