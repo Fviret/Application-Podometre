@@ -84,10 +84,33 @@ struct HistoryDetailView: View {
             )
 
             recordRow(
+                icon: "calendar.circle.fill",
+                title: "Meilleur mois",
+                value: "\(stats.bestMonthTotal.formatted()) pas",
+                subtitle: stats.bestMonthLabel
+            )
+
+            recordRow(
                 icon: "star.fill",
                 title: "Meilleure année",
                 value: "\(stats.bestYearTotal.formatted()) pas",
                 subtitle: stats.bestYear.map(String.init)
+            )
+
+            if let mostActiveWeekdayName = stats.mostActiveWeekdayName {
+                recordRow(
+                    icon: "figure.walk",
+                    title: "Jour le plus actif",
+                    value: mostActiveWeekdayName,
+                    subtitle: "\(stats.mostActiveWeekdayAverage.formatted()) pas/jour en moyenne"
+                )
+            }
+
+            recordRow(
+                icon: "checkmark.circle.fill",
+                title: "Jours objectif atteint",
+                value: "\(stats.totalGoalReachedDays.formatted())",
+                subtitle: nil
             )
 
             if stats.perfectWeekCount > 0 {
@@ -144,6 +167,8 @@ struct HistoryDetailView: View {
                 Text(subtitle)
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 120, alignment: .trailing)
             }
         }
         .accessibilityElement(children: .combine)

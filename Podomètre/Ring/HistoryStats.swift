@@ -49,6 +49,14 @@ struct HistoryStats {
     /// Année civile avec le plus grand total de pas (parmi `yearlyTotals`).
     var bestYearTotal: Int = 0
     var bestYear: Int?
+    /// Meilleur mois jamais enregistré (parmi tous les mois vécus de `yearlyTotals`), ex. "Juin 2026".
+    var bestMonthTotal: Int = 0
+    var bestMonthLabel: String?
+    /// Jour de la semaine où la moyenne de pas est la plus élevée sur tout l'historique.
+    var mostActiveWeekdayName: String?
+    var mostActiveWeekdayAverage: Int = 0
+    /// Nombre total de jours (non consécutifs) où l'objectif a été atteint, sur tout l'historique.
+    var totalGoalReachedDays: Int = 0
     /// Nombre de semaines (mêmes blocs de 7 jours) où l'objectif a été atteint tous les jours.
     var perfectWeekCount: Int = 0
     /// Nombre de mois civils où l'objectif a été atteint tous les jours du mois.
@@ -128,6 +136,41 @@ struct HistoryStats {
         if let bestYearEntry = stats.yearlyTotals.max(by: { $0.yearTotal < $1.yearTotal }) {
             stats.bestYearTotal = bestYearEntry.yearTotal
             stats.bestYear = bestYearEntry.year
+        }
+
+        // Meilleur mois : parcourt tous les mois déjà vécus de toutes les années (yearlyTotals
+        // les a déjà calculés), pas de requête supplémentaire.
+        var bestMonthTotal = -1
+        var bestMonthLabel: String?
+        for yearEntry in stats.yearlyTotals {
+            for month in yearEntry.months where !month.isFuture && month.total > bestMonthTotal {
+                bestMonthTotal = month.total
+                bestMonthLabel = "\(month.label) \(yearEntry.year)"
+            }
+        }
+        stats.bestMonthTotal = max(bestMonthTotal, 0)
+        stats.bestMonthLabel = bestMonthLabel
+
+        // Jour de la semaine le plus actif : moyenne de pas par jour de semaine sur tout l'historique.
+        var weekdayTotals: [Int: Int] = [:]
+        var weekdayCounts: [Int: Int] = [:]
+        for (date, steps) in dailySteps {
+            let weekday = calendar.component(.weekday, from: date)
+            weekdayTotals[weekday, default: 0] += steps
+            weekdayCounts[weekday, default: 0] += 1
+        }
+        let weekdayAverages = weekdayTotals.compactMap { weekday, total -> (weekday: Int, average: Int)? in
+            guard let count = weekdayCounts[weekday], count > 0 else { return nil }
+            return (weekday, total / count)
+        }
+        if let bestWeekday = weekdayAverages.max(by: { $0.average < $1.average }) {
+            stats.mostActiveWeekdayName = weekdayName(bestWeekday.weekday)
+            stats.mostActiveWeekdayAverage = bestWeekday.average
+        }
+
+        // Nombre total de jours (non consécutifs) où l'objectif a été atteint.
+        if goal > 0 {
+            stats.totalGoalReachedDays = dailySteps.values.filter { $0 >= goal }.count
         }
 
         // Meilleure semaine + semaines parfaites : mêmes blocs de 7 jours ancrés sur aujourd'hui
@@ -230,6 +273,14 @@ struct HistoryStats {
 
         return stats
     }
+
+    /// Nom du jour de semaine en fr_FR depuis le composant `.weekday` de `Calendar`
+    /// (1 = dimanche … 7 = samedi, indépendant de `firstWeekday`).
+    private static func weekdayName(_ weekday: Int) -> String {
+        let names = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
+        guard (1...7).contains(weekday) else { return "" }
+        return names[weekday - 1]
+    }
 }
 
 extension HistoryStats {
@@ -272,6 +323,11 @@ extension HistoryStats {
         stats.bestWeekStartDate = Calendar.current.date(byAdding: .day, value: -27, to: today)
         stats.bestYearTotal = lastYearTotals.reduce(0, +)
         stats.bestYear = currentYear - 1
+        stats.bestMonthTotal = 30_200
+        stats.bestMonthLabel = "Mai \(currentYear)"
+        stats.mostActiveWeekdayName = "Samedi"
+        stats.mostActiveWeekdayAverage = 10_400
+        stats.totalGoalReachedDays = 187
         stats.perfectWeekCount = 2
         stats.perfectMonthCount = 0
         stats.longestStreakEver = 11
