@@ -42,6 +42,11 @@ struct StepRingView: View {
             VStack(spacing: 0) {
                 WeatherBannerView(forecast: walkingForecast)
 
+                // Accès aux pas refusé : bannière non bloquante vers les Réglages.
+                if viewModel.healthAccessDenied {
+                    HealthAccessBannerView()
+                }
+
                 ScrollView {
                     VStack(spacing: 32) {
                         HStack(spacing: 0) {
@@ -171,6 +176,23 @@ struct StepRingView: View {
                             .animation(reduceMotion ? nil : .easeInOut(duration: 0.15), value: viewModel.selectedDayOffset)
                         }
                         .padding(.horizontal, 8)
+                        .contentShape(Rectangle())
+                        // Swipe horizontal sur l'anneau pour changer de jour, en complément des chevrons.
+                        // Vers la droite → jour précédent ; vers la gauche → jour suivant (jamais dans le futur).
+                        .gesture(
+                            DragGesture(minimumDistance: 24)
+                                .onEnded { value in
+                                    guard abs(value.translation.width) > abs(value.translation.height),
+                                          abs(value.translation.width) > 44 else { return }
+                                    if value.translation.width > 0 {
+                                        haptic.impactOccurred()
+                                        viewModel.selectedDayOffset += 1
+                                    } else if viewModel.selectedDayOffset > 0 {
+                                        haptic.impactOccurred()
+                                        viewModel.selectedDayOffset -= 1
+                                    }
+                                }
+                        )
 
                         Text("Objectif : \(viewModel.goal.formatted()) pas")
                             .font(.system(.subheadline, design: .rounded))
@@ -274,6 +296,9 @@ struct StepRingView: View {
                 viewModel.fetchSteps(for: viewModel.selectedDate)
                 viewModel.fetchMetrics(for: viewModel.selectedDate)
                 viewModel.startLiveStepUpdates()
+                // Re-vérifie l'accès Santé : si l'utilisateur vient de l'autoriser dans les
+                // Réglages, la bannière disparaît au retour dans l'app.
+                viewModel.checkHealthAccess()
             default:
                 viewModel.stopLiveStepUpdates()
             }

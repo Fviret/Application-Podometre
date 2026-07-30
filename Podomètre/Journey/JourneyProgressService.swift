@@ -24,10 +24,14 @@ class JourneyProgressService: ObservableObject {
     /// Étapes nouvellement débloquées lors du dernier sync — consommées par la vue pour afficher une sheet.
     @Published var newlyUnlockedMilestones: [Milestone] = []
 
-    init() {
+    /// - Parameter injectMockData: sur simulateur, injecte un trajet en cours fictif.
+    ///   Passer `false` pour prévisualiser l'état « aucun trajet en cours ».
+    init(injectMockData: Bool = true) {
         load()
         #if targetEnvironment(simulator)
-        loadMockData()
+        if injectMockData {
+            loadMockData()
+        }
         #else
         if Preferences.shared.bool(.hasCompletedOnboarding) {
             startObservingDistance()
@@ -50,13 +54,17 @@ class JourneyProgressService: ObservableObject {
         }
     }
 
-    /// Installe un HKObserverQuery sur distanceWalkingRunning.
-    /// Déclenche syncDistance pour le trajet actif à chaque nouveau sample enregistré par HealthKit.
+    /// Installe un HKObserverQuery sur distanceWalkingRunning + active la livraison en arrière-plan.
+    /// Déclenche syncDistance pour le trajet actif à chaque nouveau sample enregistré par HealthKit,
+    /// y compris quand l'app est en arrière-plan (pour que les notifications de jalon partent en temps réel).
     private func startObservingDistance() {
         guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else { return }
 
-        distanceObserverQuery = HKObserverQuery(sampleType: distanceType, predicate: nil) { [weak self] _, _, _ in
+        // Sans `completionHandler()`, HealthKit cesse de livrer les mises à jour d'arrière-plan.
+        distanceObserverQuery = HKObserverQuery(sampleType: distanceType, predicate: nil) { [weak self] _, completionHandler, _ in
             Task { @MainActor in
+                // Toujours signaler la fin du traitement à HealthKit, quel que soit le résultat.
+                defer { completionHandler() }
                 guard let self else { return }
                 guard let journey = self.progressMap.keys.first.flatMap({ id in
                     allJourneys.first { $0.id == id }
@@ -67,6 +75,12 @@ class JourneyProgressService: ObservableObject {
 
         if let query = distanceObserverQuery {
             healthStore.execute(query)
+        }
+
+        // Réveille l'app en arrière-plan quand de nouvelles distances sont enregistrées
+        // (l'observeur seul ne se déclenche qu'au premier plan). Fréquence horaire (bridage iOS).
+        healthStore.enableBackgroundDelivery(for: distanceType, frequency: .hourly) { _, error in
+            if let error { print("Journey background delivery error: \(error)") }
         }
     }
 

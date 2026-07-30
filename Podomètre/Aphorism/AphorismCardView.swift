@@ -12,6 +12,8 @@ struct AphorismCardView: View {
 
     @State private var showCopiedToast = false
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("« \(aphorism.text) »")
@@ -55,6 +57,9 @@ struct AphorismCardView: View {
         .accessibilityLabel("Pensée du jour. \(aphorism.text). \(aphorism.author). Catégorie \(aphorism.category).")
         .accessibilityAddTraits(allowsCopy ? .isButton : [])
         .accessibilityHint(allowsCopy ? "Appuyez deux fois pour copier la citation" : "")
+        // Action explicite : `onTapGesture` n'est pas activable de façon fiable par le
+        // Contrôle de sélection, le Contrôle vocal ou l'accès clavier.
+        .accessibilityAction { if allowsCopy { copyToClipboard() } }
     }
 
     /// Copie le texte de l'aphorisme et affiche un toast éphémère.
@@ -62,9 +67,9 @@ struct AphorismCardView: View {
         UIPasteboard.general.string = "« \(aphorism.text) » — \(aphorism.author)"
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         UIAccessibility.post(notification: .announcement, argument: "Citation copiée")
-        withAnimation { showCopiedToast = true }
+        withAnimation(reduceMotion ? nil : .default) { showCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-            withAnimation { showCopiedToast = false }
+            withAnimation(reduceMotion ? nil : .default) { showCopiedToast = false }
         }
     }
 }

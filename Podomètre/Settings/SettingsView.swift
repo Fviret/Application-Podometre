@@ -9,51 +9,75 @@ struct SettingsView: View {
     @AppStorage(.showMonthCalendar) private var showMonthCalendar: Bool = true
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
-    @State private var showPicker = false
+    @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
     /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
     @ScaledMetric(relativeTo: .body) private var colorSwatchSize: CGFloat = 36
     @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
-    private let goalOptions = Array(stride(from: 5_000, through: 20_000, by: 500))
+    /// Bornes et pas du sélecteur d'objectif.
+    private let goalStep = 500
+    private let goalMin = 500
+    private let goalMax = 100_000
+
+    /// Déclencheur du rebond : incrémenté à chaque changement de valeur → `keyframeAnimator`
+    /// rejoue l'animation de façon fiable, même entre deux taps rapprochés.
+    @State private var goalBumpTrigger = 0
+    /// Sens du dernier changement : grossit à l'incrément, rétrécit au décrément.
+    @State private var lastBumpGrow = true
+    /// Timer de répétition sur appui long, et intervalle courant (décroît → accélération).
+    @State private var repeatTimer: Timer?
+    @State private var repeatInterval: Double = 0.28
+    /// `true` uniquement pendant un appui long (distingue le maintien d'un tap court).
+    @State private var isRepeating = false
 
     var body: some View {
         NavigationStack {
             List {
                 // MARK: Mon objectif
-                Section("Mon objectif") {
-                    Button {
-                        withAnimation { showPicker.toggle() }
-                    } label: {
-                        HStack {
-                            Text("Pas par jour")
-                                .foregroundStyle(Color.primary)
-                            Spacer()
+                Section {
+                    HStack(spacing: 20) {
+                        Spacer()
+                        goalStepButton(system: "minus", delta: -goalStep, enabled: viewModel.goal > goalMin)
+
+                        VStack(spacing: 0) {
                             Text(viewModel.goal.formatted())
-                                .foregroundStyle(Color.secondary)
-                            Image(systemName: showPicker ? "chevron.up" : "chevron.down")
+                                .font(.system(.title2, design: .rounded).weight(.bold))
+                                .monospacedDigit()
+                                .foregroundStyle(Color.primary)
+                                .modifier(GoalBounceEffect(trigger: goalBumpTrigger,
+                                                           grow: lastBumpGrow,
+                                                           enabled: !reduceMotion))
+                            Text("pas / jour")
                                 .font(.caption)
                                 .foregroundStyle(Color.secondary)
                         }
-                    }
-
-                    if showPicker {
-                        Picker("Pas par jour", selection: $viewModel.goal) {
-                            ForEach(goalOptions, id: \.self) { value in
-                                Text(value.formatted()).tag(value)
+                        .frame(maxWidth: .infinity)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Objectif quotidien")
+                        .accessibilityValue("\(viewModel.goal.formatted()) pas")
+                        .accessibilityAdjustableAction { direction in
+                            switch direction {
+                            case .increment: changeGoal(by: goalStep)
+                            case .decrement: changeGoal(by: -goalStep)
+                            @unknown default: break
                             }
                         }
-                        .pickerStyle(.wheel)
-                        // Léger cran haptique à chaque changement de valeur, comme sur l'anneau.
-                        .onChange(of: viewModel.goal) { _, _ in
-                            haptic.impactOccurred()
-                        }
-                        .transition(.opacity.combined(with: .move(edge: .top)))
+
+                        goalStepButton(system: "plus", delta: goalStep, enabled: viewModel.goal < goalMax)
+                        Spacer()
                     }
+                    .padding(.vertical, 6)
+                } header: {
+                    Text("Mon objectif")
+                } footer: {
+                    Text("Réglable par paliers de 500 pas, de 500 à 100 000.")
                 }
 
                 // MARK: Apparence
@@ -114,9 +138,6 @@ struct SettingsView: View {
                     Text("Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.")
                 }
 
-                // MARK: Contenu
-                AphorismSettingsView(manager: aphorismManager)
-
                 // MARK: Notifications
                 Section {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
@@ -130,6 +151,9 @@ struct SettingsView: View {
                     Text("L'objectif journalier est notifié une seule fois par jour.")
                 }
 
+                // MARK: Contenu
+                AphorismSettingsView(manager: aphorismManager)
+
                 // MARK: Récompenses
                 if viewModel.currentStreak > 0 {
                     Section("Récompenses") {
@@ -137,10 +161,16 @@ struct SettingsView: View {
                     }
                 }
 
+                // MARK: Revoir la présentation
                 Section {
-                    BadgeGridView(viewModel: viewModel)
-                } header: {
-                    Text(viewModel.currentStreak > 0 ? "Badges" : "Récompenses")
+                    Button {
+                        // Ré-affiche l'onboarding (fullScreenCover piloté par cette clé à la racine).
+                        hasCompletedOnboarding = false
+                    } label: {
+                        Label("Revoir la présentation", systemImage: "sparkles")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.secondary)
+                    }
                 }
 
                 // MARK: À propos
@@ -148,6 +178,82 @@ struct SettingsView: View {
             }
             .navigationTitle("Paramètres")
         }
+    }
+
+    // MARK: - Sélecteur d'objectif
+
+    /// Applique un delta borné à l'objectif. Retourne `true` si la valeur a changé.
+    @discardableResult
+    private func applyGoalDelta(_ delta: Int) -> Bool {
+        let newGoal = min(max(viewModel.goal + delta, goalMin), goalMax)
+        guard newGoal != viewModel.goal else { return false }
+        viewModel.goal = newGoal
+        return true
+    }
+
+    /// Déclenche un rebond directionnel de la valeur (via le `keyframeAnimator` de la vue).
+    private func bump(grow: Bool) {
+        lastBumpGrow = grow
+        goalBumpTrigger &+= 1
+    }
+
+    /// Changement unitaire (tap) : valeur + haptique + rebond.
+    private func changeGoal(by delta: Int) {
+        guard applyGoalDelta(delta) else { return }
+        haptic.impactOccurred()
+        bump(grow: delta > 0)
+    }
+
+    // MARK: Appui long (répétition accélérée)
+
+    /// Démarre la répétition sur maintien : un rebond initial, puis la valeur défile en accélérant.
+    private func startRepeating(delta: Int) {
+        isRepeating = true
+        repeatInterval = 0.28
+        bump(grow: delta > 0)
+        tickRepeat(delta: delta, isFirst: true)
+    }
+
+    /// Un pas de la répétition : s'arrête aux bornes, sinon rejoue plus vite (intervalle × 0,82).
+    /// Pas de rebond par cran (éviter le scintillement) — seul le défilement de la valeur bouge.
+    private func tickRepeat(delta: Int, isFirst: Bool = false) {
+        let atBound = (delta > 0 && viewModel.goal >= goalMax) || (delta < 0 && viewModel.goal <= goalMin)
+        guard !atBound, applyGoalDelta(delta) else { stopRepeating(); return }
+        if !isFirst { haptic.impactOccurred() }
+        repeatInterval = max(0.04, repeatInterval * 0.82)
+        repeatTimer?.invalidate()
+        repeatTimer = Timer.scheduledTimer(withTimeInterval: repeatInterval, repeats: false) { _ in
+            Task { @MainActor in tickRepeat(delta: delta) }
+        }
+    }
+
+    /// Arrête la répétition. Ne fait rien pour un tap court (aucune répétition en cours).
+    private func stopRepeating() {
+        guard isRepeating else { return }
+        isRepeating = false
+        repeatTimer?.invalidate()
+        repeatTimer = nil
+    }
+
+    /// Bouton circulaire − / + : tap = un pas ; appui long = répétition accélérée.
+    private func goalStepButton(system: String, delta: Int, enabled: Bool) -> some View {
+        Image(systemName: system)
+            .font(.system(.body, weight: .semibold))
+            .foregroundStyle(enabled ? viewModel.ringColor : Color.secondary.opacity(0.4))
+            .frame(width: 44, height: 44)
+            .background(
+                Circle().fill(enabled ? viewModel.ringColor.opacity(0.12) : Color.secondary.opacity(0.08))
+            )
+            .contentShape(Circle())
+            .onTapGesture { if enabled { changeGoal(by: delta) } }
+            .onLongPressGesture(minimumDuration: 0.35, maximumDistance: 40) {
+                if enabled { startRepeating(delta: delta) }
+            } onPressingChanged: { pressing in
+                if !pressing { stopRepeating() }
+            }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(delta > 0 ? "Augmenter l'objectif" : "Diminuer l'objectif")
+            .accessibilityAction { if enabled { changeGoal(by: delta) } }
     }
 
     /// Informations sur l'application : version, source des données, crédits.
@@ -174,13 +280,37 @@ struct SettingsView: View {
     }
 }
 
+// MARK: - Effet de rebond de la valeur d'objectif
+
+/// Anime la valeur d'objectif à chaque changement de `trigger` : pic (grossissant si `grow`,
+/// rétrécissant sinon) puis retour élastique. Le `keyframeAnimator` redémarre proprement à
+/// chaque incrément du trigger — le rebond se joue donc de façon fiable même entre deux taps
+/// rapprochés. Neutralisé quand `enabled` est faux (« Réduire les animations »).
+private struct GoalBounceEffect: ViewModifier {
+    let trigger: Int
+    let grow: Bool
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        if enabled {
+            content.keyframeAnimator(initialValue: 1.0, trigger: trigger) { view, scale in
+                view.scaleEffect(scale)
+            } keyframes: { _ in
+                KeyframeTrack {
+                    CubicKeyframe(grow ? 1.28 : 0.74, duration: 0.13)
+                    SpringKeyframe(1.0, duration: 0.34, spring: .bouncy(duration: 0.34, extraBounce: 0.35))
+                }
+            }
+        } else {
+            content
+        }
+    }
+}
+
 #Preview {
     let viewModel = StepCountViewModel()
     viewModel.goal = 10_000
-    viewModel.currentStreak = 12                                   // flamme rouge, 3 couches
-    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
-                                 "30k": 1, "50k": 0, "100k": 0]    // badges de seuil
-    allJourneys.prefix(4).forEach { viewModel.markJourneyCompleted($0.id.uuidString) } // badges de trajets
+    viewModel.currentStreak = 12 // flamme rouge, 3 couches
     return SettingsView(viewModel: viewModel, aphorismManager: .preview)
 }
 
@@ -188,8 +318,6 @@ struct SettingsView: View {
     let viewModel = StepCountViewModel()
     viewModel.goal = 10_000
     viewModel.currentStreak = 12
-    viewModel.milestoneCounts = ["5k": 47, "10k": 23, "20k": 4,
-                                 "30k": 1, "50k": 0, "100k": 0]
     // Vérifie que la grille de couleurs se réorganise au lieu de déborder.
     return SettingsView(viewModel: viewModel, aphorismManager: .preview)
         .dynamicTypeSize(.accessibility3)

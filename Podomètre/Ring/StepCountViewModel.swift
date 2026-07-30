@@ -36,6 +36,10 @@ class StepCountViewModel: ObservableObject {
     /// Nombre de jours où chaque seuil de pas a été atteint. Clé = StepMilestoneBadge.id.
     @Published var milestoneCounts: [String: Int] = [:]
 
+    /// Statistiques de l'écran d'historique (tendance, totaux mensuels, records). `nil` tant que
+    /// `fetchHistoryStats()` n'a pas été appelée (calcul à la demande, coûteux sur tout l'historique).
+    @Published var historyStats: HistoryStats?
+
     /// Distance marche+course du jour, en km (HealthKit `distanceWalkingRunning`).
     @Published var todayDistanceKm: Double = 0
     /// Minutes actives du jour (marche/course/vélo), calculées via Core Motion — fonctionne sans Apple Watch.
@@ -46,16 +50,34 @@ class StepCountViewModel: ObservableObject {
     /// Identifiants (UUID string) des trajets entièrement complétés. Persisté dans UserDefaults.
     @Published var completedJourneyIds: [String] = Preferences.shared.stringArray(.completedJourneyIds) ?? []
 
-    /// Marque un trajet comme complété si ce n'est pas déjà le cas.
+    /// Date de complétion par UUID de trajet. Persisté dans UserDefaults (JSON).
+    @Published var journeyCompletionDates: [String: Date] = {
+        guard let data = Preferences.shared.data(.journeyCompletionDates),
+              let decoded = try? JSONDecoder().decode([String: Date].self, from: data)
+        else { return [:] }
+        return decoded
+    }()
+
+    /// Marque un trajet comme complété si ce n'est pas déjà le cas, avec la date du jour.
     func markJourneyCompleted(_ id: String) {
         guard !completedJourneyIds.contains(id) else { return }
         completedJourneyIds.append(id)
         Preferences.shared.set(completedJourneyIds, for: .completedJourneyIds)
+
+        journeyCompletionDates[id] = Date()
+        if let encoded = try? JSONEncoder().encode(journeyCompletionDates) {
+            Preferences.shared.set(encoded, for: .journeyCompletionDates)
+        }
     }
 
     /// Retourne `true` si le trajet identifié par `id` a été entièrement complété.
     func isJourneyCompleted(_ id: String) -> Bool {
         completedJourneyIds.contains(id)
+    }
+
+    /// Retourne la date de complétion du trajet, ou `nil` si non terminé ou antérieur à l'ajout de cette donnée.
+    func completionDate(for id: String) -> Date? {
+        journeyCompletionDates[id]
     }
 
     /// Demande l'autorisation de notifications (alerte, son, badge).
@@ -193,6 +215,65 @@ class StepCountViewModel: ObservableObject {
         #endif
     }
 
+    /// Récupère tout l'historique HealthKit disponible et calcule `historyStats` (tendance
+    /// multi-semaines, totaux mensuels, taux de réussite, records). Appelé à l'ouverture de
+    /// l'écran d'historique — coûteux, pas de rafraîchissement automatique en arrière-plan.
+    func fetchHistoryStats() {
+        #if targetEnvironment(simulator)
+        historyStats = .mock
+        #else
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+
+        let calendar = Calendar.current
+        let intervalComponents = DateComponents(day: 1)
+        let anchorDate = calendar.startOfDay(for: Date(timeIntervalSince1970: 0))
+        let predicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
+        let currentGoal = goal
+
+        let query = HKStatisticsCollectionQuery(
+            quantityType: stepType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum,
+            anchorDate: anchorDate,
+            intervalComponents: intervalComponents
+        )
+
+        query.initialResultsHandler = { [weak self] _, results, _ in
+            guard let results, let self else { return }
+            var dailySteps: [Date: Int] = [:]
+
+            results.enumerateStatistics(from: .distantPast, to: Date()) { statistics, _ in
+                let steps = Int(statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+                guard steps > 0 else { return }
+                dailySteps[calendar.startOfDay(for: statistics.startDate)] = steps
+            }
+
+            var stats = HistoryStats.compute(dailySteps: dailySteps, goal: currentGoal, calendar: calendar)
+
+            // Distance cumulée : requête séparée (distanceWalkingRunning n'est pas dans la
+            // collection de pas ci-dessus), sur tout l'historique disponible.
+            guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+                Task { @MainActor in self.historyStats = stats }
+                return
+            }
+            let distancePredicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
+            let distanceQuery = HKStatisticsQuery(
+                quantityType: distanceType,
+                quantitySamplePredicate: distancePredicate,
+                options: .cumulativeSum
+            ) { _, distanceStats, _ in
+                stats.allTimeTotalDistanceKm = distanceStats?.sumQuantity()?.doubleValue(for: .meterUnit(with: .kilo)) ?? 0
+                Task { @MainActor in
+                    self.historyStats = stats
+                }
+            }
+            self.healthStore.execute(distanceQuery)
+        }
+
+        healthStore.execute(query)
+        #endif
+    }
+
     /// Objectif quotidien en pas. Persisté dans UserDefaults ; défaut 10 000.
     @Published var goal: Int = {
         let stored = Preferences.shared.integer(.dailyStepGoal)
@@ -215,6 +296,12 @@ class StepCountViewModel: ObservableObject {
 
     /// `true` si l'autorisation HealthKit a été accordée.
     @Published var isAuthorized: Bool = false
+
+    /// `true` quand l'app ne reçoit aucune donnée de pas alors que le prompt HealthKit a déjà
+    /// été présenté — signe d'un accès en lecture refusé. HealthKit ne révèle jamais directement
+    /// un refus de lecture : on l'infère de l'absence totale de pas sur une large fenêtre.
+    /// Pilote la bannière d'invitation à ouvrir les Réglages sur l'écran Activité.
+    @Published var healthAccessDenied: Bool = false
 
     /// Décalage en jours depuis aujourd'hui (0 = aujourd'hui, 1 = hier, …).
     /// Chaque changement déclenche un fetch du jour et une synchro du mois affiché.
@@ -255,6 +342,17 @@ class StepCountViewModel: ObservableObject {
         min(Double(stepCount) / Double(goal), 1.0)
     }
 
+    /// Moyenne de pas par jour sur les 6 jours pleins précédents (aujourd'hui exclu car partiel).
+    /// Sert à estimer une cadence de marche (ex. date d'arrivée sur un trajet). `nil` si l'historique
+    /// est vide/insuffisant (aucune estimation fiable possible).
+    var averageDailySteps: Int? {
+        guard currentWeekSteps.count == 7 else { return nil }
+        let fullDays = Array(currentWeekSteps.prefix(6)) // index 6 = aujourd'hui, écarté
+        let total = fullDays.reduce(0, +)
+        guard total > 0 else { return nil }
+        return total / fullDays.count
+    }
+
     /// Date correspondant à `selectedDayOffset` jours avant aujourd'hui.
     var selectedDate: Date {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
@@ -286,6 +384,43 @@ class StepCountViewModel: ObservableObject {
     private var mockLiveTimer: Timer?
     #endif
 
+    /// Détermine si l'accès en lecture aux pas semble refusé et met à jour `healthAccessDenied`.
+    ///
+    /// HealthKit ne signale jamais un refus de lecture : `requestAuthorization` réussit même en cas
+    /// de refus, et `authorizationStatus` ne concerne que l'écriture. On croise donc deux signaux :
+    /// le prompt a déjà été présenté (`getRequestStatusForAuthorization == .unnecessary`) **et**
+    /// aucun pas n'existe sur les 30 derniers jours. Sur simulateur, toujours `false` (données mock).
+    func checkHealthAccess() {
+        #if targetEnvironment(simulator)
+        healthAccessDenied = false
+        #else
+        guard HKHealthStore.isHealthDataAvailable(),
+              let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
+        else { healthAccessDenied = false; return }
+
+        healthStore.getRequestStatusForAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] status, _ in
+            // `.shouldRequest` : le prompt n'a pas encore été montré → ce n'est pas un refus.
+            guard status == .unnecessary else {
+                Task { @MainActor in self?.healthAccessDenied = false }
+                return
+            }
+            let end = Date()
+            let start = Calendar.current.date(byAdding: .day, value: -30, to: end) ?? end
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
+            let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
+                let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
+                Task { @MainActor in
+                    // Aucun pas sur 30 jours alors que le prompt a été montré : accès très probablement refusé.
+                    self?.healthAccessDenied = steps == 0
+                }
+            }
+            self?.healthStore.execute(query)
+        }
+        #endif
+    }
+
     /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
@@ -311,6 +446,7 @@ class StepCountViewModel: ObservableObject {
                 self?.fetchMilestoneCounts()
                 self?.fetchMetrics(for: self?.selectedDate ?? Date())
                 self?.computeStreak()
+                self?.checkHealthAccess()
             }
         }
         #endif
@@ -480,9 +616,14 @@ class StepCountViewModel: ObservableObject {
         let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
             let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
             Task { @MainActor in
-                withAnimation(.easeInOut(duration: 0.6)) {
-                    self?.stepCount = Int(steps)
-                }
+                guard let self else { return }
+                // Ignore un résultat obsolète : si l'utilisateur a changé de jour entre-temps,
+                // une requête lancée pour un autre jour ne doit pas écraser `stepCount`
+                // (sinon halo/notification « fantômes » sur le jour désormais affiché).
+                guard Calendar.current.isDate(date, inSameDayAs: self.selectedDate) else { return }
+                // L'animation est déclarée dans StepRingView (avec sa garde reduceMotion) :
+                // le ViewModel ne fait qu'assigner la donnée.
+                self.stepCount = Int(steps)
             }
         }
 
@@ -615,9 +756,7 @@ class StepCountViewModel: ObservableObject {
         mockLiveTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    self.stepCount += Int.random(in: 8...25)
-                }
+                self.stepCount += Int.random(in: 8...25)
             }
         }
         #else
@@ -629,9 +768,7 @@ class StepCountViewModel: ObservableObject {
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }
                 // `max` : la valeur ne recule jamais dans la journée (HealthKit peut inclure d'autres sources).
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    self.stepCount = max(self.stepCount, steps)
-                }
+                self.stepCount = max(self.stepCount, steps)
             }
         }
         #endif

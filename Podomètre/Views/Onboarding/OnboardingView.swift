@@ -4,6 +4,7 @@ import SwiftUI
 struct OnboardingView: View {
 
     @ObservedObject var viewModel: StepCountViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @State private var page: Int = 0
     @State private var selectedGoal: Int = onboardingDefaultGoal
@@ -21,13 +22,21 @@ struct OnboardingView: View {
                     slide4(geo: geo).tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut, value: page)
+                // Ne PAS appliquer `.animation(value: page)` ici : sur un TabView paginé, cela
+                // annule le geste de balayage interactif (le style `.page` anime déjà nativement
+                // ses transitions). Sans cette ligne, le swipe au doigt fonctionne à nouveau.
                 .ignoresSafeArea()
                 .padding(.top, geo.safeAreaInsets.top + 24)
 
-                // Overlay fixe en bas : dots + boutons (hauteur constante sur toutes les slides)
-                VStack(spacing: 12) {
+                // Overlay fixe en bas : progression + dots + boutons (hauteur constante sur toutes les slides)
+                VStack(spacing: 10) {
                     dots
+
+                    // Progression textuelle, en plus des dots (utile en accessibilité).
+                    Text("Étape \(page + 1) / 4")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondary)
+                        .accessibilityLabel("Étape \(page + 1) sur 4")
 
                     switch page {
                     case 3:
@@ -41,15 +50,21 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, geo.safeAreaInsets.bottom + 16)
-                .padding(.top, 20)
+                .padding(.top, 16)
+                // Fond raccord avec la slide (blanc sur les 2 premières, groupé ensuite),
+                // au lieu du matériau translucide.
                 .background(
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
+                    (page >= 2 ? Color(.systemGroupedBackground) : Color(.systemBackground))
                         .ignoresSafeArea(edges: .bottom)
                 )
             }
         }
         .interactiveDismissDisabled()
+        .onAppear {
+            // Pré-sélectionne l'objectif courant : en revisionnant l'onboarding depuis les
+            // Paramètres, terminer ne doit pas réinitialiser l'objectif déjà choisi.
+            selectedGoal = onboardingGoals.first { $0.steps == viewModel.goal }?.steps ?? onboardingDefaultGoal
+        }
     }
 
     // MARK: - Slides
@@ -60,6 +75,8 @@ struct OnboardingView: View {
             Image("onboarding_activity")
                 .resizable()
                 .scaledToFit()
+                // Légèrement agrandie (déborde un peu sous le dégradé/légende) pour un visuel plus présent.
+                .padding(.horizontal, -14)
                 .accessibilityHidden(true)
 
             ZStack {
@@ -74,7 +91,7 @@ struct OnboardingView: View {
 
                 slideCaption(
                     title: "Vos pas du jour, en un coup d'œil",
-                    subtitle: "Suivez votre progression quotidienne et naviguez dans votre historique."
+                    subtitle: "Progression en temps réel, distance, météo et série de jours réussis — avec calendrier et historique."
                 )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -90,6 +107,8 @@ struct OnboardingView: View {
             Image("onboarding_journeys")
                 .resizable()
                 .scaledToFit()
+                // Légèrement agrandie (déborde un peu sous le dégradé/légende) pour un visuel plus présent.
+                .padding(.horizontal, -14)
                 .accessibilityHidden(true)
 
             ZStack {
@@ -104,7 +123,7 @@ struct OnboardingView: View {
 
                 slideCaption(
                     title: "Marchez vers des destinations légendaires",
-                    subtitle: "Vos kilomètres réels vous font avancer sur le GR20, Compostelle ou l'Odyssée d'Ulysse."
+                    subtitle: "Vos kilomètres réels débloquent des étapes racontées et des badges, du GR20 à l'Odyssée d'Ulysse."
                 )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -157,6 +176,12 @@ struct OnboardingView: View {
                     .font(.caption)
                     .foregroundStyle(Color(UIColor.tertiaryLabel))
                     .multilineTextAlignment(.center)
+
+                Label("L'autorisation vous sera demandée à l'ouverture de l'app.", systemImage: "hand.tap")
+                    .font(.caption)
+                    .foregroundStyle(viewModel.ringColor)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 4)
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 32)
@@ -285,11 +310,11 @@ struct OnboardingView: View {
                 Capsule()
                     .fill(i == page ? Color.accentColor : Color(.systemGray4))
                     .frame(width: i == page ? 20 : 8, height: 8)
-                    .animation(.easeInOut(duration: 0.25), value: page)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: page)
             }
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Étape \(page + 1) sur 4")
+        // La progression textuelle (« Étape X / 4 ») porte l'info pour VoiceOver ; les dots sont décoratifs.
+        .accessibilityHidden(true)
         .accessibilityIdentifier("onboarding_dots")
     }
 

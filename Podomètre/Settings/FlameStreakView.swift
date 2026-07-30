@@ -63,8 +63,8 @@ struct FlameStreakView: View {
             }
         }
         .frame(width: size * 0.83, height: size)
-        .animation(.easeInOut(duration: 0.3), value: layerCount)
-        .animation(.easeInOut(duration: 0.4), value: tier)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: layerCount)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: tier)
         .accessibilityHidden(true)
         .onAppear {
             guard !reduceMotion else { return }

@@ -71,13 +71,17 @@ Podomètre/
 ├── Podome_treApp.swift                 # @main, point d'entrée
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
+├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
 │   ├── StepRingView.swift              # Anneau de progression + navigation par jour
 │   ├── RollingNumberText.swift         # Compteur de pas animé
 │   ├── TodayMetricsView.swift          # Distance · temps actif · calories
 │   ├── MonthCalendarView.swift         # Grille mensuelle des jours
-│   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente
+│   ├── WeeklyBarChartView.swift        # Comparaison semaine en cours / précédente ; tap → HistoryDetailView
+│   ├── HistoryStats.swift              # Modèle + calcul des statistiques d'historique (tendance, records)
+│   ├── HistoryDetailView.swift         # Écran d'historique : tendance multi-semaines, totaux mensuels, records
+│   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
@@ -89,13 +93,15 @@ Podomètre/
 │   ├── JourneyData.swift               # Catalogue des 19 trajets et leurs étapes
 │   ├── JourneyProgressService.swift    # Progression, distance HK, completion
 │   ├── JourneyNotificationService.swift# Notifications jalons + completion
+│   ├── ActiveJourneyCardView.swift     # Card du trajet en cours (progression + ETA), en tête du catalogue
+│   ├── StartJourneyPromptCardView.swift# Card d'incitation au démarrage (aucun trajet en cours), même gabarit
+│   ├── JourneySegmentTrackView.swift   # Tracé du segment courant (jalon → jalon, « tu es ici »), partagé card + détail
 │   ├── JourneyPickerView.swift         # Catalogue par catégorie
 │   ├── JourneyPreviewSheet.swift       # Prévisualisation avant démarrage
 │   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons
 ├── Settings/                           # Paramètres et récompenses
 │   ├── SettingsView.swift              # Objectif, apparence, écran principal, notifs
-│   ├── BadgeData.swift                 # Seuils, illustration et couleur par badge
-│   ├── BadgeGridView.swift             # Grille badges de pas + badges de trajets
+│   ├── BadgeData.swift                 # Seuils/illustration des badges de pas (données uniquement, plus affiché en UI)
 │   ├── StreakBannerView.swift          # Bannière de série
 │   └── FlameStreakView.swift           # Flamme animée à paliers (série)
 ├── Aphorism/                           # Pensée du jour
@@ -166,6 +172,8 @@ Hors cible applicative, à la racine du dépôt :
 - Courbe linéaire maison (sans Swift Charts)
 - Compare semaine en cours vs semaine précédente
 - Inclut le jour en cours via `stepCount` live
+- Pastille de tendance de la moyenne quotidienne (rouge/neutre/couleur anneau vs semaine précédente)
+- Tap sur le graphe → `HistoryDetailView` : tendance sur 10 semaines (semaines tappables, intervalle de dates, tendance vs semaine précédente), totaux mensuels par année civile (janvier à décembre, swipe pour changer d'année aussi loin que l'historique disponible, mois futurs grisés à hauteur de la moyenne de l'année), plus longue série mise en avant (`FlameStreakView`, réutilisée depuis Settings), records personnels (meilleur jour/semaine/année, semaines et mois parfaits — masqués si 0), cumul total de pas. Calcul à la demande sur tout l'historique HealthKit (`StepCountViewModel.fetchHistoryStats()`), non persisté.
 
 ### Paramètres
 - Objectif quotidien : picker 5 000–20 000 pas
@@ -173,14 +181,16 @@ Hors cible applicative, à la racine du dépôt :
 - Notifications : toggle objectif journalier (1x/jour max)
 - Mode sombre : toggle, appliqué via `.preferredColorScheme` sur le `TabView`
 - Streak : série de jours consécutifs (flamme 🔥), cachée si streak = 0
-- Badges : grille de seuils de pas (5k→100k avec compteur) + badges de trajets (emoji)
+- Plus de grille de badges dans les Paramètres : les badges de trajets vivent désormais sur l'écran Trajets (voir ci-dessous) ; les badges de seuils de pas n'ont plus d'écran (données conservées dans `BadgeData`/`StepCountViewModel.milestoneCounts`, réutilisables pour une future UI)
 
 ### Système de trajets
 - 19 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
 - Progression via `distanceWalkingRunning` depuis `startDate` (requête idempotente)
 - `HKObserverQuery` live sur la distance — mise à jour sans ouvrir la vue
 - Jalons (milestones) débloqués au fil du km, avec notification locale
-- Completion : badge débloqué + notification + état "Terminé" dans l'UI
+- Catégories repliables (accordéon) dans le catalogue ; compteur = trajets restants (non terminés)
+- Trajets terminés : grille de badges compacts (emoji + nom) en tête de chaque catégorie ; tap → popup avec date de complétion (`journeyCompletionDates`)
+- Completion : badge débloqué + notification + popup de détail (pas de navigation vers l'écran de détail, qui dépend de la progression en cours — supprimée à la complétion)
 
 ---
 
@@ -194,6 +204,7 @@ Hors cible applicative, à la racine du dépôt :
 | `goalNotifiedDate` | `Date` | Garde pour max 1 notif/jour |
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
+| `journeyCompletionDates` | `Data` (JSON) | `[String: Date]` — date de complétion par UUID de trajet |
 | `journeyProgressMap` | `Data` (JSON) | `[UUID: JourneyProgress]` encodé |
 | `aphorismPopupEnabled` | `Bool` | Toggle pensée du jour (défaut : activé) |
 | `lastAphorismDisplayDate` | `Date` | Garde pour max 1 popup pensée du jour/jour |
@@ -396,7 +407,7 @@ git push origin main
 - [x] Notifications locales (objectif + jalons + completion)
 - [x] Couleur de l'anneau personnalisable
 - [x] Mode sombre
-- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0)
+- [x] Pensée du jour — popup matinale + carte dans les Paramètres (recueil de 400 aphorismes CC0) + rappel notification de midi si l'app n'a pas encore été ouverte
 
 ### Priorité haute — impact utilisateur immédiat
 - [x] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets, pensée du jour)
@@ -405,7 +416,7 @@ git push origin main
 - [ ] **Widget iOS écran d'accueil** — pas du jour + progression anneau
 
 ### Priorité moyenne — enrichissement
-- [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage, affichage dans une notification
+- [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage
 - [ ] **Export CSV** — historique de pas et distances exportable
 - [ ] **Gamification RPG** — débloquer des actions selon les pas (concept en cours d'évaluation)
 
