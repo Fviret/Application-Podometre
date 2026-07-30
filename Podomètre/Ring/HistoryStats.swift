@@ -1,8 +1,8 @@
 import Foundation
 
-/// Statistiques agrégées pour l'écran d'historique : tendance multi-semaines, totaux mensuels,
-/// taux de réussite de l'objectif et records personnels. Calculées à la demande depuis tout
-/// l'historique HealthKit disponible — jamais persistées.
+/// Statistiques agrégées pour l'écran d'historique : tendance multi-semaines, totaux mensuels
+/// et records personnels. Calculées à la demande depuis tout l'historique HealthKit disponible
+/// — jamais persistées.
 struct HistoryStats {
     /// Un mois affiché dans le graphe des totaux mensuels.
     struct MonthlyTotal: Identifiable {
@@ -38,11 +38,6 @@ struct HistoryStats {
     var weeklyAverages: [WeeklyAverage] = []
     /// Totaux mensuels par année civile, de la plus ancienne (historique disponible) à l'année en cours.
     var yearlyTotals: [YearlyTotals] = []
-    /// Taux de réussite de l'objectif *courant*, appliqué rétroactivement (0...1) — aucun
-    /// historique d'objectif n'est conservé, seul l'objectif actuel est connu.
-    var goalSuccessRate30: Double = 0
-    var goalSuccessRate90: Double = 0
-    var goalSuccessRate365: Double = 0
     /// Meilleur jour jamais enregistré.
     var bestDaySteps: Int = 0
     var bestDayDate: Date?
@@ -110,19 +105,6 @@ struct HistoryStats {
             return YearlyTotals(year: year, months: months, yearTotal: yearTotal)
         }
 
-        func successRate(overDays days: Int) -> Double {
-            guard goal > 0 else { return 0 }
-            var reached = 0
-            for offset in 0..<days {
-                guard let date = calendar.date(byAdding: .day, value: -offset, to: today) else { continue }
-                if (dailySteps[date] ?? 0) >= goal { reached += 1 }
-            }
-            return Double(reached) / Double(days)
-        }
-        stats.goalSuccessRate30 = successRate(overDays: 30)
-        stats.goalSuccessRate90 = successRate(overDays: 90)
-        stats.goalSuccessRate365 = successRate(overDays: 365)
-
         if let best = dailySteps.max(by: { $0.value < $1.value }) {
             stats.bestDaySteps = best.value
             stats.bestDayDate = best.key
@@ -189,9 +171,6 @@ extension HistoryStats {
             YearlyTotals(year: currentYear - 1, months: lastYearMonths, yearTotal: lastYearTotals.reduce(0, +)),
             YearlyTotals(year: currentYear, months: thisYearMonths, yearTotal: thisYearMonths.map(\.total).reduce(0, +))
         ]
-        stats.goalSuccessRate30 = 0.63
-        stats.goalSuccessRate90 = 0.58
-        stats.goalSuccessRate365 = 0.51
         stats.bestDaySteps = 24_680
         stats.bestDayDate = Calendar.current.date(byAdding: .day, value: -42, to: Date())
         stats.longestStreakEver = 11

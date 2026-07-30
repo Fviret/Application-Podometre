@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Écran d'historique complet : tendance multi-semaines, totaux mensuels, taux de réussite
-/// de l'objectif et records personnels. Ouvert au tap sur le graphe hebdomadaire de l'écran Activité.
+/// Écran d'historique complet : tendance multi-semaines, totaux mensuels et records personnels.
+/// Ouvert au tap sur le graphe hebdomadaire de l'écran Activité.
 struct HistoryDetailView: View {
     @ObservedObject var viewModel: StepCountViewModel
     @Environment(\.dismiss) private var dismiss
@@ -13,7 +13,6 @@ struct HistoryDetailView: View {
                     if let stats = viewModel.historyStats {
                         WeeklyTrendSection(weeklyAverages: stats.weeklyAverages, ringColor: viewModel.ringColor)
                         YearlyTotalsSection(yearlyTotals: stats.yearlyTotals, ringColor: viewModel.ringColor)
-                        goalSuccessSection(stats)
                         recordsSection(stats)
                         allTimeSection(stats)
                     } else {
@@ -39,36 +38,6 @@ struct HistoryDetailView: View {
         }
     }
 
-
-    // MARK: - Taux de réussite de l'objectif
-
-    private func goalSuccessSection(_ stats: HistoryStats) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("Objectif atteint")
-
-            HStack(spacing: 12) {
-                successTile(label: "30 jours", rate: stats.goalSuccessRate30)
-                successTile(label: "90 jours", rate: stats.goalSuccessRate90)
-                successTile(label: "365 jours", rate: stats.goalSuccessRate365)
-            }
-        }
-        .padding(16)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
-    }
-
-    private func successTile(label: String, rate: Double) -> some View {
-        VStack(spacing: 4) {
-            Text("\(Int((rate * 100).rounded())) %")
-                .font(.system(.title3, design: .rounded).weight(.bold))
-                .foregroundStyle(viewModel.ringColor)
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(Color.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Objectif atteint \(Int((rate * 100).rounded())) % des jours sur \(label)")
-    }
 
     // MARK: - Records personnels
 
