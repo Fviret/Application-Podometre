@@ -239,7 +239,7 @@ class StepCountViewModel: ObservableObject {
         )
 
         query.initialResultsHandler = { [weak self] _, results, _ in
-            guard let results else { return }
+            guard let results, let self else { return }
             var dailySteps: [Date: Int] = [:]
 
             results.enumerateStatistics(from: .distantPast, to: Date()) { statistics, _ in
@@ -248,10 +248,26 @@ class StepCountViewModel: ObservableObject {
                 dailySteps[calendar.startOfDay(for: statistics.startDate)] = steps
             }
 
-            let stats = HistoryStats.compute(dailySteps: dailySteps, goal: currentGoal, calendar: calendar)
-            Task { @MainActor in
-                self?.historyStats = stats
+            var stats = HistoryStats.compute(dailySteps: dailySteps, goal: currentGoal, calendar: calendar)
+
+            // Distance cumulée : requête séparée (distanceWalkingRunning n'est pas dans la
+            // collection de pas ci-dessus), sur tout l'historique disponible.
+            guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+                Task { @MainActor in self.historyStats = stats }
+                return
             }
+            let distancePredicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
+            let distanceQuery = HKStatisticsQuery(
+                quantityType: distanceType,
+                quantitySamplePredicate: distancePredicate,
+                options: .cumulativeSum
+            ) { _, distanceStats, _ in
+                stats.allTimeTotalDistanceKm = distanceStats?.sumQuantity()?.doubleValue(for: .meterUnit(with: .kilo)) ?? 0
+                Task { @MainActor in
+                    self.historyStats = stats
+                }
+            }
+            self.healthStore.execute(distanceQuery)
         }
 
         healthStore.execute(query)

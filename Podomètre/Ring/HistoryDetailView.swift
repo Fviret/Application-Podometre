@@ -151,18 +151,54 @@ struct HistoryDetailView: View {
 
     // MARK: - Cumul total
 
+    /// Circonférence de la Terre à l'équateur, en km — référence du « tour du monde ».
+    private let earthCircumferenceKm: Double = 40_075
+
     private func allTimeSection(_ stats: HistoryStats) -> some View {
-        VStack(spacing: 6) {
-            Text(stats.allTimeTotalSteps.formatted())
-                .font(.system(.largeTitle, design: .rounded).weight(.bold))
-                .foregroundStyle(viewModel.ringColor)
-            Text("pas cumulés depuis le début du suivi")
-                .font(.subheadline)
-                .foregroundStyle(Color.secondary)
+        // Progression exprimée comme un tour en cours (0...1), plutôt qu'une barre qui
+        // resterait bloquée à 100 % une fois le premier tour du monde dépassé.
+        let totalTours = stats.allTimeTotalDistanceKm / earthCircumferenceKm
+        let completedTours = Int(totalTours)
+        let currentTourProgress = totalTours - Double(completedTours)
+
+        return VStack(spacing: 20) {
+            VStack(spacing: 6) {
+                Text(stats.allTimeTotalSteps.formatted())
+                    .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                    .foregroundStyle(viewModel.ringColor)
+                Text("pas cumulés depuis le début du suivi")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondary)
+            }
+            .accessibilityElement(children: .combine)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("\(stats.allTimeTotalDistanceKm.formatted(.number.precision(.fractionLength(0)))) km parcourus")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.primary)
+
+                ProgressView(value: currentTourProgress)
+                    .tint(viewModel.ringColor)
+
+                Text(worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
+                    .font(.caption)
+                    .foregroundStyle(Color.secondary)
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(Int(stats.allTimeTotalDistanceKm.rounded())) kilomètres parcourus. "
+                + worldTourLabel(completedTours: completedTours, currentTourProgress: currentTourProgress))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
-        .accessibilityElement(children: .combine)
+    }
+
+    /// Libellé du tour du monde : distingue « en cours de premier tour » et « N tours + reste ».
+    private func worldTourLabel(completedTours: Int, currentTourProgress: Double) -> String {
+        let percent = Int((currentTourProgress * 100).rounded())
+        if completedTours > 0 {
+            return "\(completedTours) tour\(completedTours > 1 ? "s" : "") du monde + \(percent) % (40 075 km/tour)"
+        }
+        return "\(percent) % du tour du monde (40 075 km)"
     }
 
     // MARK: - Commun

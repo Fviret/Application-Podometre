@@ -58,6 +58,9 @@ struct HistoryStats {
     var longestStreakEver: Int = 0
     /// Cumul de pas depuis la première donnée HealthKit disponible.
     var allTimeTotalSteps: Int = 0
+    /// Cumul de distance marche+course (km) depuis la première donnée disponible. Récupéré
+    /// séparément des pas (requête `distanceWalkingRunning` dédiée) — pas dérivé de `dailySteps`.
+    var allTimeTotalDistanceKm: Double = 0
 
     /// Nombre de semaines couvertes par le graphe de tendance.
     static let weekCount = 10
@@ -273,6 +276,7 @@ extension HistoryStats {
         stats.perfectMonthCount = 0
         stats.longestStreakEver = 11
         stats.allTimeTotalSteps = 2_845_320
+        stats.allTimeTotalDistanceKm = 2_050
         return stats
     }
 }
