@@ -153,10 +153,13 @@ struct HistoryDetailView: View {
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 1) {
-                Text(title)
+                // title/value viennent d'un paramètre, pas d'un littéral : non extraits
+                // automatiquement par le compilateur. LocalizedStringKey force la recherche
+                // dans le catalogue au runtime ; sans correspondance, affiche la valeur telle quelle.
+                Text(LocalizedStringKey(title))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
-                Text(value)
+                Text(LocalizedStringKey(value))
                     .font(.system(.headline, design: .rounded))
                     .foregroundStyle(Color.primary)
             }
@@ -164,7 +167,7 @@ struct HistoryDetailView: View {
             Spacer()
 
             if let subtitle {
-                Text(subtitle)
+                Text(LocalizedStringKey(subtitle))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.trailing)
@@ -254,7 +257,7 @@ struct HistoryDetailView: View {
     // MARK: - Commun
 
     private func sectionTitle(_ text: String) -> some View {
-        Text(text)
+        Text(LocalizedStringKey(text))
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .foregroundStyle(Color.primary)
     }

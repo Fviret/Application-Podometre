@@ -149,7 +149,7 @@ struct StepRingView: View {
                                 .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
                                 .accessibilityIdentifier("step_ring")
 
-                                Text(viewModel.selectedDateLabel)
+                                Text(LocalizedStringKey(viewModel.selectedDateLabel))
                                     .font(.system(.subheadline, design: .rounded).weight(.medium))
                                     .foregroundStyle(Color.primary)
                                     .id(viewModel.selectedDayOffset)
