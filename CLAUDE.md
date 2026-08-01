@@ -111,7 +111,8 @@ Podomètre/
 │   ├── AphorismPopupView.swift         # Popup matinale
 │   ├── AphorismCardView.swift          # Carte de l'aphorisme
 │   ├── AphorismSettingsView.swift      # Section Paramètres
-│   └── aphorisms_humor_400.json        # Recueil (400 aphorismes, CC0)
+│   ├── aphorisms_humor_400.json        # Recueil français (400 aphorismes, CC0)
+│   └── aphorisms_humor_en.json         # Recueil anglais (89 aphorismes, domaine public — Wilde/Bierce/Twain/Franklin)
 ├── Preferences/                        # Persistance UserDefaults centralisée
 │   ├── PreferenceKey.swift             # Enum de toutes les clés
 │   ├── Preferences.swift               # Wrapper typé, injectable pour les tests

@@ -27,14 +27,25 @@ final class AphorismManager: ObservableObject {
         self.aphorisms = aphorisms ?? Self.loadAphorisms(from: bundle)
     }
 
-    /// Décode `aphorisms_humor_400.json` depuis le bundle. Retourne `[]` en cas d'échec (pas de crash).
+    /// Décode le recueil adapté à la langue de l'utilisateur depuis le bundle.
+    /// Retourne `[]` en cas d'échec (pas de crash).
     static func loadAphorisms(from bundle: Bundle = .main) -> [Aphorism] {
-        guard let url = bundle.url(forResource: "aphorisms_humor_400", withExtension: "json"),
+        guard let url = bundle.url(forResource: resourceName(for: bundle), withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode(AphorismData.self, from: data) else {
             return []
         }
         return decoded.aphorisms
+    }
+
+    /// Choisit le recueil à charger selon la langue la mieux adaptée parmi celles supportées
+    /// par l'app (`preferredLocalizations`, pas `Locale.current` — respecte le repli d'Apple si
+    /// la langue système n'est pas supportée). Anglais → recueil traduit ; tout le reste → français
+    /// (langue source). Les deux recueils sont des œuvres du domaine public distinctes, pas des
+    /// traductions l'un de l'autre — voir CLAUDE.md, section Localisation.
+    private static func resourceName(for bundle: Bundle) -> String {
+        let preferred = bundle.preferredLocalizations.first ?? "fr"
+        return preferred.hasPrefix("en") ? "aphorisms_humor_en" : "aphorisms_humor_400"
     }
 
     /// Aphorisme correspondant à un quantième d'année donné (1...366), sélection déterministe.
