@@ -48,7 +48,7 @@ struct HistoryDetailView: View {
         VStack(spacing: 10) {
             FlameStreakView(streak: stats.longestStreakEver, size: 180)
 
-            Text("\(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")")
+            Text(String(format: String(localized: stats.longestStreakEver > 1 ? "%@ jours" : "%@ jour"), "\(stats.longestStreakEver)"))
                 .font(.system(.title, design: .rounded).weight(.bold))
                 .foregroundStyle(Color.primary)
 
@@ -139,7 +139,7 @@ struct HistoryDetailView: View {
     private func weekRangeLabel(start: Date?, end: Date?) -> String? {
         guard let start, let end else { return nil }
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("d MMMM")
         return "\(formatter.string(from: start)) – \(formatter.string(from: end))"
     }
@@ -153,10 +153,13 @@ struct HistoryDetailView: View {
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 1) {
-                Text(title)
+                // title/value viennent d'un paramètre, pas d'un littéral : non extraits
+                // automatiquement par le compilateur. LocalizedStringKey force la recherche
+                // dans le catalogue au runtime ; sans correspondance, affiche la valeur telle quelle.
+                Text(LocalizedStringKey(title))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
-                Text(value)
+                Text(LocalizedStringKey(value))
                     .font(.system(.headline, design: .rounded))
                     .foregroundStyle(Color.primary)
             }
@@ -164,7 +167,7 @@ struct HistoryDetailView: View {
             Spacer()
 
             if let subtitle {
-                Text(subtitle)
+                Text(LocalizedStringKey(subtitle))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.trailing)
@@ -254,15 +257,15 @@ struct HistoryDetailView: View {
     // MARK: - Commun
 
     private func sectionTitle(_ text: String) -> some View {
-        Text(text)
+        Text(LocalizedStringKey(text))
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .foregroundStyle(Color.primary)
     }
 
-    /// Formate une date en libellé court fr_FR (ex. "12 juillet").
+    /// Formate une date en libellé court dans la langue de l'appareil (ex. "12 juillet").
     private func dateLabel(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("d MMMM")
         return formatter.string(from: date)
     }
@@ -334,14 +337,14 @@ private struct WeeklyTrendSection: View {
 
     private func rangeLabel(_ week: HistoryStats.WeeklyAverage) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("d MMMM")
         return "\(formatter.string(from: week.startDate)) – \(formatter.string(from: week.endDate))"
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Tendance sur \(HistoryStats.weekCount) semaines")
+            Text(String(format: String(localized: "Tendance sur %@ semaines"), "\(HistoryStats.weekCount)"))
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundStyle(Color.primary)
 
@@ -371,7 +374,7 @@ private struct WeeklyTrendSection: View {
                         .foregroundStyle(Color.secondary)
 
                     HStack(spacing: 6) {
-                        Text("\(selectedWeek.average.formatted()) pas/jour en moyenne")
+                        Text(String(format: String(localized: "%@ pas/jour en moyenne"), selectedWeek.average.formatted()))
                             .font(.system(.subheadline, design: .rounded).weight(.semibold))
                             .foregroundStyle(ringColor)
 
@@ -490,7 +493,7 @@ private struct YearlyTotalsSection: View {
                     }
                 }
 
-                Text("Total \(selectedYear.year) : \(selectedYear.yearTotal.formatted()) pas")
+                Text(String(format: String(localized: "Total %@ : %@ pas"), "\(selectedYear.year)", selectedYear.yearTotal.formatted()))
                     .font(.system(.subheadline, design: .rounded).weight(.semibold))
                     .foregroundStyle(ringColor)
                     .frame(maxWidth: .infinity, alignment: .center)

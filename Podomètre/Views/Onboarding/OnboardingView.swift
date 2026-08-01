@@ -33,7 +33,7 @@ struct OnboardingView: View {
                     dots
 
                     // Progression textuelle, en plus des dots (utile en accessibilité).
-                    Text("Étape \(page + 1) / 4")
+                    Text(String(format: String(localized: "Étape %@ / 4"), "\(page + 1)"))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                         .accessibilityLabel("Étape \(page + 1) sur 4")

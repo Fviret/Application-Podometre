@@ -72,6 +72,7 @@ Podomètre/
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
 ├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
+├── Localizable.xcstrings               # String Catalog — langue source française, extraction automatique par le compilateur
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
 │   ├── StepRingView.swift              # Anneau de progression + navigation par jour
@@ -110,7 +111,8 @@ Podomètre/
 │   ├── AphorismPopupView.swift         # Popup matinale
 │   ├── AphorismCardView.swift          # Carte de l'aphorisme
 │   ├── AphorismSettingsView.swift      # Section Paramètres
-│   └── aphorisms_humor_400.json        # Recueil (400 aphorismes, CC0)
+│   ├── aphorisms_humor_400.json        # Recueil français (400 aphorismes, CC0)
+│   └── aphorisms_humor_en.json         # Recueil anglais (89 aphorismes, domaine public — Wilde/Bierce/Twain/Franklin)
 ├── Preferences/                        # Persistance UserDefaults centralisée
 │   ├── PreferenceKey.swift             # Enum de toutes les clés
 │   ├── Preferences.swift               # Wrapper typé, injectable pour les tests
@@ -445,6 +447,24 @@ Conventions VoiceOver et Dynamic Type à respecter sur tous les écrans.
 ### Ne pas faire
 - Ne pas désactiver `.accessibilityElement` sur un élément interactif
 - Ne pas utiliser des couleurs seules pour véhiculer une information (toujours doubler avec un texte ou une icône)
+
+---
+
+## Localisation
+
+Infrastructure posée (`Localizable.xcstrings`, langue source française), **traduction pas encore commencée**.
+
+- Convention **source-as-key** : on continue d'écrire les `Text("...")` directement en français, sans clé symbolique. Le compilateur Swift extrait automatiquement chaque chaîne dans le String Catalog à la compilation (`SWIFT_EMIT_LOC_STRINGS = YES` sur la cible principale) — aucune friction au quotidien, pas d'étape manuelle.
+- Le français reste la langue source (`developmentRegion = fr`) ; l'anglais n'est pas encore ajouté comme langue cible dans le catalogue.
+- **Prochaines étapes** (dans l'ordre) :
+  1. ~~Migration technique (String Catalog, zéro traduction)~~ ✅
+  2. ~~Traduction du contenu hors pensée du jour~~ ✅ — 693 chaînes dans `Localizable.xcstrings` : les 28 trajets (505) + l'interface (188, dont 175 chaînes UI et 13 variantes capitalisées pour la météo). Chaque chaîne dérivée d'une variable (pas d'un littéral `Text("...")`) — labels de trajets, records de l'historique, catégories, couleur d'anneau, météo, date sélectionnée — a été enveloppée dans `Text(LocalizedStringKey(...))` à son point d'affichage pour forcer la recherche dans le catalogue au runtime.
+     - **Bug trouvé au passage** : l'en-tête de catégorie (`JourneyPickerView`) appelait `.uppercased()` sur `category.rawValue` *avant* la recherche de traduction, cherchant la clé `"PROMENADES"` au lieu de `"Promenades"` (jamais trouvée). Corrigé en gardant la casse d'origine pour la recherche et en appliquant `.textCase(.uppercase)` côté affichage.
+     - **Limite non résolue** : les phrases composées (gabarit + valeur interpolés dans un même `Text("... \(x) ...")`, ex. « Prochaine étape : **X** dans Y km ») ne sont pas couvertes — la partie fixe se traduira une fois extraite par un vrai build Xcode, mais la valeur insérée resterait en français. De même, la date du jour sélectionné (hors "Aujourd'hui"/"Hier") reste formatée en français (`DateFormatter` figé sur `Locale(identifier: "fr_FR")` dans `StepRingView`/`ActiveJourneyCardView`) — nécessiterait de passer sur la locale de l'appareil.
+  3. Recherche d'un recueil d'aphorismes équivalent en anglais (domaine public/CC0) — ne pas traduire le recueil français, l'humour et la licence ne survivent pas à la traduction
+  4. Intégration du contenu « pensée du jour » anglais pour les appareils en anglais
+- Ne pas traduire avant que le catalogue de contenu (trajets, jalons) soit stabilisé, sous peine de retraduire en boucle à chaque ajout.
+- **Mécanisme pour le contenu des trajets** (`JourneyData.swift`) : les chaînes y sont des *données*, pas des littéraux `Text("...")` — le compilateur ne les extrait donc pas automatiquement. Les vues qui les affichent utilisent `Text(LocalizedStringKey(journey.name))` (au lieu de `Text(journey.name)`) pour forcer une recherche dans le String Catalog au runtime ; les traductions sont ajoutées à la main dans `Localizable.xcstrings`, avec le texte français exact comme clé. **Limite connue** : les phrases composées (ex. « Prochaine étape : **X** dans Y km ») et les libellés d'accessibilité/notifications ne sont pas encore couverts par ce mécanisme — la partie fixe du gabarit se traduit, mais le nom du jalon inséré reste en français dans ces phrases précises.
 
 ---
 

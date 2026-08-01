@@ -1,0 +1,5 @@
+/* Traductions anglaises des descriptions d'usage système (Info.plist). */
+"NSHealthShareUsageDescription" = "The app needs to read your steps to work correctly.";
+"NSLocationWhenInUseUsageDescription" = "Location is required for the weather.";
+"NSMotionUsageDescription" = "Motion access lets your steps be shown in real time while you walk.";
+"NSUserNotificationsUsageDescription" = "Get an alert when you unlock a new milestone on your journey.";

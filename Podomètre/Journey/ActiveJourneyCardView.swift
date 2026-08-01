@@ -40,7 +40,7 @@ struct ActiveJourneyCardView: View {
     private var arrivalText: String? {
         guard let date = estimatedArrival else { return nil }
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("d MMMM")
         return formatter.string(from: date)
     }
@@ -64,7 +64,7 @@ struct ActiveJourneyCardView: View {
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(Color.secondary)
                             .textCase(.uppercase)
-                        Text(journey.name)
+                        Text(LocalizedStringKey(journey.name))
                             .font(.system(.headline, design: .rounded))
                             .foregroundStyle(Color.primary)
                             .lineLimit(1)
@@ -87,12 +87,12 @@ struct ActiveJourneyCardView: View {
 
                 // Étape suivante + arrivée estimée
                 HStack {
-                    Text("Prochaine étape dans \(kmToNext.formatted(.number.precision(.fractionLength(kmToNext < 10 ? 1 : 0)))) km")
+                    Text(String(format: String(localized: "Prochaine étape dans %@ km"), kmToNext.formatted(.number.precision(.fractionLength(kmToNext < 10 ? 1 : 0)))))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                     Spacer()
                     if let arrivalText {
-                        Label("Arrivée ~\(arrivalText)", systemImage: "flag.checkered")
+                        Label(String(format: String(localized: "Arrivée ~%@"), arrivalText), systemImage: "flag.checkered")
                             .font(.caption)
                             .foregroundStyle(Color.secondary)
                             .labelStyle(.titleAndIcon)

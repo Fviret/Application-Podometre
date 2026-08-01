@@ -8,9 +8,26 @@ struct MonthCalendarView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private let circleDiameter: CGFloat = 28
-    private let weekdayInitials = ["L", "M", "M", "J", "V", "S", "D"]
-    private let weekdayFullNames = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
     private let haptic = UIImpactFeedbackGenerator(style: .light)
+
+    /// Initiales des jours de la semaine dans la langue de l'appareil, réordonnées lundi-first
+    /// (le formatter renvoie dimanche en premier).
+    private var weekdayInitials: [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        let symbols = formatter.veryShortStandaloneWeekdaySymbols ?? []
+        guard symbols.count == 7 else { return [] }
+        return Array(symbols[1...]) + [symbols[0]]
+    }
+
+    /// Noms complets des jours de la semaine dans la langue de l'appareil, réordonnés lundi-first.
+    private var weekdayFullNames: [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        let symbols = formatter.standaloneWeekdaySymbols ?? []
+        guard symbols.count == 7 else { return [] }
+        return Array(symbols[1...]) + [symbols[0]]
+    }
 
     /// Calendrier grégorien explicite pour éviter les variations de `firstWeekday` selon la locale.
     private var calendar: Calendar {
@@ -22,10 +39,10 @@ struct MonthCalendarView: View {
 
     private var displayedMonth: Date { viewModel.displayedMonth }
 
-    /// Titre du mois affiché, formaté en français capitalisé (ex. "Juin 2026").
+    /// Titre du mois affiché, formaté dans la langue de l'appareil et capitalisé (ex. "Juin 2026").
     private var monthTitle: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("MMMMyyyy")
         return formatter.string(from: displayedMonth).capitalized
     }
@@ -133,7 +150,7 @@ struct MonthCalendarView: View {
                 }
             }
 
-            Text("Total : \(monthlyTotal.formatted()) pas")
+            Text(String(format: String(localized: "Total : %@ pas"), monthlyTotal.formatted()))
                 .font(.headline)
                 .foregroundStyle(Color.secondary)
                 .padding(.top, 16)
@@ -151,7 +168,7 @@ struct MonthCalendarView: View {
 
         let a11yLabel: String = {
             let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.locale = Locale.autoupdatingCurrent
             formatter.setLocalizedDateFormatFromTemplate("d MMMM")
             let dateStr = formatter.string(from: cellDate)
             if future { return "\(dateStr), à venir" }

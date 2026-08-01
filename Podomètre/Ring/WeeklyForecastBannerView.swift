@@ -88,7 +88,7 @@ private struct DayForecastCell: View {
     private var dayLabel: String {
         if isToday { return "Auj." }
         let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
+        f.locale = Locale.autoupdatingCurrent
         f.dateFormat = "EEE"
         return f.string(from: forecast.date).capitalized
     }
@@ -96,7 +96,7 @@ private struct DayForecastCell: View {
     private var fullDayLabel: String {
         if isToday { return "Aujourd'hui" }
         let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
+        f.locale = Locale.autoupdatingCurrent
         f.setLocalizedDateFormatFromTemplate("EEEE d MMMM")
         return f.string(from: forecast.date).capitalized
     }

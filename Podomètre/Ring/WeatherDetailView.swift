@@ -61,7 +61,7 @@ struct WeatherDetailView: View {
             Text(weatherEmoji(for: forecast.weatherCode))
                 .font(.system(size: 80))
                 .accessibilityHidden(true)
-            Text(weatherLabel(for: forecast.weatherCode))
+            Text(LocalizedStringKey(weatherLabel(for: forecast.weatherCode)))
                 .font(.system(.title3, design: .rounded).weight(.semibold))
             Text("\(Int(forecast.tempMax.rounded()))°  /  \(Int(forecast.tempMin.rounded()))°")
                 .font(.system(.body, design: .rounded))
@@ -131,14 +131,14 @@ struct WeatherDetailView: View {
     private var dayTitle: String {
         if isToday { return "Aujourd'hui" }
         let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
+        f.locale = Locale.autoupdatingCurrent
         f.setLocalizedDateFormatFromTemplate("EEEE d MMMM")
         return f.string(from: forecast.date).capitalized
     }
 
     private func timeString(_ date: Date) -> String {
         let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
+        f.locale = Locale.autoupdatingCurrent
         f.dateFormat = "HH'h'"
         return f.string(from: date)
     }

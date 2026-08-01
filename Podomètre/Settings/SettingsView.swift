@@ -86,7 +86,7 @@ struct SettingsView: View {
                         Circle()
                             .fill(viewModel.ringColor)
                             .frame(width: 24, height: 24)
-                        Text(AppColors.ringColorOptions.first { $0.id == viewModel.ringColorId }?.name ?? "")
+                        Text(LocalizedStringKey(AppColors.ringColorOptions.first { $0.id == viewModel.ringColorId }?.name ?? ""))
                             .foregroundStyle(Color.primary)
                         Spacer()
                     }

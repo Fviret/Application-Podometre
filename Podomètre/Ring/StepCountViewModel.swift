@@ -253,7 +253,10 @@ class StepCountViewModel: ObservableObject {
             // Distance cumulée : requête séparée (distanceWalkingRunning n'est pas dans la
             // collection de pas ci-dessus), sur tout l'historique disponible.
             guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
-                Task { @MainActor in self.historyStats = stats }
+                Task { @MainActor in
+                    self.cachedDailySteps = dailySteps
+                    self.historyStats = stats
+                }
                 return
             }
             let distancePredicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date())
@@ -264,6 +267,8 @@ class StepCountViewModel: ObservableObject {
             ) { _, distanceStats, _ in
                 stats.allTimeTotalDistanceKm = distanceStats?.sumQuantity()?.doubleValue(for: .meterUnit(with: .kilo)) ?? 0
                 Task { @MainActor in
+                    self.cachedDailySteps = dailySteps
+                    self.cachedAllTimeDistanceKm = stats.allTimeTotalDistanceKm
                     self.historyStats = stats
                 }
             }
@@ -279,7 +284,25 @@ class StepCountViewModel: ObservableObject {
         let stored = Preferences.shared.integer(.dailyStepGoal)
         return stored > 0 ? stored : 10_000
     }() {
-        didSet { Preferences.shared.set(goal, for: .dailyStepGoal) }
+        didSet {
+            Preferences.shared.set(goal, for: .dailyStepGoal)
+            recomputeHistoryStatsIfNeeded()
+        }
+    }
+
+    /// Pas quotidiens de tout l'historique HealthKit, mis en cache lors du dernier
+    /// `fetchHistoryStats()` — permet de recalculer `historyStats` sans requête HK
+    /// quand l'objectif change pendant que l'écran d'historique est ouvert.
+    private var cachedDailySteps: [Date: Int]?
+    private var cachedAllTimeDistanceKm: Double?
+
+    /// Recalcule `historyStats` à partir des données déjà en cache (sans requête HK)
+    /// quand l'objectif change alors qu'un historique a déjà été chargé.
+    private func recomputeHistoryStatsIfNeeded() {
+        guard let dailySteps = cachedDailySteps else { return }
+        var stats = HistoryStats.compute(dailySteps: dailySteps, goal: goal, calendar: Calendar.current)
+        stats.allTimeTotalDistanceKm = cachedAllTimeDistanceKm ?? 0
+        historyStats = stats
     }
 
     /// Nombre de pas pour le jour sélectionné.
@@ -358,14 +381,14 @@ class StepCountViewModel: ObservableObject {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
     }
 
-    /// Libellé lisible du jour sélectionné ("Aujourd'hui", "Hier", ou date courte fr_FR).
+    /// Libellé lisible du jour sélectionné ("Aujourd'hui", "Hier", ou date courte dans la langue de l'appareil).
     var selectedDateLabel: String {
         switch selectedDayOffset {
         case 0: return "Aujourd'hui"
         case 1: return "Hier"
         default:
             let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.locale = Locale.autoupdatingCurrent
             formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
             return formatter.string(from: selectedDate)
         }

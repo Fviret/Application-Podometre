@@ -99,7 +99,7 @@ struct HistoryStats {
         }
 
         let monthFormatter = DateFormatter()
-        monthFormatter.locale = Locale(identifier: "fr_FR")
+        monthFormatter.locale = Locale.autoupdatingCurrent
         monthFormatter.setLocalizedDateFormatFromTemplate("MMM")
 
         // Une entrée par année civile complète, de la plus ancienne donnée disponible à l'année en cours.
@@ -274,12 +274,13 @@ struct HistoryStats {
         return stats
     }
 
-    /// Nom du jour de semaine en fr_FR depuis le composant `.weekday` de `Calendar`
+    /// Nom du jour de semaine dans la langue de l'appareil, depuis le composant `.weekday` de `Calendar`
     /// (1 = dimanche … 7 = samedi, indépendant de `firstWeekday`).
     private static func weekdayName(_ weekday: Int) -> String {
-        let names = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
         guard (1...7).contains(weekday) else { return "" }
-        return names[weekday - 1]
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        return formatter.standaloneWeekdaySymbols[weekday - 1].capitalized
     }
 }
 

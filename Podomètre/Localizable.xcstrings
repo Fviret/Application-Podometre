@@ -1,0 +1,7136 @@
+{
+  "sourceLanguage": "fr",
+  "strings": {
+    "Tour des Tuileries": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuileries Loop"
+          }
+        }
+      }
+    },
+    "Du Louvre à la Concorde — 2,5 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From the Louvre to Concorde — 2.5 km"
+          }
+        }
+      }
+    },
+    "Pyramide du Louvre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louvre Pyramid"
+          }
+        }
+      }
+    },
+    "Départ face à la pyramide de verre. Les cours du palais s'ouvrent sur un des musées les plus visités au monde.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point facing the glass pyramid. The palace courtyards open onto one of the most visited museums in the world."
+          }
+        }
+      }
+    },
+    "Bassin octogonal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octagonal Basin"
+          }
+        }
+      }
+    },
+    "Centre géométrique du jardin. Les chaises vertes, les enfants aux voiliers, le soleil sur l'eau — Paris au ralenti.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The garden's geometric centerpiece. Green chairs, children with toy sailboats, sunlight on the water — Paris in slow motion."
+          }
+        }
+      }
+    },
+    "Place de la Concorde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place de la Concorde"
+          }
+        }
+      }
+    },
+    "L'obélisque de Louxor marque l'arrivée. La plus grande place de Paris s'ouvre sur les Champs-Élysées à l'ouest.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Luxor obelisk marks the finish. Paris's largest square opens onto the Champs-Élysées to the west."
+          }
+        }
+      }
+    },
+    "Berges de la Seine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seine Riverbanks"
+          }
+        }
+      }
+    },
+    "Notre-Dame → Tour Eiffel — 5 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notre-Dame → Eiffel Tower — 5 km"
+          }
+        }
+      }
+    },
+    "Notre-Dame de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notre-Dame de Paris"
+          }
+        }
+      }
+    },
+    "Départ face au parvis de la cathédrale, sur l'Île de la Cité. La Seine coule de chaque côté.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point facing the cathedral square, on the Île de la Cité. The Seine flows on both sides."
+          }
+        }
+      }
+    },
+    "Pont des Arts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pont des Arts"
+          }
+        }
+      }
+    },
+    "Le pont piéton aux anciens cadenas d'amour. Vue dégagée sur l'Institut de France et le Louvre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The pedestrian bridge once covered in love padlocks. Open view of the Institut de France and the Louvre."
+          }
+        }
+      }
+    },
+    "Tour Eiffel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eiffel Tower"
+          }
+        }
+      }
+    },
+    "La dame de fer vue depuis le Champ-de-Mars. Depuis les berges, elle apparaît d'un coup au détour du pont de l'Alma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The iron lady seen from the Champ-de-Mars. From the riverbanks, she suddenly appears past the Pont de l'Alma."
+          }
+        }
+      }
+    },
+    "Boucle de Central Park": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Central Park Loop"
+          }
+        }
+      }
+    },
+    "Le grand tour du parc new-yorkais — 10 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The grand tour of New York's park — 10 km"
+          }
+        }
+      }
+    },
+    "Grand Army Plaza": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand Army Plaza"
+          }
+        }
+      }
+    },
+    "Entrée sud du parc, à deux pas du Plaza Hotel. Les calèches attendent, les gratte-ciel de Midtown encadrent les premiers arbres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The park's southern entrance, steps from the Plaza Hotel. Horse-drawn carriages wait, Midtown skyscrapers frame the first trees."
+          }
+        }
+      }
+    },
+    "Bethesda Fountain": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bethesda Fountain"
+          }
+        }
+      }
+    },
+    "La fontaine de l'Ange des Eaux, cœur romantique du parc. Les terrasses donnent sur le lac et ses barques.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Angel of the Waters fountain, the park's romantic heart. Terraces overlook the lake and its rowboats."
+          }
+        }
+      }
+    },
+    "Harlem Meer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harlem Meer"
+          }
+        }
+      }
+    },
+    "Lac tranquille à l'angle nord-est, loin de l'agitation touristique. Les colverts y hivernent, les New-Yorkais y pêchent.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A quiet lake at the northeast corner, far from the tourist bustle. Mallards winter here, New Yorkers fish here."
+          }
+        }
+      }
+    },
+    "Strawberry Fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strawberry Fields"
+          }
+        }
+      }
+    },
+    "Mosaïque « Imagine » en hommage à John Lennon, qui habitait le Dakota Building juste en face. Bouclage du tour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ‘Imagine’ mosaic honoring John Lennon, who lived right across the street at the Dakota Building. The loop closes here."
+          }
+        }
+      }
+    },
+    "Semi-marathon de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paris Half Marathon"
+          }
+        }
+      }
+    },
+    "Hôtel de Ville → Champs-Élysées — 21 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City Hall → Champs-Élysées — 21 km"
+          }
+        }
+      }
+    },
+    "Hôtel de Ville": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City Hall"
+          }
+        }
+      }
+    },
+    "Départ sur le parvis. La Seine est à deux pas, les bâtiments haussmanniens bordent les premiers kilomètres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point on the square. The Seine is steps away, Haussmann-era buildings line the first kilometers."
+          }
+        }
+      }
+    },
+    "Bois de Vincennes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vincennes Woods"
+          }
+        }
+      }
+    },
+    "Le poumon vert de l'est parisien. Les allées forestières offrent un répit après les boulevards.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eastern Paris's green lung. Forest paths offer a break from the boulevards."
+          }
+        }
+      }
+    },
+    "Place de la Nation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place de la Nation"
+          }
+        }
+      }
+    },
+    "La grande place ronde marque le retour vers le centre. Les jambes commencent à parler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The great round square marks the turn back toward the center. Legs start to complain."
+          }
+        }
+      }
+    },
+    "Champs-Élysées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Champs-Élysées"
+          }
+        }
+      }
+    },
+    "Arrivée sur la plus belle avenue du monde. 21,1 km dans les jambes et tout Paris pour récompense.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish on the most beautiful avenue in the world. 21.1 km in the legs, and all of Paris as a reward."
+          }
+        }
+      }
+    },
+    "Marathon de Paris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paris Marathon"
+          }
+        }
+      }
+    },
+    "La boucle mythique — 42 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The legendary loop — 42 km"
+          }
+        }
+      }
+    },
+    "Départ au pied de l'Arc de Triomphe. Des dizaines de milliers de coureurs s'élancent chaque année en avril.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point at the foot of the Arc de Triomphe. Tens of thousands of runners set off every year in April."
+          }
+        }
+      }
+    },
+    "Bois de Boulogne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boulogne Woods"
+          }
+        }
+      }
+    },
+    "Première grande bouffée d'air vert. Les allées du bois absorbent les premiers kilomètres dans leurs feuillages.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First big breath of green air. The woods' pathways absorb the first kilometers in their foliage."
+          }
+        }
+      }
+    },
+    "Mi-parcours — Bastille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halfway Point — Bastille"
+          }
+        }
+      }
+    },
+    "La moitié est franchie. La place de la Bastille et ses colonnes marquent le point de bascule mental du marathon.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The halfway mark. Place de la Bastille and its column mark the marathon's mental turning point."
+          }
+        }
+      }
+    },
+    "Le redoutable km 30 — le mur du marathon. Les arbres du bois sont là pour souffler avant le retour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The dreaded km 30 — the marathon wall. The woods' trees are there to help you catch your breath before the return."
+          }
+        }
+      }
+    },
+    "Avenue Foch": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avenue Foch"
+          }
+        }
+      }
+    },
+    "L'arrivée. 42,195 km parcourus à travers Paris. La médaille, les jambes en feu, et la fierté qui ne passe pas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The finish. 42.195 km covered across Paris. The medal, legs on fire, and pride that never fades."
+          }
+        }
+      }
+    },
+    "Amélie Poulain — Montmartre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie Poulain — Montmartre"
+          }
+        }
+      }
+    },
+    "Café des Deux Moulins → Canal Saint-Martin — 4 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café des Deux Moulins → Canal Saint-Martin — 4 km"
+          }
+        }
+      }
+    },
+    "Café des Deux Moulins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café des Deux Moulins"
+          }
+        }
+      }
+    },
+    "Amélie y est serveuse. On la voit casser la croûte brûlée de la crème brûlée avec le dos de sa cuillère.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie works here as a waitress. We see her crack the burnt top of a crème brûlée with the back of her spoon."
+          }
+        }
+      }
+    },
+    "Épicerie Collignon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épicerie Collignon"
+          }
+        }
+      }
+    },
+    "Amélie s'en prend à l'épicier tyrannique : pantoufles réarrangées, réveil déréglé, petite vengeance discrète.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie targets the tyrannical grocer: rearranged slippers, a reset alarm clock, a small quiet act of revenge."
+          }
+        }
+      }
+    },
+    "Marché Saint-Pierre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marché Saint-Pierre"
+          }
+        }
+      }
+    },
+    "Le quartier textile qu'elle traverse en chemin, entre les rouleaux de tissus empilés sur les trottoirs.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The textile district she crosses along the way, past bolts of fabric stacked on the sidewalks."
+          }
+        }
+      }
+    },
+    "Son appartement, passage des Abbesses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her Apartment, Passage des Abbesses"
+          }
+        }
+      }
+    },
+    "Là où elle vit, observe le monde par sa fenêtre et invente ses petits complots bienveillants.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where she lives, watches the world through her window, and dreams up her small acts of kindness."
+          }
+        }
+      }
+    },
+    "Le Consulat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Consulat"
+          }
+        }
+      }
+    },
+    "Le café où travaille Nino, qu'elle épie de loin avant d'oser l'approcher.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The café where Nino works, whom she spies on from a distance before daring to approach."
+          }
+        }
+      }
+    },
+    "Parvis du Sacré-Cœur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sacré-Cœur Square"
+          }
+        }
+      }
+    },
+    "Vue sur tout Paris. Un des lieux de rendez-vous les plus emblématiques du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A view over all of Paris. One of the film's most iconic meeting spots."
+          }
+        }
+      }
+    },
+    "Ricochets sur le Canal Saint-Martin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipping Stones on Canal Saint-Martin"
+          }
+        }
+      }
+    },
+    "Amélie fait des ricochets, seule, dans un des instants les plus contemplatifs du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amélie skips stones, alone, in one of the film's most contemplative moments."
+          }
+        }
+      }
+    },
+    "Canal Saint-Martin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canal Saint-Martin"
+          }
+        }
+      }
+    },
+    "Fin du parcours au bord de l'eau, dans la lumière si particulière du Paris d'Amélie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The route ends by the water, in the light so particular to Amélie's Paris."
+          }
+        }
+      }
+    },
+    "Before Sunrise — Vienne de nuit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before Sunrise — Vienna by Night"
+          }
+        }
+      }
+    },
+    "Gare de Vienne → Pont sur le Danube — 7 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Train Station → Danube Bridge — 7 km"
+          }
+        }
+      }
+    },
+    "Gare de Vienne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Train Station"
+          }
+        }
+      }
+    },
+    "Jesse et Céline descendent du train ensemble, sur un coup de tête qui va changer une nuit — et peut-être une vie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jesse and Céline get off the train together, on a whim that will change one night — and maybe a life."
+          }
+        }
+      }
+    },
+    "Tram nocturne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Night Tram"
+          }
+        }
+      }
+    },
+    "Première vraie conversation, premières confidences, à travers les vitres embuées d'un tramway viennois.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first real conversation, first confidences, through the fogged-up windows of a Viennese tram."
+          }
+        }
+      }
+    },
+    "Café Sperl": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Café Sperl"
+          }
+        }
+      }
+    },
+    "Discussion existentielle autour d'un café viennois — l'amour, le temps, la peur de se rater.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An existential conversation over a Viennese coffee — love, time, the fear of missing out."
+          }
+        }
+      }
+    },
+    "Disquaire, cabine d'écoute": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record Store, Listening Booth"
+          }
+        }
+      }
+    },
+    "Le moment gênant et tendre où ils écoutent un disque ensemble, sans jamais oser se regarder.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The awkward, tender moment where they listen to a record together, never quite daring to look at each other."
+          }
+        }
+      }
+    },
+    "Cimetière central de Vienne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vienna Central Cemetery"
+          }
+        }
+      }
+    },
+    "Déambulation parmi les tombes, réflexions à voix haute sur le temps qui passe et la mort qui attend.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wandering among the graves, thinking aloud about passing time and waiting death."
+          }
+        }
+      }
+    },
+    "Petit parc au bord du Danube": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small Park by the Danube"
+          }
+        }
+      }
+    },
+    "Un slam improvisé par un inconnu du parc, pour une poignée de pièces — un des instants les plus tendres du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An impromptu slam poem from a stranger in the park, for a handful of coins — one of the film's tenderest moments."
+          }
+        }
+      }
+    },
+    "Grande roue du Prater": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prater Ferris Wheel"
+          }
+        }
+      }
+    },
+    "Premier baiser, suspendu dans une cabine au-dessus des lumières de Vienne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First kiss, suspended in a cabin above the lights of Vienna."
+          }
+        }
+      }
+    },
+    "Pont sur le Danube": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danube Bridge"
+          }
+        }
+      }
+    },
+    "L'aube approche. La promesse fragile de se retrouver, six mois plus tard, sur ce même quai.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dawn approaches. The fragile promise to meet again, six months later, on this same platform."
+          }
+        }
+      }
+    },
+    "Notting Hill — Portobello Road": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notting Hill — Portobello Road"
+          }
+        }
+      }
+    },
+    "Librairie de William → Hôtel Ritz — 3 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William's Bookshop → The Ritz — 3 km"
+          }
+        }
+      }
+    },
+    "Librairie de voyage de William": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William's Travel Bookshop"
+          }
+        }
+      }
+    },
+    "Anna Scott y entre par hasard, incognito, et bouleverse sans le savoir la vie tranquille d'un libraire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anna Scott walks in by chance, incognito, unknowingly turning a quiet bookseller's life upside down."
+          }
+        }
+      }
+    },
+    "Portobello Market": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portobello Market"
+          }
+        }
+      }
+    },
+    "La traversée du marché au fil des saisons, en un seul plan-séquence devenu culte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The market crossed through the changing seasons, in a single cult-favorite tracking shot."
+          }
+        }
+      }
+    },
+    "Le café du coin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Corner Café"
+          }
+        }
+      }
+    },
+    "William renverse du jus d'orange sur Anna en se faisant passer pour un journaliste — un mensonge maladroit et charmant.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "William spills orange juice on Anna while pretending to be a journalist — an awkward, charming lie."
+          }
+        }
+      }
+    },
+    "La porte bleue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Blue Door"
+          }
+        }
+      }
+    },
+    "La façade la plus photographiée du film, devenue un symbole du quartier bien au-delà de l'écran.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The film's most photographed façade, now a neighborhood symbol far beyond the screen."
+          }
+        }
+      }
+    },
+    "Jardin communal secret": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secret Communal Garden"
+          }
+        }
+      }
+    },
+    "Ils escaladent la grille pour s'y retrouver, loin des paparazzis, dans un des rares moments de calme du film.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "They climb the fence to meet there, away from the paparazzi, in one of the film's rare quiet moments."
+          }
+        }
+      }
+    },
+    "Hôtel Ritz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Ritz"
+          }
+        }
+      }
+    },
+    "Conférence de presse finale : William déclare publiquement son amour devant les caméras du monde entier.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final press conference: William publicly declares his love in front of the world's cameras."
+          }
+        }
+      }
+    },
+    "Rocky — les marches du musée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rocky — The Museum Steps"
+          }
+        }
+      }
+    },
+    "Marché italien de Philadelphie → Museum of Art — 3 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Philadelphia's Italian Market → Museum of Art — 3 km"
+          }
+        }
+      }
+    },
+    "Marché italien de South Philly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "South Philly's Italian Market"
+          }
+        }
+      }
+    },
+    "Entraînement à l'aube. Rocky salue les commerçants et attrape une orange au vol, sans ralentir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Training at dawn. Rocky greets the shopkeepers and catches an orange in mid-air, without breaking stride."
+          }
+        }
+      }
+    },
+    "Rue résidentielle de South Philly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "South Philly Residential Street"
+          }
+        }
+      }
+    },
+    "Course matinale à travers les quartiers populaires qui l'ont vu grandir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Morning run through the working-class neighborhoods that raised him."
+          }
+        }
+      }
+    },
+    "Fontaine de Logan Square": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Logan Square Fountain"
+          }
+        }
+      }
+    },
+    "Une courte pause pendant l'entraînement, le souffle repris avant la dernière ligne droite.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A short break during training, catching his breath before the home stretch."
+          }
+        }
+      }
+    },
+    "Escaliers du Philadelphia Museum of Art": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Philadelphia Museum of Art Steps"
+          }
+        }
+      }
+    },
+    "La montée légendaire, bras levés au sommet — un des instants les plus imités du cinéma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The legendary climb, arms raised at the top — one of the most imitated moments in cinema."
+          }
+        }
+      }
+    },
+    "Statue de Rocky": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rocky Statue"
+          }
+        }
+      }
+    },
+    "Au pied des marches, désormais un lieu de pèlerinage pour les fans venus refaire la montée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the foot of the steps, now a pilgrimage site for fans who come to relive the climb."
+          }
+        }
+      }
+    },
+    "Lost in Translation — Tokyo de nuit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lost in Translation — Tokyo by Night"
+          }
+        }
+      }
+    },
+    "Park Hyatt Tokyo → départ du bar — 6 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Park Hyatt Tokyo → The Bar Farewell — 6 km"
+          }
+        }
+      }
+    },
+    "Bar du Park Hyatt Tokyo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Park Hyatt Tokyo Bar"
+          }
+        }
+      }
+    },
+    "Bob et Charlotte se croisent au bar, un premier regard complice au-dessus de la ville illuminée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bob and Charlotte first meet at the bar, a first knowing glance above the illuminated city."
+          }
+        }
+      }
+    },
+    "Croisement de Shibuya": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shibuya Crossing"
+          }
+        }
+      }
+    },
+    "Immersion dans la foule et les néons de Tokyo — un sentiment de solitude au milieu de la multitude.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immersion in Tokyo's crowds and neon lights — a feeling of solitude in the middle of the multitude."
+          }
+        }
+      }
+    },
+    "Salle de karaoké": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karaoke Room"
+          }
+        }
+      }
+    },
+    "Soirée improvisée entre amis. Bob chante « More Than This », perruque rose sur la tête.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An impromptu night out with friends. Bob sings ‘More Than This,’ pink wig on his head."
+          }
+        }
+      }
+    },
+    "Golden Gai (Shinjuku)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Golden Gai (Shinjuku)"
+          }
+        }
+      }
+    },
+    "Ruelles de bars minuscules, à peine plus larges qu'un couloir — la nuit tokyoïte la plus électrique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alleys of tiny bars, barely wider than a hallway — Tokyo's most electric night."
+          }
+        }
+      }
+    },
+    "Temple bouddhiste": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddhist Temple"
+          }
+        }
+      }
+    },
+    "Charlotte s'y rend seule, en quête de sens, loin du vertige de la ville.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charlotte goes there alone, searching for meaning, far from the city's dizzying pace."
+          }
+        }
+      }
+    },
+    "Départ du Park Hyatt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leaving the Park Hyatt"
+          }
+        }
+      }
+    },
+    "Un adieu chuchoté à l'oreille, resté l'un des mystères les plus discutés du cinéma.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A whispered goodbye, still one of cinema's most debated mysteries."
+          }
+        }
+      }
+    },
+    "Départ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Arrivée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish"
+          }
+        }
+      }
+    },
+    "GR20 complet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete GR20"
+          }
+        }
+      }
+    },
+    "Le trek le plus difficile d'Europe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europe's toughest trek"
+          }
+        }
+      }
+    },
+    "Calenzana": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calenzana"
+          }
+        }
+      }
+    },
+    "Départ officiel du GR20, au pied des montagnes corses. Le sentier plonge immédiatement dans le maquis odorant.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Official start of the GR20, at the foot of the Corsican mountains. The trail plunges immediately into the fragrant maquis."
+          }
+        }
+      }
+    },
+    "Refuge de Carrozzu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carrozzu Hut"
+          }
+        }
+      }
+    },
+    "Passerelle suspendue de la Spasimata et dalles inclinées : le GR20 montre déjà les dents. Le refuge s'accroche au-dessus d'un cirque sauvage.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The suspended Spasimata footbridge and sloping slabs: the GR20 already shows its teeth. The hut clings above a wild cirque."
+          }
+        }
+      }
+    },
+    "Auberge U Vallone": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auberge U Vallone"
+          }
+        }
+      }
+    },
+    "Au pied du Monte Cinto, plus haut sommet de Corse. La partie la plus alpine du parcours nord est franchie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the foot of Monte Cinto, Corsica's highest peak. The most alpine part of the northern route is behind you."
+          }
+        }
+      }
+    },
+    "Col de Vergio": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Col de Vergio"
+          }
+        }
+      }
+    },
+    "Point le plus haut atteint par une route en Corse, entre forêts de pins laricio et estives. Le sentier bascule vers le centre de l'île.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The highest point reached by a road in Corsica, between laricio pine forests and summer pastures. The trail swings toward the island's center."
+          }
+        }
+      }
+    },
+    "Refuge de Manganu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manganu Hut"
+          }
+        }
+      }
+    },
+    "Au bord des pozzines, ces pelouses spongieuses gorgées d'eau. Les lacs glaciaires de Nino et Capitellu ne sont plus loin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By the pozzines, those spongy, waterlogged meadows. The glacial lakes of Nino and Capitellu are not far now."
+          }
+        }
+      }
+    },
+    "Refuge de Petra Piana": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Petra Piana Hut"
+          }
+        }
+      }
+    },
+    "Perché sous les crêtes, face à un panorama de sommets déchiquetés. Le cœur minéral du GR20.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perched beneath the ridgelines, facing a panorama of jagged peaks. The mineral heart of the GR20."
+          }
+        }
+      }
+    },
+    "Vizzavona": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vizzavona"
+          }
+        }
+      }
+    },
+    "Mi-parcours, accessible par le train. La forêt de laricio offre une pause bienvenue après les crêtes exposées.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halfway point, reachable by train. The laricio forest offers a welcome break after the exposed ridges."
+          }
+        }
+      }
+    },
+    "Refuge de Prati": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prati Hut"
+          }
+        }
+      }
+    },
+    "Vaste replat herbeux ouvert sur la mer Tyrrhénienne à l'est. Le sud, plus doux, commence à se dessiner.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A vast grassy plateau opening onto the Tyrrhenian Sea to the east. The gentler south begins to take shape."
+          }
+        }
+      }
+    },
+    "Refuge d'Usciolu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usciolu Hut"
+          }
+        }
+      }
+    },
+    "Perché sur l'arête, réputé pour ses couchers de soleil. La redoutable « arête a Monda » attend au sud.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perched on the ridge, famous for its sunsets. The fearsome ‘arête a Monda’ awaits to the south."
+          }
+        }
+      }
+    },
+    "Refuge d'Asinau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asinau Hut"
+          }
+        }
+      }
+    },
+    "Sous les aiguilles de Bavella, cathédrales de granit orange. L'un des plus beaux décors de toute la traversée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beneath the Bavella needles, cathedrals of orange granite. One of the most beautiful sights of the entire crossing."
+          }
+        }
+      }
+    },
+    "Refuge de Paliri": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paliri Hut"
+          }
+        }
+      }
+    },
+    "Dernier refuge avant l'arrivée, dans les pins et le maquis. La mer est déjà là, en contrebas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last hut before the finish, among the pines and maquis. The sea is already visible below."
+          }
+        }
+      }
+    },
+    "Conca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conca"
+          }
+        }
+      }
+    },
+    "Arrivée au bout du GR20, village perché au-dessus de Porto-Vecchio. La mer Méditerranée scintille au loin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrival at the end of the GR20, a village perched above Porto-Vecchio. The Mediterranean Sea sparkles in the distance."
+          }
+        }
+      }
+    },
+    "Camino Francés — tronçon final": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camino Francés — Final Stretch"
+          }
+        }
+      }
+    },
+    "Sarria → Santiago de Compostela": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sarria → Santiago de Compostela"
+          }
+        }
+      }
+    },
+    "Sarria": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sarria"
+          }
+        }
+      }
+    },
+    "Dernière ville permettant d'obtenir la Compostela en marchant le minimum requis — 100 km à pied.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The last town from which you can earn the Compostela by walking the minimum required distance — 100 km on foot."
+          }
+        }
+      }
+    },
+    "Morgade": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Morgade"
+          }
+        }
+      }
+    },
+    "Hameau minuscule où se dresse la fameuse borne des 100 kilomètres. À partir d'ici, chaque pas rapproche vraiment de Santiago.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A tiny hamlet home to the famous 100-kilometer marker. From here, every step truly brings you closer to Santiago."
+          }
+        }
+      }
+    },
+    "Portomarín": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portomarín"
+          }
+        }
+      }
+    },
+    "Village reconstruit après que l'ancien fut noyé sous le lac de Belesar dans les années 1960.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A village rebuilt after the old one was flooded under Lake Belesar in the 1960s."
+          }
+        }
+      }
+    },
+    "Eirexe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eirexe"
+          }
+        }
+      }
+    },
+    "Petit lieu-dit galicien parmi les hórreos, ces greniers de pierre sur pilotis. La campagne défile au rythme des vaches.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A small Galician hamlet among hórreos, those stone granaries on stilts. The countryside rolls by to the rhythm of grazing cows."
+          }
+        }
+      }
+    },
+    "Palas de Rei": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palas de Rei"
+          }
+        }
+      }
+    },
+    "Nom lié aux rois wisigoths. Étape tranquille à mi-chemin du tronçon final, cœur de la Galice verte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A name tied to the Visigothic kings. A quiet stage at the midpoint of the final stretch, in the heart of green Galicia."
+          }
+        }
+      }
+    },
+    "Melide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melide"
+          }
+        }
+      }
+    },
+    "Étape gourmande, capitale du poulpe à la galicienne — le pulpo á feira. Les pèlerins s'y attablent avant la dernière ligne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A stage for food lovers, capital of Galician-style octopus — pulpo á feira. Pilgrims sit down here before the home stretch."
+          }
+        }
+      }
+    },
+    "Arzúa": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arzúa"
+          }
+        }
+      }
+    },
+    "Capitale du fromage galicien. À une journée de Santiago, les pèlerins sentent déjà la fin du chemin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The capital of Galician cheese. A day from Santiago, pilgrims already sense the journey's end."
+          }
+        }
+      }
+    },
+    "O Pedrouzo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Pedrouzo"
+          }
+        }
+      }
+    },
+    "Dernière halte avant la ville sainte, dans les bois d'eucalyptus. Demain, Santiago.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last stop before the holy city, through eucalyptus woods. Tomorrow, Santiago."
+          }
+        }
+      }
+    },
+    "Monte do Gozo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monte do Gozo"
+          }
+        }
+      }
+    },
+    "Le « mont de la joie » : de sa colline, les pèlerins aperçoivent pour la première fois les flèches de la cathédrale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ‘hill of joy’: from here, pilgrims catch their first glimpse of the cathedral's spires."
+          }
+        }
+      }
+    },
+    "Santiago de Compostela": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Santiago de Compostela"
+          }
+        }
+      }
+    },
+    "La cathédrale surgit sur la Plaza del Obradoiro après des semaines de marche. La Compostela est méritée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cathedral rises over the Plaza del Obradoiro after weeks of walking. The Compostela is well earned."
+          }
+        }
+      }
+    },
+    "Camino Francés — complet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camino Francés — Complete"
+          }
+        }
+      }
+    },
+    "Saint-Jean-Pied-de-Port → Santiago": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saint-Jean-Pied-de-Port → Santiago"
+          }
+        }
+      }
+    },
+    "Saint-Jean-Pied-de-Port": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saint-Jean-Pied-de-Port"
+          }
+        }
+      }
+    },
+    "Porte d'entrée pyrénéenne du Camino, dernier village français avant la traversée des cols vers l'Espagne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Camino's Pyrenean gateway, the last French village before crossing the passes into Spain."
+          }
+        }
+      }
+    },
+    "Pampelune": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pamplona"
+          }
+        }
+      }
+    },
+    "Capitale de la Navarre, célèbre pour ses fêtes de San Fermín. Premier grand repère après les Pyrénées.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The capital of Navarre, famous for its San Fermín festival. The first major landmark after the Pyrenees."
+          }
+        }
+      }
+    },
+    "Burgos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Burgos"
+          }
+        }
+      }
+    },
+    "Cathédrale gothique majestueuse, tombe du Cid Campeador. Le plateau de la Meseta commence ici.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A majestic Gothic cathedral, the tomb of El Cid. The Meseta plateau begins here."
+          }
+        }
+      }
+    },
+    "León": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "León"
+          }
+        }
+      }
+    },
+    "Vitraux extraordinaires dans la cathédrale. La ville marque la fin de la Meseta et l'entrée en Galice.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraordinary stained glass in the cathedral. The city marks the end of the Meseta and the entrance into Galicia."
+          }
+        }
+      }
+    },
+    "La cathédrale de Santiago, destination de millions de pèlerins depuis le Moyen Âge. Le Botafumeiro se balance dans la nef.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cathedral of Santiago, destination of millions of pilgrims since the Middle Ages. The Botafumeiro swings through the nave."
+          }
+        }
+      }
+    },
+    "Via de la Plata": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vía de la Plata"
+          }
+        }
+      }
+    },
+    "Séville → Santiago, le Camino le plus long": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seville → Santiago, the longest Camino"
+          }
+        }
+      }
+    },
+    "Séville": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seville"
+          }
+        }
+      }
+    },
+    "Départ sous le soleil andalou, depuis la cathédrale gothique la plus grande du monde.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Departure under the Andalusian sun, from the largest Gothic cathedral in the world."
+          }
+        }
+      }
+    },
+    "Mérida": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mérida"
+          }
+        }
+      }
+    },
+    "Ancienne Emerita Augusta romaine, capitale de la Lusitanie. Théâtre et amphithéâtre intacts sous le soleil d'Estrémadure.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The former Roman Emerita Augusta, capital of Lusitania. Theater and amphitheater still intact under the Extremaduran sun."
+          }
+        }
+      }
+    },
+    "Salamanque": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salamanca"
+          }
+        }
+      }
+    },
+    "L'université la plus ancienne d'Espagne. La Plaza Mayor dorée est l'une des plus belles d'Europe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spain's oldest university. The golden Plaza Mayor is one of the most beautiful in Europe."
+          }
+        }
+      }
+    },
+    "Zamora": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamora"
+          }
+        }
+      }
+    },
+    "Ville aux douze églises romanes, perchée sur un éperon rocheux au-dessus du Duero.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A city of twelve Romanesque churches, perched on a rocky spur above the Duero."
+          }
+        }
+      }
+    },
+    "Arrivée à Compostelle après le plus long des Caminos. Une Compostela doublement méritée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrival in Compostela after the longest of all the Caminos. A doubly deserved Compostela."
+          }
+        }
+      }
+    },
+    "Tour du Mont Blanc": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tour du Mont Blanc"
+          }
+        }
+      }
+    },
+    "France, Italie, Suisse — 10 étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "France, Italy, Switzerland — 10 stages"
+          }
+        }
+      }
+    },
+    "Les Houches": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les Houches"
+          }
+        }
+      }
+    },
+    "Départ traditionnel du TMB, à quelques kilomètres de Chamonix. Le Mont Blanc domine déjà les crêtes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The traditional starting point of the TMB, a few kilometers from Chamonix. Mont Blanc already towers over the ridges."
+          }
+        }
+      }
+    },
+    "Les Contamines-Montjoie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les Contamines-Montjoie"
+          }
+        }
+      }
+    },
+    "Vallée verdoyante au pied du Col du Bonhomme. Dernier village animé avant la haute montagne côté français.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A lush valley at the foot of the Col du Bonhomme. The last lively village before the high mountains on the French side."
+          }
+        }
+      }
+    },
+    "Les Chapieux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les Chapieux"
+          }
+        }
+      }
+    },
+    "Hameau isolé au fond d'un vallon sauvage, après les cols du Bonhomme et de la Croix. La solitude alpine dans toute sa pureté.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An isolated hamlet at the bottom of a wild valley, after the Bonhomme and Croix passes. Alpine solitude in its purest form."
+          }
+        }
+      }
+    },
+    "Refuge Elisabetta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elisabetta Hut"
+          }
+        }
+      }
+    },
+    "Franchissement du Col de la Seigne, porte d'entrée en Italie. Le glacier de la Lée Blanche domine le refuge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the Col de la Seigne, the gateway into Italy. The Lée Blanche glacier towers over the hut."
+          }
+        }
+      }
+    },
+    "Courmayeur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Courmayeur"
+          }
+        }
+      }
+    },
+    "Côté italien du massif. Village alpin animé au pied du versant sud du Mont Blanc, sous un soleil plus généreux.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Italian side of the massif. A lively alpine village at the foot of Mont Blanc's southern face, under a more generous sun."
+          }
+        }
+      }
+    },
+    "Refuge Bonatti": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bonatti Hut"
+          }
+        }
+      }
+    },
+    "Balcon suspendu face au versant italien du Mont Blanc, dédié au grand alpiniste Walter Bonatti. L'une des plus belles vues du tour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A suspended balcony facing the Italian side of Mont Blanc, dedicated to the great climber Walter Bonatti. One of the finest views of the whole tour."
+          }
+        }
+      }
+    },
+    "La Fouly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La Fouly"
+          }
+        }
+      }
+    },
+    "Entrée en Suisse par le Grand Col Ferret. Le val Ferret valaisan déroule ses alpages impeccables.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entry into Switzerland via the Grand Col Ferret. The Val Ferret valley unfolds its immaculate alpine pastures."
+          }
+        }
+      }
+    },
+    "Champex": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Champex"
+          }
+        }
+      }
+    },
+    "Lac de montagne suisse d'une sérénité absolue, perché à 1 470 mètres entre mélèzes et reflets parfaits.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A Swiss mountain lake of absolute serenity, perched at 1,470 meters among larches and perfect reflections."
+          }
+        }
+      }
+    },
+    "Col de la Forclaz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Col de la Forclaz"
+          }
+        }
+      }
+    },
+    "Balcon au-dessus de la vallée du Rhône, près de Trient et de son glacier. Le retour vers la France se prépare.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A balcony above the Rhône valley, near Trient and its glacier. The return to France begins to take shape."
+          }
+        }
+      }
+    },
+    "Tré-le-Champ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tré-le-Champ"
+          }
+        }
+      }
+    },
+    "Après le Col de Balme, retour en France face à la chaîne des Aiguilles Rouges. Les échelles métalliques pimentent la descente.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After the Col de Balme, back in France facing the Aiguilles Rouges range. Metal ladders spice up the descent."
+          }
+        }
+      }
+    },
+    "Chamonix": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chamonix"
+          }
+        }
+      }
+    },
+    "Retour en France dans la capitale mondiale de l'alpinisme. Le tour est bouclé sous les aiguilles.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back in France, in the world capital of mountaineering. The tour comes full circle beneath the needles."
+          }
+        }
+      }
+    },
+    "Via Francigena — tronçon final": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Via Francigena — Final Stretch"
+          }
+        }
+      }
+    },
+    "Lucques → Rome, sur les pas de Sigéric": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lucca → Rome, in the footsteps of Sigeric"
+          }
+        }
+      }
+    },
+    "Lucques": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lucca"
+          }
+        }
+      }
+    },
+    "Cité médiévale toscane aux remparts intacts. Point de départ de la section finale vers Rome.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A medieval Tuscan city with intact ramparts. Starting point of the final section toward Rome."
+          }
+        }
+      }
+    },
+    "Altopascio": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altopascio"
+          }
+        }
+      }
+    },
+    "Ancien hospice des Chevaliers du Tau, qui guidaient les pèlerins à travers les marais. Sa cloche sonnait le soir pour rallier les égarés.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The former hospice of the Knights of the Tau, who guided pilgrims through the marshes. Its bell rang each evening to gather stragglers."
+          }
+        }
+      }
+    },
+    "San Miniato": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "San Miniato"
+          }
+        }
+      }
+    },
+    "Perchée entre Florence et Pise, dominée par la tour de Frédéric II. Ses collines embaument la truffe blanche à l'automne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perched between Florence and Pisa, dominated by Frederick II's tower. Its hills are fragrant with white truffle in autumn."
+          }
+        }
+      }
+    },
+    "San Gimignano": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "San Gimignano"
+          }
+        }
+      }
+    },
+    "Les tours médiévales surgissent au-dessus des vignes à Vernaccia. Classée au patrimoine mondial de l'Unesco.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medieval towers rise above vineyards of Vernaccia grapes. A UNESCO World Heritage site."
+          }
+        }
+      }
+    },
+    "Monteriggioni": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monteriggioni"
+          }
+        }
+      }
+    },
+    "Bourg fortifié aux quatorze tours, cité par Dante dans l'Enfer. Un anneau de pierre intact posé sur une colline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fortified town with fourteen towers, cited by Dante in the Inferno. An intact ring of stone set upon a hill."
+          }
+        }
+      }
+    },
+    "Sienne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siena"
+          }
+        }
+      }
+    },
+    "Le Palio, la Piazza del Campo en coquille, les couleurs siennées. Joyau de la Toscane médiévale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Palio, the shell-shaped Piazza del Campo, the sienna colors. A jewel of medieval Tuscany."
+          }
+        }
+      }
+    },
+    "San Quirico d'Orcia": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "San Quirico d'Orcia"
+          }
+        }
+      }
+    },
+    "Au cœur du Val d'Orcia et de ses collines ondulées bordées de cyprès. Les Horti Leonini offrent au pèlerin un jardin Renaissance.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the heart of the Val d'Orcia and its rolling hills lined with cypresses. The Horti Leonini offer pilgrims a Renaissance garden."
+          }
+        }
+      }
+    },
+    "Radicofani": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Radicofani"
+          }
+        }
+      }
+    },
+    "Forteresse posée sur un piton volcanique, longtemps repaire du brigand Ghino di Tacco. La vue embrasse toute la Toscane du Sud.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fortress perched on a volcanic peak, long the lair of the bandit Ghino di Tacco. The view sweeps across all of southern Tuscany."
+          }
+        }
+      }
+    },
+    "Acquapendente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acquapendente"
+          }
+        }
+      }
+    },
+    "Sa basilique abrite une réplique du Saint-Sépulcre, étape spirituelle majeure du chemin. On entre ici dans le Latium.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Its basilica houses a replica of the Holy Sepulchre, a major spiritual stop on the route. Here you enter Lazio."
+          }
+        }
+      }
+    },
+    "Bolsena": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bolsena"
+          }
+        }
+      }
+    },
+    "Sur les rives du plus grand lac volcanique d'Europe. Le miracle eucharistique de 1263 y fit naître la Fête-Dieu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On the shores of the largest volcanic lake in Europe. The Eucharistic Miracle of 1263 gave rise to the feast of Corpus Christi here."
+          }
+        }
+      }
+    },
+    "Montefiascone": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montefiascone"
+          }
+        }
+      }
+    },
+    "Sa coupole domine le lac de Bolsena. Le vin « Est! Est!! Est!!! » y aurait été baptisé par un évêque trop gourmand.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Its dome overlooks Lake Bolsena. The wine ‘Est! Est!! Est!!!’ is said to have been named by an overly enthusiastic bishop."
+          }
+        }
+      }
+    },
+    "Viterbe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viterbo"
+          }
+        }
+      }
+    },
+    "Ancienne résidence des papes au XIIIe siècle, cité médiévale remarquablement conservée dans le Latium.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Former residence of the popes in the 13th century, a remarkably preserved medieval city in Lazio."
+          }
+        }
+      }
+    },
+    "Sutri": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sutri"
+          }
+        }
+      }
+    },
+    "Cité étrusque creusée dans le tuf, avec son amphithéâtre taillé à même la roche. La porte légendaire du Latium romain.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An Etruscan city carved into the tufa rock, with an amphitheater cut straight from the stone. The legendary gateway to Roman Lazio."
+          }
+        }
+      }
+    },
+    "La Storta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La Storta"
+          }
+        }
+      }
+    },
+    "Dernière halte avant Rome, où saint Ignace eut sa vision. Du Monte Mario voisin, les pèlerins découvrent enfin la coupole de Saint-Pierre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The last stop before Rome, where Saint Ignatius had his vision. From nearby Monte Mario, pilgrims finally spot the dome of St. Peter's."
+          }
+        }
+      }
+    },
+    "Rome": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rome"
+          }
+        }
+      }
+    },
+    "La basilique Saint-Pierre au bout du chemin. Le pèlerin arrive dans la Ville Éternelle après des semaines de Toscane.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "St. Peter's Basilica at the end of the road. The pilgrim arrives in the Eternal City after weeks through Tuscany."
+          }
+        }
+      }
+    },
+    "Sentier des Douaniers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Customs Officers' Path"
+          }
+        }
+      }
+    },
+    "Cap Fréhel → Dahouet — 65 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap Fréhel → Dahouet — 65 km"
+          }
+        }
+      }
+    },
+    "Cap Fréhel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap Fréhel"
+          }
+        }
+      }
+    },
+    "Le grand phare rouge et blanc domine des falaises de grès rose. Départ face à la Manche, embruns garantis.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The great red-and-white lighthouse towers over pink sandstone cliffs. Starting point facing the English Channel, sea spray guaranteed."
+          }
+        }
+      }
+    },
+    "Pointe de la Latte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pointe de la Latte"
+          }
+        }
+      }
+    },
+    "Le fort la Latte, forteresse médiévale posée sur un îlot rocheux relié par une passerelle au-dessus du vide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fort la Latte, a medieval fortress perched on a rocky islet, linked by a footbridge over the void."
+          }
+        }
+      }
+    },
+    "Erquy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erquy"
+          }
+        }
+      }
+    },
+    "Le port aux bateaux de pêche à la coquille Saint-Jacques, niché entre landes de bruyère et plages de sable fin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The scallop fishing port, tucked between heather moorland and fine sandy beaches."
+          }
+        }
+      }
+    },
+    "Cap d'Erquy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap d'Erquy"
+          }
+        }
+      }
+    },
+    "Falaises de grès rose et landes sauvages. Un des plus beaux points de vue de la Côte d'Émeraude.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink sandstone cliffs and wild moorland. One of the finest viewpoints on the Emerald Coast."
+          }
+        }
+      }
+    },
+    "Dahouet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dahouet"
+          }
+        }
+      }
+    },
+    "Petit port discret niché dans une ria, longtemps ignoré des cartes marines pour rester secret des pêcheurs locaux.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A discreet little port tucked into a tidal inlet, long left off nautical charts to stay a local fishermen's secret."
+          }
+        }
+      }
+    },
+    "Chemin de Stevenson": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stevenson Trail"
+          }
+        }
+      }
+    },
+    "Le Puy-en-Velay → La Bastide-Puylaurent — 75 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Puy-en-Velay → La Bastide-Puylaurent — 75 km"
+          }
+        }
+      }
+    },
+    "Le Puy-en-Velay": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Puy-en-Velay"
+          }
+        }
+      }
+    },
+    "Départ au pied de la statue de Notre-Dame-de-France, sur les traces de Robert Louis Stevenson et de son ânesse Modestine.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting point at the foot of the Notre-Dame-de-France statue, following in the footsteps of Robert Louis Stevenson and his donkey Modestine."
+          }
+        }
+      }
+    },
+    "Bouchet-Saint-Nicolas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouchet-Saint-Nicolas"
+          }
+        }
+      }
+    },
+    "Le village où Stevenson acheta Modestine. Les premiers plateaux du Velay, à l'air déjà plus rude.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The village where Stevenson bought Modestine. The first plateaus of the Velay, the air already turning rougher."
+          }
+        }
+      }
+    },
+    "Pradelles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pradelles"
+          }
+        }
+      }
+    },
+    "Village fortifié perché sur son éperon rocheux, aux portes de la Lozère et de ses grands espaces vides.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fortified village perched on its rocky spur, at the gates of the Lozère and its vast empty spaces."
+          }
+        }
+      }
+    },
+    "Langogne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langogne"
+          }
+        }
+      }
+    },
+    "Halte au bord de l'Allier naissant. Stevenson y écrivit ses premières impressions désabusées sur son ânesse récalcitrante.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A stop by the young river Allier. Stevenson wrote his first disillusioned impressions of his stubborn donkey here."
+          }
+        }
+      }
+    },
+    "La Bastide-Puylaurent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La Bastide-Puylaurent"
+          }
+        }
+      }
+    },
+    "Aux portes des Cévennes, le point d'arrivée de cette première étape — le chemin continue vers l'Ardèche pour qui veut poursuivre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the gates of the Cévennes, the endpoint of this first stage — the trail continues toward the Ardèche for those who wish to carry on."
+          }
+        }
+      }
+    },
+    "GR20 Nord": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GR20 North"
+          }
+        }
+      }
+    },
+    "Calenzana → Vizzavona — 90 km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calenzana → Vizzavona — 90 km"
+          }
+        }
+      }
+    },
+    "Le clocher baroque du village balata marque le vrai départ du GR20 — réputé le plus difficile d'Europe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The village's baroque bell tower marks the true start of the GR20 — reputed to be the toughest trek in Europe."
+          }
+        }
+      }
+    },
+    "Refuge de Tighjettu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tighjettu Hut"
+          }
+        }
+      }
+    },
+    "Isolé au cœur du massif, entouré de sommets acérés. Un des refuges les plus reculés de toute la traversée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Isolated at the heart of the massif, surrounded by jagged peaks. One of the most remote huts on the whole crossing."
+          }
+        }
+      }
+    },
+    "Refuge de Ciottulu di i Mori": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciottulu di i Mori Hut"
+          }
+        }
+      }
+    },
+    "Perché à plus de 1 900 m sous le Paglia Orba, un des plus beaux promontoires de l'île pour un lever de soleil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perched above 1,900 m beneath the Paglia Orba, one of the island's finest spots for a sunrise."
+          }
+        }
+      }
+    },
+    "Le village-frontière entre le nord alpin et le sud plus doux du GR20 — la moitié du chemin, à l'ombre de la forêt de pins laricio.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The border village between the alpine north and the gentler south of the GR20 — the halfway point, in the shade of the laricio pine forest."
+          }
+        }
+      }
+    },
+    "Route Royale Perse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persian Royal Road"
+          }
+        }
+      }
+    },
+    "Suse → Sardes — l'autoroute de Darius Ier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Susa → Sardis — Darius I's highway"
+          }
+        }
+      }
+    },
+    "Suse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Susa"
+          }
+        }
+      }
+    },
+    "Capitale perse, résidence d'hiver de Darius Ier. Point de départ de la route royale la plus rapide du monde antique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persian capital, winter residence of Darius I. Starting point of the fastest road in the ancient world."
+          }
+        }
+      }
+    },
+    "Pasargades": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasargadae"
+          }
+        }
+      }
+    },
+    "Première capitale perse fondée par Cyrus le Grand, où se dresse son tombeau. Berceau de la dynastie achéménide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first Persian capital, founded by Cyrus the Great, whose tomb stands here. Cradle of the Achaemenid dynasty."
+          }
+        }
+      }
+    },
+    "Persépolis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persepolis"
+          }
+        }
+      }
+    },
+    "Capitale cérémonielle achéménide, où les tributs de l'empire entier affluaient à chaque printemps.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Achaemenid ceremonial capital, where tribute from across the empire poured in every spring."
+          }
+        }
+      }
+    },
+    "Ecbatane": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ecbatana"
+          }
+        }
+      }
+    },
+    "Capitale des Mèdes, résidence d'été aux sept murailles colorées. Relais stratégique sur la route de l'ouest.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capital of the Medes, a summer residence with seven colored walls. A strategic relay on the western road."
+          }
+        }
+      }
+    },
+    "Mésopotamie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesopotamia"
+          }
+        }
+      }
+    },
+    "Traversée du cœur de l'empire entre Tigre et Euphrate, berceau des civilisations et grenier du monde perse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the heart of the empire between the Tigris and Euphrates, cradle of civilizations and granary of the Persian world."
+          }
+        }
+      }
+    },
+    "Babylone": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Babylon"
+          }
+        }
+      }
+    },
+    "La cité de la porte d'Ishtar et des jardins suspendus. Le cœur battant du monde antique sur l'Euphrate.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The city of the Ishtar Gate and the Hanging Gardens. The beating heart of the ancient world on the Euphrates."
+          }
+        }
+      }
+    },
+    "Ninive": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nineveh"
+          }
+        }
+      }
+    },
+    "Ancienne capitale assyrienne sur le Tigre, aux palais couverts de bas-reliefs de lions et de rois chasseurs.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The former Assyrian capital on the Tigris, its palaces covered in reliefs of lions and royal hunters."
+          }
+        }
+      }
+    },
+    "Harran": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harran"
+          }
+        }
+      }
+    },
+    "Cité caravanière de Haute-Mésopotamie, célèbre pour son temple lunaire. Carrefour vers l'Anatolie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A caravan city in Upper Mesopotamia, famous for its temple to the moon god. A crossroads toward Anatolia."
+          }
+        }
+      }
+    },
+    "Passage de l'Euphrate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the Euphrates"
+          }
+        }
+      }
+    },
+    "Le grand fleuve franchi sur des barques de peaux gonflées. La route bascule vers les hauts plateaux anatoliens.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The great river crossed on rafts of inflated skins. The road turns toward the Anatolian highlands."
+          }
+        }
+      }
+    },
+    "Gordion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gordium"
+          }
+        }
+      }
+    },
+    "Capitale phrygienne au nœud légendaire qu'Alexandre trancherait plus tard. Dernière grande étape avant la Lydie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Phrygian capital with its legendary knot, later cut by Alexander. The last major stop before Lydia."
+          }
+        }
+      }
+    },
+    "Sardes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sardis"
+          }
+        }
+      }
+    },
+    "Terminus occidental sur la mer Égée. Les cavaliers royaux couvraient ce trajet en sept jours grâce aux relais de poste.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The western terminus on the Aegean Sea. Royal couriers covered this route in seven days thanks to relay stations."
+          }
+        }
+      }
+    },
+    "Alexandre le Grand — Campagne perse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexander the Great — Persian Campaign"
+          }
+        }
+      }
+    },
+    "Macédoine → Persépolis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macedon → Persepolis"
+          }
+        }
+      }
+    },
+    "Pella": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pella"
+          }
+        }
+      }
+    },
+    "Capitale macédonienne où Alexandre fut éduqué par Aristote. Départ de la plus grande armée que la Grèce ait jamais vue.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Macedonian capital where Alexander was tutored by Aristotle. Departure of the greatest army Greece had ever seen."
+          }
+        }
+      }
+    },
+    "Bataille du Granique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle of the Granicus"
+          }
+        }
+      }
+    },
+    "Première victoire décisive contre les satrapes perses en 334 av. J.-C. Alexandre manque d'y être tué.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First decisive victory over the Persian satraps in 334 BC. Alexander narrowly escapes death."
+          }
+        }
+      }
+    },
+    "La riche capitale lydienne se rend sans combat. L'Ionie grecque est libérée de la tutelle perse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The wealthy Lydian capital surrenders without a fight. Greek Ionia is freed from Persian rule."
+          }
+        }
+      }
+    },
+    "Halicarnasse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halicarnassus"
+          }
+        }
+      }
+    },
+    "Siège de la cité carienne et de son port. La flotte perse perd sa dernière grande base en mer Égée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siege of the Carian city and its harbor. The Persian fleet loses its last major base in the Aegean."
+          }
+        }
+      }
+    },
+    "Bataille d'Issos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle of Issus"
+          }
+        }
+      }
+    },
+    "Darius III en fuite, sa famille capturée. L'empire perse commence à vaciller sous les coups macédoniens.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darius III flees, his family captured. The Persian empire begins to falter under Macedonian blows."
+          }
+        }
+      }
+    },
+    "Siège de Tyr": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siege of Tyre"
+          }
+        }
+      }
+    },
+    "Sept mois de siège contre la cité phénicienne insulaire. Alexandre fait bâtir une digue jusqu'aux remparts.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seven months besieging the island city of Phoenicia. Alexander has a causeway built to the walls."
+          }
+        }
+      }
+    },
+    "Alexandrie d'Égypte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexandria, Egypt"
+          }
+        }
+      }
+    },
+    "Alexandre trace lui-même le plan de la ville qui portera son nom et deviendra un phare de la culture antique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexander personally lays out the plan for the city that will bear his name and become a beacon of ancient culture."
+          }
+        }
+      }
+    },
+    "Bataille de Gaugamèles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle of Gaugamela"
+          }
+        }
+      }
+    },
+    "L'affrontement décisif contre Darius III. L'Empire perse achéménide s'effondre pour de bon en 331 av. J.-C.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The decisive clash against Darius III. The Achaemenid Persian Empire collapses for good in 331 BC."
+          }
+        }
+      }
+    },
+    "La plus grande ville du monde prise sans combat. Alexandre se présente en libérateur plutôt qu'en conquérant.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The greatest city in the world taken without a fight. Alexander presents himself as a liberator rather than a conqueror."
+          }
+        }
+      }
+    },
+    "Le trésor royal perse tombe intact aux mains d'Alexandre. Des richesses inouïes changent de camp.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Persian royal treasury falls intact into Alexander's hands. Untold riches change sides."
+          }
+        }
+      }
+    },
+    "Portes Persiques": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persian Gates"
+          }
+        }
+      }
+    },
+    "Défilé montagneux défendu par les Perses, forcé de nuit par une manœuvre de contournement. Dernier verrou avant la capitale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A mountain pass defended by the Persians, forced open at night by a flanking maneuver. The last barrier before the capital."
+          }
+        }
+      }
+    },
+    "La cité des rois achéménides incendiée après sa prise. La Perse est conquise, l'objectif d'Alexandre accompli.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The city of the Achaemenid kings, burned after its capture. Persia is conquered, Alexander's goal achieved."
+          }
+        }
+      }
+    },
+    "Alexandre le Grand — Épopée complète": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexander the Great — The Complete Epic"
+          }
+        }
+      }
+    },
+    "Macédoine → Inde — 8 ans de conquête": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macedon → India — 8 years of conquest"
+          }
+        }
+      }
+    },
+    "Capitale macédonienne, départ de la plus grande épopée militaire de l'Antiquité en 334 av. J.-C.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Macedonian capital, starting point of the greatest military epic of antiquity in 334 BC."
+          }
+        }
+      }
+    },
+    "Troie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Troy"
+          }
+        }
+      }
+    },
+    "Premier arrêt symbolique — Alexandre se recueille sur la tombe d'Achille, le héros auquel il s'identifiait.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First symbolic stop — Alexander pays his respects at the tomb of Achilles, the hero he identified with."
+          }
+        }
+      }
+    },
+    "Première grande victoire contre Darius III en personne. La famille royale perse tombe aux mains d'Alexandre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First major victory against Darius III in person. The Persian royal family falls into Alexander's hands."
+          }
+        }
+      }
+    },
+    "Tyr et l'Égypte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tyre and Egypt"
+          }
+        }
+      }
+    },
+    "Après sept mois de siège contre Tyr, Alexandre descend en Égypte et fonde Alexandrie sur le delta du Nil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After a seven-month siege of Tyre, Alexander moves down into Egypt and founds Alexandria on the Nile delta."
+          }
+        }
+      }
+    },
+    "Gaugamèles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gaugamela"
+          }
+        }
+      }
+    },
+    "Victoire décisive contre Darius III qui met fin à l'Empire perse achéménide en 331 av. J.-C.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A decisive victory over Darius III that ends the Achaemenid Persian Empire in 331 BC."
+          }
+        }
+      }
+    },
+    "Capitale cérémonielle persane. L'incendie reste l'acte le plus controversé de toute la conquête.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Persian ceremonial capital. Its burning remains the most controversial act of the entire conquest."
+          }
+        }
+      }
+    },
+    "Poursuite de Darius, retrouvé assassiné par ses propres satrapes. Alexandre lui offre des funérailles royales.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The pursuit of Darius, found murdered by his own satraps. Alexander gives him a royal funeral."
+          }
+        }
+      }
+    },
+    "Bactres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bactra"
+          }
+        }
+      }
+    },
+    "Aux portes de l'Asie centrale, Alexandre épouse Roxane. La résistance bactriène est la plus farouche rencontrée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the gates of Central Asia, Alexander marries Roxana. Bactrian resistance is the fiercest he has faced."
+          }
+        }
+      }
+    },
+    "Sogdiane": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sogdiana"
+          }
+        }
+      }
+    },
+    "Deux ans de guérilla épuisante contre Spitamène dans les montagnes d'Asie centrale. La conquête la plus dure.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Two exhausting years of guerrilla warfare against Spitamenes in the mountains of Central Asia. The hardest conquest of all."
+          }
+        }
+      }
+    },
+    "Hindū Kush": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hindu Kush"
+          }
+        }
+      }
+    },
+    "Franchissement des montagnes enneigées vers l'Inde. L'armée souffre du froid, de l'altitude et de la faim.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the snow-covered mountains toward India. The army suffers from cold, altitude, and hunger."
+          }
+        }
+      }
+    },
+    "Taxila": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taxila"
+          }
+        }
+      }
+    },
+    "Première grande cité indienne. Le roi Poros attend sur l'Hydaspe avec deux cents éléphants de guerre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first great Indian city. King Porus waits on the Hydaspes with two hundred war elephants."
+          }
+        }
+      }
+    },
+    "Bataille de l'Hydaspe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle of the Hydaspes"
+          }
+        }
+      }
+    },
+    "Victoire contre Poros et ses éléphants, sous la pluie de mousson. La bataille la plus coûteuse de la campagne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Victory over Porus and his elephants, in the monsoon rain. The costliest battle of the campaign."
+          }
+        }
+      }
+    },
+    "Rivière Beas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyphasis River"
+          }
+        }
+      }
+    },
+    "La mutinerie. Les soldats refusent d'avancer vers l'Inde profonde. Alexandre pleure dans sa tente, puis accepte de rentrer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The mutiny. The soldiers refuse to march further into India. Alexander weeps in his tent, then agrees to turn back."
+          }
+        }
+      }
+    },
+    "Désert de Gédrosie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gedrosian Desert"
+          }
+        }
+      }
+    },
+    "La retraite cauchemardesque. Des milliers d'hommes meurent de soif dans les sables du Makran.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The nightmarish retreat. Thousands of men die of thirst in the sands of the Makran."
+          }
+        }
+      }
+    },
+    "Noces de Suse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Susa Weddings"
+          }
+        }
+      }
+    },
+    "Alexandre marie ses officiers à des princesses perses pour fondre Grecs et Orientaux en un seul peuple.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexander marries his officers to Persian princesses to merge Greeks and easterners into a single people."
+          }
+        }
+      }
+    },
+    "Deuil d'Héphaïstion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mourning Hephaestion"
+          }
+        }
+      }
+    },
+    "La mort de son ami le plus cher, à Ecbatane, plonge Alexandre dans un deuil dévastateur.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The death of his dearest friend, at Ecbatana, plunges Alexander into devastating grief."
+          }
+        }
+      }
+    },
+    "Mort d'Alexandre à 32 ans, en 323 av. J.-C. Son empire, le plus vaste jamais conquis, est aussitôt démembré.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alexander dies at 32, in 323 BC. His empire, the largest ever conquered, is dismembered almost immediately."
+          }
+        }
+      }
+    },
+    "Route de la Soie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silk Road"
+          }
+        }
+      }
+    },
+    "Chang'an → Rome — 2 000 ans de commerce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chang'an → Rome — 2,000 years of trade"
+          }
+        }
+      }
+    },
+    "Xi'an": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xi'an"
+          }
+        }
+      }
+    },
+    "Ancienne Chang'an, capitale des Han et des Tang. Les caravanes de chameaux chargées de soie partaient d'ici vers l'ouest.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The former Chang'an, capital of the Han and Tang dynasties. Camel caravans loaded with silk set off westward from here."
+          }
+        }
+      }
+    },
+    "Lanzhou": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanzhou"
+          }
+        }
+      }
+    },
+    "Verrou du fleuve Jaune, porte du corridor du Hexi. Les caravanes s'y regroupent avant les grands déserts.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A gateway on the Yellow River, entrance to the Hexi Corridor. Caravans gathered here before the great deserts."
+          }
+        }
+      }
+    },
+    "Jiayuguan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jiayuguan"
+          }
+        }
+      }
+    },
+    "Extrémité ouest de la Grande Muraille, dernière forteresse de l'empire. Au-delà commençait l'inconnu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The western end of the Great Wall, the empire's last fortress. Beyond it lay the unknown."
+          }
+        }
+      }
+    },
+    "Dunhuang": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dunhuang"
+          }
+        }
+      }
+    },
+    "Oasis du désert de Gobi, gardienne des Grottes de Mogao aux mille bouddhas sculptés dans la roche ocre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An oasis in the Gobi Desert, guardian of the Mogao Caves with their thousand Buddhas carved into ochre rock."
+          }
+        }
+      }
+    },
+    "Tourfan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turpan"
+          }
+        }
+      }
+    },
+    "Oasis sous le niveau de la mer, irriguée par les canaux karez. Vignes et bouddhas au cœur de la fournaise du Taklamakan.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An oasis below sea level, irrigated by karez canals. Vineyards and Buddhas in the heart of the Taklamakan furnace."
+          }
+        }
+      }
+    },
+    "Kashgar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kashgar"
+          }
+        }
+      }
+    },
+    "Grand carrefour au pied du Pamir, où se rejoignent les routes du nord et du sud du désert.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A major crossroads at the foot of the Pamirs, where the northern and southern desert routes meet."
+          }
+        }
+      }
+    },
+    "Samarcande": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Samarkand"
+          }
+        }
+      }
+    },
+    "Joyau de l'Asie centrale, carrefour de toutes les caravanes. Tamerlan en fit la capitale de son empire au XIVe siècle.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A jewel of Central Asia, crossroads of every caravan. Tamerlane made it the capital of his empire in the 14th century."
+          }
+        }
+      }
+    },
+    "Boukhara": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bukhara"
+          }
+        }
+      }
+    },
+    "Ville sainte aux cent médersas, joyau spirituel et marchand de l'Asie centrale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A holy city with a hundred madrasas, a spiritual and mercantile jewel of Central Asia."
+          }
+        }
+      }
+    },
+    "Merv": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Merv"
+          }
+        }
+      }
+    },
+    "Oasis géante du Turkménistan, l'une des plus grandes villes du monde médiéval avant sa destruction par les Mongols.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A giant oasis in Turkmenistan, one of the largest cities in the medieval world before its destruction by the Mongols."
+          }
+        }
+      }
+    },
+    "L'ancienne capitale perse ruinée par Alexandre, toujours imposante sur le passage des marchands.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The former Persian capital, ruined by Alexander, still imposing along the merchants' route."
+          }
+        }
+      }
+    },
+    "Bagdad": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baghdad"
+          }
+        }
+      }
+    },
+    "Capitale abbasside et sa Maison de la Sagesse, où le savoir grec, perse et indien se traduisait en arabe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Abbasid capital and its House of Wisdom, where Greek, Persian, and Indian knowledge was translated into Arabic."
+          }
+        }
+      }
+    },
+    "Constantinople": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Constantinople"
+          }
+        }
+      }
+    },
+    "La ville-carrefour entre Europe et Asie, où Orient et Occident échangeaient richesses et savoirs depuis des siècles.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The crossroads city between Europe and Asia, where East and West had traded riches and knowledge for centuries."
+          }
+        }
+      }
+    },
+    "Terminus occidental. La soie chinoise habillait les sénateurs romains. Deux empires reliés sans jamais se rencontrer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The western terminus. Chinese silk clothed Roman senators. Two empires connected, yet never meeting."
+          }
+        }
+      }
+    },
+    "Marco Polo — Venise → Chine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marco Polo — Venice to China"
+          }
+        }
+      }
+    },
+    "24 ans de voyage à la cour de Kubilaï Khan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24 years of travel to the court of Kublai Khan"
+          }
+        }
+      }
+    },
+    "Venise": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Venice"
+          }
+        }
+      }
+    },
+    "Départ en 1271 avec son père et son oncle, marchands habitués des routes orientales.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Departure in 1271 with his father and uncle, merchants well used to the eastern trade routes."
+          }
+        }
+      }
+    },
+    "Acre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acre"
+          }
+        }
+      }
+    },
+    "Escale en Terre sainte. Les Polo y obtiennent des lettres du pape et de l'huile du Saint-Sépulcre pour le Grand Khan.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A stop in the Holy Land. The Polos obtain letters from the Pope and oil from the Holy Sepulchre for the Great Khan."
+          }
+        }
+      }
+    },
+    "Première grande escale dans la ville-carrefour de la Méditerranée orientale, centre du commerce mondial.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first great stopover in the crossroads city of the eastern Mediterranean, a hub of world trade."
+          }
+        }
+      }
+    },
+    "Trébizonde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trebizond"
+          }
+        }
+      }
+    },
+    "Port de la mer Noire, terminus des routes caravanières d'Anatolie orientale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A Black Sea port, terminus of the caravan routes from eastern Anatolia."
+          }
+        }
+      }
+    },
+    "Tabriz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabriz"
+          }
+        }
+      }
+    },
+    "Grande cité marchande de Perse, plaque tournante des perles, des soies et des épices.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A great merchant city of Persia, a hub for pearls, silks, and spices."
+          }
+        }
+      }
+    },
+    "Ormuz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hormuz"
+          }
+        }
+      }
+    },
+    "Port du Golfe Persique. Marco vit des navires si fragiles qu'il refusa d'embarquer et continua par voie terrestre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A port on the Persian Gulf. Marco saw ships so fragile he refused to sail and continued overland instead."
+          }
+        }
+      }
+    },
+    "Kerman": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kerman"
+          }
+        }
+      }
+    },
+    "Ville persane réputée pour ses turquoises et ses tapis. Les Polo renoncent à la mer pour la piste terrestre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A Persian city famed for its turquoise and carpets. The Polos give up the sea route for the overland trail."
+          }
+        }
+      }
+    },
+    "Balkh": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balkh"
+          }
+        }
+      }
+    },
+    "L'antique cité afghane, « mère des villes », ravagée par Gengis Khan mais toujours sur la route de l'est.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ancient Afghan city, ‘mother of cities,’ ravaged by Genghis Khan but still on the road east."
+          }
+        }
+      }
+    },
+    "Pamir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Pamirs"
+          }
+        }
+      }
+    },
+    "Le « toit du monde ». Marco décrit un plateau si haut qu'aucun oiseau n'y vole et que le feu y brûle pâle.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ‘roof of the world.’ Marco describes a plateau so high that no bird flies there and fire burns pale."
+          }
+        }
+      }
+    },
+    "Oasis mythique au pied du Pamir, carrefour des routes vers l'Inde, la Perse et la Chine profonde.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A legendary oasis at the foot of the Pamirs, crossroads of routes to India, Persia, and deep into China."
+          }
+        }
+      }
+    },
+    "Désert du Taklamakan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taklamakan Desert"
+          }
+        }
+      }
+    },
+    "La traversée du « désert où l'on entre mais d'où l'on ne sort pas ». Des voix fantômes égarent les caravanes, dit Marco.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the ‘desert you enter but never leave.’ Ghostly voices lead caravans astray, Marco says."
+          }
+        }
+      }
+    },
+    "Les grottes aux mille bouddhas marquent l'entrée dans le monde chinois. Le Grand Khan n'est plus si loin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The caves of the thousand Buddhas mark the entrance into the Chinese world. The Great Khan is no longer far."
+          }
+        }
+      }
+    },
+    "Shangdu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shangdu"
+          }
+        }
+      }
+    },
+    "Xanadu, la résidence d'été de Kubilaï Khan et son palais de plaisir devenu légendaire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xanadu, Kublai Khan's summer residence and his pleasure palace, since become legendary."
+          }
+        }
+      }
+    },
+    "Pékin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beijing"
+          }
+        }
+      }
+    },
+    "La cour de Kubilaï Khan. Marco Polo y passa dix-sept ans comme gouverneur et émissaire du Grand Khan.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The court of Kublai Khan. Marco Polo spent seventeen years there as a governor and envoy of the Great Khan."
+          }
+        }
+      }
+    },
+    "Hannibal — traversée des Alpes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hannibal — Crossing the Alps"
+          }
+        }
+      }
+    },
+    "Carthagène → Italie — 218 av. J.-C.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartagena → Italy — 218 BC"
+          }
+        }
+      }
+    },
+    "Carthagène (Nouvelle-Carthage)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartagena (New Carthage)"
+          }
+        }
+      }
+    },
+    "Départ de l'armée punique, éléphants en tête. Hannibal a juré une haine éternelle à Rome.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Punic army sets off, elephants at the front. Hannibal has sworn eternal hatred of Rome."
+          }
+        }
+      }
+    },
+    "Passage de l'Èbre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the Ebro"
+          }
+        }
+      }
+    },
+    "Dernier fleuve avant la Gaule. L'armée s'allège des troupes jugées les moins sûres avant de s'engager plus loin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The last river before Gaul. The army sheds its least reliable troops before pressing on."
+          }
+        }
+      }
+    },
+    "Pyrénées franchies": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the Pyrenees"
+          }
+        }
+      }
+    },
+    "Le col du Perthus laisse les tribus ibères derrière. Devant, la Gaule tout entière reste à traverser.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Col du Perthus leaves the Iberian tribes behind. Ahead, all of Gaul still remains to be crossed."
+          }
+        }
+      }
+    },
+    "Gaule narbonnaise": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Narbonensian Gaul"
+          }
+        }
+      }
+    },
+    "Marche à travers un territoire officiellement neutre, mais où chaque tribu croisée peut basculer dans un camp ou l'autre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marching through officially neutral territory, where any tribe encountered could turn either way."
+          }
+        }
+      }
+    },
+    "Passage du Rhône": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing the Rhône"
+          }
+        }
+      }
+    },
+    "Les éléphants transbordés sur des radeaux, terrifiés par l'eau, face aux Volques massés sur l'autre rive.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The elephants, terrified of the water, ferried across on rafts, facing the Volcae massed on the far bank."
+          }
+        }
+      }
+    },
+    "Contreforts alpins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alpine Foothills"
+          }
+        }
+      }
+    },
+    "Les Allobroges harcèlent la colonne dans les défilés étroits. Les premiers chariots basculent dans le vide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Allobroges harass the column in the narrow passes. The first wagons tumble into the void."
+          }
+        }
+      }
+    },
+    "Ascension du col": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Climbing the Pass"
+          }
+        }
+      }
+    },
+    "Neige précoce, éboulements, la colonne s'étire sur des kilomètres. Le froid tue plus sûrement que les tribus locales.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Early snow, rockslides, the column stretches for miles. The cold kills more surely than the local tribes."
+          }
+        }
+      }
+    },
+    "Sommet du col": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Summit"
+          }
+        }
+      }
+    },
+    "Hannibal montre à ses hommes épuisés la plaine du Pô en contrebas. L'Italie, enfin visible, redonne courage à l'armée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hannibal shows his exhausted men the plain of the Po below. Italy, at last visible, restores the army's courage."
+          }
+        }
+      }
+    },
+    "Descente périlleuse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Perilous Descent"
+          }
+        }
+      }
+    },
+    "Verglas et glissades sur un sentier à peine tracé. Plusieurs éléphants glissent et sont perdus dans la descente.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ice and slips on a barely marked path. Several elephants slide and are lost on the way down."
+          }
+        }
+      }
+    },
+    "Sortie des Alpes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leaving the Alps"
+          }
+        }
+      }
+    },
+    "Le territoire des Taurins s'ouvre enfin. Après quinze jours de montagne, l'armée touche la plaine italienne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The territory of the Taurini finally opens up. After fifteen days in the mountains, the army reaches the Italian plain."
+          }
+        }
+      }
+    },
+    "Siège de Turin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siege of Turin"
+          }
+        }
+      }
+    },
+    "Première victoire sur le sol italien. La cité prise sert de base de ravitaillement pour l'armée exsangue.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First victory on Italian soil. The captured city serves as a supply base for the exhausted army."
+          }
+        }
+      }
+    },
+    "Bataille de la Trébie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle of the Trebia"
+          }
+        }
+      }
+    },
+    "Première grande victoire face aux légions romaines. Rome découvre qu'un général vient de traverser l'infranchissable.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First great victory against the Roman legions. Rome discovers that a general has just crossed the uncrossable."
+          }
+        }
+      }
+    },
+    "L'Odyssée — trajet réel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Odyssey — The Real Route"
+          }
+        }
+      }
+    },
+    "Troie → Ithaque en ligne droite — 10 ans d'errance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Troy → Ithaca in a straight line — 10 years of wandering"
+          }
+        }
+      }
+    },
+    "La guerre achevée, Ulysse prend la mer. Ithaque n'est qu'à quelques jours de navigation favorable.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The war over, Odysseus takes to the sea. Ithaca is only a few days' favorable sailing away."
+          }
+        }
+      }
+    },
+    "Lotophages — Djerba": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lotus-Eaters — Djerba"
+          }
+        }
+      }
+    },
+    "Chez les mangeurs de lotus, souvent situés à Djerba. Trois marins goûtent le fruit de l'oubli et refusent de repartir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Among the lotus-eaters, often placed on Djerba. Three sailors taste the fruit of forgetting and refuse to leave."
+          }
+        }
+      }
+    },
+    "Cyclopes — Sicile": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyclopes — Sicily"
+          }
+        }
+      }
+    },
+    "L'île de Polyphème. Ulysse lui crève l'œil avec un pieu d'olivier et s'échappe sous le ventre d'une brebis.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The island of Polyphemus. Odysseus blinds him with a stake of olive wood and escapes clinging beneath a ram."
+          }
+        }
+      }
+    },
+    "Éole — Îles Éoliennes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aeolus — Aeolian Islands"
+          }
+        }
+      }
+    },
+    "Le dieu des vents enferme les vents contraires dans une outre. Ouverte par des marins jaloux, elle rejette la flotte au large.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The god of the winds locks the contrary winds in a bag. Opened by jealous sailors, it blows the fleet back out to sea."
+          }
+        }
+      }
+    },
+    "Lestrygons": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laestrygonians"
+          }
+        }
+      }
+    },
+    "Les géants cannibales fracassent onze des douze navires à coups de rochers. Seul celui d'Ulysse en réchappe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cannibal giants smash eleven of the twelve ships with boulders. Only Odysseus's own ship escapes."
+          }
+        }
+      }
+    },
+    "Circé — Monte Circeo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Circe — Monte Circeo"
+          }
+        }
+      }
+    },
+    "La magicienne transforme les compagnons en pourceaux. Ulysse résiste grâce à l'herbe magique de Hermès, puis reste un an.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The sorceress turns the men into swine. Odysseus resists thanks to Hermes' magic herb, then stays a year."
+          }
+        }
+      }
+    },
+    "Sirènes — Golfe de Sorrente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sirens — Gulf of Sorrento"
+          }
+        }
+      }
+    },
+    "Ulysse se fait attacher au mât pour entendre le chant fatal sans y succomber. Les rameurs ont les oreilles bouchées de cire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odysseus has himself tied to the mast to hear the fatal song without succumbing. The rowers' ears are stopped with wax."
+          }
+        }
+      }
+    },
+    "Charybde & Scylla — Détroit de Messine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charybdis & Scylla — Strait of Messina"
+          }
+        }
+      }
+    },
+    "Entre le monstre aux six têtes et le tourbillon dévoreur de navires, six compagnons périssent.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Between the six-headed monster and the ship-devouring whirlpool, six companions perish."
+          }
+        }
+      }
+    },
+    "Ogygie — Calypso": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ogygia — Calypso"
+          }
+        }
+      }
+    },
+    "L'île de la nymphe qui le retient et lui offre l'immortalité. Il préfère Ithaque et repart sur un simple radeau.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The nymph's island, where she holds him and offers immortality. He chooses Ithaca instead and leaves on a simple raft."
+          }
+        }
+      }
+    },
+    "Phéaciens — Corfou": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phaeacians — Corfu"
+          }
+        }
+      }
+    },
+    "Les marins de Schérie, souvent identifiée à Corfou, l'écoutent puis le déposent endormi sur sa terre natale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The sailors of Scheria, often identified with Corfu, listen to his tale then set him down asleep on his native shore."
+          }
+        }
+      }
+    },
+    "Ithaque": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ithaca"
+          }
+        }
+      }
+    },
+    "Retour après dix ans. Pénélope a résisté, Télémaque a grandi. Il reste les prétendants à éliminer à l'arc.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return after ten years. Penelope has held firm, Telemachus has grown. Only the suitors remain to be dealt with by the bow."
+          }
+        }
+      }
+    },
+    "L'Odyssée — voyage complet estimé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Odyssey — Estimated Full Voyage"
+          }
+        }
+      }
+    },
+    "Avec tous les détours d'Ulysse — mer Méditerranée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With all of Odysseus's detours — Mediterranean Sea"
+          }
+        }
+      }
+    },
+    "Départ après dix ans de siège. La flotte d'Ulysse compte douze navires et leurs équipages au complet.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Departure after ten years of siege. Odysseus's fleet numbers twelve ships with their crews at full strength."
+          }
+        }
+      }
+    },
+    "Cicones — Ismaros": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cicones — Ismarus"
+          }
+        }
+      }
+    },
+    "Le premier pillage après Troie tourne mal : les Cicones contre-attaquent et tuent soixante-douze hommes d'Ulysse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The first raid after Troy goes wrong: the Cicones counterattack and kill seventy-two of Odysseus's men."
+          }
+        }
+      }
+    },
+    "Pays des Lotophages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Land of the Lotus-Eaters"
+          }
+        }
+      }
+    },
+    "Trois compagnons mangent le fruit de l'oubli et ne veulent plus rentrer — il faut les traîner de force aux navires.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three companions eat the fruit of forgetting and no longer want to leave — they must be dragged by force back to the ships."
+          }
+        }
+      }
+    },
+    "Pays des Cyclopes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Land of the Cyclopes"
+          }
+        }
+      }
+    },
+    "L'île de Polyphème. La perte de six hommes et de la faveur de Poséidon vont compliquer dix ans de retour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The island of Polyphemus. The loss of six men and Poseidon's favor will complicate ten years of homecoming."
+          }
+        }
+      }
+    },
+    "L'île d'Éole": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Island of Aeolus"
+          }
+        }
+      }
+    },
+    "Le dieu des vents offre une outre contenant les vents contraires. Ouverte par les compagnons jaloux, elle renvoie tout le monde au départ.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The god of the winds offers a bag holding the contrary winds. Opened by jealous companions, it blows everyone back to the start."
+          }
+        }
+      }
+    },
+    "Les géants cannibales coulent onze des douze navires. La flotte d'Ulysse est réduite à un seul vaisseau.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cannibal giants sink eleven of the twelve ships. Odysseus's fleet is reduced to a single vessel."
+          }
+        }
+      }
+    },
+    "Circé — Aiaié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Circe — Aeaea"
+          }
+        }
+      }
+    },
+    "La magicienne de l'île d'Aiaié change l'équipage en pourceaux. Ulysse lui résiste et demeure un an à ses côtés.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The sorceress of the island of Aeaea turns the crew into swine. Odysseus resists her and stays by her side for a year."
+          }
+        }
+      }
+    },
+    "Pays des Morts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Land of the Dead"
+          }
+        }
+      }
+    },
+    "Ulysse descend aux Enfers consulter le devin Tirésias. Il revoit Achille, Ajax et l'ombre de sa propre mère.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odysseus descends into the underworld to consult the seer Tiresias. He sees Achilles, Ajax, and the shade of his own mother again."
+          }
+        }
+      }
+    },
+    "Les Sirènes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Sirens"
+          }
+        }
+      }
+    },
+    "Ulysse se fait lier au mât pour entendre le chant mortel. Les rameurs, oreilles emplies de cire, forcent le passage.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odysseus has himself bound to the mast to hear the deadly song. The rowers, ears filled with wax, force their way through."
+          }
+        }
+      }
+    },
+    "Scylla & Charybde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scylla & Charybdis"
+          }
+        }
+      }
+    },
+    "Entre le monstre aux six gueules et le tourbillon qui engloutit les navires. Six compagnons sont happés d'un coup.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Between the six-mouthed monster and the whirlpool that swallows ships. Six companions are seized in an instant."
+          }
+        }
+      }
+    },
+    "Île du Soleil — Thrinacie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Island of the Sun — Thrinacia"
+          }
+        }
+      }
+    },
+    "Malgré l'interdit, les compagnons affamés dévorent les bœufs sacrés d'Hélios. Zeus foudroie le navire ; seul Ulysse survit.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Despite the warning, the starving companions devour Helios's sacred cattle. Zeus strikes the ship with lightning; only Odysseus survives."
+          }
+        }
+      }
+    },
+    "Sept ans captif sur l'île de la nymphe Calypso. Elle lui offre l'immortalité. Il refuse et choisit Ithaque.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seven years held captive on the nymph Calypso's island. She offers him immortality. He refuses and chooses Ithaca."
+          }
+        }
+      }
+    },
+    "Schérie — les Phéaciens": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scheria — The Phaeacians"
+          }
+        }
+      }
+    },
+    "Peuple ami des dieux, les Phéaciens l'écoutent raconter dix ans d'aventures puis le ramènent endormi à Ithaque.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A people beloved of the gods, the Phaeacians listen to ten years of adventures, then carry him home asleep to Ithaca."
+          }
+        }
+      }
+    },
+    "L'arrivée en secret, le vieux chien Argos qui reconnaît son maître, et la vengeance des prétendants à l'arc d'ivoire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The secret arrival, the old dog Argos recognizing his master, and vengeance upon the suitors with the ivory bow."
+          }
+        }
+      }
+    },
+    "L'Iliade — siège de Troie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Iliad — Siege of Troy"
+          }
+        }
+      }
+    },
+    "Mycènes → Troie — 10 ans de siège": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mycenae → Troy — 10 years of siege"
+          }
+        }
+      }
+    },
+    "Mycènes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mycenae"
+          }
+        }
+      }
+    },
+    "Agamemnon rassemble les rois grecs. La flotte de mille navires se forme pour venger l'honneur de Ménélas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agamemnon gathers the Greek kings. A fleet of a thousand ships forms to avenge Menelaus's honor."
+          }
+        }
+      }
+    },
+    "Aulis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aulis"
+          }
+        }
+      }
+    },
+    "Le port du rassemblement. Pour obtenir des vents favorables, Agamemnon doit sacrifier sa propre fille, Iphigénie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The gathering port. To secure favorable winds, Agamemnon must sacrifice his own daughter, Iphigenia."
+          }
+        }
+      }
+    },
+    "Débarquement en Troade": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Landing at the Troad"
+          }
+        }
+      }
+    },
+    "Après la traversée de l'Égée, les Grecs abordent devant Troie. Protésilas, premier à sauter à terre, est le premier à tomber.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After crossing the Aegean, the Greeks land before Troy. Protesilaus, first ashore, is the first to fall."
+          }
+        }
+      }
+    },
+    "La colère d'Achille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wrath of Achilles"
+          }
+        }
+      }
+    },
+    "Agamemnon lui prend Briséis. Achille se retire sous sa tente et prive les Grecs de leur plus grand guerrier.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agamemnon takes Briseis from him. Achilles withdraws to his tent, depriving the Greeks of their greatest warrior."
+          }
+        }
+      }
+    },
+    "Mort de Patrocle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Death of Patroclus"
+          }
+        }
+      }
+    },
+    "Revêtu des armes d'Achille, Patrocle repousse les Troyens mais tombe sous les coups d'Hector. La douleur rappelle Achille au combat.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wearing Achilles' armor, Patroclus drives back the Trojans but falls to Hector. The grief brings Achilles back to battle."
+          }
+        }
+      }
+    },
+    "Achille tue Hector": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Achilles Kills Hector"
+          }
+        }
+      }
+    },
+    "Le duel décisif sous les murs. Achille traîne le corps d'Hector autour de la cité avant de le rendre au vieux roi Priam.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The decisive duel beneath the walls. Achilles drags Hector's body around the city before returning it to old King Priam."
+          }
+        }
+      }
+    },
+    "Le cheval de bois": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wooden Horse"
+          }
+        }
+      }
+    },
+    "La ruse d'Ulysse : un cheval de bois géant abandonné devant les portes, que les Troyens introduisent eux-mêmes dans la ville.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odysseus's ruse: a giant wooden horse left before the gates, which the Trojans themselves bring into the city."
+          }
+        }
+      }
+    },
+    "La chute de Troie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Fall of Troy"
+          }
+        }
+      }
+    },
+    "Dans la nuit, les Grecs sortis du cheval ouvrent les portes. Troie, jugée inexpugnable, s'effondre dans les flammes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the night, the Greeks emerge from the horse and open the gates. Troy, thought impregnable, collapses in flames."
+          }
+        }
+      }
+    },
+    "Copié !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied!"
+          }
+        }
+      }
+    },
+    "Appuyez deux fois pour copier la citation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-tap to copy the quote"
+          }
+        }
+      }
+    },
+    "Citation copiée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quote copied"
+          }
+        }
+      }
+    },
+    "Pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thought of the Day"
+          }
+        }
+      }
+    },
+    "Une nouvelle pensée t'attend aujourd'hui.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new thought is waiting for you today."
+          }
+        }
+      }
+    },
+    "Fermer la pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close thought of the day"
+          }
+        }
+      }
+    },
+    "Afficher la pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show thought of the day"
+          }
+        }
+      }
+    },
+    "Une pensée s'affiche à la première ouverture du jour, avec un rappel à midi si l'app n'a pas encore été ouverte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A thought appears the first time you open the app each day, with a reminder at noon if you haven't opened it yet"
+          }
+        }
+      }
+    },
+    "Forêt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forest"
+          }
+        }
+      }
+    },
+    "Océan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocean"
+          }
+        }
+      }
+    },
+    "Soleil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sun"
+          }
+        }
+      }
+    },
+    "Corail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coral"
+          }
+        }
+      }
+    },
+    "Violet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Violet"
+          }
+        }
+      }
+    },
+    "Glace": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ice"
+          }
+        }
+      }
+    },
+    "Activité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity"
+          }
+        }
+      }
+    },
+    "Trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journeys"
+          }
+        }
+      }
+    },
+    "Paramètres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Trajet en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Journey"
+          }
+        }
+      }
+    },
+    "Ouvre le détail du trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the journey detail"
+          }
+        }
+      }
+    },
+    "Vous avez achevé ce trajet !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've completed this journey!"
+          }
+        }
+      }
+    },
+    "Trajet achevé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey completed"
+          }
+        }
+      }
+    },
+    "Fermer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "Déplié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expanded"
+          }
+        }
+      }
+    },
+    "Replié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapsed"
+          }
+        }
+      }
+    },
+    "Touchez pour replier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to collapse"
+          }
+        }
+      }
+    },
+    "Touchez pour déplier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to expand"
+          }
+        }
+      }
+    },
+    "Voir mes étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View my milestones"
+          }
+        }
+      }
+    },
+    "Voir le trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View journey"
+          }
+        }
+      }
+    },
+    "TERMINÉS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "COMPLETED"
+          }
+        }
+      }
+    },
+    "Touchez pour voir la date de complétion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to see the completion date"
+          }
+        }
+      }
+    },
+    "Date inconnue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown date"
+          }
+        }
+      }
+    },
+    "Annuler ce trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel this journey"
+          }
+        }
+      }
+    },
+    "Garder mon trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep my journey"
+          }
+        }
+      }
+    },
+    "Vous avez déjà un trajet en cours. Voulez-vous l'annuler pour commencer celui-ci ? (L'avancée sera perdue)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You already have a journey in progress. Do you want to cancel it to start this one? (Progress will be lost)"
+          }
+        }
+      }
+    },
+    "Étapes du trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey milestones"
+          }
+        }
+      }
+    },
+    "Commencer le trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start journey"
+          }
+        }
+      }
+    },
+    "Trajet terminé ! 🏁": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey completed! 🏁"
+          }
+        }
+      }
+    },
+    "Nouvelle étape débloquée !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New milestone unlocked!"
+          }
+        }
+      }
+    },
+    "Aucun trajet en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No journey in progress"
+          }
+        }
+      }
+    },
+    "Choisissez votre prochain trajet ci-dessous.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your next journey below."
+          }
+        }
+      }
+    },
+    "Promenades": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walks"
+          }
+        }
+      }
+    },
+    "Sentiers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trails"
+          }
+        }
+      }
+    },
+    "Histoire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        }
+      }
+    },
+    "Mythes & Épopées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Myths & Epics"
+          }
+        }
+      }
+    },
+    "Accès à vos pas désactivé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access to your steps is disabled"
+          }
+        }
+      }
+    },
+    "Autorisez Podomètre à lire vos pas dans les Réglages pour suivre votre progression.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Podomètre to read your steps in Settings to track your progress."
+          }
+        }
+      }
+    },
+    "Réglages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Ouvre les Réglages pour autoriser l'accès à vos pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens Settings to allow access to your steps"
+          }
+        }
+      }
+    },
+    "Chargement de l'historique…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading history…"
+          }
+        }
+      }
+    },
+    "Historique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        }
+      }
+    },
+    "Plus longue série jamais réalisée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longest streak ever achieved"
+          }
+        }
+      }
+    },
+    "Records personnels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal Records"
+          }
+        }
+      }
+    },
+    "Meilleur jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Day"
+          }
+        }
+      }
+    },
+    "Meilleure semaine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Week"
+          }
+        }
+      }
+    },
+    "Meilleur mois": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Month"
+          }
+        }
+      }
+    },
+    "Meilleure année": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Year"
+          }
+        }
+      }
+    },
+    "Jour le plus actif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most Active Day"
+          }
+        }
+      }
+    },
+    "Jours objectif atteint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal-Reached Days"
+          }
+        }
+      }
+    },
+    "Semaines parfaites": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfect Weeks"
+          }
+        }
+      }
+    },
+    "Mois parfaits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfect Months"
+          }
+        }
+      }
+    },
+    "pas cumulés depuis le début du suivi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps taken since tracking began"
+          }
+        }
+      }
+    },
+    "parcourus depuis le début du suivi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "covered since tracking began"
+          }
+        }
+      }
+    },
+    "Totaux mensuels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly Totals"
+          }
+        }
+      }
+    },
+    "en baisse par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "down from the previous week"
+          }
+        }
+      }
+    },
+    "stable par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "stable compared to the previous week"
+          }
+        }
+      }
+    },
+    "en hausse par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "up from the previous week"
+          }
+        }
+      }
+    },
+    "Dimanche": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunday"
+          }
+        }
+      }
+    },
+    "Lundi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monday"
+          }
+        }
+      }
+    },
+    "Mardi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuesday"
+          }
+        }
+      }
+    },
+    "Mercredi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wednesday"
+          }
+        }
+      }
+    },
+    "Jeudi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thursday"
+          }
+        }
+      }
+    },
+    "Vendredi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Friday"
+          }
+        }
+      }
+    },
+    "Samedi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saturday"
+          }
+        }
+      }
+    },
+    "Mois précédent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous month"
+          }
+        }
+      }
+    },
+    "Mois suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next month"
+          }
+        }
+      }
+    },
+    "Objectif atteint ! 🎉": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal reached! 🎉"
+          }
+        }
+      }
+    },
+    "Aujourd'hui": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "Hier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yesterday"
+          }
+        }
+      }
+    },
+    "Jour précédent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous day"
+          }
+        }
+      }
+    },
+    "pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps"
+          }
+        }
+      }
+    },
+    "Progression du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's progress"
+          }
+        }
+      }
+    },
+    "Jour suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next day"
+          }
+        }
+      }
+    },
+    "Distance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance"
+          }
+        }
+      }
+    },
+    "Temps actif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active Time"
+          }
+        }
+      }
+    },
+    "Calories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calories"
+          }
+        }
+      }
+    },
+    "Pluie en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain now"
+          }
+        }
+      }
+    },
+    "Pluie dans moins d'1h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain within the hour"
+          }
+        }
+      }
+    },
+    "Pas de pluie prévue dans la prochaine heure": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No rain expected in the next hour"
+          }
+        }
+      }
+    },
+    "ciel dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "clear sky"
+          }
+        }
+      }
+    },
+    "principalement dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mostly clear"
+          }
+        }
+      }
+    },
+    "partiellement nuageux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "partly cloudy"
+          }
+        }
+      }
+    },
+    "couvert": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "overcast"
+          }
+        }
+      }
+    },
+    "brouillard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fog"
+          }
+        }
+      }
+    },
+    "bruine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "drizzle"
+          }
+        }
+      }
+    },
+    "pluie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "rain"
+          }
+        }
+      }
+    },
+    "pluie verglaçante": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "freezing rain"
+          }
+        }
+      }
+    },
+    "neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "snow"
+          }
+        }
+      }
+    },
+    "averses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "showers"
+          }
+        }
+      }
+    },
+    "averses de neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "snow showers"
+          }
+        }
+      }
+    },
+    "orages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "thunderstorms"
+          }
+        }
+      }
+    },
+    "conditions variables": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "variable conditions"
+          }
+        }
+      }
+    },
+    "Prévisions du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's forecast"
+          }
+        }
+      }
+    },
+    "00 h – 02 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "12 – 2 AM"
+          }
+        }
+      }
+    },
+    "02 h – 05 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 – 5 AM"
+          }
+        }
+      }
+    },
+    "05 h – 08 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 – 8 AM"
+          }
+        }
+      }
+    },
+    "08 h – 11 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 – 11 AM"
+          }
+        }
+      }
+    },
+    "11 h – 14 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "11 AM – 2 PM"
+          }
+        }
+      }
+    },
+    "14 h – 17 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 – 5 PM"
+          }
+        }
+      }
+    },
+    "17 h – 20 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 – 8 PM"
+          }
+        }
+      }
+    },
+    "20 h – 22 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 – 10 PM"
+          }
+        }
+      }
+    },
+    "22 h – 00 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 PM – 12 AM"
+          }
+        }
+      }
+    },
+    "7 derniers jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last 7 days"
+          }
+        }
+      }
+    },
+    "sem. précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "prev. week"
+          }
+        }
+      }
+    },
+    "moyenne en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "current average"
+          }
+        }
+      }
+    },
+    "Touchez pour voir l'historique complet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to see the full history"
+          }
+        }
+      }
+    },
+    "Météo · 7 jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather · 7 days"
+          }
+        }
+      }
+    },
+    "Auj.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "5 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5,000 steps"
+          }
+        }
+      }
+    },
+    "10 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10,000 steps"
+          }
+        }
+      }
+    },
+    "20 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "20,000 steps"
+          }
+        }
+      }
+    },
+    "30 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30,000 steps"
+          }
+        }
+      }
+    },
+    "50 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50,000 steps"
+          }
+        }
+      }
+    },
+    "100 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100,000 steps"
+          }
+        }
+      }
+    },
+    "pas / jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps / day"
+          }
+        }
+      }
+    },
+    "Objectif quotidien": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Goal"
+          }
+        }
+      }
+    },
+    "Mon objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Goal"
+          }
+        }
+      }
+    },
+    "Réglable par paliers de 500 pas, de 500 à 100 000.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjustable in steps of 500, from 500 to 100,000."
+          }
+        }
+      }
+    },
+    "Apparence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        }
+      }
+    },
+    "Définit la couleur de l'anneau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sets the ring color"
+          }
+        }
+      }
+    },
+    "Mode sombre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark Mode"
+          }
+        }
+      }
+    },
+    "Distance · temps actif · calories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance · active time · calories"
+          }
+        }
+      }
+    },
+    "Météo & prévisions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather & forecast"
+          }
+        }
+      }
+    },
+    "Calendrier mensuel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly calendar"
+          }
+        }
+      }
+    },
+    "Graphe hebdomadaire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly chart"
+          }
+        }
+      }
+    },
+    "Écran principal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Main Screen"
+          }
+        }
+      }
+    },
+    "Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose which sections appear below the ring. Disabling weather also stops network calls and location access."
+          }
+        }
+      }
+    },
+    "Objectif journalier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily goal"
+          }
+        }
+      }
+    },
+    "Progression des trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey progress"
+          }
+        }
+      }
+    },
+    "Notifications": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "L'objectif journalier est notifié une seule fois par jour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The daily goal is only notified once per day."
+          }
+        }
+      }
+    },
+    "Récompenses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rewards"
+          }
+        }
+      }
+    },
+    "Revoir la présentation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay the introduction"
+          }
+        }
+      }
+    },
+    "Augmenter l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Increase goal"
+          }
+        }
+      }
+    },
+    "Diminuer l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decrease goal"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "Données de santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health Data"
+          }
+        }
+      }
+    },
+    "À propos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        }
+      }
+    },
+    "Vos pas et distances sont lus depuis HealthKit et ne quittent jamais votre iPhone. Recueil de pensées du jour : 400 aphorismes du domaine public (CC0).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your steps and distances are read from HealthKit and never leave your iPhone. Thought-of-the-day collection: 400 public-domain aphorisms (CC0)."
+          }
+        }
+      }
+    },
+    "Série en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Streak"
+          }
+        }
+      }
+    },
+    "Idéal pour commencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ideal to get started"
+          }
+        }
+      }
+    },
+    "8 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8,000 steps"
+          }
+        }
+      }
+    },
+    "Recommandé par l'OMS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommended by the WHO"
+          }
+        }
+      }
+    },
+    "Objectif classique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic goal"
+          }
+        }
+      }
+    },
+    "15 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15,000 steps"
+          }
+        }
+      }
+    },
+    "Objectif sportif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Athletic goal"
+          }
+        }
+      }
+    },
+    "Je marche beaucoup": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I walk a lot"
+          }
+        }
+      }
+    },
+    "Lancer l'app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch the app"
+          }
+        }
+      }
+    },
+    "Suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        }
+      }
+    },
+    "Vos pas du jour, en un coup d'œil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your steps today, at a glance"
+          }
+        }
+      }
+    },
+    "Progression en temps réel, distance, météo et série de jours réussis — avec calendrier et historique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Real-time progress, distance, weather, and your streak of successful days — with a calendar and history."
+          }
+        }
+      }
+    },
+    "Marchez vers des destinations légendaires": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walk toward legendary destinations"
+          }
+        }
+      }
+    },
+    "Vos kilomètres réels débloquent des étapes racontées et des badges, du GR20 à l'Odyssée d'Ulysse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your real kilometers unlock narrated milestones and badges, from the GR20 to Homer's Odyssey."
+          }
+        }
+      }
+    },
+    "Accès à vos données de santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access to your health data"
+          }
+        }
+      }
+    },
+    "Pour suivre vos pas et calculer votre progression sur les trajets.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To track your steps and calculate your progress on journeys."
+          }
+        }
+      }
+    },
+    "Nombre de pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step count"
+          }
+        }
+      }
+    },
+    "Comptage en temps réel via HealthKit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Real-time counting via HealthKit"
+          }
+        }
+      }
+    },
+    "Distance parcourue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance covered"
+          }
+        }
+      }
+    },
+    "Marche et course pour les trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walking and running for journeys"
+          }
+        }
+      }
+    },
+    "Localisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location"
+          }
+        }
+      }
+    },
+    "Prévisions météo personnalisées près de vous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personalized weather forecasts near you"
+          }
+        }
+      }
+    },
+    "Ces données ne quittent jamais votre iPhone.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This data never leaves your iPhone."
+          }
+        }
+      }
+    },
+    "L'autorisation vous sera demandée à l'ouverture de l'app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll be asked for permission when the app opens."
+          }
+        }
+      }
+    },
+    "Quel est votre objectif quotidien ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's your daily goal?"
+          }
+        }
+      }
+    },
+    "Modifiable à tout moment dans les Paramètres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjustable at any time in Settings."
+          }
+        }
+      }
+    },
+    "Sélectionné": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        }
+      }
+    },
+    "Ciel dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear sky"
+          }
+        }
+      }
+    },
+    "Principalement dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostly clear"
+          }
+        }
+      }
+    },
+    "Partiellement nuageux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partly cloudy"
+          }
+        }
+      }
+    },
+    "Couvert": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overcast"
+          }
+        }
+      }
+    },
+    "Brouillard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fog"
+          }
+        }
+      }
+    },
+    "Bruine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drizzle"
+          }
+        }
+      }
+    },
+    "Pluie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain"
+          }
+        }
+      }
+    },
+    "Pluie verglaçante": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freezing rain"
+          }
+        }
+      }
+    },
+    "Neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snow"
+          }
+        }
+      }
+    },
+    "Averses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showers"
+          }
+        }
+      }
+    },
+    "Averses de neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snow showers"
+          }
+        }
+      }
+    },
+    "Orages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thunderstorms"
+          }
+        }
+      }
+    },
+    "Conditions variables": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable conditions"
+          }
+        }
+      }
+    },
+    "%@ jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ days"
+          }
+        }
+      }
+    },
+    "%@ jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ day"
+          }
+        }
+      }
+    },
+    "Tendance sur %@ semaines": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trend over the last %@ weeks"
+          }
+        }
+      }
+    },
+    "%@ pas/jour en moyenne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ steps/day on average"
+          }
+        }
+      }
+    },
+    "Total %@ : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total %@: %@ steps"
+          }
+        }
+      }
+    },
+    "Total : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total: %@ steps"
+          }
+        }
+      }
+    },
+    "moy. %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "avg. %@"
+          }
+        }
+      }
+    },
+    "Moyenne : %@ pas/jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Average: %@ steps/day"
+          }
+        }
+      }
+    },
+    "Prochaine étape dans %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next stop in %@ km"
+          }
+        }
+      }
+    },
+    "Arrivée ~%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriving ~%@"
+          }
+        }
+      }
+    },
+    "Prochaine étape : ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next stop: "
+          }
+        }
+      }
+    },
+    " dans %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " in %@ km"
+          }
+        }
+      }
+    },
+    "Terminé le %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completed on %@"
+          }
+        }
+      }
+    },
+    "%.0f km · %d étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.0f km · %d stops"
+          }
+        }
+      }
+    },
+    "%@ étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ stops"
+          }
+        }
+      }
+    },
+    "🔥 %@ jours de suite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔥 %@ days in a row"
+          }
+        }
+      }
+    },
+    "🔥 %@ jour de suite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔥 %@ day in a row"
+          }
+        }
+      }
+    },
+    "Objectif : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: %@ steps"
+          }
+        }
+      }
+    },
+    "Étape %@ / 4": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %@ / 4"
+          }
+        }
+      }
+    },
+    "%@ %% de l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %% of goal"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

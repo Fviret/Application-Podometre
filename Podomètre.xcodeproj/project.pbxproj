@@ -187,11 +187,12 @@
 				};
 			};
 			buildConfigurationList = EDE499162FDFF8AF000A1263 /* Build configuration list for PBXProject "Podomètre" */;
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = EDE499122FDFF8AF000A1263;
 			minimizedProjectReferenceProxies = 1;
@@ -403,8 +404,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "La localisation est requise pour la météo.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -441,8 +442,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "La localisation est requise pour la météo.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -134,10 +134,11 @@ struct JourneyPickerView: View {
                 toggleCategory(category)
             } label: {
                 HStack(spacing: 6) {
-                    Text(category.rawValue.uppercased())
+                    Text(LocalizedStringKey(category.rawValue))
                         .font(.system(.caption, design: .rounded).weight(.semibold))
                         .foregroundStyle(Color.secondary)
                         .kerning(1.2)
+                        .textCase(.uppercase)
 
                     Text("(\(remainingJourneys.count))")
                         .font(.system(.caption, design: .rounded))
@@ -237,11 +238,11 @@ private struct JourneyCard: View {
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(journey.name)
+                    Text(LocalizedStringKey(journey.name))
                         .font(.system(.headline, design: .rounded))
                         .foregroundStyle(Color.primary)
 
-                    Text(journey.subtitle)
+                    Text(LocalizedStringKey(journey.subtitle))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                         .lineLimit(2)
@@ -255,7 +256,7 @@ private struct JourneyCard: View {
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
 
-                Label("\(journey.milestones.count) étapes", systemImage: "mappin.circle")
+                Label(String(format: String(localized: "%@ étapes"), "\(journey.milestones.count)"), systemImage: "mappin.circle")
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
             }
@@ -330,7 +331,7 @@ private struct CompletedJourneyBadgeGrid: View {
                                 .shadow(color: ringColor.opacity(0.4), radius: 6, x: 0, y: 0)
                                 .accessibilityHidden(true)
 
-                            Text(journey.name)
+                            Text(LocalizedStringKey(journey.name))
                                 .font(.caption2)
                                 .foregroundStyle(Color.primary)
                                 .lineLimit(1)
@@ -369,10 +370,10 @@ private struct CompletedJourneyDetailSheet: View {
                 .accessibilityHidden(true)
 
             VStack(spacing: 4) {
-                Text(journey.name)
+                Text(LocalizedStringKey(journey.name))
                     .font(.system(.title2, design: .rounded).weight(.bold))
                     .multilineTextAlignment(.center)
-                Text(journey.subtitle)
+                Text(LocalizedStringKey(journey.subtitle))
                     .font(.subheadline)
                     .foregroundStyle(Color.secondary)
                     .multilineTextAlignment(.center)
@@ -380,7 +381,7 @@ private struct CompletedJourneyDetailSheet: View {
 
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.seal.fill")
-                Text("Terminé le \(dateText)")
+                Text(String(format: String(localized: "Terminé le %@"), dateText))
             }
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .foregroundStyle(Color.accentColor)
@@ -388,7 +389,7 @@ private struct CompletedJourneyDetailSheet: View {
             .padding(.vertical, 8)
             .background(Color.accentColor.opacity(0.12), in: Capsule())
 
-            Label(String(format: "%.0f km · %d étapes", journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
+            Label(String(format: String(localized: "%.0f km · %d étapes"), journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
                 .font(.caption)
                 .foregroundStyle(Color.secondary)
         }

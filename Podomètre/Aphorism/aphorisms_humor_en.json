@@ -1,0 +1,560 @@
+{
+  "metadata": {
+    "total_count": 89,
+    "language": "en",
+    "license": "Public Domain (pre-1929 sources: Oscar Wilde, Ambrose Bierce, Mark Twain, Benjamin Franklin)",
+    "last_updated": "2026-07-30T20:52:36.459096+00:00",
+    "categories": [
+      "absurd",
+      "family",
+      "friendship",
+      "irony",
+      "language",
+      "life",
+      "love",
+      "money",
+      "morals",
+      "observation",
+      "philosophy",
+      "society",
+      "wisdom",
+      "work"
+    ]
+  },
+  "aphorisms": [
+    {
+      "text": "I can resist everything except temptation.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 1
+    },
+    {
+      "text": "Be yourself; everyone else is already taken.",
+      "author": "Oscar Wilde",
+      "category": "wisdom",
+      "id": 2
+    },
+    {
+      "text": "Always forgive your enemies; nothing annoys them so much.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 3
+    },
+    {
+      "text": "The truth is rarely pure and never simple.",
+      "author": "Oscar Wilde",
+      "category": "philosophy",
+      "id": 4
+    },
+    {
+      "text": "I have nothing to declare except my genius.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 5
+    },
+    {
+      "text": "Experience is simply the name we give our mistakes.",
+      "author": "Oscar Wilde",
+      "category": "wisdom",
+      "id": 6
+    },
+    {
+      "text": "Work is the curse of the drinking classes.",
+      "author": "Oscar Wilde",
+      "category": "work",
+      "id": 7
+    },
+    {
+      "text": "A cynic is a man who knows the price of everything and the value of nothing.",
+      "author": "Oscar Wilde",
+      "category": "observation",
+      "id": 8
+    },
+    {
+      "text": "To live is the rarest thing in the world. Most people exist, that is all.",
+      "author": "Oscar Wilde",
+      "category": "life",
+      "id": 9
+    },
+    {
+      "text": "We are all in the gutter, but some of us are looking at the stars.",
+      "author": "Oscar Wilde",
+      "category": "life",
+      "id": 10
+    },
+    {
+      "text": "Ambition is the last refuge of failure.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 11
+    },
+    {
+      "text": "There is only one thing in the world worse than being talked about, and that is not being talked about.",
+      "author": "Oscar Wilde",
+      "category": "society",
+      "id": 12
+    },
+    {
+      "text": "Fashion is a form of ugliness so intolerable that we have to alter it every six months.",
+      "author": "Oscar Wilde",
+      "category": "society",
+      "id": 13
+    },
+    {
+      "text": "It is absurd to divide people into good and bad. People are either charming or tedious.",
+      "author": "Oscar Wilde",
+      "category": "absurd",
+      "id": 14
+    },
+    {
+      "text": "The only way to get rid of a temptation is to yield to it.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 15
+    },
+    {
+      "text": "Whenever people agree with me, I always feel I must be wrong.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 16
+    },
+    {
+      "text": "Anyone who lives within their means suffers from a lack of imagination.",
+      "author": "Oscar Wilde",
+      "category": "absurd",
+      "id": 17
+    },
+    {
+      "text": "One should always be a little improbable.",
+      "author": "Oscar Wilde",
+      "category": "philosophy",
+      "id": 18
+    },
+    {
+      "text": "Moderation is a fatal thing. Nothing succeeds like excess.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 19
+    },
+    {
+      "text": "I like men who have a future and women who have a past.",
+      "author": "Oscar Wilde",
+      "category": "love",
+      "id": 20
+    },
+    {
+      "text": "It is a very sad thing that nowadays there is so little useless information.",
+      "author": "Oscar Wilde",
+      "category": "absurd",
+      "id": 21
+    },
+    {
+      "text": "Education is an admirable thing, but it is well to remember that nothing worth knowing can be taught.",
+      "author": "Oscar Wilde",
+      "category": "wisdom",
+      "id": 22
+    },
+    {
+      "text": "A gentleman is one who never hurts anyone's feelings unintentionally.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 23
+    },
+    {
+      "text": "Society often forgives the criminal; it never forgives the dreamer.",
+      "author": "Oscar Wilde",
+      "category": "society",
+      "id": 24
+    },
+    {
+      "text": "It is only the shallow who do not judge by appearances.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 25
+    },
+    {
+      "text": "Man is least himself when he talks in his own person. Give him a mask, and he will tell you the truth.",
+      "author": "Oscar Wilde",
+      "category": "philosophy",
+      "id": 26
+    },
+    {
+      "text": "The books that the world calls immoral are books that show the world its own shame.",
+      "author": "Oscar Wilde",
+      "category": "society",
+      "id": 27
+    },
+    {
+      "text": "Life is far too important a thing ever to talk seriously about.",
+      "author": "Oscar Wilde",
+      "category": "irony",
+      "id": 28
+    },
+    {
+      "text": "I never travel without my diary. One should always have something sensational to read on the train.",
+      "author": "Oscar Wilde",
+      "category": "absurd",
+      "id": 29
+    },
+    {
+      "text": "Vulgarity is simply the conduct of other people.",
+      "author": "Oscar Wilde",
+      "category": "society",
+      "id": 30
+    },
+    {
+      "text": "Cynic: A blackguard whose faulty vision sees things as they are, not as they ought to be.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 31
+    },
+    {
+      "text": "Egotist: A person of low taste, more interested in himself than in me.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 32
+    },
+    {
+      "text": "Diplomacy: The patriotic art of lying for one's country.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 33
+    },
+    {
+      "text": "Bore: A person who talks when you wish him to listen.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 34
+    },
+    {
+      "text": "Positive: Being mistaken at the top of one's voice.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 35
+    },
+    {
+      "text": "Alone: In bad company.",
+      "author": "Ambrose Bierce",
+      "category": "absurd",
+      "id": 36
+    },
+    {
+      "text": "Acquaintance: A person whom we know well enough to borrow from, but not well enough to lend to.",
+      "author": "Ambrose Bierce",
+      "category": "friendship",
+      "id": 37
+    },
+    {
+      "text": "Brain: An apparatus with which we think we think.",
+      "author": "Ambrose Bierce",
+      "category": "absurd",
+      "id": 38
+    },
+    {
+      "text": "Conservative: A statesman who is enamored of existing evils, as distinguished from the Liberal, who wishes to replace them with others.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 39
+    },
+    {
+      "text": "Corporation: An ingenious device for obtaining individual profit without individual responsibility.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 40
+    },
+    {
+      "text": "Faith: Belief without evidence in what is told by one who speaks without knowledge, of things without parallel.",
+      "author": "Ambrose Bierce",
+      "category": "philosophy",
+      "id": 41
+    },
+    {
+      "text": "History: An account mostly false, of events mostly unimportant, which are brought about by rulers mostly knaves, and soldiers mostly fools.",
+      "author": "Ambrose Bierce",
+      "category": "observation",
+      "id": 42
+    },
+    {
+      "text": "Love: A temporary insanity curable by marriage.",
+      "author": "Ambrose Bierce",
+      "category": "love",
+      "id": 43
+    },
+    {
+      "text": "Marriage: The state or condition of a community consisting of a master, a mistress, and two slaves, making in all, two.",
+      "author": "Ambrose Bierce",
+      "category": "family",
+      "id": 44
+    },
+    {
+      "text": "Peace: In international affairs, a period of cheating between two periods of fighting.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 45
+    },
+    {
+      "text": "Politeness: The most acceptable hypocrisy.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 46
+    },
+    {
+      "text": "Saint: A dead sinner revised and edited.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 47
+    },
+    {
+      "text": "Self-esteem: An erroneous appraisement.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 48
+    },
+    {
+      "text": "Year: A period of three hundred and sixty-five disappointments.",
+      "author": "Ambrose Bierce",
+      "category": "absurd",
+      "id": 49
+    },
+    {
+      "text": "Once: Enough.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 50
+    },
+    {
+      "text": "Quotation: The act of repeating erroneously the words of another.",
+      "author": "Ambrose Bierce",
+      "category": "language",
+      "id": 51
+    },
+    {
+      "text": "Learning: The kind of ignorance distinguishing the studious.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 52
+    },
+    {
+      "text": "Congratulation: The civility of envy.",
+      "author": "Ambrose Bierce",
+      "category": "society",
+      "id": 53
+    },
+    {
+      "text": "Admiration: Our polite recognition of another's resemblance to ourselves.",
+      "author": "Ambrose Bierce",
+      "category": "irony",
+      "id": 54
+    },
+    {
+      "text": "Bride: A woman with a fine prospect of happiness behind her.",
+      "author": "Ambrose Bierce",
+      "category": "family",
+      "id": 55
+    },
+    {
+      "text": "The reports of my death are greatly exaggerated.",
+      "author": "Mark Twain",
+      "category": "irony",
+      "id": 56
+    },
+    {
+      "text": "Whenever you find yourself on the side of the majority, it is time to pause and reflect.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 57
+    },
+    {
+      "text": "Good decisions come from experience. Experience comes from making bad decisions.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 58
+    },
+    {
+      "text": "It is better to keep your mouth closed and let people think you are a fool than to open it and remove all doubt.",
+      "author": "Mark Twain",
+      "category": "irony",
+      "id": 59
+    },
+    {
+      "text": "A lie can travel halfway around the world while the truth is putting on its shoes.",
+      "author": "Mark Twain",
+      "category": "observation",
+      "id": 60
+    },
+    {
+      "text": "The two most important days in your life are the day you are born and the day you find out why.",
+      "author": "Mark Twain",
+      "category": "life",
+      "id": 61
+    },
+    {
+      "text": "Golf is a good walk spoiled.",
+      "author": "Mark Twain",
+      "category": "absurd",
+      "id": 62
+    },
+    {
+      "text": "Never put off till tomorrow what may be done day after tomorrow just as well.",
+      "author": "Mark Twain",
+      "category": "work",
+      "id": 63
+    },
+    {
+      "text": "I have never let my schooling interfere with my education.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 64
+    },
+    {
+      "text": "Age is an issue of mind over matter. If you don't mind, it doesn't matter.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 65
+    },
+    {
+      "text": "Clothes make the man. Naked people have little or no influence on society.",
+      "author": "Mark Twain",
+      "category": "society",
+      "id": 66
+    },
+    {
+      "text": "The man who does not read has no advantage over the man who cannot read.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 67
+    },
+    {
+      "text": "Whenever I feel the urge to exercise, I lie down until it passes.",
+      "author": "Mark Twain",
+      "category": "irony",
+      "id": 68
+    },
+    {
+      "text": "Few things are harder to put up with than the annoyance of a good example.",
+      "author": "Mark Twain",
+      "category": "irony",
+      "id": 69
+    },
+    {
+      "text": "Wrinkles should merely indicate where smiles have been.",
+      "author": "Mark Twain",
+      "category": "life",
+      "id": 70
+    },
+    {
+      "text": "Courage is resistance to fear, mastery of fear, not absence of fear.",
+      "author": "Mark Twain",
+      "category": "wisdom",
+      "id": 71
+    },
+    {
+      "text": "Let us be thankful for the fools. But for them the rest of us could not succeed.",
+      "author": "Mark Twain",
+      "category": "irony",
+      "id": 72
+    },
+    {
+      "text": "Early to bed and early to rise, makes a man healthy, wealthy, and wise.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 73
+    },
+    {
+      "text": "He that lieth down with dogs shall rise up with fleas.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 74
+    },
+    {
+      "text": "Fish and visitors stink after three days.",
+      "author": "Benjamin Franklin",
+      "category": "irony",
+      "id": 75
+    },
+    {
+      "text": "A penny saved is a penny earned.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 76
+    },
+    {
+      "text": "Well done is better than well said.",
+      "author": "Benjamin Franklin",
+      "category": "work",
+      "id": 77
+    },
+    {
+      "text": "Three may keep a secret, if two of them are dead.",
+      "author": "Benjamin Franklin",
+      "category": "irony",
+      "id": 78
+    },
+    {
+      "text": "He that falls in love with himself will have no rivals.",
+      "author": "Benjamin Franklin",
+      "category": "irony",
+      "id": 79
+    },
+    {
+      "text": "Little strokes fell great oaks.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 80
+    },
+    {
+      "text": "A small leak can sink a great ship.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 81
+    },
+    {
+      "text": "Necessity never made a good bargain.",
+      "author": "Benjamin Franklin",
+      "category": "observation",
+      "id": 82
+    },
+    {
+      "text": "There are no gains without pains.",
+      "author": "Benjamin Franklin",
+      "category": "work",
+      "id": 83
+    },
+    {
+      "text": "Diligence is the mother of good luck.",
+      "author": "Benjamin Franklin",
+      "category": "work",
+      "id": 84
+    },
+    {
+      "text": "Better slip with foot than tongue.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 85
+    },
+    {
+      "text": "Honesty is the best policy.",
+      "author": "Benjamin Franklin",
+      "category": "morals",
+      "id": 86
+    },
+    {
+      "text": "An investment in knowledge pays the best interest.",
+      "author": "Benjamin Franklin",
+      "category": "wisdom",
+      "id": 87
+    },
+    {
+      "text": "Lost time is never found again.",
+      "author": "Benjamin Franklin",
+      "category": "life",
+      "id": 88
+    },
+    {
+      "text": "He who multiplies riches multiplies cares.",
+      "author": "Benjamin Franklin",
+      "category": "money",
+      "id": 89
+    }
+  ]
+}

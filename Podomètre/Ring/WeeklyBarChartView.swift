@@ -13,10 +13,10 @@ struct WeeklyBarChartView: View {
     private let labelRowHeight: CGFloat = 20
     private let labelRowGap: CGFloat = 8
 
-    /// Libellés courts des 7 derniers jours en fr_FR, du plus ancien (index 0) au plus récent (index 6).
+    /// Libellés courts des 7 derniers jours dans la langue de l'appareil, du plus ancien (index 0) au plus récent (index 6).
     private var weekdayShortLabels: [String] {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.locale = Locale.autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("EEE")
         return (0..<7).map { offset in
             let date = Calendar.current.date(byAdding: .day, value: -(6 - offset), to: Date()) ?? Date()
@@ -204,7 +204,7 @@ struct WeeklyBarChartView: View {
                         }
                         .stroke(viewModel.ringColor.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
 
-                        Text("moy. \(compactSteps(weekAverage))")
+                        Text(String(format: String(localized: "moy. %@"), compactSteps(weekAverage)))
                             .font(.caption2)
                             .minimumScaleFactor(0.6)
                             .foregroundStyle(viewModel.ringColor.opacity(0.8))
@@ -282,7 +282,7 @@ struct WeeklyBarChartView: View {
                 .background(trendColor.opacity(0.15), in: Circle())
                 .accessibilityHidden(true)
 
-            Text("Moyenne : \(weekAverage.formatted()) pas/jour")
+            Text(String(format: String(localized: "Moyenne : %@ pas/jour"), weekAverage.formatted()))
                 .font(.system(.caption, design: .rounded).weight(.semibold))
                 .foregroundStyle(Color.secondary)
         }
