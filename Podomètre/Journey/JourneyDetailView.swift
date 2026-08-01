@@ -132,7 +132,9 @@ struct JourneyDetailView: View {
                         .foregroundStyle(Color.accentColor)
                         .accessibilityHidden(true)
 
-                    Text("Prochaine étape : **\(next.label)** dans \(String(format: "%.1f", max(remaining, 0))) km")
+                    (Text(String(localized: "Prochaine étape : "))
+                        + Text(LocalizedStringKey(next.label)).fontWeight(.bold)
+                        + Text(String(format: String(localized: " dans %@ km"), String(format: "%.1f", max(remaining, 0)))))
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(Color.primary)
                 }

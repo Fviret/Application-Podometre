@@ -85,7 +85,7 @@ struct JourneyPreviewSheet: View {
 
             HStack(spacing: 20) {
                 statBadge(icon: "arrow.left.and.right", value: String(format: "%.0f km", journey.totalKm))
-                statBadge(icon: "mappin.circle", value: "\(journey.milestones.count) étapes")
+                statBadge(icon: "mappin.circle", value: String(format: String(localized: "%@ étapes"), "\(journey.milestones.count)"))
                 statBadge(icon: "tag", value: journey.category.rawValue)
             }
             .padding(.top, 4)

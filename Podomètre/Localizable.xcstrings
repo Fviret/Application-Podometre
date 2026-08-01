@@ -5050,6 +5050,206 @@
           }
         }
       }
+    },
+    "%@ jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ days"
+          }
+        }
+      }
+    },
+    "%@ jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ day"
+          }
+        }
+      }
+    },
+    "Tendance sur %@ semaines": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trend over the last %@ weeks"
+          }
+        }
+      }
+    },
+    "%@ pas/jour en moyenne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ steps/day on average"
+          }
+        }
+      }
+    },
+    "Total %@ : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total %@: %@ steps"
+          }
+        }
+      }
+    },
+    "Total : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total: %@ steps"
+          }
+        }
+      }
+    },
+    "moy. %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "avg. %@"
+          }
+        }
+      }
+    },
+    "Moyenne : %@ pas/jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Average: %@ steps/day"
+          }
+        }
+      }
+    },
+    "Prochaine étape dans %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next stop in %@ km"
+          }
+        }
+      }
+    },
+    "Arrivée ~%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriving ~%@"
+          }
+        }
+      }
+    },
+    "Prochaine étape : ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next stop: "
+          }
+        }
+      }
+    },
+    " dans %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " in %@ km"
+          }
+        }
+      }
+    },
+    "Terminé le %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completed on %@"
+          }
+        }
+      }
+    },
+    "%.0f km · %d étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.0f km · %d stops"
+          }
+        }
+      }
+    },
+    "%@ étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ stops"
+          }
+        }
+      }
+    },
+    "🔥 %@ jours de suite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔥 %@ days in a row"
+          }
+        }
+      }
+    },
+    "🔥 %@ jour de suite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔥 %@ day in a row"
+          }
+        }
+      }
+    },
+    "Objectif : %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: %@ steps"
+          }
+        }
+      }
+    },
+    "Étape %@ / 4": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %@ / 4"
+          }
+        }
+      }
+    },
+    "%@ %% de l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ %% of goal"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

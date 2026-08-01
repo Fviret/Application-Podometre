@@ -255,7 +255,7 @@ private struct JourneyCard: View {
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
 
-                Label("\(journey.milestones.count) étapes", systemImage: "mappin.circle")
+                Label(String(format: String(localized: "%@ étapes"), "\(journey.milestones.count)"), systemImage: "mappin.circle")
                     .font(.caption)
                     .foregroundStyle(Color.secondary)
             }
@@ -380,7 +380,7 @@ private struct CompletedJourneyDetailSheet: View {
 
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.seal.fill")
-                Text("Terminé le \(dateText)")
+                Text(String(format: String(localized: "Terminé le %@"), dateText))
             }
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .foregroundStyle(Color.accentColor)
@@ -388,7 +388,7 @@ private struct CompletedJourneyDetailSheet: View {
             .padding(.vertical, 8)
             .background(Color.accentColor.opacity(0.12), in: Capsule())
 
-            Label(String(format: "%.0f km · %d étapes", journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
+            Label(String(format: String(localized: "%.0f km · %d étapes"), journey.totalKm, journey.milestones.count), systemImage: "mappin.and.ellipse")
                 .font(.caption)
                 .foregroundStyle(Color.secondary)
         }

@@ -127,7 +127,7 @@ struct StepRingView: View {
                                         if viewModel.selectedDayOffset == 0,
                                            viewModel.stepCount >= viewModel.goal,
                                            viewModel.currentStreak > 0 {
-                                            Text("🔥 \(viewModel.currentStreak) jour\(viewModel.currentStreak > 1 ? "s" : "") de suite")
+                                            Text(String(format: String(localized: viewModel.currentStreak > 1 ? "🔥 %@ jours de suite" : "🔥 %@ jour de suite"), "\(viewModel.currentStreak)"))
                                                 .font(.system(.caption, design: .rounded).weight(.semibold))
                                                 .foregroundStyle(Color.secondary)
                                                 .padding(.top, 2)
@@ -136,7 +136,7 @@ struct StepRingView: View {
                                         }
 
                                         // Pourcentage de l'objectif (non plafonné), sous « pas » / la série 🔥.
-                                        Text("\(Int(Double(viewModel.stepCount) / Double(max(viewModel.goal, 1)) * 100)) % de l'objectif")
+                                        Text(String(format: String(localized: "%@ %% de l'objectif"), "\(Int(Double(viewModel.stepCount) / Double(max(viewModel.goal, 1)) * 100))"))
                                             .font(.system(.caption2, design: .rounded).weight(.medium))
                                             .foregroundStyle(Color.secondary)
                                             .contentTransition(.numericText())
@@ -194,7 +194,7 @@ struct StepRingView: View {
                                 }
                         )
 
-                        Text("Objectif : \(viewModel.goal.formatted()) pas")
+                        Text(String(format: String(localized: "Objectif : %@ pas"), viewModel.goal.formatted()))
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
