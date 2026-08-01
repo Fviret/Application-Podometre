@@ -134,10 +134,11 @@ struct JourneyPickerView: View {
                 toggleCategory(category)
             } label: {
                 HStack(spacing: 6) {
-                    Text(category.rawValue.uppercased())
+                    Text(LocalizedStringKey(category.rawValue))
                         .font(.system(.caption, design: .rounded).weight(.semibold))
                         .foregroundStyle(Color.secondary)
                         .kerning(1.2)
+                        .textCase(.uppercase)
 
                     Text("(\(remainingJourneys.count))")
                         .font(.system(.caption, design: .rounded))

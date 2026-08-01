@@ -61,7 +61,7 @@ struct WeatherDetailView: View {
             Text(weatherEmoji(for: forecast.weatherCode))
                 .font(.system(size: 80))
                 .accessibilityHidden(true)
-            Text(weatherLabel(for: forecast.weatherCode))
+            Text(LocalizedStringKey(weatherLabel(for: forecast.weatherCode)))
                 .font(.system(.title3, design: .rounded).weight(.semibold))
             Text("\(Int(forecast.tempMax.rounded()))°  /  \(Int(forecast.tempMin.rounded()))°")
                 .font(.system(.body, design: .rounded))

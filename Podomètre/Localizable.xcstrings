@@ -5050,6 +5050,1886 @@
           }
         }
       }
+    },
+    "Copié !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied!"
+          }
+        }
+      }
+    },
+    "Appuyez deux fois pour copier la citation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-tap to copy the quote"
+          }
+        }
+      }
+    },
+    "Citation copiée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quote copied"
+          }
+        }
+      }
+    },
+    "Pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thought of the Day"
+          }
+        }
+      }
+    },
+    "Une nouvelle pensée t'attend aujourd'hui.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new thought is waiting for you today."
+          }
+        }
+      }
+    },
+    "Fermer la pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close thought of the day"
+          }
+        }
+      }
+    },
+    "Afficher la pensée du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show thought of the day"
+          }
+        }
+      }
+    },
+    "Une pensée s'affiche à la première ouverture du jour, avec un rappel à midi si l'app n'a pas encore été ouverte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A thought appears the first time you open the app each day, with a reminder at noon if you haven't opened it yet"
+          }
+        }
+      }
+    },
+    "Forêt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forest"
+          }
+        }
+      }
+    },
+    "Océan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocean"
+          }
+        }
+      }
+    },
+    "Soleil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sun"
+          }
+        }
+      }
+    },
+    "Corail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coral"
+          }
+        }
+      }
+    },
+    "Violet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Violet"
+          }
+        }
+      }
+    },
+    "Glace": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ice"
+          }
+        }
+      }
+    },
+    "Activité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity"
+          }
+        }
+      }
+    },
+    "Trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journeys"
+          }
+        }
+      }
+    },
+    "Paramètres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Trajet en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Journey"
+          }
+        }
+      }
+    },
+    "Ouvre le détail du trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the journey detail"
+          }
+        }
+      }
+    },
+    "Vous avez achevé ce trajet !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've completed this journey!"
+          }
+        }
+      }
+    },
+    "Trajet achevé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey completed"
+          }
+        }
+      }
+    },
+    "Fermer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "Déplié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expanded"
+          }
+        }
+      }
+    },
+    "Replié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapsed"
+          }
+        }
+      }
+    },
+    "Touchez pour replier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to collapse"
+          }
+        }
+      }
+    },
+    "Touchez pour déplier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to expand"
+          }
+        }
+      }
+    },
+    "Voir mes étapes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View my milestones"
+          }
+        }
+      }
+    },
+    "Voir le trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View journey"
+          }
+        }
+      }
+    },
+    "TERMINÉS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "COMPLETED"
+          }
+        }
+      }
+    },
+    "Touchez pour voir la date de complétion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to see the completion date"
+          }
+        }
+      }
+    },
+    "Date inconnue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown date"
+          }
+        }
+      }
+    },
+    "Annuler ce trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel this journey"
+          }
+        }
+      }
+    },
+    "Garder mon trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep my journey"
+          }
+        }
+      }
+    },
+    "Vous avez déjà un trajet en cours. Voulez-vous l'annuler pour commencer celui-ci ? (L'avancée sera perdue)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You already have a journey in progress. Do you want to cancel it to start this one? (Progress will be lost)"
+          }
+        }
+      }
+    },
+    "Étapes du trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey milestones"
+          }
+        }
+      }
+    },
+    "Commencer le trajet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start journey"
+          }
+        }
+      }
+    },
+    "Trajet terminé ! 🏁": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey completed! 🏁"
+          }
+        }
+      }
+    },
+    "Nouvelle étape débloquée !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New milestone unlocked!"
+          }
+        }
+      }
+    },
+    "Aucun trajet en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No journey in progress"
+          }
+        }
+      }
+    },
+    "Choisissez votre prochain trajet ci-dessous.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your next journey below."
+          }
+        }
+      }
+    },
+    "Promenades": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walks"
+          }
+        }
+      }
+    },
+    "Sentiers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trails"
+          }
+        }
+      }
+    },
+    "Histoire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        }
+      }
+    },
+    "Mythes & Épopées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Myths & Epics"
+          }
+        }
+      }
+    },
+    "Accès à vos pas désactivé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access to your steps is disabled"
+          }
+        }
+      }
+    },
+    "Autorisez Podomètre à lire vos pas dans les Réglages pour suivre votre progression.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Podomètre to read your steps in Settings to track your progress."
+          }
+        }
+      }
+    },
+    "Réglages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Ouvre les Réglages pour autoriser l'accès à vos pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens Settings to allow access to your steps"
+          }
+        }
+      }
+    },
+    "Chargement de l'historique…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading history…"
+          }
+        }
+      }
+    },
+    "Historique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        }
+      }
+    },
+    "Plus longue série jamais réalisée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longest streak ever achieved"
+          }
+        }
+      }
+    },
+    "Records personnels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal Records"
+          }
+        }
+      }
+    },
+    "Meilleur jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Day"
+          }
+        }
+      }
+    },
+    "Meilleure semaine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Week"
+          }
+        }
+      }
+    },
+    "Meilleur mois": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Month"
+          }
+        }
+      }
+    },
+    "Meilleure année": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best Year"
+          }
+        }
+      }
+    },
+    "Jour le plus actif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most Active Day"
+          }
+        }
+      }
+    },
+    "Jours objectif atteint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal-Reached Days"
+          }
+        }
+      }
+    },
+    "Semaines parfaites": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfect Weeks"
+          }
+        }
+      }
+    },
+    "Mois parfaits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfect Months"
+          }
+        }
+      }
+    },
+    "pas cumulés depuis le début du suivi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps taken since tracking began"
+          }
+        }
+      }
+    },
+    "parcourus depuis le début du suivi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "covered since tracking began"
+          }
+        }
+      }
+    },
+    "Totaux mensuels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly Totals"
+          }
+        }
+      }
+    },
+    "en baisse par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "down from the previous week"
+          }
+        }
+      }
+    },
+    "stable par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "stable compared to the previous week"
+          }
+        }
+      }
+    },
+    "en hausse par rapport à la semaine précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "up from the previous week"
+          }
+        }
+      }
+    },
+    "Dimanche": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunday"
+          }
+        }
+      }
+    },
+    "Lundi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monday"
+          }
+        }
+      }
+    },
+    "Mardi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuesday"
+          }
+        }
+      }
+    },
+    "Mercredi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wednesday"
+          }
+        }
+      }
+    },
+    "Jeudi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thursday"
+          }
+        }
+      }
+    },
+    "Vendredi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Friday"
+          }
+        }
+      }
+    },
+    "Samedi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saturday"
+          }
+        }
+      }
+    },
+    "Mois précédent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous month"
+          }
+        }
+      }
+    },
+    "Mois suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next month"
+          }
+        }
+      }
+    },
+    "Objectif atteint ! 🎉": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal reached! 🎉"
+          }
+        }
+      }
+    },
+    "Aujourd'hui": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "Hier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yesterday"
+          }
+        }
+      }
+    },
+    "Jour précédent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous day"
+          }
+        }
+      }
+    },
+    "pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps"
+          }
+        }
+      }
+    },
+    "Progression du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's progress"
+          }
+        }
+      }
+    },
+    "Jour suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next day"
+          }
+        }
+      }
+    },
+    "Distance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance"
+          }
+        }
+      }
+    },
+    "Temps actif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active Time"
+          }
+        }
+      }
+    },
+    "Calories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calories"
+          }
+        }
+      }
+    },
+    "Pluie en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain now"
+          }
+        }
+      }
+    },
+    "Pluie dans moins d'1h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain within the hour"
+          }
+        }
+      }
+    },
+    "Pas de pluie prévue dans la prochaine heure": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No rain expected in the next hour"
+          }
+        }
+      }
+    },
+    "ciel dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "clear sky"
+          }
+        }
+      }
+    },
+    "principalement dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mostly clear"
+          }
+        }
+      }
+    },
+    "partiellement nuageux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "partly cloudy"
+          }
+        }
+      }
+    },
+    "couvert": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "overcast"
+          }
+        }
+      }
+    },
+    "brouillard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fog"
+          }
+        }
+      }
+    },
+    "bruine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "drizzle"
+          }
+        }
+      }
+    },
+    "pluie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "rain"
+          }
+        }
+      }
+    },
+    "pluie verglaçante": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "freezing rain"
+          }
+        }
+      }
+    },
+    "neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "snow"
+          }
+        }
+      }
+    },
+    "averses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "showers"
+          }
+        }
+      }
+    },
+    "averses de neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "snow showers"
+          }
+        }
+      }
+    },
+    "orages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "thunderstorms"
+          }
+        }
+      }
+    },
+    "conditions variables": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "variable conditions"
+          }
+        }
+      }
+    },
+    "Prévisions du jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's forecast"
+          }
+        }
+      }
+    },
+    "00 h – 02 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "12 – 2 AM"
+          }
+        }
+      }
+    },
+    "02 h – 05 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 – 5 AM"
+          }
+        }
+      }
+    },
+    "05 h – 08 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 – 8 AM"
+          }
+        }
+      }
+    },
+    "08 h – 11 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 – 11 AM"
+          }
+        }
+      }
+    },
+    "11 h – 14 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "11 AM – 2 PM"
+          }
+        }
+      }
+    },
+    "14 h – 17 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 – 5 PM"
+          }
+        }
+      }
+    },
+    "17 h – 20 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 – 8 PM"
+          }
+        }
+      }
+    },
+    "20 h – 22 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 – 10 PM"
+          }
+        }
+      }
+    },
+    "22 h – 00 h": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 PM – 12 AM"
+          }
+        }
+      }
+    },
+    "7 derniers jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last 7 days"
+          }
+        }
+      }
+    },
+    "sem. précédente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "prev. week"
+          }
+        }
+      }
+    },
+    "moyenne en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "current average"
+          }
+        }
+      }
+    },
+    "Touchez pour voir l'historique complet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to see the full history"
+          }
+        }
+      }
+    },
+    "Météo · 7 jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather · 7 days"
+          }
+        }
+      }
+    },
+    "Auj.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "5 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5,000 steps"
+          }
+        }
+      }
+    },
+    "10 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10,000 steps"
+          }
+        }
+      }
+    },
+    "20 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "20,000 steps"
+          }
+        }
+      }
+    },
+    "30 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30,000 steps"
+          }
+        }
+      }
+    },
+    "50 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "50,000 steps"
+          }
+        }
+      }
+    },
+    "100 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100,000 steps"
+          }
+        }
+      }
+    },
+    "pas / jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "steps / day"
+          }
+        }
+      }
+    },
+    "Objectif quotidien": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Goal"
+          }
+        }
+      }
+    },
+    "Mon objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Goal"
+          }
+        }
+      }
+    },
+    "Réglable par paliers de 500 pas, de 500 à 100 000.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjustable in steps of 500, from 500 to 100,000."
+          }
+        }
+      }
+    },
+    "Apparence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        }
+      }
+    },
+    "Définit la couleur de l'anneau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sets the ring color"
+          }
+        }
+      }
+    },
+    "Mode sombre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark Mode"
+          }
+        }
+      }
+    },
+    "Distance · temps actif · calories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance · active time · calories"
+          }
+        }
+      }
+    },
+    "Météo & prévisions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather & forecast"
+          }
+        }
+      }
+    },
+    "Calendrier mensuel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly calendar"
+          }
+        }
+      }
+    },
+    "Graphe hebdomadaire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly chart"
+          }
+        }
+      }
+    },
+    "Écran principal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Main Screen"
+          }
+        }
+      }
+    },
+    "Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose which sections appear below the ring. Disabling weather also stops network calls and location access."
+          }
+        }
+      }
+    },
+    "Objectif journalier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily goal"
+          }
+        }
+      }
+    },
+    "Progression des trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey progress"
+          }
+        }
+      }
+    },
+    "Notifications": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "L'objectif journalier est notifié une seule fois par jour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The daily goal is only notified once per day."
+          }
+        }
+      }
+    },
+    "Récompenses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rewards"
+          }
+        }
+      }
+    },
+    "Revoir la présentation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay the introduction"
+          }
+        }
+      }
+    },
+    "Augmenter l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Increase goal"
+          }
+        }
+      }
+    },
+    "Diminuer l'objectif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decrease goal"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "Données de santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health Data"
+          }
+        }
+      }
+    },
+    "À propos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        }
+      }
+    },
+    "Vos pas et distances sont lus depuis HealthKit et ne quittent jamais votre iPhone. Recueil de pensées du jour : 400 aphorismes du domaine public (CC0).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your steps and distances are read from HealthKit and never leave your iPhone. Thought-of-the-day collection: 400 public-domain aphorisms (CC0)."
+          }
+        }
+      }
+    },
+    "Série en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Streak"
+          }
+        }
+      }
+    },
+    "Idéal pour commencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ideal to get started"
+          }
+        }
+      }
+    },
+    "8 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8,000 steps"
+          }
+        }
+      }
+    },
+    "Recommandé par l'OMS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommended by the WHO"
+          }
+        }
+      }
+    },
+    "Objectif classique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic goal"
+          }
+        }
+      }
+    },
+    "15 000 pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15,000 steps"
+          }
+        }
+      }
+    },
+    "Objectif sportif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Athletic goal"
+          }
+        }
+      }
+    },
+    "Je marche beaucoup": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I walk a lot"
+          }
+        }
+      }
+    },
+    "Lancer l'app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch the app"
+          }
+        }
+      }
+    },
+    "Suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        }
+      }
+    },
+    "Vos pas du jour, en un coup d'œil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your steps today, at a glance"
+          }
+        }
+      }
+    },
+    "Progression en temps réel, distance, météo et série de jours réussis — avec calendrier et historique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Real-time progress, distance, weather, and your streak of successful days — with a calendar and history."
+          }
+        }
+      }
+    },
+    "Marchez vers des destinations légendaires": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walk toward legendary destinations"
+          }
+        }
+      }
+    },
+    "Vos kilomètres réels débloquent des étapes racontées et des badges, du GR20 à l'Odyssée d'Ulysse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your real kilometers unlock narrated milestones and badges, from the GR20 to Homer's Odyssey."
+          }
+        }
+      }
+    },
+    "Accès à vos données de santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access to your health data"
+          }
+        }
+      }
+    },
+    "Pour suivre vos pas et calculer votre progression sur les trajets.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To track your steps and calculate your progress on journeys."
+          }
+        }
+      }
+    },
+    "Nombre de pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step count"
+          }
+        }
+      }
+    },
+    "Comptage en temps réel via HealthKit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Real-time counting via HealthKit"
+          }
+        }
+      }
+    },
+    "Distance parcourue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance covered"
+          }
+        }
+      }
+    },
+    "Marche et course pour les trajets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walking and running for journeys"
+          }
+        }
+      }
+    },
+    "Localisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location"
+          }
+        }
+      }
+    },
+    "Prévisions météo personnalisées près de vous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personalized weather forecasts near you"
+          }
+        }
+      }
+    },
+    "Ces données ne quittent jamais votre iPhone.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This data never leaves your iPhone."
+          }
+        }
+      }
+    },
+    "L'autorisation vous sera demandée à l'ouverture de l'app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll be asked for permission when the app opens."
+          }
+        }
+      }
+    },
+    "Quel est votre objectif quotidien ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's your daily goal?"
+          }
+        }
+      }
+    },
+    "Modifiable à tout moment dans les Paramètres.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjustable at any time in Settings."
+          }
+        }
+      }
+    },
+    "Sélectionné": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        }
+      }
+    },
+    "Ciel dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear sky"
+          }
+        }
+      }
+    },
+    "Principalement dégagé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostly clear"
+          }
+        }
+      }
+    },
+    "Partiellement nuageux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partly cloudy"
+          }
+        }
+      }
+    },
+    "Couvert": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overcast"
+          }
+        }
+      }
+    },
+    "Brouillard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fog"
+          }
+        }
+      }
+    },
+    "Bruine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drizzle"
+          }
+        }
+      }
+    },
+    "Pluie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain"
+          }
+        }
+      }
+    },
+    "Pluie verglaçante": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freezing rain"
+          }
+        }
+      }
+    },
+    "Neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snow"
+          }
+        }
+      }
+    },
+    "Averses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showers"
+          }
+        }
+      }
+    },
+    "Averses de neige": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snow showers"
+          }
+        }
+      }
+    },
+    "Orages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thunderstorms"
+          }
+        }
+      }
+    },
+    "Conditions variables": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable conditions"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
