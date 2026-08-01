@@ -381,14 +381,14 @@ class StepCountViewModel: ObservableObject {
         Calendar.current.date(byAdding: .day, value: -selectedDayOffset, to: Date()) ?? Date()
     }
 
-    /// Libellé lisible du jour sélectionné ("Aujourd'hui", "Hier", ou date courte fr_FR).
+    /// Libellé lisible du jour sélectionné ("Aujourd'hui", "Hier", ou date courte dans la langue de l'appareil).
     var selectedDateLabel: String {
         switch selectedDayOffset {
         case 0: return "Aujourd'hui"
         case 1: return "Hier"
         default:
             let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.locale = Locale.autoupdatingCurrent
             formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
             return formatter.string(from: selectedDate)
         }
