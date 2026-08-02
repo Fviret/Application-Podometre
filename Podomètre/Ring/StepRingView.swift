@@ -132,7 +132,7 @@ struct StepRingView: View {
                                                 .foregroundStyle(Color.secondary)
                                                 .padding(.top, 2)
                                                 .transition(.opacity.combined(with: .scale))
-                                                .accessibilityLabel("Série de \(viewModel.currentStreak) jour\(viewModel.currentStreak > 1 ? "s" : "") consécutif\(viewModel.currentStreak > 1 ? "s" : "")")
+                                                .accessibilityLabel(String(format: String(localized: viewModel.currentStreak > 1 ? "Série de %@ jours consécutifs" : "Série de %@ jour consécutif"), "\(viewModel.currentStreak)"))
                                         }
 
                                         // Pourcentage de l'objectif (non plafonné), sous « pas » / la série 🔥.
@@ -146,7 +146,7 @@ struct StepRingView: View {
                                 }
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
-                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
+                                .accessibilityValue(String(format: String(localized: "%@ pas sur %@, %@ %%"), viewModel.stepCount.formatted(), viewModel.goal.formatted(), "\(Int(viewModel.progress * 100))"))
                                 .accessibilityIdentifier("step_ring")
 
                                 Text(LocalizedStringKey(viewModel.selectedDateLabel))

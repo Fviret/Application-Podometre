@@ -52,7 +52,7 @@ struct WeeklyForecastBannerView: View {
                     }
                     .foregroundStyle(Color.secondary.opacity(0.6))
                     .padding(.bottom, 4)
-                    .accessibilityLabel("Localisation : \(label)")
+                    .accessibilityLabel(String(format: String(localized: "Localisation : %@"), label))
                 }
             }
             .sheet(item: $selectedForecast) { forecast in

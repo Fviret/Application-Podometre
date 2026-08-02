@@ -290,7 +290,11 @@ struct WeeklyBarChartView: View {
         .padding(.vertical, 6)
         .background(Color.secondary.opacity(0.08), in: Capsule())
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Moyenne quotidienne : \(weekAverage.formatted()) pas, \(trendA11yText) (\(previousWeekAverage.formatted()) pas)")
+        .accessibilityLabel(
+            Text(String(format: String(localized: "Moyenne quotidienne : %@ pas, "), weekAverage.formatted()))
+            + Text(LocalizedStringKey(trendA11yText))
+            + Text(String(format: String(localized: " (%@ pas)"), previousWeekAverage.formatted()))
+        )
     }
 }
 

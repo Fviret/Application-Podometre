@@ -92,7 +92,7 @@ struct JourneyDetailView: View {
                     }
                     .frame(height: 8)
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
+                    .accessibilityLabel(String(format: String(localized: "Progression : %@ %%"), "\(Int(progressPercent * 100))"))
 
                     Text(String(format: "%.0f %%", progressPercent * 100))
                         .font(.caption2)
@@ -142,7 +142,11 @@ struct JourneyDetailView: View {
                 .background(Color.accentColor.opacity(0.08))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Prochaine étape : \(next.label), dans \(String(format: "%.1f", max(remaining, 0))) km")
+                .accessibilityLabel(
+                    Text(String(localized: "Prochaine étape : "))
+                    + Text(LocalizedStringKey(next.label))
+                    + Text(String(format: String(localized: " dans %@ km"), String(format: "%.1f", max(remaining, 0))))
+                )
             }
         }
     }
@@ -213,7 +217,7 @@ private struct MilestoneRow: View {
                             .lineLimit(1)
                             .truncationMode(.tail)
                     } else {
-                        Text(String(format: "%.0f km depuis le départ", milestone.km))
+                        Text(String(format: String(localized: "%.0f km depuis le départ"), milestone.km))
                             .font(.caption)
                             .foregroundStyle(Color.secondary.opacity(0.6))
                     }
@@ -224,8 +228,8 @@ private struct MilestoneRow: View {
             .buttonStyle(.plain)
             .disabled(!isUnlocked)
             .accessibilityLabel(isUnlocked
-                ? "\(milestone.label), étape débloquée. \(milestone.description)"
-                : "\(milestone.label), verrouillé, à \(String(format: "%.0f", milestone.km)) km")
+                ? Text(LocalizedStringKey(milestone.label)) + Text(String(localized: ", étape débloquée. ")) + Text(LocalizedStringKey(milestone.description))
+                : Text(LocalizedStringKey(milestone.label)) + Text(String(format: String(localized: ", verrouillé, à %@ km"), String(format: "%.0f", milestone.km))))
             .accessibilityAddTraits(isUnlocked ? .isButton : [])
         }
     }

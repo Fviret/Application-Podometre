@@ -20,7 +20,7 @@ struct StreakBannerView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Série en cours : \(streak) jour\(streak > 1 ? "s" : "") consécutif\(streak > 1 ? "s" : "")")
+        .accessibilityLabel(String(format: String(localized: streak > 1 ? "Série en cours : %@ jours consécutifs" : "Série en cours : %@ jour consécutif"), "\(streak)"))
     }
 }
 
