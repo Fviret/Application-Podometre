@@ -69,7 +69,13 @@ struct JourneySegmentTrackView: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Segment en cours : de \(leftLabel) à \(rightLabel), prochaine étape dans \(kmToNext.formatted(.number.precision(.fractionLength(1)))) km")
+        .accessibilityLabel(
+            Text(String(localized: "Segment en cours : de "))
+            + Text(LocalizedStringKey(leftLabel))
+            + Text(String(localized: " à "))
+            + Text(LocalizedStringKey(rightLabel))
+            + Text(String(format: String(localized: ", prochaine étape dans %@ km"), kmToNext.formatted(.number.precision(.fractionLength(1)))))
+        )
     }
 }
 

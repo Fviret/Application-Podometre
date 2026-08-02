@@ -155,7 +155,10 @@ struct JourneyPickerView: View {
             }
             .buttonStyle(.plain)
             .accessibilityAddTraits([.isHeader, .isButton])
-            .accessibilityLabel("\(category.rawValue), \(remainingJourneys.count) trajets restants")
+            .accessibilityLabel(
+                Text(LocalizedStringKey(category.rawValue))
+                + Text(String(format: String(localized: ", %@ trajets restants"), "\(remainingJourneys.count)"))
+            )
             .accessibilityValue(isExpanded ? "Déplié" : "Replié")
             .accessibilityHint(isExpanded ? "Touchez pour replier" : "Touchez pour déplier")
 
@@ -222,7 +225,13 @@ private struct JourneyCard: View {
         Button(action: onAction) { cardContent }
             .buttonStyle(.plain)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(journey.name). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.\(hasProgress ? " Progression : \(Int(progressPercent * 100)) %." : "")")
+            .accessibilityLabel(
+                Text(LocalizedStringKey(journey.name))
+                + Text(String(localized: ". "))
+                + Text(LocalizedStringKey(journey.subtitle))
+                + Text(String(format: String(localized: ". %@ km, %@ étapes."), "\(Int(journey.totalKm))", "\(journey.milestones.count)"))
+                + (hasProgress ? Text(String(format: String(localized: " Progression : %@ %%."), "\(Int(progressPercent * 100))")) : Text(""))
+            )
             .accessibilityHint(hasProgress ? "Voir mes étapes" : "Voir le trajet")
     }
 
@@ -277,7 +286,7 @@ private struct JourneyCard: View {
                     }
                     .frame(height: 6)
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("Progression : \(Int(progressPercent * 100)) %")
+                    .accessibilityLabel(String(format: String(localized: "Progression : %@ %%"), "\(Int(progressPercent * 100))"))
 
                     Text(String(format: "%.1f / %.0f km", progress.totalKm, journey.totalKm))
                         .font(.caption2)
@@ -341,7 +350,7 @@ private struct CompletedJourneyBadgeGrid: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(journey.name), trajet terminé")
+                    .accessibilityLabel(Text(LocalizedStringKey(journey.name)) + Text(String(localized: ", trajet terminé")))
                     .accessibilityHint("Touchez pour voir la date de complétion")
                     .accessibilityAddTraits(.isButton)
                 }
@@ -397,7 +406,12 @@ private struct CompletedJourneyDetailSheet: View {
         .padding(.top, 36)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(journey.name), terminé le \(dateText). \(journey.subtitle). \(Int(journey.totalKm)) km, \(journey.milestones.count) étapes.")
+        .accessibilityLabel(
+            Text(LocalizedStringKey(journey.name))
+            + Text(String(format: String(localized: ", terminé le %@. "), dateText))
+            + Text(LocalizedStringKey(journey.subtitle))
+            + Text(String(format: String(localized: ". %@ km, %@ étapes."), "\(Int(journey.totalKm))", "\(journey.milestones.count)"))
+        )
     }
 }
 

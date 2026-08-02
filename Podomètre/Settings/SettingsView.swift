@@ -61,7 +61,7 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity)
                         .accessibilityElement(children: .ignore)
                         .accessibilityLabel("Objectif quotidien")
-                        .accessibilityValue("\(viewModel.goal.formatted()) pas")
+                        .accessibilityValue(String(format: String(localized: "%@ pas"), viewModel.goal.formatted()))
                         .accessibilityAdjustableAction { direction in
                             switch direction {
                             case .increment: changeGoal(by: goalStep)

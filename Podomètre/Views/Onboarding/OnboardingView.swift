@@ -36,7 +36,7 @@ struct OnboardingView: View {
                     Text(String(format: String(localized: "Étape %@ / 4"), "\(page + 1)"))
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
-                        .accessibilityLabel("Étape \(page + 1) sur 4")
+                        .accessibilityLabel(String(format: String(localized: "Étape %@ sur 4"), "\(page + 1)"))
 
                     switch page {
                     case 3:

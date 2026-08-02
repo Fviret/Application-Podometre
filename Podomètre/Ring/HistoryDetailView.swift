@@ -60,7 +60,7 @@ struct HistoryDetailView: View {
         .padding(.vertical, 20)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Plus longue série jamais réalisée : \(stats.longestStreakEver) jour\(stats.longestStreakEver > 1 ? "s" : "")")
+        .accessibilityLabel(String(format: String(localized: stats.longestStreakEver > 1 ? "Plus longue série jamais réalisée : %@ jours" : "Plus longue série jamais réalisée : %@ jour"), "\(stats.longestStreakEver)"))
     }
 
     // MARK: - Records personnels
@@ -360,8 +360,8 @@ private struct WeeklyTrendSection: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Semaine du \(rangeLabel(week))")
-                    .accessibilityValue("\(week.average.formatted()) pas par jour en moyenne")
+                    .accessibilityLabel(String(format: String(localized: "Semaine du %@"), rangeLabel(week)))
+                    .accessibilityValue(String(format: String(localized: "%@ pas par jour en moyenne"), week.average.formatted()))
                     .accessibilityAddTraits(.isButton)
                 }
             }
@@ -388,8 +388,10 @@ private struct WeeklyTrendSection: View {
                     }
                 }
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(rangeLabel(selectedWeek)), \(selectedWeek.average.formatted()) pas par jour en moyenne"
-                    + (trendA11yText.map { ", \($0)" } ?? ""))
+                .accessibilityLabel(
+                    Text(String(format: String(localized: "%@, %@ pas par jour en moyenne"), rangeLabel(selectedWeek), selectedWeek.average.formatted()))
+                    + (trendA11yText.map { Text(String(localized: ", ")) + Text(LocalizedStringKey($0)) } ?? Text(""))
+                )
             }
         }
         .padding(16)
@@ -483,8 +485,14 @@ private struct YearlyTotalsSection: View {
                         }
                 )
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Totaux mensuels \(selectedYear.year) : "
-                    + selectedYear.months.map { $0.isFuture ? "\($0.label), à venir" : "\($0.label), \($0.total.formatted()) pas" }.joined(separator: ", "))
+                .accessibilityLabel(
+                    String(format: String(localized: "Totaux mensuels %@ : "), "\(selectedYear.year)")
+                    + selectedYear.months.map { month in
+                        month.isFuture
+                            ? String(format: String(localized: "%@, à venir"), month.label)
+                            : String(format: String(localized: "%@, %@ pas"), month.label, month.total.formatted())
+                    }.joined(separator: ", ")
+                )
                 .accessibilityAdjustableAction { direction in
                     switch direction {
                     case .increment: if selectedIndex < yearlyTotals.count - 1 { selectedIndex += 1 }

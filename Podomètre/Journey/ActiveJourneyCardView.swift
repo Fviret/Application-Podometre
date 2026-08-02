@@ -109,11 +109,17 @@ struct ActiveJourneyCardView: View {
         .accessibilityHint("Ouvre le détail du trajet")
     }
 
-    private var accessibilitySummary: String {
-        var s = "Trajet en cours : \(journey.name), \(Int((overallPercent * 100).rounded())) %. "
-        s += "Prochaine étape : \(rightLabel), dans \(kmToNext.formatted(.number.precision(.fractionLength(1)))) km."
-        if let arrivalText { s += " Arrivée estimée vers le \(arrivalText)." }
-        return s
+    private var accessibilitySummary: Text {
+        var result = Text(String(localized: "Trajet en cours : "))
+            + Text(LocalizedStringKey(journey.name))
+            + Text(String(format: String(localized: ", %@ %%. "), "\(Int((overallPercent * 100).rounded()))"))
+            + Text(String(localized: "Prochaine étape : "))
+            + Text(LocalizedStringKey(rightLabel))
+            + Text(String(format: String(localized: ", dans %@ km."), kmToNext.formatted(.number.precision(.fractionLength(1)))))
+        if let arrivalText {
+            result = result + Text(String(format: String(localized: " Arrivée estimée vers le %@."), arrivalText))
+        }
+        return result
     }
 }
 

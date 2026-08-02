@@ -7130,6 +7130,376 @@
           }
         }
       }
+    },
+    "Série en cours : %@ jours consécutifs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak in progress: %@ days in a row"
+          }
+        }
+      }
+    },
+    "Série en cours : %@ jour consécutif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak in progress: %@ day in a row"
+          }
+        }
+      }
+    },
+    "%@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ steps"
+          }
+        }
+      }
+    },
+    "Pensée du jour. %@. %@. Catégorie %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thought of the day. %@. %@. Category %@."
+          }
+        }
+      }
+    },
+    "Segment en cours : de ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current segment: from "
+          }
+        }
+      }
+    },
+    " à ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " to "
+          }
+        }
+      }
+    },
+    ", prochaine étape dans %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", next stop in %@ km"
+          }
+        }
+      }
+    },
+    ", %@ trajets restants": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", %@ walks remaining"
+          }
+        }
+      }
+    },
+    ". ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ". "
+          }
+        }
+      }
+    },
+    ". %@ km, %@ étapes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ". %@ km, %@ stops."
+          }
+        }
+      }
+    },
+    " Progression : %@ %%.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " Progress: %@%%."
+          }
+        }
+      }
+    },
+    "Progression : %@ %%": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress: %@%%"
+          }
+        }
+      }
+    },
+    ", trajet terminé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", journey completed"
+          }
+        }
+      }
+    },
+    ", terminé le %@. ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", completed on %@. "
+          }
+        }
+      }
+    },
+    "Localisation : %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location: %@"
+          }
+        }
+      }
+    },
+    "Plus longue série jamais réalisée : %@ jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longest streak ever: %@ days"
+          }
+        }
+      }
+    },
+    "Plus longue série jamais réalisée : %@ jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longest streak ever: %@ day"
+          }
+        }
+      }
+    },
+    "Semaine du %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Week of %@"
+          }
+        }
+      }
+    },
+    "%@ pas par jour en moyenne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ steps per day on average"
+          }
+        }
+      }
+    },
+    "%@, %@ pas par jour en moyenne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@ steps per day on average"
+          }
+        }
+      }
+    },
+    ", ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", "
+          }
+        }
+      }
+    },
+    "Totaux mensuels %@ : ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly totals %@: "
+          }
+        }
+      }
+    },
+    "%@, à venir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, upcoming"
+          }
+        }
+      }
+    },
+    "%@, %@ pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@ steps"
+          }
+        }
+      }
+    },
+    "Série de %@ jours consécutifs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak of %@ days in a row"
+          }
+        }
+      }
+    },
+    "Série de %@ jour consécutif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak of %@ day in a row"
+          }
+        }
+      }
+    },
+    "%@ pas sur %@, %@ %%": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ steps out of %@, %@%%"
+          }
+        }
+      }
+    },
+    "Moyenne quotidienne : %@ pas, ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily average: %@ steps, "
+          }
+        }
+      }
+    },
+    " (%@ pas)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (%@ steps)"
+          }
+        }
+      }
+    },
+    "Étape %@ sur 4": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %@ of 4"
+          }
+        }
+      }
+    },
+    "Trajet en cours : ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journey in progress: "
+          }
+        }
+      }
+    },
+    ", %@ %%. ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", %@%%. "
+          }
+        }
+      }
+    },
+    ", dans %@ km.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", %@ km away."
+          }
+        }
+      }
+    },
+    " Arrivée estimée vers le %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " Estimated arrival around %@."
+          }
+        }
+      }
+    },
+    ", étape débloquée. ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", milestone unlocked. "
+          }
+        }
+      }
+    },
+    ", verrouillé, à %@ km": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", locked, %@ km away"
+          }
+        }
+      }
+    },
+    "%.0f km depuis le départ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%.0f km from the start"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

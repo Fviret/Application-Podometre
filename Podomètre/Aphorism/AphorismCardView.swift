@@ -54,7 +54,7 @@ struct AphorismCardView: View {
         .onTapGesture { if allowsCopy { copyToClipboard() } }
         .accessibilityElement(children: .ignore)
         .accessibilityIdentifier("aphorism_card")
-        .accessibilityLabel("Pensée du jour. \(aphorism.text). \(aphorism.author). Catégorie \(aphorism.category).")
+        .accessibilityLabel(String(format: String(localized: "Pensée du jour. %@. %@. Catégorie %@."), aphorism.text, aphorism.author, aphorism.category))
         .accessibilityAddTraits(allowsCopy ? .isButton : [])
         .accessibilityHint(allowsCopy ? "Appuyez deux fois pour copier la citation" : "")
         // Action explicite : `onTapGesture` n'est pas activable de façon fiable par le
