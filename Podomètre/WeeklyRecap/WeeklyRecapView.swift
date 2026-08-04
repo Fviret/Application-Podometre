@@ -45,6 +45,12 @@ struct WeeklyRecapView: View {
                             trend: WeeklyRecapTrend(current: Double(recap.totalActiveMinutes), previous: Double(recap.previousTotalActiveMinutes))
                         )
                     }
+
+                    if let journeyName = recap.activeJourneyName,
+                       let progressKm = recap.activeJourneyProgressKm,
+                       let targetKm = recap.activeJourneyTargetKm {
+                        activeJourneyRow(name: journeyName, weekKm: recap.totalDistanceKm, progressKm: progressKm, targetKm: targetKm)
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 28)
@@ -155,6 +161,40 @@ struct WeeklyRecapView: View {
         .accessibilityLabel("\(label) : \(value), \(trendAccessibilityText(trend)), semaine précédente : \(previousValue)")
     }
 
+    /// Met en avant le trajet en cours et la progression apportée cette semaine — ancre le récap
+    /// dans la fonctionnalité différenciante de l'app (trajets fictifs), au lieu de n'être qu'un
+    /// résumé de métriques génériques qu'on trouverait dans n'importe quel podomètre. Fond teinté
+    /// de la couleur de l'anneau pour se distinguer visuellement des lignes de métriques ci-dessus.
+    private func activeJourneyRow(name: String, weekKm: Double, progressKm: Double, targetKm: Double) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: "mappin.and.ellipse")
+                .font(.title3)
+                .foregroundStyle(ringColor)
+                .frame(width: 32)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(LocalizedStringKey(name))
+                    .font(.system(.body, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.primary)
+
+                Text(String(
+                    format: String(localized: "+%@ km cette semaine · %@ / %@ km au total"),
+                    weekKm.formatted(.number.precision(.fractionLength(1))),
+                    progressKm.formatted(.number.precision(.fractionLength(0))),
+                    targetKm.formatted(.number.precision(.fractionLength(0)))
+                ))
+                .font(.caption)
+                .foregroundStyle(Color.secondary)
+            }
+
+            Spacer()
+        }
+        .padding(14)
+        .background(ringColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
+        .accessibilityElement(children: .combine)
+    }
+
     private func trendBadge(_ trend: WeeklyRecapTrend) -> some View {
         Image(systemName: trendSystemImage(trend))
             .font(.caption.weight(.bold))
@@ -214,7 +254,10 @@ struct WeeklyRecapView: View {
             totalCalories: 3_120,
             previousTotalCalories: 3_260,
             totalActiveMinutes: 260,
-            previousTotalActiveMinutes: 240
+            previousTotalActiveMinutes: 240,
+            activeJourneyName: "GR20",
+            activeJourneyProgressKm: 99,
+            activeJourneyTargetKm: 180
         ),
         ringColor: .green
     )

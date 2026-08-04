@@ -51,7 +51,7 @@ struct ContentView: View {
             }
         }
         .sheet(item: $viewModel.weeklyRecap) { recap in
-            WeeklyRecapView(recap: recap, ringColor: viewModel.ringColor)
+            WeeklyRecapView(recap: enrichedWeeklyRecap(recap), ringColor: viewModel.ringColor)
         }
         .onAppear {
             journeyProgressService.onJourneyCompleted = { id in
@@ -99,6 +99,34 @@ struct ContentView: View {
     private func scheduleAphorismReminder() {
         guard hasCompletedOnboarding else { return }
         Task { await aphorismManager.scheduleNoonReminderIfNeeded() }
+    }
+
+    /// Trajet à mettre en avant dans le récap hebdomadaire : a une progression, n'est pas
+    /// terminé, n'a pas atteint 100 % — même sélection que la card épinglée du catalogue
+    /// (`JourneyPickerView.activeJourney`). `StepCountViewModel` n'a pas accès à
+    /// `JourneyProgressService`, d'où l'enrichissement ici plutôt qu'à la source du récap.
+    private var activeJourney: (journey: Journey, progress: JourneyProgress)? {
+        allJourneys
+            .compactMap { journey -> (Journey, JourneyProgress)? in
+                guard let progress = journeyProgressService.progress(for: journey),
+                      !viewModel.isJourneyCompleted(journey.id.uuidString),
+                      journey.progressPercent(for: progress) < 1.0
+                else { return nil }
+                return (journey, progress)
+            }
+            .max { $0.1.lastUpdatedDate < $1.1.lastUpdatedDate }
+            .map { (journey: $0.0, progress: $0.1) }
+    }
+
+    /// Complète le récap hebdomadaire avec le trajet en cours, si présent.
+    private func enrichedWeeklyRecap(_ recap: WeeklyRecapData) -> WeeklyRecapData {
+        var enriched = recap
+        if let active = activeJourney {
+            enriched.activeJourneyName = active.journey.name
+            enriched.activeJourneyProgressKm = active.progress.totalKm
+            enriched.activeJourneyTargetKm = active.journey.totalKm
+        }
+        return enriched
     }
 }
 

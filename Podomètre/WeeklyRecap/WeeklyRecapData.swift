@@ -24,6 +24,15 @@ struct WeeklyRecapData: Identifiable, Equatable {
 
     let totalActiveMinutes: Int
     let previousTotalActiveMinutes: Int
+
+    /// Trajet en cours à mettre en avant (le même que la card épinglée du catalogue), et sa
+    /// progression — ancre le récap dans la fonctionnalité différenciante de l'app plutôt que
+    /// d'en faire un simple résumé de métriques génériques. Renseigné par `ContentView` (qui a
+    /// accès à `JourneyProgressService`, contrairement à `StepCountViewModel`) une fois les
+    /// métriques HealthKit récupérées ; `nil` si aucun trajet n'est en cours.
+    var activeJourneyName: String? = nil
+    var activeJourneyProgressKm: Double? = nil
+    var activeJourneyTargetKm: Double? = nil
 }
 
 /// Sens de variation d'une métrique par rapport à la semaine précédente.
