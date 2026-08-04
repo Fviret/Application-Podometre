@@ -85,6 +85,7 @@ Podomètre/
 │   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
+│   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
 │   ├── WeatherBannerView.swift         # Bannière pluie imminente
 │   ├── WeeklyForecastBannerView.swift  # Prévisions 7 jours (tap → détail)
@@ -217,6 +218,7 @@ Hors cible applicative, à la racine du dépôt :
 | `showWeeklyChart` | `Bool` | Affiche le graphe hebdomadaire (défaut : activé) |
 | `showTodayMetrics` | `Bool` | Affiche les métriques du jour (distance/temps actif/calories) (défaut : activé) |
 | `mainScreenSectionOrder` | `Data` (JSON) | `[MainScreenSection]` encodé — ordre d'affichage des sections sous l'anneau (réorganisable dans Paramètres, glisser-déposer) |
+| `weatherCache` | `Data` (JSON) | `WeatherCache` encodé — dernière position + prévisions récupérées ; évite un appel météo si la position n'a pas changé depuis le dernier lancement |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
