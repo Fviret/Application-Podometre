@@ -16,6 +16,24 @@ struct StepRingView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.mainScreenSectionOrder) private var mainScreenSectionOrderData: Data = MainScreenSection.encode(MainScreenSection.defaultOrder)
+
+    /// Sections activées sous l'anneau, dans l'ordre choisi par l'utilisateur (Paramètres > Écran principal).
+    /// La météo est en plus exclue tant qu'aucune prévision n'est chargée (`WeeklyForecastBannerView`
+    /// ne rend alors rien) : sinon le diviseur ajouté pour son emplacement se retrouverait orphelin,
+    /// sans contenu entre lui et celui de la section suivante.
+    private var visibleMainScreenSections: [MainScreenSection] {
+        MainScreenSection.decode(mainScreenSectionOrderData).filter(isSectionVisible)
+    }
+
+    private func isSectionVisible(_ section: MainScreenSection) -> Bool {
+        switch section {
+        case .todayMetrics: return showTodayMetrics
+        case .weather: return showWeatherForecast && !dailyForecasts.isEmpty
+        case .monthCalendar: return showMonthCalendar
+        case .weeklyChart: return showWeeklyChart
+        }
+    }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
@@ -198,30 +216,13 @@ struct StepRingView: View {
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
-                        // Métriques du jour : distance, temps actif, calories (HealthKit).
-                        if showTodayMetrics {
-                            TodayMetricsView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
-                        }
-
-                        if showWeatherForecast {
-                            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
-                        }
-
-                        if showMonthCalendar {
-                            Divider()
-                                .padding(.horizontal, 24)
-
-                            MonthCalendarView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
-                        }
-
-                        if showWeeklyChart {
-                            Divider()
-                                .padding(.horizontal, 24)
-
-                            WeeklyBarChartView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
+                        // Sections optionnelles sous l'anneau, dans l'ordre choisi dans les Paramètres.
+                        ForEach(Array(visibleMainScreenSections.enumerated()), id: \.element) { index, section in
+                            if index > 0 {
+                                Divider()
+                                    .padding(.horizontal, 24)
+                            }
+                            mainScreenSectionContent(for: section)
                         }
                     }
                     .padding(.vertical, 32)
@@ -306,6 +307,24 @@ struct StepRingView: View {
         .onChange(of: viewModel.selectedDayOffset) { _, offset in
             // Le live ne concerne qu'aujourd'hui : on l'arrête sur un jour passé, on le relance au retour.
             if offset == 0 { viewModel.startLiveStepUpdates() } else { viewModel.stopLiveStepUpdates() }
+        }
+    }
+
+    /// Contenu d'une section optionnelle de l'écran principal, dans l'ordre choisi par l'utilisateur.
+    @ViewBuilder
+    private func mainScreenSectionContent(for section: MainScreenSection) -> some View {
+        switch section {
+        case .todayMetrics:
+            TodayMetricsView(viewModel: viewModel)
+                .padding(.horizontal, 24)
+        case .weather:
+            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+        case .monthCalendar:
+            MonthCalendarView(viewModel: viewModel)
+                .padding(.horizontal, 24)
+        case .weeklyChart:
+            WeeklyBarChartView(viewModel: viewModel)
+                .padding(.horizontal, 24)
         }
     }
 

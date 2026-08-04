@@ -15,9 +15,6 @@ struct WeeklyForecastBannerView: View {
     var body: some View {
         if !forecasts.isEmpty {
             VStack(spacing: 2) {
-                Divider()
-                    .padding(.horizontal, 24)
-
                 Text("Météo · 7 jours")
                     .font(.system(.subheadline, design: .rounded).weight(.semibold))
                     .foregroundStyle(Color.secondary)
