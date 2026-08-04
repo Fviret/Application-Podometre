@@ -31,7 +31,7 @@ struct WeeklyRecapView: View {
                             label: "Calories",
                             value: "\(recap.totalCalories) kcal",
                             previousValue: "\(recap.previousTotalCalories) kcal",
-                            trend: WeeklyRecapTrend(current: Double(recap.totalCalories), previous: Double(recap.previousTotalCalories))
+                            trend: nil
                         )
                         statRow(
                             icon: "map.fill",
@@ -130,7 +130,10 @@ struct WeeklyRecapView: View {
 
     // MARK: - Lignes de statistiques
 
-    private func statRow(icon: String, label: String, value: String, previousValue: String, trend: WeeklyRecapTrend) -> some View {
+    /// `trend` est optionnel : les calories n'en affichent pas (ni flèche ni couleur rouge/verte)
+    /// pour ne pas transformer un chiffre de calories brûlées en jugement de valeur — contrairement
+    /// aux pas, à la distance et au temps d'activité, où « plus » est sans ambiguïté positif.
+    private func statRow(icon: String, label: String, value: String, previousValue: String, trend: WeeklyRecapTrend?) -> some View {
         VStack(alignment: .trailing, spacing: 2) {
             HStack(spacing: 14) {
                 Image(systemName: icon)
@@ -150,7 +153,9 @@ struct WeeklyRecapView: View {
                     .foregroundStyle(Color.primary)
                     .monospacedDigit()
 
-                trendBadge(trend)
+                if let trend {
+                    trendBadge(trend)
+                }
             }
 
             Text(String(format: String(localized: "Semaine dernière : %@"), previousValue))
@@ -161,7 +166,8 @@ struct WeeklyRecapView: View {
         .padding(14)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(label) : \(value), \(trendAccessibilityText(trend)), semaine précédente : \(previousValue)")
+        .accessibilityLabel(trend.map { "\(label) : \(value), \(trendAccessibilityText($0)), semaine précédente : \(previousValue)" }
+            ?? "\(label) : \(value), semaine précédente : \(previousValue)")
     }
 
     /// Met en avant le trajet en cours et la progression apportée cette semaine — ancre le récap
