@@ -418,13 +418,11 @@ git push origin main
 
 ### Priorité haute — impact utilisateur immédiat
 - [x] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets, pensée du jour)
-- [ ] **Optimisation HealthKit & météo / mode éco** — réduire les appels en arrière-plan, toggle pour désactiver les requêtes non essentielles
+- [~] **Optimisation HealthKit & météo / mode éco** — volet météo fait (`WeatherCache`, position + prévisions mises en cache, appel réseau sauté si la position n'a pas changé de plus de 3 km depuis moins de 30 min — PR #100) ; reste à faire : optimisation des appels HealthKit, toggle pour désactiver les requêtes non essentielles
 - [ ] **Slide récapitulative hebdomadaire** — affiché le lundi à la première ouverture de la semaine
-- [ ] **Widget iOS écran d'accueil** — pas du jour + progression anneau
 
 ### Priorité moyenne — enrichissement
 - [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage
-- [ ] **Export CSV** — historique de pas et distances exportable
 - [ ] **Gamification RPG** — débloquer des actions selon les pas (concept en cours d'évaluation)
 
 ### Vision long terme
