@@ -50,6 +50,9 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(item: $viewModel.weeklyRecap) { recap in
+            WeeklyRecapView(recap: recap, ringColor: viewModel.ringColor)
+        }
         .onAppear {
             journeyProgressService.onJourneyCompleted = { id in
                 viewModel.markJourneyCompleted(id)
@@ -57,6 +60,7 @@ struct ContentView: View {
             journeyProgressService.notificationsEnabled = journeyNotificationsEnabled
             presentDailyAphorismIfNeeded()
             scheduleAphorismReminder()
+            if hasCompletedOnboarding { viewModel.presentWeeklyRecapIfNeeded() }
         }
         .onChange(of: journeyNotificationsEnabled) { _, enabled in
             journeyProgressService.notificationsEnabled = enabled
@@ -66,6 +70,7 @@ struct ContentView: View {
             journeyProgressService.startIfNeeded()
             presentDailyAphorismIfNeeded()
             scheduleAphorismReminder()
+            viewModel.presentWeeklyRecapIfNeeded()
         }
         .onChange(of: scenePhase) { _, phase in
             // Re-tenter à chaque passage au premier plan (retour depuis l'arrière-plan),
@@ -73,6 +78,7 @@ struct ContentView: View {
             if phase == .active {
                 presentDailyAphorismIfNeeded()
                 scheduleAphorismReminder()
+                if hasCompletedOnboarding { viewModel.presentWeeklyRecapIfNeeded() }
             }
         }
     }

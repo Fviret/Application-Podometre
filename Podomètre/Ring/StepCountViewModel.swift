@@ -738,10 +738,15 @@ class StepCountViewModel: ObservableObject {
 
     /// Calcule le temps actif (min) sur `[start, end)` via Core Motion : somme des segments
     /// marche/course/vélo de l'historique d'activité. Fonctionne sur iPhone seul (pas d'Apple Watch requise).
-    private func fetchActiveMinutes(from start: Date, to end: Date) {
-        guard CMMotionActivityManager.isActivityAvailable() else { return }
+    /// Sans `completion`, met à jour `todayActiveMinutes` (usage historique, jour courant) ;
+    /// avec `completion`, laisse l'appelant décider (réutilisé pour des plages plus larges, ex. semaine).
+    private func fetchActiveMinutes(from start: Date, to end: Date, completion: ((Int) -> Void)? = nil) {
+        guard CMMotionActivityManager.isActivityAvailable() else { completion?(0); return }
         activityManager.queryActivityStarting(from: start, to: end, to: .main) { [weak self] activities, error in
-            guard let activities, error == nil else { return }
+            guard let activities, error == nil else {
+                Task { @MainActor in completion?(0) }
+                return
+            }
             var activeSeconds: TimeInterval = 0
             for (index, activity) in activities.enumerated() {
                 let isActive = (activity.walking || activity.running || activity.cycling) && activity.confidence != .low
@@ -750,7 +755,9 @@ class StepCountViewModel: ObservableObject {
                 activeSeconds += segmentEnd.timeIntervalSince(activity.startDate)
             }
             let minutes = Int(activeSeconds / 60)
-            Task { @MainActor in self?.todayActiveMinutes = minutes }
+            Task { @MainActor in
+                if let completion { completion(minutes) } else { self?.todayActiveMinutes = minutes }
+            }
         }
     }
 
@@ -763,6 +770,124 @@ class StepCountViewModel: ObservableObject {
             Task { @MainActor in completion(value) }
         }
         healthStore.execute(query)
+    }
+
+    // MARK: - Récapitulatif hebdomadaire
+
+    /// Récapitulatif à présenter (sheet) ; `nil` tant qu'aucun n'est en attente d'affichage.
+    @Published var weeklyRecap: WeeklyRecapData?
+
+    /// Déclenche le récapitulatif de la semaine écoulée si on est lundi et qu'il n'a pas déjà
+    /// été montré pour cette semaine. Marque la semaine comme montrée avant même la récupération
+    /// des données, pour éviter un double déclenchement (ex. `onAppear` et retour au premier plan
+    /// coup sur coup) et un nouveau réessai à chaque lancement une fois la semaine déjà vue.
+    func presentWeeklyRecapIfNeeded() {
+        let calendar = Calendar(identifier: .gregorian)
+        guard calendar.component(.weekday, from: Date()) == 2 else { return } // 2 = lundi
+        let today = calendar.startOfDay(for: Date())
+        if let lastShown = Preferences.shared.date(.lastWeeklyRecapShownWeekStart),
+           calendar.isDate(lastShown, inSameDayAs: today) {
+            return
+        }
+        Preferences.shared.set(today, for: .lastWeeklyRecapShownWeekStart)
+        Task {
+            weeklyRecap = await fetchWeeklyRecapData(referenceMonday: today)
+        }
+    }
+
+    /// Récupère les totaux de la semaine qui vient de s'achever (lundi `referenceMonday` exclu,
+    /// donc les 7 jours précédents) et de la semaine d'avant, pour comparaison.
+    private func fetchWeeklyRecapData(referenceMonday: Date) async -> WeeklyRecapData? {
+        let calendar = Calendar(identifier: .gregorian)
+        guard let lastWeekStart = calendar.date(byAdding: .day, value: -7, to: referenceMonday),
+              let prevWeekStart = calendar.date(byAdding: .day, value: -14, to: referenceMonday)
+        else { return nil }
+        let lastWeekEnd = referenceMonday
+        let prevWeekEnd = lastWeekStart
+
+        #if targetEnvironment(simulator)
+        return WeeklyRecapData(
+            weekStart: referenceMonday,
+            goalReachedCount: 5,
+            totalSteps: 62_400,
+            previousTotalSteps: 54_100,
+            totalDistanceKm: 44.8,
+            previousTotalDistanceKm: 39.2,
+            totalCalories: 3_120,
+            previousTotalCalories: 2_860,
+            totalActiveMinutes: 260,
+            previousTotalActiveMinutes: 240
+        )
+        #else
+        async let dailySteps = fetchDailySteps(from: prevWeekStart, to: lastWeekEnd)
+        async let distanceCurrent = fetchRangeQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo), start: lastWeekStart, end: lastWeekEnd)
+        async let distancePrevious = fetchRangeQuantity(.distanceWalkingRunning, unit: .meterUnit(with: .kilo), start: prevWeekStart, end: prevWeekEnd)
+        async let caloriesCurrent = fetchRangeQuantity(.activeEnergyBurned, unit: .kilocalorie(), start: lastWeekStart, end: lastWeekEnd)
+        async let caloriesPrevious = fetchRangeQuantity(.activeEnergyBurned, unit: .kilocalorie(), start: prevWeekStart, end: prevWeekEnd)
+        async let activeMinutesCurrent = fetchActiveMinutesRange(from: lastWeekStart, to: lastWeekEnd)
+        async let activeMinutesPrevious = fetchActiveMinutesRange(from: prevWeekStart, to: prevWeekEnd)
+
+        let steps = await dailySteps
+        let currentWeekSteps = steps.filter { $0.key >= lastWeekStart && $0.key < lastWeekEnd }
+        let previousWeekSteps = steps.filter { $0.key >= prevWeekStart && $0.key < prevWeekEnd }
+        let goalReached = currentWeekSteps.values.filter { $0 >= goal }.count
+
+        return WeeklyRecapData(
+            weekStart: referenceMonday,
+            goalReachedCount: goalReached,
+            totalSteps: currentWeekSteps.values.reduce(0, +),
+            previousTotalSteps: previousWeekSteps.values.reduce(0, +),
+            totalDistanceKm: await distanceCurrent,
+            previousTotalDistanceKm: await distancePrevious,
+            totalCalories: Int(await caloriesCurrent),
+            previousTotalCalories: Int(await caloriesPrevious),
+            totalActiveMinutes: await activeMinutesCurrent,
+            previousTotalActiveMinutes: await activeMinutesPrevious
+        )
+        #endif
+    }
+
+    /// Pas quotidiens sur `[start, end)`, indexés par début de jour.
+    private func fetchDailySteps(from start: Date, to end: Date) async -> [Date: Int] {
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return [:] }
+        let calendar = Calendar(identifier: .gregorian)
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        return await withCheckedContinuation { continuation in
+            let query = HKStatisticsCollectionQuery(
+                quantityType: stepType,
+                quantitySamplePredicate: predicate,
+                options: .cumulativeSum,
+                anchorDate: calendar.startOfDay(for: start),
+                intervalComponents: DateComponents(day: 1)
+            )
+            query.initialResultsHandler = { _, results, _ in
+                var daily: [Date: Int] = [:]
+                results?.enumerateStatistics(from: start, to: end) { statistics, _ in
+                    let steps = Int(statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+                    daily[calendar.startOfDay(for: statistics.startDate)] = steps
+                }
+                continuation.resume(returning: daily)
+            }
+            healthStore.execute(query)
+        }
+    }
+
+    /// Variante `async` de `fetchDayQuantity`, réutilisable sur une plage de plusieurs jours (semaine).
+    private func fetchRangeQuantity(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, start: Date, end: Date) async -> Double {
+        await withCheckedContinuation { continuation in
+            fetchDayQuantity(identifier, unit: unit, start: start, end: end) { value in
+                continuation.resume(returning: value)
+            }
+        }
+    }
+
+    /// Variante `async` de `fetchActiveMinutes`, réutilisable sur une plage de plusieurs jours (semaine).
+    private func fetchActiveMinutesRange(from start: Date, to end: Date) async -> Int {
+        await withCheckedContinuation { continuation in
+            fetchActiveMinutes(from: start, to: end) { minutes in
+                continuation.resume(returning: minutes)
+            }
+        }
     }
 
     // MARK: - Mise à jour live (Core Motion)
