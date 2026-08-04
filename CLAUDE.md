@@ -425,9 +425,6 @@ git push origin main
 - [ ] **Pensée du jour** — améliorations : animation d'apparition, bouton de partage
 - [ ] **Gamification RPG** — débloquer des actions selon les pas (concept en cours d'évaluation)
 
-### Vision long terme
-- [ ] **Développement 100 % IA agentique** — de la rédaction des user stories jusqu'au déploiement : conception des US → développement → tests → publication App Store, piloté par une IA agentique bout en bout
-
 ---
 
 ## Accessibilité
