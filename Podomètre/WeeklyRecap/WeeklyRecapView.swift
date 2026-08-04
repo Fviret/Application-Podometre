@@ -72,12 +72,47 @@ struct WeeklyRecapView: View {
                 .font(.system(.title2, design: .rounded).weight(.bold))
                 .foregroundStyle(Color.primary)
 
-            Text(String(format: String(localized: "Vous avez atteint votre objectif %@ fois cette semaine"), "\(recap.goalReachedCount)"))
+            Text(String(format: String(localized: "%@ / 7 jours avec objectif atteint"), "\(recap.goalReachedCount)"))
                 .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(Color.secondary)
-                .multilineTextAlignment(.center)
+
+            goalDots
         }
         .accessibilityElement(children: .combine)
+    }
+
+    /// Rangée de 7 pastilles (lundi → dimanche) : pleine si l'objectif du jour a été atteint,
+    /// contour gris sinon — même langage visuel que la grille de `MonthCalendarView`.
+    /// Purement décorative : le résumé accessible est porté par le texte au-dessus.
+    private var goalDots: some View {
+        HStack(spacing: 10) {
+            ForEach(Array(recap.dailyGoalReached.enumerated()), id: \.offset) { index, reached in
+                VStack(spacing: 4) {
+                    Circle()
+                        .fill(reached ? ringColor : Color.clear)
+                        .overlay(
+                            Circle().strokeBorder(reached ? ringColor : Color.secondary.opacity(0.4), lineWidth: 1.5)
+                        )
+                        .frame(width: 16, height: 16)
+
+                    Text(index < weekdayInitials.count ? weekdayInitials[index] : "")
+                        .font(.caption2)
+                        .foregroundStyle(Color.secondary)
+                }
+            }
+        }
+        .padding(.top, 2)
+        .accessibilityHidden(true)
+    }
+
+    /// Initiales des jours de la semaine dans la langue de l'appareil, réordonnées lundi-first
+    /// (le formatter renvoie dimanche en premier) — même logique que `MonthCalendarView`.
+    private var weekdayInitials: [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        let symbols = formatter.veryShortStandaloneWeekdaySymbols ?? []
+        guard symbols.count == 7 else { return [] }
+        return Array(symbols[1...]) + [symbols[0]]
     }
 
     // MARK: - Lignes de statistiques
@@ -161,7 +196,7 @@ struct WeeklyRecapView: View {
     WeeklyRecapView(
         recap: WeeklyRecapData(
             weekStart: Date(),
-            goalReachedCount: 5,
+            dailyGoalReached: [true, true, false, true, true, false, true],
             totalSteps: 62_400,
             previousTotalSteps: 54_100,
             totalDistanceKm: 44.8,

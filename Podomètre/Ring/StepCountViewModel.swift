@@ -808,7 +808,7 @@ class StepCountViewModel: ObservableObject {
         #if targetEnvironment(simulator)
         return WeeklyRecapData(
             weekStart: referenceMonday,
-            goalReachedCount: 5,
+            dailyGoalReached: [true, true, false, true, true, false, true],
             totalSteps: 62_400,
             previousTotalSteps: 54_100,
             totalDistanceKm: 44.8,
@@ -830,11 +830,15 @@ class StepCountViewModel: ObservableObject {
         let steps = await dailySteps
         let currentWeekSteps = steps.filter { $0.key >= lastWeekStart && $0.key < lastWeekEnd }
         let previousWeekSteps = steps.filter { $0.key >= prevWeekStart && $0.key < prevWeekEnd }
-        let goalReached = currentWeekSteps.values.filter { $0 >= goal }.count
+        // Lundi en premier : (steps[jour] ?? 0) >= objectif, pour les 7 jours de la semaine écoulée.
+        let dailyGoalReached = (0..<7).map { offset -> Bool in
+            guard let day = calendar.date(byAdding: .day, value: offset, to: lastWeekStart) else { return false }
+            return (steps[day] ?? 0) >= goal
+        }
 
         return WeeklyRecapData(
             weekStart: referenceMonday,
-            goalReachedCount: goalReached,
+            dailyGoalReached: dailyGoalReached,
             totalSteps: currentWeekSteps.values.reduce(0, +),
             previousTotalSteps: previousWeekSteps.values.reduce(0, +),
             totalDistanceKm: await distanceCurrent,

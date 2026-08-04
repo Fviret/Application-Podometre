@@ -7,8 +7,11 @@ struct WeeklyRecapData: Identifiable, Equatable {
     let weekStart: Date
     var id: Date { weekStart }
 
+    /// Objectif atteint ou non pour chacun des 7 jours de la semaine, lundi en premier.
+    let dailyGoalReached: [Bool]
+
     /// Nombre de jours (sur 7) où l'objectif quotidien a été atteint durant la semaine.
-    let goalReachedCount: Int
+    var goalReachedCount: Int { dailyGoalReached.filter { $0 }.count }
 
     let totalSteps: Int
     let previousTotalSteps: Int
