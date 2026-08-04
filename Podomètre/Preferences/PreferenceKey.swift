@@ -42,4 +42,7 @@ enum PreferenceKey: String, CaseIterable {
     /// `WeatherCache` encodé (`Data` JSON) — dernière position + prévisions récupérées, pour éviter
     /// un appel réseau météo si la position n'a pas changé depuis le dernier lancement.
     case weatherCache
+    /// Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a été affiché (`Date`) —
+    /// garde pour ne le montrer qu'une fois par semaine.
+    case lastWeeklyRecapShownWeekStart
 }
