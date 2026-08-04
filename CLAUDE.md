@@ -102,6 +102,7 @@ Podomètre/
 │   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons
 ├── Settings/                           # Paramètres et récompenses
 │   ├── SettingsView.swift              # Objectif, apparence, écran principal, notifs
+│   ├── MainScreenSection.swift         # Sections optionnelles de l'écran Activité, ordre réorganisable
 │   ├── BadgeData.swift                 # Seuils/illustration des badges de pas (données uniquement, plus affiché en UI)
 │   ├── StreakBannerView.swift          # Bannière de série
 │   └── FlameStreakView.swift           # Flamme animée à paliers (série)
@@ -183,6 +184,7 @@ Hors cible applicative, à la racine du dépôt :
 - Notifications : toggle objectif journalier (1x/jour max)
 - Mode sombre : toggle, appliqué via `.preferredColorScheme` sur le `TabView`
 - Streak : série de jours consécutifs (flamme 🔥), cachée si streak = 0
+- Écran principal : toggle d'affichage par section (métriques, météo, calendrier, graphe) + réordonnancement par glisser-déposer (liste `.onMove`, appui long sur une ligne) ; l'ordre choisi pilote directement l'ordre de rendu sous l'anneau sur l'écran Activité
 - Plus de grille de badges dans les Paramètres : les badges de trajets vivent désormais sur l'écran Trajets (voir ci-dessous) ; les badges de seuils de pas n'ont plus d'écran (données conservées dans `BadgeData`/`StepCountViewModel.milestoneCounts`, réutilisables pour une future UI)
 
 ### Système de trajets
@@ -214,6 +216,7 @@ Hors cible applicative, à la racine du dépôt :
 | `showMonthCalendar` | `Bool` | Affiche le calendrier mensuel (défaut : activé) |
 | `showWeeklyChart` | `Bool` | Affiche le graphe hebdomadaire (défaut : activé) |
 | `showTodayMetrics` | `Bool` | Affiche les métriques du jour (distance/temps actif/calories) (défaut : activé) |
+| `mainScreenSectionOrder` | `Data` (JSON) | `[MainScreenSection]` encodé — ordre d'affichage des sections sous l'anneau (réorganisable dans Paramètres, glisser-déposer) |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 

@@ -37,4 +37,6 @@ enum PreferenceKey: String, CaseIterable {
     case showWeeklyChart
     /// Affiche la rangée de métriques du jour (distance, temps actif, calories) (`Bool`).
     case showTodayMetrics
+    /// `[MainScreenSection]` encodé (`Data` JSON) — ordre d'affichage des sections sous l'anneau.
+    case mainScreenSectionOrder
 }
