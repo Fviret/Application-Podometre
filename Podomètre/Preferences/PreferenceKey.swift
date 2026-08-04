@@ -39,4 +39,7 @@ enum PreferenceKey: String, CaseIterable {
     case showTodayMetrics
     /// `[MainScreenSection]` encodé (`Data` JSON) — ordre d'affichage des sections sous l'anneau.
     case mainScreenSectionOrder
+    /// `WeatherCache` encodé (`Data` JSON) — dernière position + prévisions récupérées, pour éviter
+    /// un appel réseau météo si la position n'a pas changé depuis le dernier lancement.
+    case weatherCache
 }

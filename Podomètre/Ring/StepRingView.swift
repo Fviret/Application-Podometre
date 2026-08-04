@@ -262,6 +262,14 @@ struct StepRingView: View {
                     }
                 }
                 #else
+                // Affiche immédiatement la dernière météo connue (même périmée) pendant que la
+                // position à jour est demandée en arrière-plan — évite un écran vide au lancement.
+                if let cache = WeatherCache.load() {
+                    walkingForecast = cache.walkingForecast
+                    dailyForecasts = cache.dailyForecasts
+                    allHourly = cache.allHourly
+                    locationLabel = cache.locationLabel
+                }
                 locationManager.requestLocation()
                 Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
                     guard showWeatherForecast, let loc = locationManager.location else { return }
@@ -272,6 +280,9 @@ struct StepRingView: View {
         }
         .onChange(of: locationManager.location) { _, loc in
             guard showWeatherForecast, let loc else { return }
+            // Position proche de la dernière connue et cache pas trop ancien : la météo affichée
+            // depuis le cache (chargé à l'apparition) est déjà à jour, pas besoin de rappeler l'API.
+            if let cache = WeatherCache.load(), cache.isValid(for: loc) { return }
             Task { await fetchWeather(loc: loc) }
         }
         .onChange(of: hasCompletedOnboarding) { _, completed in
@@ -343,6 +354,14 @@ struct StepRingView: View {
         if let place = placemarks?.first {
             locationLabel = [place.locality, place.country].compactMap { $0 }.joined(separator: ", ")
         }
+
+        WeatherCache.save(
+            location: loc,
+            walkingForecast: walkingForecast,
+            dailyForecasts: dailyForecasts,
+            allHourly: allHourly,
+            locationLabel: locationLabel
+        )
     }
 }
 
