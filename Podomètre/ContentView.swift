@@ -19,14 +19,18 @@ struct ContentView: View {
 
     /// Aphorisme affiché dans la popup matinale ; non-nil déclenche l'overlay.
     @State private var popupAphorism: Aphorism?
+    /// Onglet actif du TabView — piloté par code pour permettre au récap hebdomadaire de
+    /// rediriger vers l'onglet Trajets au tap sur le trajet en cours.
+    @State private var selectedTab = 0
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             StepRingView(viewModel: viewModel)
                 .tabItem {
                     Label("Activité", systemImage: "figure.walk")
                 }
                 .accessibilityIdentifier("tab_activity")
+                .tag(0)
 
             JourneyPickerView()
                 .environmentObject(journeyProgressService)
@@ -35,12 +39,14 @@ struct ContentView: View {
                     Label("Trajets", systemImage: "map")
                 }
                 .accessibilityIdentifier("tab_journeys")
+                .tag(1)
 
             SettingsView(viewModel: viewModel, aphorismManager: aphorismManager)
                 .tabItem {
                     Label("Paramètres", systemImage: "gearshape")
                 }
                 .accessibilityIdentifier("tab_settings")
+                .tag(2)
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
         .overlay {
@@ -51,7 +57,10 @@ struct ContentView: View {
             }
         }
         .sheet(item: $viewModel.weeklyRecap) { recap in
-            WeeklyRecapView(recap: enrichedWeeklyRecap(recap), ringColor: viewModel.ringColor)
+            WeeklyRecapView(recap: enrichedWeeklyRecap(recap), ringColor: viewModel.ringColor) {
+                viewModel.weeklyRecap = nil
+                selectedTab = 1
+            }
         }
         .onAppear {
             journeyProgressService.onJourneyCompleted = { id in

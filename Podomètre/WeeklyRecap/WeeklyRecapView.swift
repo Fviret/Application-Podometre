@@ -6,6 +6,9 @@ import SwiftUI
 struct WeeklyRecapView: View {
     let recap: WeeklyRecapData
     let ringColor: Color
+    /// Appelé au tap sur la ligne du trajet en cours — l'appelant ferme la sheet et bascule
+    /// sur l'onglet Trajets (`ContentView`, qui a accès au `TabView`).
+    var onSelectJourney: () -> Void = {}
 
     @Environment(\.dismiss) private var dismiss
 
@@ -166,33 +169,43 @@ struct WeeklyRecapView: View {
     /// résumé de métriques génériques qu'on trouverait dans n'importe quel podomètre. Fond teinté
     /// de la couleur de l'anneau pour se distinguer visuellement des lignes de métriques ci-dessus.
     private func activeJourneyRow(name: String, weekKm: Double, progressKm: Double, targetKm: Double) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: "mappin.and.ellipse")
-                .font(.title3)
-                .foregroundStyle(ringColor)
-                .frame(width: 32)
-                .accessibilityHidden(true)
+        Button(action: onSelectJourney) {
+            HStack(spacing: 14) {
+                Image(systemName: "mappin.and.ellipse")
+                    .font(.title3)
+                    .foregroundStyle(ringColor)
+                    .frame(width: 32)
+                    .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(LocalizedStringKey(name))
-                    .font(.system(.body, design: .rounded).weight(.semibold))
-                    .foregroundStyle(Color.primary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(LocalizedStringKey(name))
+                        .font(.system(.body, design: .rounded).weight(.semibold))
+                        .foregroundStyle(Color.primary)
 
-                Text(String(
-                    format: String(localized: "+%@ km cette semaine · %@ / %@ km au total"),
-                    weekKm.formatted(.number.precision(.fractionLength(1))),
-                    progressKm.formatted(.number.precision(.fractionLength(0))),
-                    targetKm.formatted(.number.precision(.fractionLength(0)))
-                ))
-                .font(.caption)
-                .foregroundStyle(Color.secondary)
+                    Text(String(
+                        format: String(localized: "+%@ km cette semaine · %@ / %@ km au total"),
+                        weekKm.formatted(.number.precision(.fractionLength(1))),
+                        progressKm.formatted(.number.precision(.fractionLength(0))),
+                        targetKm.formatted(.number.precision(.fractionLength(0)))
+                    ))
+                    .font(.caption)
+                    .foregroundStyle(Color.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Color.secondary)
+                    .accessibilityHidden(true)
             }
-
-            Spacer()
+            .padding(14)
+            .background(ringColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
         }
-        .padding(14)
-        .background(ringColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
+        .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
+        .accessibilityHint("Ouvre l'onglet Trajets")
+        .accessibilityAddTraits(.isButton)
     }
 
     private func trendBadge(_ trend: WeeklyRecapTrend) -> some View {
