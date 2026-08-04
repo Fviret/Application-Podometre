@@ -20,24 +20,28 @@ struct WeeklyRecapView: View {
                             icon: "figure.walk",
                             label: "Pas",
                             value: recap.totalSteps.formatted(),
+                            previousValue: recap.previousTotalSteps.formatted(),
                             trend: WeeklyRecapTrend(current: Double(recap.totalSteps), previous: Double(recap.previousTotalSteps))
                         )
                         statRow(
                             icon: "flame.fill",
                             label: "Calories",
                             value: "\(recap.totalCalories) kcal",
+                            previousValue: "\(recap.previousTotalCalories) kcal",
                             trend: WeeklyRecapTrend(current: Double(recap.totalCalories), previous: Double(recap.previousTotalCalories))
                         )
                         statRow(
                             icon: "map.fill",
                             label: "Distance",
-                            value: distanceText,
+                            value: distanceText(recap.totalDistanceKm),
+                            previousValue: distanceText(recap.previousTotalDistanceKm),
                             trend: WeeklyRecapTrend(current: recap.totalDistanceKm, previous: recap.previousTotalDistanceKm)
                         )
                         statRow(
                             icon: "clock.fill",
                             label: "Temps d'activité",
-                            value: activeTimeText,
+                            value: activeTimeText(recap.totalActiveMinutes),
+                            previousValue: activeTimeText(recap.previousTotalActiveMinutes),
                             trend: WeeklyRecapTrend(current: Double(recap.totalActiveMinutes), previous: Double(recap.previousTotalActiveMinutes))
                         )
                     }
@@ -117,31 +121,38 @@ struct WeeklyRecapView: View {
 
     // MARK: - Lignes de statistiques
 
-    private func statRow(icon: String, label: String, value: String, trend: WeeklyRecapTrend) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundStyle(ringColor)
-                .frame(width: 32)
-                .accessibilityHidden(true)
+    private func statRow(icon: String, label: String, value: String, previousValue: String, trend: WeeklyRecapTrend) -> some View {
+        VStack(alignment: .trailing, spacing: 2) {
+            HStack(spacing: 14) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundStyle(ringColor)
+                    .frame(width: 32)
+                    .accessibilityHidden(true)
 
-            Text(label)
-                .font(.system(.body, design: .rounded))
-                .foregroundStyle(Color.primary)
+                Text(label)
+                    .font(.system(.body, design: .rounded))
+                    .foregroundStyle(Color.primary)
 
-            Spacer()
+                Spacer()
 
-            Text(value)
-                .font(.system(.headline, design: .rounded).weight(.semibold))
-                .foregroundStyle(Color.primary)
+                Text(value)
+                    .font(.system(.headline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(Color.primary)
+                    .monospacedDigit()
+
+                trendBadge(trend)
+            }
+
+            Text(String(format: String(localized: "Semaine dernière : %@"), previousValue))
+                .font(.caption2)
+                .foregroundStyle(Color.secondary)
                 .monospacedDigit()
-
-            trendBadge(trend)
         }
         .padding(14)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(label) : \(value), \(trendAccessibilityText(trend))")
+        .accessibilityLabel("\(label) : \(value), \(trendAccessibilityText(trend)), semaine précédente : \(previousValue)")
     }
 
     private func trendBadge(_ trend: WeeklyRecapTrend) -> some View {
@@ -179,15 +190,14 @@ struct WeeklyRecapView: View {
 
     // MARK: - Formatage
 
-    private var distanceText: String {
-        recap.totalDistanceKm.formatted(.number.precision(.fractionLength(1))) + " km"
+    private func distanceText(_ km: Double) -> String {
+        km.formatted(.number.precision(.fractionLength(1))) + " km"
     }
 
-    private var activeTimeText: String {
-        let total = recap.totalActiveMinutes
-        guard total >= 60 else { return "\(total) min" }
-        let hours = total / 60
-        let minutes = total % 60
+    private func activeTimeText(_ totalMinutes: Int) -> String {
+        guard totalMinutes >= 60 else { return "\(totalMinutes) min" }
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
         return minutes == 0 ? "\(hours) h" : "\(hours) h \(minutes) min"
     }
 }
