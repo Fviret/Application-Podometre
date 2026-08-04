@@ -868,8 +868,12 @@ struct HistoryStatsComputeTests {
         calendar.date(byAdding: .day, value: -n, to: calendar.startOfDay(for: Date()))!
     }
 
+    /// Reproduit `HistoryStats.weekdayName` : dans la langue de l'appareil, pas figé en français
+    /// (sinon ce test casse dès que la locale du runner n'est pas fr_FR — ex. CI).
     private func weekdayFrenchName(_ weekday: Int) -> String {
-        ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][weekday - 1]
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        return formatter.standaloneWeekdaySymbols[weekday - 1].capitalized
     }
 
     @Test func emptyDailyStepsReturnsDefaultStats() {
