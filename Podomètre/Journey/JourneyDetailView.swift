@@ -5,6 +5,7 @@ struct JourneyDetailView: View {
     let journey: Journey
 
     @EnvironmentObject private var progressService: JourneyProgressService
+    @EnvironmentObject private var stepViewModel: StepCountViewModel
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -86,7 +87,7 @@ struct JourneyDetailView: View {
                                 .frame(height: 8)
 
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color.accentColor)
+                                .fill(stepViewModel.ringColor)
                                 .frame(width: geo.size.width * progressPercent, height: 8)
                         }
                     }
@@ -102,7 +103,7 @@ struct JourneyDetailView: View {
                 // Tracé du segment en cours (dernier jalon → prochain, « tu es ici »),
                 // cohérent avec la card du trajet en cours.
                 if progressPercent < 1.0 {
-                    JourneySegmentTrackView(journey: journey, progress: p, tint: .accentColor)
+                    JourneySegmentTrackView(journey: journey, progress: p, tint: stepViewModel.ringColor)
                         .padding(.top, 4)
                 }
             }
@@ -111,7 +112,7 @@ struct JourneyDetailView: View {
                 HStack(spacing: 10) {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.title3)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(stepViewModel.ringColor)
                         .accessibilityHidden(true)
 
                     Text("Vous avez achevé ce trajet !")
@@ -120,7 +121,7 @@ struct JourneyDetailView: View {
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.accentColor.opacity(0.1))
+                .background(stepViewModel.ringColor.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("Trajet achevé")
@@ -129,7 +130,7 @@ struct JourneyDetailView: View {
                 HStack(spacing: 10) {
                     Image(systemName: "flag.fill")
                         .font(.caption)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(stepViewModel.ringColor)
                         .accessibilityHidden(true)
 
                     (Text(String(localized: "Prochaine étape : "))
@@ -139,7 +140,7 @@ struct JourneyDetailView: View {
                         .foregroundStyle(Color.primary)
                 }
                 .padding(12)
-                .background(Color.accentColor.opacity(0.08))
+                .background(stepViewModel.ringColor.opacity(0.08))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("Prochaine étape : \(next.label), dans \(String(format: "%.1f", max(remaining, 0))) km")
@@ -176,15 +177,17 @@ private struct MilestoneRow: View {
     let isLast: Bool
     let onTap: () -> Void
 
+    @EnvironmentObject private var stepViewModel: StepCountViewModel
+
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
 
             VStack(spacing: 0) {
                 Circle()
-                    .fill(isUnlocked ? Color.accentColor : Color.clear)
+                    .fill(isUnlocked ? stepViewModel.ringColor : Color.clear)
                     .overlay(
                         Circle()
-                            .strokeBorder(isUnlocked ? Color.accentColor : Color.secondary.opacity(0.4), lineWidth: 2)
+                            .strokeBorder(isUnlocked ? stepViewModel.ringColor : Color.secondary.opacity(0.4), lineWidth: 2)
                     )
                     .frame(width: 20, height: 20)
                     .padding(.top, 2)
@@ -192,7 +195,7 @@ private struct MilestoneRow: View {
 
                 if !isLast {
                     Rectangle()
-                        .fill(isUnlocked ? Color.accentColor.opacity(0.3) : Color.secondary.opacity(0.15))
+                        .fill(isUnlocked ? stepViewModel.ringColor.opacity(0.3) : Color.secondary.opacity(0.15))
                         .frame(width: 2)
                         .frame(minHeight: 40)
                         .accessibilityHidden(true)
@@ -275,5 +278,6 @@ private struct MilestoneDetailSheet: View {
     return NavigationStack {
         JourneyDetailView(journey: journey)
             .environmentObject(service)
+            .environmentObject(StepCountViewModel())
     }
 }
