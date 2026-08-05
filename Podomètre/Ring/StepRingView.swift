@@ -46,6 +46,8 @@ struct StepRingView: View {
 
     /// État du pulse du halo de célébration (objectif atteint).
     @State private var haloPulse = false
+    /// Pilote l'affichage ponctuel de `GoalCelebrationOverlay` au franchissement de l'objectif.
+    @State private var showGoalCelebration = false
 
     /// Vrai quand l'objectif du jour est atteint pour aujourd'hui — pilote le halo et la série 🔥.
     private var goalReachedToday: Bool {
@@ -162,6 +164,9 @@ struct StepRingView: View {
                                             .padding(.top, 1)
                                     }
                                 }
+                                .overlay(
+                                    GoalCelebrationOverlay(ringColor: viewModel.ringColor, isPresented: $showGoalCelebration)
+                                )
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
                                 .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
@@ -295,10 +300,11 @@ struct StepRingView: View {
             }
         }
         .onChange(of: viewModel.progress) { oldValue, newValue in
-            // Retour haptique fort de célébration au franchissement de l'objectif du jour (100 %).
+            // Célébration (haptique + effet visuel) au franchissement de l'objectif du jour (100 %).
             // Limité à aujourd'hui pour ne pas se déclencher en naviguant sur un jour passé déjà complété.
             guard viewModel.selectedDayOffset == 0, oldValue < 1.0, newValue >= 1.0 else { return }
-            celebrationHaptic.notificationOccurred(.success)
+            fireCelebrationHaptics()
+            showGoalCelebration = true
         }
         .onChange(of: scenePhase) { _, phase in
             // Recale HealthKit et (re)démarre le live à chaque retour au premier plan ; coupe le live en arrière-plan.
@@ -336,6 +342,20 @@ struct StepRingView: View {
         case .weeklyChart:
             WeeklyBarChartView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+        }
+    }
+
+    /// Retour haptique de célébration au franchissement de l'objectif : enchaîne trois impacts
+    /// croissants (léger → moyen → fort) puis un haptique de succès, pour un effet plus marqué
+    /// qu'un unique haptique — sans devenir un motif répétitif qui lasserait à l'usage quotidien.
+    private func fireCelebrationHaptics() {
+        let styles: [UIImpactFeedbackGenerator.FeedbackStyle] = [.light, .medium, .heavy]
+        Task {
+            for style in styles {
+                UIImpactFeedbackGenerator(style: style).impactOccurred()
+                try? await Task.sleep(for: .milliseconds(90))
+            }
+            celebrationHaptic.notificationOccurred(.success)
         }
     }
 
