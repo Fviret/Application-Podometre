@@ -19,14 +19,18 @@ struct ContentView: View {
 
     /// Aphorisme affiché dans la popup matinale ; non-nil déclenche l'overlay.
     @State private var popupAphorism: Aphorism?
+    /// Onglet actif du TabView — piloté par code pour permettre au récap hebdomadaire de
+    /// rediriger vers l'onglet Trajets au tap sur le trajet en cours.
+    @State private var selectedTab = 0
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             StepRingView(viewModel: viewModel)
                 .tabItem {
                     Label("Activité", systemImage: "figure.walk")
                 }
                 .accessibilityIdentifier("tab_activity")
+                .tag(0)
 
             JourneyPickerView()
                 .environmentObject(journeyProgressService)
@@ -35,12 +39,14 @@ struct ContentView: View {
                     Label("Trajets", systemImage: "map")
                 }
                 .accessibilityIdentifier("tab_journeys")
+                .tag(1)
 
             SettingsView(viewModel: viewModel, aphorismManager: aphorismManager)
                 .tabItem {
                     Label("Paramètres", systemImage: "gearshape")
                 }
                 .accessibilityIdentifier("tab_settings")
+                .tag(2)
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
         .overlay {
@@ -50,6 +56,12 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(item: $viewModel.weeklyRecap) { recap in
+            WeeklyRecapView(recap: enrichedWeeklyRecap(recap), ringColor: viewModel.ringColor) {
+                viewModel.weeklyRecap = nil
+                selectedTab = 1
+            }
+        }
         .onAppear {
             journeyProgressService.onJourneyCompleted = { id in
                 viewModel.markJourneyCompleted(id)
@@ -57,6 +69,7 @@ struct ContentView: View {
             journeyProgressService.notificationsEnabled = journeyNotificationsEnabled
             presentDailyAphorismIfNeeded()
             scheduleAphorismReminder()
+            if hasCompletedOnboarding { viewModel.presentWeeklyRecapIfNeeded() }
         }
         .onChange(of: journeyNotificationsEnabled) { _, enabled in
             journeyProgressService.notificationsEnabled = enabled
@@ -66,6 +79,7 @@ struct ContentView: View {
             journeyProgressService.startIfNeeded()
             presentDailyAphorismIfNeeded()
             scheduleAphorismReminder()
+            viewModel.presentWeeklyRecapIfNeeded()
         }
         .onChange(of: scenePhase) { _, phase in
             // Re-tenter à chaque passage au premier plan (retour depuis l'arrière-plan),
@@ -73,6 +87,7 @@ struct ContentView: View {
             if phase == .active {
                 presentDailyAphorismIfNeeded()
                 scheduleAphorismReminder()
+                if hasCompletedOnboarding { viewModel.presentWeeklyRecapIfNeeded() }
             }
         }
     }
@@ -93,6 +108,34 @@ struct ContentView: View {
     private func scheduleAphorismReminder() {
         guard hasCompletedOnboarding else { return }
         Task { await aphorismManager.scheduleNoonReminderIfNeeded() }
+    }
+
+    /// Trajet à mettre en avant dans le récap hebdomadaire : a une progression, n'est pas
+    /// terminé, n'a pas atteint 100 % — même sélection que la card épinglée du catalogue
+    /// (`JourneyPickerView.activeJourney`). `StepCountViewModel` n'a pas accès à
+    /// `JourneyProgressService`, d'où l'enrichissement ici plutôt qu'à la source du récap.
+    private var activeJourney: (journey: Journey, progress: JourneyProgress)? {
+        allJourneys
+            .compactMap { journey -> (Journey, JourneyProgress)? in
+                guard let progress = journeyProgressService.progress(for: journey),
+                      !viewModel.isJourneyCompleted(journey.id.uuidString),
+                      journey.progressPercent(for: progress) < 1.0
+                else { return nil }
+                return (journey, progress)
+            }
+            .max { $0.1.lastUpdatedDate < $1.1.lastUpdatedDate }
+            .map { (journey: $0.0, progress: $0.1) }
+    }
+
+    /// Complète le récap hebdomadaire avec le trajet en cours, si présent.
+    private func enrichedWeeklyRecap(_ recap: WeeklyRecapData) -> WeeklyRecapData {
+        var enriched = recap
+        if let active = activeJourney {
+            enriched.activeJourneyName = active.journey.name
+            enriched.activeJourneyProgressKm = active.progress.totalKm
+            enriched.activeJourneyTargetKm = active.journey.totalKm
+        }
+        return enriched
     }
 }
 

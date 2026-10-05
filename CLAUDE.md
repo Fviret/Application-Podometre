@@ -35,7 +35,7 @@ Développement incrémental solo, sans dépendances tierces.
 - **UI** : SwiftUI pur (pas de UIKit, pas de Swift Charts)
 - **Données** : HealthKit — `stepCount` pour les pas, `distanceWalkingRunning` pour les trajets
 - **Notifications** : `UserNotifications` (UNUserNotificationCenter)
-- **Cible** : iOS 17+ minimum
+- **Cible** : iOS 18+ minimum, iPhone uniquement
 - **Outil** : Xcode, Claude Code pour le développement assisté
 
 ---
@@ -85,6 +85,7 @@ Podomètre/
 │   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
+│   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
 │   ├── WeatherBannerView.swift         # Bannière pluie imminente
 │   ├── WeeklyForecastBannerView.swift  # Prévisions 7 jours (tap → détail)
@@ -102,6 +103,7 @@ Podomètre/
 │   └── JourneyDetailView.swift         # Détail d'un trajet + timeline des jalons
 ├── Settings/                           # Paramètres et récompenses
 │   ├── SettingsView.swift              # Objectif, apparence, écran principal, notifs
+│   ├── MainScreenSection.swift         # Sections optionnelles de l'écran Activité, ordre réorganisable
 │   ├── BadgeData.swift                 # Seuils/illustration des badges de pas (données uniquement, plus affiché en UI)
 │   ├── StreakBannerView.swift          # Bannière de série
 │   └── FlameStreakView.swift           # Flamme animée à paliers (série)
@@ -113,6 +115,9 @@ Podomètre/
 │   ├── AphorismSettingsView.swift      # Section Paramètres
 │   ├── aphorisms_humor_400.json        # Recueil français (400 aphorismes, CC0)
 │   └── aphorisms_humor_en.json         # Recueil anglais (89 aphorismes, domaine public — Wilde/Bierce/Twain/Franklin)
+├── WeeklyRecap/                        # Récapitulatif hebdomadaire
+│   ├── WeeklyRecapData.swift           # Modèle (totaux + comparaison semaine précédente) et enum de tendance
+│   └── WeeklyRecapView.swift           # Sheet affichée le lundi à la première ouverture de la semaine
 ├── Preferences/                        # Persistance UserDefaults centralisée
 │   ├── PreferenceKey.swift             # Enum de toutes les clés
 │   ├── Preferences.swift               # Wrapper typé, injectable pour les tests
@@ -183,7 +188,13 @@ Hors cible applicative, à la racine du dépôt :
 - Notifications : toggle objectif journalier (1x/jour max)
 - Mode sombre : toggle, appliqué via `.preferredColorScheme` sur le `TabView`
 - Streak : série de jours consécutifs (flamme 🔥), cachée si streak = 0
+- Écran principal : toggle d'affichage par section (métriques, météo, calendrier, graphe) + réordonnancement par glisser-déposer (liste `.onMove`, appui long sur une ligne) ; l'ordre choisi pilote directement l'ordre de rendu sous l'anneau sur l'écran Activité
 - Plus de grille de badges dans les Paramètres : les badges de trajets vivent désormais sur l'écran Trajets (voir ci-dessous) ; les badges de seuils de pas n'ont plus d'écran (données conservées dans `BadgeData`/`StepCountViewModel.milestoneCounts`, réutilisables pour une future UI)
+
+### Récapitulatif hebdomadaire
+- Sheet affichée le lundi à la première ouverture de la semaine (garde 1×/semaine, `lastWeeklyRecapShownWeekStart`)
+- Bilan de la semaine calendaire écoulée (lundi → dimanche) : nombre de jours où l'objectif a été atteint, puis pas / calories / distance / temps d'activité, chacun avec une flèche de tendance vs la semaine précédente (même convention que `WeeklyBarChartView` : rouge en baisse, couleur de l'anneau en hausse, gris stable)
+- Récupération HealthKit + Core Motion dédiée (`StepCountViewModel.fetchWeeklyRecapData`), indépendante de `HistoryStats` (blocs calendaires lundi-dimanche, pas des fenêtres glissantes de 7 jours)
 
 ### Système de trajets
 - 27 trajets dans 4 catégories : Promenades, Sentiers, Histoire, Mythes & Épopées
@@ -214,6 +225,9 @@ Hors cible applicative, à la racine du dépôt :
 | `showMonthCalendar` | `Bool` | Affiche le calendrier mensuel (défaut : activé) |
 | `showWeeklyChart` | `Bool` | Affiche le graphe hebdomadaire (défaut : activé) |
 | `showTodayMetrics` | `Bool` | Affiche les métriques du jour (distance/temps actif/calories) (défaut : activé) |
+| `mainScreenSectionOrder` | `Data` (JSON) | `[MainScreenSection]` encodé — ordre d'affichage des sections sous l'anneau (réorganisable dans Paramètres, glisser-déposer) |
+| `weatherCache` | `Data` (JSON) | `WeatherCache` encodé — dernière position + prévisions récupérées ; évite un appel météo si la position n'a pas changé depuis le dernier lancement |
+| `lastWeeklyRecapShownWeekStart` | `Date` | Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a déjà été affiché (garde 1×/semaine) |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -414,7 +428,7 @@ git push origin main
 ### Priorité haute — impact utilisateur immédiat
 - [x] **Tests UI** — couverture des vues principales (onboarding, anneau, trajets, pensée du jour)
 - [ ] **Optimisation HealthKit & météo / mode éco** — réduire les appels en arrière-plan, toggle pour désactiver les requêtes non essentielles
-- [ ] **Slide récapitulative hebdomadaire** — affiché le lundi à la première ouverture de la semaine
+- [x] **Slide récapitulative hebdomadaire** — affichée le lundi à la première ouverture de la semaine
 - [ ] **Widget iOS écran d'accueil** — pas du jour + progression anneau
 
 ### Priorité moyenne — enrichissement

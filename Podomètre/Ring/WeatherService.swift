@@ -1,7 +1,7 @@
 import Foundation
 
 /// Prévisions météo pour une heure donnée.
-struct HourlyWeather {
+struct HourlyWeather: Codable {
     let hour: Date
     let precipitationMm: Double
     let temperature: Double
@@ -9,7 +9,7 @@ struct HourlyWeather {
 }
 
 /// Résumé des conditions de marche sur les 6 prochaines heures.
-struct WalkingForecast {
+struct WalkingForecast: Codable {
     let nextRainHour: Date?
     let currentTemp: Double
     let currentCode: Int
@@ -17,7 +17,7 @@ struct WalkingForecast {
 }
 
 /// Prévisions météo pour un jour donné.
-struct DailyForecast: Identifiable {
+struct DailyForecast: Identifiable, Codable {
     var id: Date { date }
     let date: Date
     let weatherCode: Int

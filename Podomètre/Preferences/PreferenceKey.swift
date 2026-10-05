@@ -37,4 +37,12 @@ enum PreferenceKey: String, CaseIterable {
     case showWeeklyChart
     /// Affiche la rangée de métriques du jour (distance, temps actif, calories) (`Bool`).
     case showTodayMetrics
+    /// `[MainScreenSection]` encodé (`Data` JSON) — ordre d'affichage des sections sous l'anneau.
+    case mainScreenSectionOrder
+    /// `WeatherCache` encodé (`Data` JSON) — dernière position + prévisions récupérées, pour éviter
+    /// un appel réseau météo si la position n'a pas changé depuis le dernier lancement.
+    case weatherCache
+    /// Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a été affiché (`Date`) —
+    /// garde pour ne le montrer qu'une fois par semaine.
+    case lastWeeklyRecapShownWeekStart
 }

@@ -868,8 +868,12 @@ struct HistoryStatsComputeTests {
         calendar.date(byAdding: .day, value: -n, to: calendar.startOfDay(for: Date()))!
     }
 
+    /// Reproduit `HistoryStats.weekdayName` : dans la langue de l'appareil, pas figé en français
+    /// (sinon ce test casse dès que la locale du runner n'est pas fr_FR — ex. CI).
     private func weekdayFrenchName(_ weekday: Int) -> String {
-        ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][weekday - 1]
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        return formatter.standaloneWeekdaySymbols[weekday - 1].capitalized
     }
 
     @Test func emptyDailyStepsReturnsDefaultStats() {
@@ -1022,5 +1026,112 @@ struct HistoryStatsComputeTests {
         let stats = HistoryStats.compute(dailySteps: daily, goal: 10_000, calendar: calendar)
         let todayWeekday = calendar.component(.weekday, from: Date())
         #expect(stats.mostActiveWeekdayName == weekdayFrenchName(todayWeekday))
+    }
+}
+
+// MARK: - WeeklyRecap (récapitulatif hebdomadaire)
+
+@Suite("WeeklyRecapTrend")
+struct WeeklyRecapTrendTests {
+
+    @Test func higherCurrentIsUp() {
+        #expect(WeeklyRecapTrend(current: 100, previous: 80) == .up)
+    }
+
+    @Test func lowerCurrentIsDown() {
+        #expect(WeeklyRecapTrend(current: 60, previous: 80) == .down)
+    }
+
+    @Test func equalValuesAreFlat() {
+        #expect(WeeklyRecapTrend(current: 80, previous: 80) == .flat)
+    }
+
+    @Test func bothZeroIsFlat() {
+        #expect(WeeklyRecapTrend(current: 0, previous: 0) == .flat)
+    }
+}
+
+@Suite("WeeklyRecapData")
+struct WeeklyRecapDataTests {
+
+    private func makeRecap(
+        dailyGoalReached: [Bool] = Array(repeating: false, count: 7),
+        weekStart: Date = Date()
+    ) -> WeeklyRecapData {
+        WeeklyRecapData(
+            weekStart: weekStart,
+            dailyGoalReached: dailyGoalReached,
+            totalSteps: 60_000,
+            previousTotalSteps: 50_000,
+            totalDistanceKm: 40,
+            previousTotalDistanceKm: 35,
+            totalCalories: 3_000,
+            previousTotalCalories: 2_800,
+            totalActiveMinutes: 200,
+            previousTotalActiveMinutes: 180
+        )
+    }
+
+    @Test func goalReachedCountCountsTrueValues() {
+        let recap = makeRecap(dailyGoalReached: [true, true, false, true, true, false, true])
+        #expect(recap.goalReachedCount == 5)
+    }
+
+    @Test func goalReachedCountIsZeroWhenNoneReached() {
+        let recap = makeRecap(dailyGoalReached: Array(repeating: false, count: 7))
+        #expect(recap.goalReachedCount == 0)
+    }
+
+    @Test func goalReachedCountIsSevenWhenAllReached() {
+        let recap = makeRecap(dailyGoalReached: Array(repeating: true, count: 7))
+        #expect(recap.goalReachedCount == 7)
+    }
+
+    @Test func idMatchesWeekStart() {
+        let monday = Calendar.current.startOfDay(for: Date())
+        let recap = makeRecap(weekStart: monday)
+        #expect(recap.id == monday)
+    }
+
+    @Test func activeJourneyFieldsDefaultToNil() {
+        let recap = makeRecap()
+        #expect(recap.activeJourneyName == nil)
+        #expect(recap.activeJourneyProgressKm == nil)
+        #expect(recap.activeJourneyTargetKm == nil)
+    }
+
+    @Test func equatableComparesActiveJourneyFields() {
+        let date = Date()
+        var a = makeRecap(weekStart: date)
+        var b = makeRecap(weekStart: date)
+        #expect(a == b)
+
+        a.activeJourneyName = "GR20"
+        #expect(a != b)
+
+        b.activeJourneyName = "GR20"
+        #expect(a == b)
+    }
+
+    @Test func equatableComparesCoreMetrics() {
+        let date = Date()
+        let a = makeRecap(weekStart: date)
+        var b = makeRecap(weekStart: date)
+        b.activeJourneyName = nil // no-op, garde b structurellement identique jusqu'ici
+        #expect(a == b)
+
+        let c = WeeklyRecapData(
+            weekStart: date,
+            dailyGoalReached: Array(repeating: false, count: 7),
+            totalSteps: 1, // diffère de `a`
+            previousTotalSteps: 50_000,
+            totalDistanceKm: 40,
+            previousTotalDistanceKm: 35,
+            totalCalories: 3_000,
+            previousTotalCalories: 2_800,
+            totalActiveMinutes: 200,
+            previousTotalActiveMinutes: 180
+        )
+        #expect(a != c)
     }
 }

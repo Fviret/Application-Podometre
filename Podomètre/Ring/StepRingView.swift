@@ -16,6 +16,24 @@ struct StepRingView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.mainScreenSectionOrder) private var mainScreenSectionOrderData: Data = MainScreenSection.encode(MainScreenSection.defaultOrder)
+
+    /// Sections activées sous l'anneau, dans l'ordre choisi par l'utilisateur (Paramètres > Écran principal).
+    /// La météo est en plus exclue tant qu'aucune prévision n'est chargée (`WeeklyForecastBannerView`
+    /// ne rend alors rien) : sinon le diviseur ajouté pour son emplacement se retrouverait orphelin,
+    /// sans contenu entre lui et celui de la section suivante.
+    private var visibleMainScreenSections: [MainScreenSection] {
+        MainScreenSection.decode(mainScreenSectionOrderData).filter(isSectionVisible)
+    }
+
+    private func isSectionVisible(_ section: MainScreenSection) -> Bool {
+        switch section {
+        case .todayMetrics: return showTodayMetrics
+        case .weather: return showWeatherForecast && !dailyForecasts.isEmpty
+        case .monthCalendar: return showMonthCalendar
+        case .weeklyChart: return showWeeklyChart
+        }
+    }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
@@ -28,6 +46,8 @@ struct StepRingView: View {
 
     /// État du pulse du halo de célébration (objectif atteint).
     @State private var haloPulse = false
+    /// Pilote l'affichage ponctuel de `GoalCelebrationOverlay` au franchissement de l'objectif.
+    @State private var showGoalCelebration = false
 
     /// Vrai quand l'objectif du jour est atteint pour aujourd'hui — pilote le halo et la série 🔥.
     private var goalReachedToday: Bool {
@@ -144,6 +164,9 @@ struct StepRingView: View {
                                             .padding(.top, 1)
                                     }
                                 }
+                                .overlay(
+                                    GoalCelebrationOverlay(ringColor: viewModel.ringColor, isPresented: $showGoalCelebration)
+                                )
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
                                 .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
@@ -198,30 +221,13 @@ struct StepRingView: View {
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(Color.secondary)
 
-                        // Métriques du jour : distance, temps actif, calories (HealthKit).
-                        if showTodayMetrics {
-                            TodayMetricsView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
-                        }
-
-                        if showWeatherForecast {
-                            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
-                        }
-
-                        if showMonthCalendar {
-                            Divider()
-                                .padding(.horizontal, 24)
-
-                            MonthCalendarView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
-                        }
-
-                        if showWeeklyChart {
-                            Divider()
-                                .padding(.horizontal, 24)
-
-                            WeeklyBarChartView(viewModel: viewModel)
-                                .padding(.horizontal, 24)
+                        // Sections optionnelles sous l'anneau, dans l'ordre choisi dans les Paramètres.
+                        ForEach(Array(visibleMainScreenSections.enumerated()), id: \.element) { index, section in
+                            if index > 0 {
+                                Divider()
+                                    .padding(.horizontal, 24)
+                            }
+                            mainScreenSectionContent(for: section)
                         }
                     }
                     .padding(.vertical, 32)
@@ -261,6 +267,14 @@ struct StepRingView: View {
                     }
                 }
                 #else
+                // Affiche immédiatement la dernière météo connue (même périmée) pendant que la
+                // position à jour est demandée en arrière-plan — évite un écran vide au lancement.
+                if let cache = WeatherCache.load() {
+                    walkingForecast = cache.walkingForecast
+                    dailyForecasts = cache.dailyForecasts
+                    allHourly = cache.allHourly
+                    locationLabel = cache.locationLabel
+                }
                 locationManager.requestLocation()
                 Timer.scheduledTimer(withTimeInterval: 1800, repeats: true) { _ in
                     guard showWeatherForecast, let loc = locationManager.location else { return }
@@ -271,6 +285,9 @@ struct StepRingView: View {
         }
         .onChange(of: locationManager.location) { _, loc in
             guard showWeatherForecast, let loc else { return }
+            // Position proche de la dernière connue et cache pas trop ancien : la météo affichée
+            // depuis le cache (chargé à l'apparition) est déjà à jour, pas besoin de rappeler l'API.
+            if let cache = WeatherCache.load(), cache.isValid(for: loc) { return }
             Task { await fetchWeather(loc: loc) }
         }
         .onChange(of: hasCompletedOnboarding) { _, completed in
@@ -283,10 +300,11 @@ struct StepRingView: View {
             }
         }
         .onChange(of: viewModel.progress) { oldValue, newValue in
-            // Retour haptique fort de célébration au franchissement de l'objectif du jour (100 %).
+            // Célébration (haptique + effet visuel) au franchissement de l'objectif du jour (100 %).
             // Limité à aujourd'hui pour ne pas se déclencher en naviguant sur un jour passé déjà complété.
             guard viewModel.selectedDayOffset == 0, oldValue < 1.0, newValue >= 1.0 else { return }
-            celebrationHaptic.notificationOccurred(.success)
+            fireCelebrationHaptics()
+            showGoalCelebration = true
         }
         .onChange(of: scenePhase) { _, phase in
             // Recale HealthKit et (re)démarre le live à chaque retour au premier plan ; coupe le live en arrière-plan.
@@ -309,6 +327,38 @@ struct StepRingView: View {
         }
     }
 
+    /// Contenu d'une section optionnelle de l'écran principal, dans l'ordre choisi par l'utilisateur.
+    @ViewBuilder
+    private func mainScreenSectionContent(for section: MainScreenSection) -> some View {
+        switch section {
+        case .todayMetrics:
+            TodayMetricsView(viewModel: viewModel)
+                .padding(.horizontal, 24)
+        case .weather:
+            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+        case .monthCalendar:
+            MonthCalendarView(viewModel: viewModel)
+                .padding(.horizontal, 24)
+        case .weeklyChart:
+            WeeklyBarChartView(viewModel: viewModel)
+                .padding(.horizontal, 24)
+        }
+    }
+
+    /// Retour haptique de célébration au franchissement de l'objectif : enchaîne trois impacts
+    /// croissants (léger → moyen → fort) puis un haptique de succès, pour un effet plus marqué
+    /// qu'un unique haptique — sans devenir un motif répétitif qui lasserait à l'usage quotidien.
+    private func fireCelebrationHaptics() {
+        let styles: [UIImpactFeedbackGenerator.FeedbackStyle] = [.light, .medium, .heavy]
+        Task {
+            for style in styles {
+                UIImpactFeedbackGenerator(style: style).impactOccurred()
+                try? await Task.sleep(for: .milliseconds(90))
+            }
+            celebrationHaptic.notificationOccurred(.success)
+        }
+    }
+
     /// Récupère les prévisions horaires et journalières en parallèle, et reverse-géocode la ville.
     private func fetchWeather(loc: CLLocation) async {
         let lat = loc.coordinate.latitude
@@ -324,6 +374,14 @@ struct StepRingView: View {
         if let place = placemarks?.first {
             locationLabel = [place.locality, place.country].compactMap { $0 }.joined(separator: ", ")
         }
+
+        WeatherCache.save(
+            location: loc,
+            walkingForecast: walkingForecast,
+            dailyForecasts: dailyForecasts,
+            allHourly: allHourly,
+            locationLabel: locationLabel
+        )
     }
 }
 

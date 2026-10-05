@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage(.showWeeklyChart) private var showWeeklyChart: Bool = true
     @AppStorage(.showTodayMetrics) private var showTodayMetrics: Bool = true
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
+    @AppStorage(.mainScreenSectionOrder) private var mainScreenSectionOrderData: Data = MainScreenSection.encode(MainScreenSection.defaultOrder)
 
     /// Taille des pastilles de couleur et de leur cible tactile — suivent la taille de texte
     /// (Dynamic Type) pour rester utilisables aux tailles Accessibilité.
@@ -20,6 +21,31 @@ struct SettingsView: View {
 
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
+    /// Retour haptique moyen, déclenché à la réorganisation d'une section de l'écran principal.
+    private let reorderHaptic = UIImpactFeedbackGenerator(style: .medium)
+
+    /// Ordre courant des sections de l'écran principal, décodé depuis `mainScreenSectionOrderData`.
+    private var mainScreenSectionOrder: [MainScreenSection] {
+        MainScreenSection.decode(mainScreenSectionOrderData)
+    }
+
+    /// Binding d'activation d'une section de l'écran principal — relie chaque cas au toggle existant correspondant.
+    private func isSectionEnabled(_ section: MainScreenSection) -> Binding<Bool> {
+        switch section {
+        case .todayMetrics: return $showTodayMetrics
+        case .weather: return $showWeatherForecast
+        case .monthCalendar: return $showMonthCalendar
+        case .weeklyChart: return $showWeeklyChart
+        }
+    }
+
+    /// Réordonne les sections de l'écran principal (glisser-déposer) et persiste le nouvel ordre.
+    private func moveMainScreenSection(from source: IndexSet, to destination: Int) {
+        var order = mainScreenSectionOrder
+        order.move(fromOffsets: source, toOffset: destination)
+        mainScreenSectionOrderData = MainScreenSection.encode(order)
+        reorderHaptic.impactOccurred()
+    }
 
     /// Bornes et pas du sélecteur d'objectif.
     private let goalStep = 500
@@ -128,14 +154,14 @@ struct SettingsView: View {
 
                 // MARK: Écran principal
                 Section {
-                    Toggle("Distance · temps actif · calories", isOn: $showTodayMetrics)
-                    Toggle("Météo & prévisions", isOn: $showWeatherForecast)
-                    Toggle("Calendrier mensuel", isOn: $showMonthCalendar)
-                    Toggle("Graphe hebdomadaire", isOn: $showWeeklyChart)
+                    ForEach(mainScreenSectionOrder) { section in
+                        Toggle(section.title, isOn: isSectionEnabled(section))
+                    }
+                    .onMove(perform: moveMainScreenSection)
                 } header: {
                     Text("Écran principal")
                 } footer: {
-                    Text("Choisissez les sections affichées sous l'anneau. Désactiver la météo coupe aussi les appels réseau et la localisation.")
+                    Text("Choisissez les sections affichées sous l'anneau et leur ordre — restez appuyé sur une section pour la déplacer. Désactiver la météo coupe aussi les appels réseau et la localisation.")
                 }
 
                 // MARK: Notifications

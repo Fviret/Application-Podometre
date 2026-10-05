@@ -9,6 +9,8 @@ struct MonthCalendarView: View {
 
     private let circleDiameter: CGFloat = 28
     private let haptic = UIImpactFeedbackGenerator(style: .light)
+    /// Retour haptique moyen, déclenché à la sélection d'une date dans la grille.
+    private let dateSelectionHaptic = UIImpactFeedbackGenerator(style: .medium)
 
     /// Initiales des jours de la semaine dans la langue de l'appareil, réordonnées lundi-first
     /// (le formatter renvoie dimanche en premier).
@@ -203,13 +205,18 @@ struct MonthCalendarView: View {
         // Action explicite : `onTapGesture` n'est pas activable de façon fiable par le
         // Contrôle de sélection, le Contrôle vocal ou l'accès clavier.
         .accessibilityAction {
-            guard !future else { return }
-            viewModel.selectDate(cellDate)
+            selectDay(cellDate, future: future)
         }
         .onTapGesture {
-            guard !future else { return }
-            viewModel.selectDate(cellDate)
+            selectDay(cellDate, future: future)
         }
+    }
+
+    /// Sélectionne une date de la grille avec retour haptique moyen, sauf si elle est future.
+    private func selectDay(_ date: Date, future: Bool) {
+        guard !future else { return }
+        dateSelectionHaptic.impactOccurred()
+        viewModel.selectDate(date)
     }
 }
 
