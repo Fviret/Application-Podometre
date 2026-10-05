@@ -405,6 +405,7 @@
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "L'application ne modifie ni n'écrit aucune donnée dans l'app Santé : elle les lit uniquement.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilisée pour afficher la météo de marche près de vous.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -444,6 +445,7 @@
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "L'application ne modifie ni n'écrit aucune donnée dans l'app Santé : elle les lit uniquement.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilisée pour afficher la météo de marche près de vous.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
