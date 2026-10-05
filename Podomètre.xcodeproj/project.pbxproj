@@ -305,7 +305,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -369,7 +369,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -399,15 +399,16 @@
 				CODE_SIGN_ENTITLEMENTS = "Podomètre/Podomètre.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "La localisation est requise pour la météo.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "L'application ne modifie ni n'écrit aucune donnée dans l'app Santé : elle les lit uniquement.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilisée pour afficher la météo de marche près de vous.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -417,7 +418,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre;
 				PRODUCT_MODULE_NAME = Podome_tre;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -438,15 +439,16 @@
 				CODE_SIGN_ENTITLEMENTS = "Podomètre/Podomètre.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Podome-tre-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "L'application a besoin de lire vos pas pour fonctionner correctement.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "La localisation est requise pour la météo.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "L'application ne modifie ni n'écrit aucune donnée dans l'app Santé : elle les lit uniquement.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilisée pour afficher la météo de marche près de vous.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "L'accès au mouvement permet d'afficher vos pas en temps réel pendant que vous marchez.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -456,7 +458,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre;
 				PRODUCT_MODULE_NAME = Podome_tre;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -475,11 +477,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -497,11 +499,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -518,10 +520,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -538,10 +540,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FVWX9847Z2;
+				DEVELOPMENT_TEAM = H9S6C447W4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.floviret.podometre.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.floviretsolutions.podometre.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
