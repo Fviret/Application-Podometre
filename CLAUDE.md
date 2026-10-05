@@ -35,7 +35,7 @@ Développement incrémental solo, sans dépendances tierces.
 - **UI** : SwiftUI pur (pas de UIKit, pas de Swift Charts)
 - **Données** : HealthKit — `stepCount` pour les pas, `distanceWalkingRunning` pour les trajets
 - **Notifications** : `UserNotifications` (UNUserNotificationCenter)
-- **Cible** : iOS 17+ minimum
+- **Cible** : iOS 18+ minimum, iPhone uniquement
 - **Outil** : Xcode, Claude Code pour le développement assisté
 
 ---
