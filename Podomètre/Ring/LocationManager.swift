@@ -31,12 +31,31 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     /// Présente le prompt système si l'utilisateur n'a pas encore choisi, et rend la main une
     /// fois qu'il a répondu. Retourne immédiatement si le choix a déjà été fait.
-    func requestAuthorizationIfNeeded() async {
+    ///
+    /// Ne reste jamais bloquée : si les services de localisation sont désactivés dans iOS (aucune
+    /// réponse n'arrivera), elle rend la main tout de suite sans présenter de prompt ; sinon elle
+    /// libère l'appelant après `timeout` même sans réponse (le prompt reste à l'écran).
+    func requestAuthorizationIfNeeded(timeout: Duration = .seconds(45)) async {
         guard authorizationStatus == .notDetermined else { return }
+        // Appel potentiellement lent : hors du fil principal.
+        let servicesEnabled = await Task.detached { CLLocationManager.locationServicesEnabled() }.value
+        guard servicesEnabled else { return }
+
         await withCheckedContinuation { continuation in
             authorizationContinuations.append(continuation)
             manager.requestWhenInUseAuthorization()
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: timeout)
+                self?.resumeAuthorizationWaiters()
+            }
         }
+    }
+
+    /// Libère tous les appelants en attente de la réponse au prompt.
+    private func resumeAuthorizationWaiters() {
+        let waiting = authorizationContinuations
+        authorizationContinuations.removeAll()
+        waiting.forEach { $0.resume() }
     }
 
     /// Demande une position unique. Sans effet tant que l'accès n'est pas accordé.
@@ -55,9 +74,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             manager.requestLocation()
         }
         if authorizationStatus != .notDetermined {
-            let waiting = authorizationContinuations
-            authorizationContinuations.removeAll()
-            waiting.forEach { $0.resume() }
+            resumeAuthorizationWaiters()
         }
     }
 
