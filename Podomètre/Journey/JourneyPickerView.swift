@@ -51,6 +51,12 @@ struct JourneyPickerView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24, pinnedViews: []) {
+                    // Distance (ou pas) non autorisée dans Santé : les trajets restent bloqués à 0 km.
+                    if stepViewModel.healthAccessDenied || stepViewModel.healthDistanceDenied {
+                        HealthAccessBannerView(kind: .distance)
+                            .padding(.horizontal, -16)
+                    }
+
                     // Trajet en cours épinglé en tête ; sinon, card d'incitation
                     // au démarrage (même emplacement, mêmes dimensions).
                     if let active = activeJourney {

@@ -81,8 +81,8 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Demande l'autorisation de notifications (alerte, son, badge).
-    func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
+    func requestNotificationPermission() async {
+        _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
     }
 
     /// `true` si une notification d'objectif a déjà été envoyée aujourd'hui (vérifie UserDefaults).
@@ -330,6 +330,11 @@ class StepCountViewModel: ObservableObject {
     /// Pilote la bannière d'invitation à ouvrir les Réglages sur l'écran Activité.
     @Published var healthAccessDenied: Bool = false
 
+    /// `true` quand des pas sont lisibles mais aucune distance de marche/course sur 30 jours :
+    /// la distance est probablement refusée dans Santé, et les trajets (qui en dépendent) restent
+    /// bloqués à 0 km. Pilote la bannière « Accès à la distance désactivé ».
+    @Published var healthDistanceDenied: Bool = false
+
     /// Décalage en jours depuis aujourd'hui (0 = aujourd'hui, 1 = hier, …).
     /// Chaque changement déclenche un fetch du jour et une synchro du mois affiché.
     @Published var selectedDayOffset: Int = 0 {
@@ -411,39 +416,58 @@ class StepCountViewModel: ObservableObject {
     private var mockLiveTimer: Timer?
     #endif
 
-    /// Détermine si l'accès en lecture aux pas semble refusé et met à jour `healthAccessDenied`.
+    /// Diagnostic pur de l'accès Santé à partir des totaux sur 30 jours (testable sans HealthKit).
+    /// - `stepsDenied` : aucun pas du tout → accès aux pas très probablement refusé.
+    /// - `distanceDenied` : des pas mais aucune distance → distance probablement refusée (l'iPhone
+    ///   enregistre la distance de marche en même temps que les pas).
+    nonisolated static func diagnoseHealthAccess(steps: Double, distanceKm: Double) -> (stepsDenied: Bool, distanceDenied: Bool) {
+        (stepsDenied: steps == 0, distanceDenied: steps > 0 && distanceKm == 0)
+    }
+
+    /// Détermine si l'accès en lecture aux pas ou à la distance semble refusé et met à jour
+    /// `healthAccessDenied` / `healthDistanceDenied`.
     ///
     /// HealthKit ne signale jamais un refus de lecture : `requestAuthorization` réussit même en cas
     /// de refus, et `authorizationStatus` ne concerne que l'écriture. On croise donc deux signaux :
     /// le prompt a déjà été présenté (`getRequestStatusForAuthorization == .unnecessary`) **et**
-    /// aucun pas n'existe sur les 30 derniers jours. Sur simulateur, toujours `false` (données mock).
+    /// les totaux des 30 derniers jours (voir `diagnoseHealthAccess`). Sur simulateur, toujours
+    /// `false` (données mock).
     func checkHealthAccess() {
         #if targetEnvironment(simulator)
         healthAccessDenied = false
+        healthDistanceDenied = false
         #else
         guard HKHealthStore.isHealthDataAvailable(),
               let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
               let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
               let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
-        else { healthAccessDenied = false; return }
+        else { healthAccessDenied = false; healthDistanceDenied = false; return }
 
         healthStore.getRequestStatusForAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] status, _ in
             // `.shouldRequest` : le prompt n'a pas encore été montré → ce n'est pas un refus.
             guard status == .unnecessary else {
-                Task { @MainActor in self?.healthAccessDenied = false }
+                Task { @MainActor in
+                    self?.healthAccessDenied = false
+                    self?.healthDistanceDenied = false
+                }
                 return
             }
             let end = Date()
             let start = Calendar.current.date(byAdding: .day, value: -30, to: end) ?? end
             let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
-            let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
+            let stepsQuery = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
                 let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
-                Task { @MainActor in
-                    // Aucun pas sur 30 jours alors que le prompt a été montré : accès très probablement refusé.
-                    self?.healthAccessDenied = steps == 0
+                let distanceQuery = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, distanceResult, _ in
+                    let km = distanceResult?.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) ?? 0
+                    let diagnosis = StepCountViewModel.diagnoseHealthAccess(steps: steps, distanceKm: km)
+                    Task { @MainActor in
+                        self?.healthAccessDenied = diagnosis.stepsDenied
+                        self?.healthDistanceDenied = diagnosis.distanceDenied
+                    }
                 }
+                self?.healthStore.execute(distanceQuery)
             }
-            self?.healthStore.execute(query)
+            self?.healthStore.execute(stepsQuery)
         }
         #endif
     }

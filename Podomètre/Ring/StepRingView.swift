@@ -74,6 +74,9 @@ struct StepRingView: View {
                 // Accès aux pas refusé : bannière non bloquante vers les Réglages.
                 if viewModel.healthAccessDenied {
                     HealthAccessBannerView()
+                } else if viewModel.healthDistanceDenied {
+                    // Pas lisibles mais distance refusée : les trajets ne progresseraient pas.
+                    HealthAccessBannerView(kind: .distance)
                 }
 
                 ScrollView {
@@ -356,6 +359,10 @@ struct StepRingView: View {
                     LocationPermissionCardView(color: viewModel.ringColor) {
                         Task { await locationManager.requestAuthorizationIfNeeded() }
                     }
+                } else if locationDenied {
+                    LocationDeniedCardView(color: viewModel.ringColor) {
+                        showWeatherForecast = false
+                    }
                 }
                 WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
             }
@@ -375,6 +382,16 @@ struct StepRingView: View {
         false
         #else
         locationManager.authorizationStatus == .notDetermined
+        #endif
+    }
+
+    /// `true` quand l'accès à la position a été refusé (ou restreint) : la section météo explique
+    /// pourquoi elle est vide et propose les Réglages ou de masquer la section.
+    private var locationDenied: Bool {
+        #if targetEnvironment(simulator)
+        false
+        #else
+        locationManager.authorizationStatus == .denied || locationManager.authorizationStatus == .restricted
         #endif
     }
 
