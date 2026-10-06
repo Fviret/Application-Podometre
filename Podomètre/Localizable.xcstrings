@@ -6531,6 +6531,86 @@
         }
       }
     },
+    "Accès à la distance désactivé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance access disabled"
+          }
+        }
+      }
+    },
+    "Autorisez la distance de marche et de course dans les Réglages : sans elle, vos trajets ne progressent pas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow walking and running distance in Settings: without it, your journeys won't progress."
+          }
+        }
+      }
+    },
+    "Ouvre les Réglages pour autoriser l'accès à la distance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens Settings to allow access to distance"
+          }
+        }
+      }
+    },
+    "Localisation désactivée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location disabled"
+          }
+        }
+      }
+    },
+    "Autorisez la position approximative dans les Réglages pour afficher la météo, ou masquez cette section.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow approximate location in Settings to show the weather, or hide this section."
+          }
+        }
+      }
+    },
+    "Masquer la météo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide weather"
+          }
+        }
+      }
+    },
+    "Ouvrir les Réglages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
+        }
+      }
+    },
+    "Les notifications sont désactivées pour Podomètre dans iOS. Activez-les dans les Réglages pour recevoir les alertes d'objectif et de progression.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are turned off for Podomètre in iOS. Turn them on in Settings to receive goal and progress alerts."
+          }
+        }
+      }
+    },
     "À propos": {
       "localizations": {
         "en": {

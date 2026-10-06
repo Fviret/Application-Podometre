@@ -1135,3 +1135,28 @@ struct WeeklyRecapDataTests {
         #expect(a != c)
     }
 }
+
+// MARK: - Diagnostic de l'accès Santé
+
+@Suite("StepCountViewModel.diagnoseHealthAccess")
+struct HealthAccessDiagnosisTests {
+
+    @Test func noStepsMeansStepsDenied() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0)
+        #expect(result.stepsDenied)
+        // Sans pas, on ne peut pas conclure sur la distance : un seul message à la fois.
+        #expect(!result.distanceDenied)
+    }
+
+    @Test func stepsWithoutDistanceMeansDistanceDenied() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 52_000, distanceKm: 0)
+        #expect(!result.stepsDenied)
+        #expect(result.distanceDenied)
+    }
+
+    @Test func stepsAndDistanceMeansNoIssue() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 52_000, distanceKm: 39.5)
+        #expect(!result.stepsDenied)
+        #expect(!result.distanceDenied)
+    }
+}

@@ -72,6 +72,7 @@ Podomètre/
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
 ├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
+├── SystemSettings.swift                # Ouvre les Réglages iOS de l'app (bannières d'autorisation refusée)
 ├── Localizable.xcstrings               # String Catalog — langue source française, extraction automatique par le compilateur
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
@@ -86,6 +87,7 @@ Podomètre/
 │   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo) ; ne demande jamais l'accès tout seul
 │   ├── HealthPermissionCardView.swift  # Carte « Autorisez l'accès à Santé » tant que le prompt n'a pas été présenté
 │   ├── LocationPermissionCardView.swift# Carte « Météo près de chez vous » tant que le prompt localisation n'a pas été présenté
+│   ├── LocationDeniedCardView.swift    # Carte météo quand la localisation est refusée (Réglages / masquer la section)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
@@ -528,4 +530,16 @@ Règle : **jamais de prompt système hors contexte, jamais à la création d'une
 - Une fois l'accès Santé décidé, `startHealthPipeline()` lit tout et retente 2 fois (à 2 s et 5 s) si HealthKit répond « vide » juste après l'autorisation.
 - L'onboarding passe `startFetching: false` : les lectures (et le prompt Mouvement) démarrent à l'arrivée sur l'écran Activité, pas sous la slide 4.
 - En UI tests (`UI_TESTING`), l'onboarding saute les prompts système.
+
+### Quand une autorisation est refusée
+
+| Cas | Signal | Interface |
+|---|---|---|
+| Pas Santé refusés | Prompt présenté **et** 0 pas sur 30 jours (`healthAccessDenied`) | Bannière « Accès à vos pas désactivé » (Activité) |
+| Distance Santé refusée | Des pas mais 0 km sur 30 jours (`healthDistanceDenied`) | Bannière « Accès à la distance désactivé » (Activité et Trajets) — sans distance, les trajets restent à 0 km |
+| Localisation refusée | `LocationManager.authorizationStatus` = `.denied`/`.restricted` | Carte `LocationDeniedCardView` dans la section météo (Réglages ou « Masquer la météo ») |
+| Notifications refusées | `UNUserNotificationCenter` = `.denied`, relu à l'ouverture des Paramètres et au retour au premier plan | Interrupteurs grisés + bouton « Ouvrir les Réglages » (Paramètres) |
+
+HealthKit ne distingue pas un refus de lecture d'une absence de données : le diagnostic (`StepCountViewModel.diagnoseHealthAccess`, testé) est une inférence. Sur simulateur, aucun de ces états ne s'affiche (données mock).
+
 
