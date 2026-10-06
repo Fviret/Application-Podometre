@@ -6511,6 +6511,26 @@
         }
       }
     },
+    "Données météo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather Data"
+          }
+        }
+      }
+    },
+    "Ouvre le site d'Open-Meteo dans le navigateur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the Open-Meteo website in the browser"
+          }
+        }
+      }
+    },
     "À propos": {
       "localizations": {
         "en": {

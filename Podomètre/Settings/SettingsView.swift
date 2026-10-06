@@ -290,6 +290,14 @@ struct SettingsView: View {
 
             LabeledContent("Données de santé", value: "HealthKit")
                 .accessibilityElement(children: .combine)
+
+            // Attribution exigée par la licence CC BY 4.0 des données météo Open-Meteo.
+            if let openMeteoURL = URL(string: "https://open-meteo.com/") {
+                Link(destination: openMeteoURL) {
+                    LabeledContent("Données météo", value: "Open-Meteo.com")
+                }
+                .accessibilityHint("Ouvre le site d'Open-Meteo dans le navigateur")
+            }
         } header: {
             Text("À propos")
         } footer: {
