@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @ObservedObject var viewModel: StepCountViewModel
@@ -18,6 +19,11 @@ struct SettingsView: View {
     @ScaledMetric(relativeTo: .body) private var colorTapTarget: CGFloat = 44
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
+
+    /// `true` quand l'utilisateur a refusé les notifications dans iOS : les réglages ci-dessous
+    /// sont alors grisés et un bouton ouvre les Réglages système.
+    @State private var notificationsDenied = false
 
     /// Retour haptique léger, cohérent avec le reste de l'app (anneau, calendrier).
     private let haptic = UIImpactFeedbackGenerator(style: .light)
@@ -167,14 +173,27 @@ struct SettingsView: View {
                 // MARK: Notifications
                 Section {
                     Toggle("Objectif journalier", isOn: $viewModel.notificationsEnabled)
+                        .disabled(notificationsDenied)
                         .onChange(of: viewModel.notificationsEnabled) { _, enabled in
-                            if enabled { viewModel.requestNotificationPermission() }
+                            guard enabled else { return }
+                            Task {
+                                await viewModel.requestNotificationPermission()
+                                await refreshNotificationStatus()
+                            }
                         }
                     Toggle("Progression des trajets", isOn: $journeyNotificationsEnabled)
+                        .disabled(notificationsDenied)
+                    if notificationsDenied {
+                        Button("Ouvrir les Réglages") { SystemSettings.openApp() }
+                    }
                 } header: {
                     Text("Notifications")
                 } footer: {
-                    Text("L'objectif journalier est notifié une seule fois par jour.")
+                    if notificationsDenied {
+                        Text("Les notifications sont désactivées pour Podomètre dans iOS. Activez-les dans les Réglages pour recevoir les alertes d'objectif et de progression.")
+                    } else {
+                        Text("L'objectif journalier est notifié une seule fois par jour.")
+                    }
                 }
 
                 // MARK: Contenu
@@ -203,7 +222,19 @@ struct SettingsView: View {
                 aboutSection
             }
             .navigationTitle("Paramètres")
+            .task { await refreshNotificationStatus() }
+            .onChange(of: scenePhase) { _, phase in
+                // Retour des Réglages iOS : l'utilisateur a pu (ré)autoriser les notifications.
+                guard phase == .active else { return }
+                Task { await refreshNotificationStatus() }
+            }
         }
+    }
+
+    /// Relit le statut d'autorisation des notifications et met à jour `notificationsDenied`.
+    private func refreshNotificationStatus() async {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        notificationsDenied = status == .denied
     }
 
     // MARK: - Sélecteur d'objectif
@@ -290,6 +321,14 @@ struct SettingsView: View {
 
             LabeledContent("Données de santé", value: "HealthKit")
                 .accessibilityElement(children: .combine)
+
+            // Attribution exigée par la licence CC BY 4.0 des données météo Open-Meteo.
+            if let openMeteoURL = URL(string: "https://open-meteo.com/") {
+                Link(destination: openMeteoURL) {
+                    LabeledContent("Données météo", value: "Open-Meteo.com")
+                }
+                .accessibilityHint("Ouvre le site d'Open-Meteo dans le navigateur")
+            }
         } header: {
             Text("À propos")
         } footer: {

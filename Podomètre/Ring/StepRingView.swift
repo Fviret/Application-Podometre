@@ -4,7 +4,9 @@ import CoreLocation
 struct StepRingView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
-    @StateObject private var locationManager = LocationManager()
+    /// Injecté depuis `Podome_treApp` : le prompt de localisation est piloté à un moment explicite
+    /// (onboarding ou carte météo), jamais à la création de cet écran.
+    @EnvironmentObject private var locationManager: LocationManager
     @State private var walkingForecast: WalkingForecast?
     @State private var dailyForecasts: [DailyForecast] = []
     /// Toutes les heures des 7 jours de prévision — alimente le détail météo par jour.
@@ -49,6 +51,23 @@ struct StepRingView: View {
     /// Pilote l'affichage ponctuel de `GoalCelebrationOverlay` au franchissement de l'objectif.
     @State private var showGoalCelebration = false
 
+    /// Masquages mémorisés des bannières d'autorisation (voir `PermissionBannerDismissals`).
+    @State private var bannerDismissals = PermissionBannerDismissals()
+
+    /// Bannière d'accès refusé à afficher, par priorité : pas, puis distance (les trajets ne
+    /// progresseraient pas), puis mouvement (pas non live, temps actif à 0). Une seule à la fois.
+    private var activeAccessBanner: (kind: HealthAccessBannerView.Kind, banner: PermissionBanner)? {
+        if viewModel.healthAccessDenied { return (.steps, .healthSteps) }
+        if viewModel.healthDistanceDenied { return (.distance, .healthDistance) }
+        if viewModel.motionAccessDenied { return (.motion, .motion) }
+        return nil
+    }
+
+    /// `true` pendant le premier chargement des pas d'aujourd'hui : l'anneau affiche un squelette.
+    private var showStepsPlaceholder: Bool {
+        viewModel.selectedDayOffset == 0 && viewModel.isLoadingHealthData
+    }
+
     /// Vrai quand l'objectif du jour est atteint pour aujourd'hui — pilote le halo et la série 🔥.
     private var goalReachedToday: Bool {
         viewModel.selectedDayOffset == 0 && viewModel.stepCount >= viewModel.goal
@@ -62,9 +81,19 @@ struct StepRingView: View {
             VStack(spacing: 0) {
                 WeatherBannerView(forecast: walkingForecast)
 
-                // Accès aux pas refusé : bannière non bloquante vers les Réglages.
-                if viewModel.healthAccessDenied {
-                    HealthAccessBannerView()
+                // Prompt Santé pas encore présenté (onboarding passé avec « Plus tard ») : invitation claire.
+                if viewModel.needsHealthAuthorization, !bannerDismissals.isDismissed(.healthPermission) {
+                    HealthPermissionCardView(
+                        color: viewModel.ringColor,
+                        action: { Task { await viewModel.requestHealthAuthorization() } },
+                        onDismiss: { bannerDismissals.dismiss(.healthPermission) }
+                    )
+                }
+
+                // Accès refusé (pas, distance ou mouvement) : bannière non bloquante vers les
+                // Réglages, masquable (elle réapparaît après 7 jours).
+                if let active = activeAccessBanner, !bannerDismissals.isDismissed(active.banner) {
+                    HealthAccessBannerView(kind: active.kind, onDismiss: { bannerDismissals.dismiss(active.banner) })
                 }
 
                 ScrollView {
@@ -163,13 +192,14 @@ struct StepRingView: View {
                                             .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: viewModel.stepCount)
                                             .padding(.top, 1)
                                     }
+                                    .loadingPlaceholder(isLoading: showStepsPlaceholder)
                                 }
                                 .overlay(
                                     GoalCelebrationOverlay(ringColor: viewModel.ringColor, isPresented: $showGoalCelebration)
                                 )
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
-                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
+                                .accessibilityValue(showStepsPlaceholder ? String(localized: "Chargement de vos pas") : "\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
                                 .accessibilityIdentifier("step_ring")
 
                                 Text(LocalizedStringKey(viewModel.selectedDateLabel))
@@ -293,11 +323,18 @@ struct StepRingView: View {
         .onChange(of: hasCompletedOnboarding) { _, completed in
             guard completed else { return }
             viewModel.requestAuthorizationAndFetch()
+            viewModel.startLiveStepUpdates()
             if showWeatherForecast {
                 #if !targetEnvironment(simulator)
                 locationManager.requestLocation()
                 #endif
             }
+        }
+        .onChange(of: viewModel.isAuthorized) { _, authorized in
+            // Accès Santé accordé (onboarding, carte d'invitation ou Réglages) : démarre le live
+            // sans attendre un changement de phase de l'app.
+            guard authorized, hasCompletedOnboarding else { return }
+            viewModel.startLiveStepUpdates()
         }
         .onChange(of: viewModel.progress) { oldValue, newValue in
             // Célébration (haptique + effet visuel) au franchissement de l'objectif du jour (100 %).
@@ -334,15 +371,51 @@ struct StepRingView: View {
         case .todayMetrics:
             TodayMetricsView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         case .weather:
-            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+            VStack(spacing: 12) {
+                if needsLocationPrompt, !bannerDismissals.isDismissed(.locationPermission) {
+                    LocationPermissionCardView(
+                        color: viewModel.ringColor,
+                        action: { Task { await locationManager.requestAuthorizationIfNeeded() } },
+                        onDismiss: { bannerDismissals.dismiss(.locationPermission) }
+                    )
+                } else if locationDenied {
+                    LocationDeniedCardView(color: viewModel.ringColor) {
+                        showWeatherForecast = false
+                    }
+                }
+                WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+            }
         case .monthCalendar:
             MonthCalendarView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         case .weeklyChart:
             WeeklyBarChartView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         }
+    }
+
+    /// `true` tant que l'utilisateur n'a pas répondu au prompt de localisation : la section météo
+    /// affiche alors une carte d'invitation. Jamais sur simulateur (météo fictive).
+    private var needsLocationPrompt: Bool {
+        #if targetEnvironment(simulator)
+        false
+        #else
+        locationManager.authorizationStatus == .notDetermined
+        #endif
+    }
+
+    /// `true` quand l'accès à la position a été refusé (ou restreint) : la section météo explique
+    /// pourquoi elle est vide et propose les Réglages ou de masquer la section.
+    private var locationDenied: Bool {
+        #if targetEnvironment(simulator)
+        false
+        #else
+        locationManager.authorizationStatus == .denied || locationManager.authorizationStatus == .restricted
+        #endif
     }
 
     /// Retour haptique de célébration au franchissement de l'objectif : enchaîne trois impacts
@@ -386,9 +459,18 @@ struct StepRingView: View {
 }
 
 #Preview("Objectif non atteint") {
+    let viewModel = StepCountViewModel()
+    viewModel.hasLoadedStepsOnce = true
+    return StepRingView(viewModel: viewModel)
+        .environmentObject(LocationManager())
+}
+
+#Preview("Chargement (squelette)") {
     StepRingView(viewModel: StepCountViewModel())
+        .environmentObject(LocationManager())
 }
 
 #Preview("Objectif atteint (série 🔥)") {
     StepRingView(viewModel: .previewGoalReached)
+        .environmentObject(LocationManager())
 }

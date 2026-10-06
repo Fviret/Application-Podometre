@@ -1135,3 +1135,87 @@ struct WeeklyRecapDataTests {
         #expect(a != c)
     }
 }
+
+// MARK: - Diagnostic de l'accès Santé
+
+@Suite("StepCountViewModel.diagnoseHealthAccess")
+struct HealthAccessDiagnosisTests {
+
+    @Test func noStepsMeansStepsDenied() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0)
+        #expect(result.stepsDenied)
+        // Sans pas, on ne peut pas conclure sur la distance : un seul message à la fois.
+        #expect(!result.distanceDenied)
+    }
+
+    @Test func stepsWithoutDistanceMeansDistanceDenied() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 52_000, distanceKm: 0)
+        #expect(!result.stepsDenied)
+        #expect(result.distanceDenied)
+    }
+
+    @Test func stepsAndDistanceMeansNoIssue() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 52_000, distanceKm: 39.5)
+        #expect(!result.stepsDenied)
+        #expect(!result.distanceDenied)
+    }
+
+    @Test func pedometerWitnessConfirmsStepsDenied() {
+        // Santé ne renvoie rien alors que l'iPhone a compté des pas : refus certain.
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: 12_000)
+        #expect(result.stepsDenied)
+    }
+
+    @Test func pedometerWitnessAtZeroDoesNotConclude() {
+        // iPhone neuf ou pas de marche récente : pas de fausse alerte.
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: 0)
+        #expect(!result.stepsDenied)
+    }
+
+    @Test func missingWitnessFallsBackToZeroStepsInference() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: nil)
+        #expect(result.stepsDenied)
+    }
+}
+
+// MARK: - Masquage des bannières d'autorisation
+
+@Suite("PermissionBannerDismissals")
+struct PermissionBannerDismissalsTests {
+
+    @Test func notDismissedByDefault() {
+        let dismissals = PermissionBannerDismissals(dates: [:])
+        #expect(!dismissals.isDismissed(.healthSteps))
+    }
+
+    @Test func dismissedWithinSevenDays() {
+        let now = Date()
+        let dismissals = PermissionBannerDismissals(dates: [PermissionBanner.healthSteps.rawValue: now.addingTimeInterval(-3 * 86_400)])
+        #expect(dismissals.isDismissed(.healthSteps, now: now))
+        // Une autre bannière n'est pas affectée.
+        #expect(!dismissals.isDismissed(.motion, now: now))
+    }
+
+    @Test func reappearsAfterSevenDays() {
+        let now = Date()
+        let dismissals = PermissionBannerDismissals(dates: [PermissionBanner.healthSteps.rawValue: now.addingTimeInterval(-8 * 86_400)])
+        #expect(!dismissals.isDismissed(.healthSteps, now: now))
+    }
+
+    @Test func dismissPersistsAndReloads() {
+        let suite = "PermissionBannerDismissalsTests.\(UUID().uuidString)"
+        guard let defaults = UserDefaults(suiteName: suite) else {
+            Issue.record("Suite UserDefaults introuvable")
+            return
+        }
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let preferences = Preferences(defaults: defaults)
+
+        var dismissals = PermissionBannerDismissals(preferences: preferences)
+        #expect(!dismissals.isDismissed(.healthPermission))
+        dismissals.dismiss(.healthPermission, preferences: preferences)
+
+        let reloaded = PermissionBannerDismissals(preferences: preferences)
+        #expect(reloaded.isDismissed(.healthPermission))
+    }
+}

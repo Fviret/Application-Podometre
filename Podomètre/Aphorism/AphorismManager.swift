@@ -113,9 +113,9 @@ final class AphorismManager: ObservableObject {
             return
         }
 
-        if await notificationCenter.notificationSettings().authorizationStatus == .notDetermined {
-            try? await notificationCenter.requestAuthorization(options: [.alert, .sound])
-        }
+        // Ne demande jamais l'autorisation ici (appelé à chaque ouverture de l'app, hors contexte) :
+        // le rappel n'est programmé que si l'utilisateur a déjà accepté les notifications, via le
+        // démarrage d'un trajet ou les Paramètres.
         guard await notificationCenter.notificationSettings().authorizationStatus == .authorized else { return }
 
         var components = calendar.dateComponents([.year, .month, .day], from: tomorrow)

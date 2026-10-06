@@ -26,7 +26,11 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Active ou désactive les notifications de l'objectif journalier. Persisté dans UserDefaults.
-    @Published var notificationsEnabled: Bool = Preferences.shared.bool(.notificationsEnabled) {
+    /// Activé par défaut tant que l'utilisateur n'a jamais touché au réglage : l'autorisation système
+    /// n'est demandée qu'au premier objectif atteint (voir `sendGoalReachedNotification`).
+    @Published var notificationsEnabled: Bool = Preferences.shared.hasValue(.notificationsEnabled)
+        ? Preferences.shared.bool(.notificationsEnabled)
+        : true {
         didSet { Preferences.shared.set(notificationsEnabled, for: .notificationsEnabled) }
     }
 
@@ -81,8 +85,8 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Demande l'autorisation de notifications (alerte, son, badge).
-    func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
+    func requestNotificationPermission() async {
+        _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
     }
 
     /// `true` si une notification d'objectif a déjà été envoyée aujourd'hui (vérifie UserDefaults).
@@ -96,18 +100,53 @@ class StepCountViewModel: ObservableObject {
         }
     }
 
+    /// `true` pendant qu'une notification d'objectif est en cours de traitement (délai avant le
+    /// prompt, attente de la réponse) : évite d'en lancer plusieurs en parallèle.
+    private var isSendingGoalNotification = false
+
     /// Envoie une notification locale si l'objectif vient d'être franchi et n'a pas encore été notifié aujourd'hui.
     func checkAndNotifyGoalReached() {
         guard stepCount >= goal else { return }
-        guard !goalNotifiedToday else { return }
-        goalNotifiedToday = true
+        guard !goalNotifiedToday, !isSendingGoalNotification else { return }
         sendGoalReachedNotification()
     }
 
     /// Planifie immédiatement la notification "Objectif atteint".
+    ///
+    /// Si l'utilisateur n'a encore jamais été sollicité, c'est le bon moment pour demander
+    /// l'autorisation : il vient de voir la célébration, le bénéfice des alertes est concret.
+    /// Le prompt est retardé de 2 s pour ne pas masquer l'effet de célébration.
+    ///
+    /// Le jour n'est marqué « notifié » qu'une fois la décision prise (envoyée, refusée ou réglage
+    /// désactivé). Appelée en arrière-plan alors que l'autorisation n'a jamais été demandée, elle ne
+    /// fait rien — le prompt ne peut pas s'afficher — et sera retentée à la prochaine ouverture.
     private func sendGoalReachedNotification() {
-        guard notificationsEnabled else { return }
+        guard notificationsEnabled else {
+            goalNotifiedToday = true
+            return
+        }
 
+        isSendingGoalNotification = true
+        Task { @MainActor in
+            defer { isSendingGoalNotification = false }
+            let center = UNUserNotificationCenter.current()
+            var status = await center.notificationSettings().authorizationStatus
+            if status == .notDetermined {
+                guard UIApplication.shared.applicationState == .active else { return }
+                try? await Task.sleep(for: .seconds(2))
+                _ = try? await center.requestAuthorization(options: [.alert, .sound, .badge])
+                status = await center.notificationSettings().authorizationStatus
+            }
+            if status == .authorized {
+                scheduleGoalReachedNotification()
+            }
+            // Envoyée ou refusée : inutile de réessayer aujourd'hui.
+            goalNotifiedToday = true
+        }
+    }
+
+    /// Ajoute la notification locale « Objectif atteint » (autorisation déjà accordée).
+    private func scheduleGoalReachedNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Objectif atteint ! 🎉"
         content.body = "Tu as atteint \(goal.formatted()) pas aujourd'hui. Continue comme ça !"
@@ -320,11 +359,34 @@ class StepCountViewModel: ObservableObject {
     /// `true` si l'autorisation HealthKit a été accordée.
     @Published var isAuthorized: Bool = false
 
+    /// `true` tant que le prompt Santé n'a pas été présenté (aucun choix de l'utilisateur) :
+    /// l'écran Activité affiche alors une carte d'invitation plutôt qu'un anneau à 0 muet.
+    @Published var needsHealthAuthorization: Bool = false
+
+    /// `true` dès qu'une première lecture des pas du jour a abouti (même à 0). Avant cela, l'écran
+    /// Activité affiche des placeholders plutôt qu'un anneau et des sections à 0.
+    @Published var hasLoadedStepsOnce: Bool = false
+
+    /// `true` pendant le chargement initial des données Santé : l'interface affiche un squelette.
+    /// Faux quand il faut d'abord demander l'accès (la carte d'invitation prend le relais).
+    var isLoadingHealthData: Bool {
+        !hasLoadedStepsOnce && !needsHealthAuthorization
+    }
+
     /// `true` quand l'app ne reçoit aucune donnée de pas alors que le prompt HealthKit a déjà
     /// été présenté — signe d'un accès en lecture refusé. HealthKit ne révèle jamais directement
     /// un refus de lecture : on l'infère de l'absence totale de pas sur une large fenêtre.
     /// Pilote la bannière d'invitation à ouvrir les Réglages sur l'écran Activité.
     @Published var healthAccessDenied: Bool = false
+
+    /// `true` quand l'accès « Mouvement et forme physique » est refusé : les pas ne défilent plus en
+    /// direct (mise à jour seulement à l'ouverture de l'app) et le temps actif reste à 0.
+    @Published var motionAccessDenied: Bool = false
+
+    /// `true` quand des pas sont lisibles mais aucune distance de marche/course sur 30 jours :
+    /// la distance est probablement refusée dans Santé, et les trajets (qui en dépendent) restent
+    /// bloqués à 0 km. Pilote la bannière « Accès à la distance désactivé ».
+    @Published var healthDistanceDenied: Bool = false
 
     /// Décalage en jours depuis aujourd'hui (0 = aujourd'hui, 1 = hier, …).
     /// Chaque changement déclenche un fetch du jour et une synchro du mois affiché.
@@ -407,78 +469,200 @@ class StepCountViewModel: ObservableObject {
     private var mockLiveTimer: Timer?
     #endif
 
-    /// Détermine si l'accès en lecture aux pas semble refusé et met à jour `healthAccessDenied`.
+    /// Diagnostic pur de l'accès Santé à partir des totaux sur 30 jours (testable sans HealthKit).
+    ///
+    /// - `pedometerSteps` : pas des 7 derniers jours vus par Core Motion, **témoin** indépendant de
+    ///   Santé (`nil` si Mouvement n'est pas autorisé ou indisponible).
+    /// - `stepsDenied` : Santé ne renvoie aucun pas alors que l'iPhone en a bien comptés
+    ///   → refus certain. Si le témoin est lui aussi à 0, on ne conclut pas (iPhone neuf, pas de
+    ///   marche récente) : pas de fausse alerte. Sans témoin, repli sur l'ancienne inférence (0 pas).
+    /// - `distanceDenied` : des pas mais aucune distance → distance probablement refusée (l'iPhone
+    ///   enregistre la distance de marche en même temps que les pas).
+    nonisolated static func diagnoseHealthAccess(
+        steps: Double,
+        distanceKm: Double,
+        pedometerSteps: Double? = nil
+    ) -> (stepsDenied: Bool, distanceDenied: Bool) {
+        let stepsDenied: Bool
+        if let pedometerSteps {
+            stepsDenied = steps == 0 && pedometerSteps > 0
+        } else {
+            stepsDenied = steps == 0
+        }
+        return (stepsDenied: stepsDenied, distanceDenied: steps > 0 && distanceKm == 0)
+    }
+
+    /// Pas des `days` derniers jours selon Core Motion (7 jours maximum côté système).
+    /// Retourne `nil` — sans jamais déclencher le prompt Mouvement — si l'accès n'est pas accordé.
+    private func recentPedometerSteps(days: Int, completion: @escaping (Double?) -> Void) {
+        guard CMPedometer.isStepCountingAvailable(),
+              CMPedometer.authorizationStatus() == .authorized else {
+            completion(nil)
+            return
+        }
+        let end = Date()
+        let start = Calendar.current.date(byAdding: .day, value: -days, to: end) ?? end
+        pedometer.queryPedometerData(from: start, to: end) { data, error in
+            guard error == nil, let data else { completion(nil); return }
+            completion(data.numberOfSteps.doubleValue)
+        }
+    }
+
+    /// Met à jour `motionAccessDenied` depuis l'autorisation Core Motion (jamais de prompt).
+    /// Sur simulateur, toujours `false`.
+    func refreshMotionAccess() {
+        #if targetEnvironment(simulator)
+        motionAccessDenied = false
+        #else
+        let status = CMPedometer.authorizationStatus()
+        motionAccessDenied = status == .denied || status == .restricted
+        #endif
+    }
+
+    /// Détermine si l'accès en lecture aux pas ou à la distance semble refusé et met à jour
+    /// `healthAccessDenied` / `healthDistanceDenied`.
     ///
     /// HealthKit ne signale jamais un refus de lecture : `requestAuthorization` réussit même en cas
     /// de refus, et `authorizationStatus` ne concerne que l'écriture. On croise donc deux signaux :
     /// le prompt a déjà été présenté (`getRequestStatusForAuthorization == .unnecessary`) **et**
-    /// aucun pas n'existe sur les 30 derniers jours. Sur simulateur, toujours `false` (données mock).
+    /// les totaux des 30 derniers jours (voir `diagnoseHealthAccess`). Sur simulateur, toujours
+    /// `false` (données mock).
     func checkHealthAccess() {
+        refreshMotionAccess()
         #if targetEnvironment(simulator)
         healthAccessDenied = false
+        healthDistanceDenied = false
         #else
         guard HKHealthStore.isHealthDataAvailable(),
               let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
               let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
               let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
-        else { healthAccessDenied = false; return }
+        else { healthAccessDenied = false; healthDistanceDenied = false; return }
 
         healthStore.getRequestStatusForAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] status, _ in
             // `.shouldRequest` : le prompt n'a pas encore été montré → ce n'est pas un refus.
             guard status == .unnecessary else {
-                Task { @MainActor in self?.healthAccessDenied = false }
+                Task { @MainActor in
+                    self?.healthAccessDenied = false
+                    self?.healthDistanceDenied = false
+                }
                 return
             }
             let end = Date()
             let start = Calendar.current.date(byAdding: .day, value: -30, to: end) ?? end
             let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
-            let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
+            let stepsQuery = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, _ in
                 let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
-                Task { @MainActor in
-                    // Aucun pas sur 30 jours alors que le prompt a été montré : accès très probablement refusé.
-                    self?.healthAccessDenied = steps == 0
+                let distanceQuery = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, distanceResult, _ in
+                    let km = distanceResult?.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) ?? 0
+                    self?.recentPedometerSteps(days: 7) { pedometerSteps in
+                        let diagnosis = StepCountViewModel.diagnoseHealthAccess(steps: steps, distanceKm: km, pedometerSteps: pedometerSteps)
+                        Task { @MainActor in
+                            self?.healthAccessDenied = diagnosis.stepsDenied
+                            self?.healthDistanceDenied = diagnosis.distanceDenied
+                        }
+                    }
                 }
+                self?.healthStore.execute(distanceQuery)
             }
-            self?.healthStore.execute(query)
+            self?.healthStore.execute(stepsQuery)
         }
         #endif
     }
 
-    /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
+    /// Types HealthKit lus par l'app : pas, distance de marche/course, calories actives.
+    private var healthReadTypes: Set<HKObjectType>? {
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
+        else { return nil }
+        return [stepType, distanceType, energyType]
+    }
+
+    /// Lance les lectures initiales si l'accès Santé a déjà été décidé ; sinon signale seulement
+    /// `needsHealthAuthorization` — **ne présente jamais le prompt** (c'est `requestHealthAuthorization()`,
+    /// appelée à un moment explicite : onboarding ou carte d'invitation).
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
         #if targetEnvironment(simulator)
         loadMockData()
         #else
-        guard HKHealthStore.isHealthDataAvailable() else { return }
-        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
-              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
-              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
-        else { return }
-
-        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] success, _ in
-            guard success else { return }
+        // Filet de sécurité : ne jamais laisser les placeholders affichés indéfiniment
+        // (HealthKit indisponible, requête qui n'aboutit pas).
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(8))
+            self?.hasLoadedStepsOnce = true
+        }
+        guard HKHealthStore.isHealthDataAvailable(), let types = healthReadTypes else { return }
+        healthStore.getRequestStatusForAuthorization(toShare: [], read: types) { [weak self] status, _ in
             Task { @MainActor in
-                self?.isAuthorized = true
-                self?.requestNotificationPermission()
-                self?.enableBackgroundDelivery()
-                self?.setupStepObserverQuery()
-                self?.fetchSteps(for: self?.selectedDate ?? Date())
-                self?.fetchMonthSteps()
-                self?.fetchWeeklyComparison()
-                self?.fetchMilestoneCounts()
-                self?.fetchMetrics(for: self?.selectedDate ?? Date())
-                self?.computeStreak()
-                self?.checkHealthAccess()
+                guard let self else { return }
+                if status == .shouldRequest {
+                    self.needsHealthAuthorization = true
+                } else {
+                    self.needsHealthAuthorization = false
+                    self.startHealthPipeline()
+                }
             }
         }
         #endif
+    }
+
+    /// Présente le prompt Santé (lecture des pas, distance, calories) et rend la main une fois
+    /// l'utilisateur ayant répondu. Avec `startFetching` (défaut), lance ensuite les lectures :
+    /// les données s'affichent sans rafraîchissement manuel. L'onboarding passe `false` : les
+    /// lectures (et le prompt Mouvement qu'elles déclenchent) démarrent à l'arrivée sur l'écran
+    /// Activité. Sur simulateur, injecte les données fictives.
+    @MainActor
+    func requestHealthAuthorization(startFetching: Bool = true) async {
+        #if targetEnvironment(simulator)
+        if startFetching { loadMockData() }
+        #else
+        guard HKHealthStore.isHealthDataAvailable(), let types = healthReadTypes else { return }
+        do {
+            try await healthStore.requestAuthorization(toShare: [], read: types)
+        } catch {
+            return
+        }
+        needsHealthAuthorization = false
+        if startFetching { startHealthPipeline() }
+        #endif
+    }
+
+    /// Enchaîne toutes les lectures HealthKit initiales et démarre l'observeur (le suivi live est
+    /// démarré par l'écran Activité), puis retente deux fois les lectures si HealthKit répond « vide » juste après l'autorisation
+    /// (les échantillons peuvent mettre un instant à devenir lisibles).
+    private func startHealthPipeline() {
+        isAuthorized = true
+        enableBackgroundDelivery()
+        setupStepObserverQuery()
+        refreshAllHealthData()
+
+        Task { @MainActor [weak self] in
+            for delay in [2.0, 5.0] {
+                try? await Task.sleep(for: .seconds(delay))
+                guard let self, self.selectedDayOffset == 0, self.stepCount == 0 else { return }
+                self.refreshAllHealthData()
+            }
+        }
+    }
+
+    /// Relit toutes les données dépendant de HealthKit pour le jour affiché.
+    private func refreshAllHealthData() {
+        fetchSteps(for: selectedDate)
+        fetchMonthSteps()
+        fetchWeeklyComparison()
+        fetchMilestoneCounts()
+        fetchMetrics(for: selectedDate)
+        computeStreak()
+        checkHealthAccess()
     }
 
     /// Injecte des données fictives réalistes pour tester l'interface sur simulateur.
     /// Couvre : pas du jour, calendrier mensuel complet, comparaison hebdomadaire.
     private func loadMockData() {
         isAuthorized = true
+        hasLoadedStepsOnce = true
         fetchMilestoneCounts()
         computeStreak()
 
@@ -647,6 +831,7 @@ class StepCountViewModel: ObservableObject {
                 // L'animation est déclarée dans StepRingView (avec sa garde reduceMotion) :
                 // le ViewModel ne fait qu'assigner la donnée.
                 self.stepCount = Int(steps)
+                self.hasLoadedStepsOnce = true
             }
         }
 
@@ -701,6 +886,7 @@ class StepCountViewModel: ObservableObject {
                 // ni notifier l'objectif sur la base d'une autre journée.
                 guard self.selectedDayOffset == 0 else { completion(); return }
                 self.stepCount = steps
+                self.hasLoadedStepsOnce = true
                 self.checkAndNotifyGoalReached()
                 self.computeStreak()
                 completion()
@@ -915,7 +1101,11 @@ class StepCountViewModel: ObservableObject {
         guard CMPedometer.isStepCountingAvailable() else { isLiveUpdating = false; return }
         let startOfDay = Calendar.current.startOfDay(for: Date())
         pedometer.startUpdates(from: startOfDay) { [weak self] data, error in
-            guard let data, error == nil else { return }
+            guard let data, error == nil else {
+                // Erreur d'autorisation Core Motion (refus) : met à jour la bannière.
+                Task { @MainActor in self?.refreshMotionAccess() }
+                return
+            }
             let steps = data.numberOfSteps.intValue
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }
@@ -954,6 +1144,7 @@ extension StepCountViewModel {
     /// pour visualiser la série 🔥 et l'anneau plein dans le canvas Xcode.
     static var previewGoalReached: StepCountViewModel {
         let vm = StepCountViewModel()
+        vm.hasLoadedStepsOnce = true
         vm.goal = 10_000
         vm.previewStepsOverride = 12_634
         vm.stepCount = 12_634

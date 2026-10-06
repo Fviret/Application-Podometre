@@ -72,6 +72,7 @@ Podomètre/
 ├── ContentView.swift                   # TabView racine, injection des services
 ├── AppColors.swift                     # ringColorOptions, couleurs présets
 ├── PrivacyInfo.xcprivacy               # Manifeste de confidentialité (App Store)
+├── SystemSettings.swift                # Ouvre les Réglages iOS de l'app (bannières d'autorisation refusée)
 ├── Localizable.xcstrings               # String Catalog — langue source française, extraction automatique par le compilateur
 ├── Ring/                               # Écran Activité (anneau, jour, météo, métriques)
 │   ├── StepCountViewModel.swift        # Pas, objectif, streak, badges, métriques du jour
@@ -83,7 +84,13 @@ Podomètre/
 │   ├── HistoryStats.swift              # Modèle + calcul des statistiques d'historique (tendance, records)
 │   ├── HistoryDetailView.swift         # Écran d'historique : tendance multi-semaines, totaux mensuels, records
 │   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
-│   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
+│   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo) ; ne demande jamais l'accès tout seul
+│   ├── HealthPermissionCardView.swift  # Carte « Autorisez l'accès à Santé » tant que le prompt n'a pas été présenté
+│   ├── LocationPermissionCardView.swift# Carte « Météo près de chez vous » tant que le prompt localisation n'a pas été présenté
+│   ├── LocationDeniedCardView.swift    # Carte météo quand la localisation est refusée (Réglages / masquer la section)
+│   ├── DismissButton.swift             # Croix « Masquer » des bannières d'autorisation
+│   ├── PermissionBannerDismissals.swift# Mémorise les bannières d'autorisation masquées (réapparaissent après 7 jours)
+│   ├── LoadingPlaceholder.swift        # Modifier `.loadingPlaceholder(isLoading:)` : squelette pulsant tant que les données Santé n'ont pas répondu
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
@@ -213,7 +220,7 @@ Hors cible applicative, à la racine du dépôt :
 |---|---|---|
 | `dailyStepGoal` | `Int` | Objectif quotidien en pas |
 | `ringColorId` | `String` | ID de la couleur de l'anneau |
-| `notificationsEnabled` | `Bool` | Toggle notification objectif |
+| `notificationsEnabled` | `Bool` | Toggle notification objectif (activé par défaut tant que l'utilisateur n'a pas touché au réglage ; l'autorisation système n'est demandée qu'au premier objectif atteint) |
 | `goalNotifiedDate` | `Date` | Garde pour max 1 notif/jour |
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
@@ -228,6 +235,7 @@ Hors cible applicative, à la racine du dépôt :
 | `mainScreenSectionOrder` | `Data` (JSON) | `[MainScreenSection]` encodé — ordre d'affichage des sections sous l'anneau (réorganisable dans Paramètres, glisser-déposer) |
 | `weatherCache` | `Data` (JSON) | `WeatherCache` encodé — dernière position + prévisions récupérées ; évite un appel météo si la position n'a pas changé depuis le dernier lancement |
 | `lastWeeklyRecapShownWeekStart` | `Date` | Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a déjà été affiché (garde 1×/semaine) |
+| `dismissedPermissionBanners` | `Data` (JSON) | `[String: Date]` — date de masquage de chaque bannière d'autorisation de l'écran Activité (`PermissionBanner`) ; une bannière masquée réapparaît après 7 jours |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -510,3 +518,42 @@ Types HK lus : `stepCount`, `distanceWalkingRunning`
 **Pas en temps réel** : au premier plan et pour aujourd'hui, `StepCountViewModel` affiche les pas via `CMPedometer` (Core Motion, mise à jour ~1×/s en marchant). HealthKit reste la source de vérité (historique, streak, arrière-plan). Voir `startLiveStepUpdates()` / `stopLiveStepUpdates()`.
 
 Capacité HealthKit activée dans les entitlements du projet.
+
+### Moment de chaque demande d'autorisation
+
+Règle : **jamais de prompt système hors contexte, jamais à la création d'une vue ou d'un service.** Chaque demande est déclenchée par une action explicite de l'utilisateur, juste après que l'écran en a expliqué l'usage.
+
+| Permission | Quand | Où |
+|---|---|---|
+| Santé | Slide 3 de l'onboarding, au tap sur « Suivant » (ou carte « Autoriser l'accès » sur l'écran Activité si reporté) | `StepCountViewModel.requestHealthAuthorization(startFetching:)` |
+| Localisation | Juste après Santé sur la même slide, si la météo est activée (ou carte dans la section météo si reportée) | `LocationManager.requestAuthorizationIfNeeded()` |
+| Mouvement (Core Motion) | Au premier démarrage des lectures, à l'arrivée sur l'écran Activité (déclenché par `CMPedometer`/`CMMotionActivityManager`) | — |
+| Notifications | Au démarrage d'un trajet, à la bascule dans les Paramètres, ou **au premier objectif du jour atteint** (prompt retardé de 2 s après la célébration). **Jamais** après Santé ni pour le rappel de la pensée du jour (qui ne programme que si c'est déjà accordé) | `JourneyProgressService.startJourney`, `SettingsView`, `StepCountViewModel.sendGoalReachedNotification` |
+
+- `StepCountViewModel.requestAuthorizationAndFetch()` **ne présente jamais le prompt** : si le choix n'a pas été fait, elle publie `needsHealthAuthorization` ; sinon elle lance les lectures.
+- Une fois l'accès Santé décidé, `startHealthPipeline()` lit tout et retente 2 fois (à 2 s et 5 s) si HealthKit répond « vide » juste après l'autorisation.
+- La notification d'objectif ne marque le jour « notifié » qu'une fois la décision prise (envoyée, refusée ou réglage coupé) ; le prompt n'est jamais présenté en arrière-plan (la demande est retentée à la prochaine ouverture) et un seul traitement tourne à la fois.
+- `LocationManager.requestAuthorizationIfNeeded()` ne bloque jamais l'appelant : retour immédiat si les services de localisation sont désactivés dans iOS, sinon libération après 45 s sans réponse.
+- L'onboarding passe `startFetching: false` : les lectures (et le prompt Mouvement) démarrent à l'arrivée sur l'écran Activité, pas sous la slide 4.
+- En UI tests (`UI_TESTING`), l'onboarding saute les prompts système.
+
+### Démarrage et chargement
+
+- **Écran de lancement** : `UILaunchScreen` dans `Podome-tre-Info.plist` (couleur `LaunchBackground`, logo `LaunchLogo` dérivé de l'icône, variantes claire/sombre) — plus de fond blanc vide. iOS met l'écran de lancement en cache : désinstaller l'app pour voir un changement.
+- **Chargement** : tant que la première lecture des pas n'a pas abouti (`StepCountViewModel.isLoadingHealthData`), l'anneau, les métriques, le calendrier et le graphe affichent un squelette pulsant (`.loadingPlaceholder`) au lieu d'un « 0 » trompeur. Filet de sécurité à 8 s. Jamais de squelette quand il faut d'abord demander l'accès Santé (la carte d'invitation prend le relais).
+
+### Quand une autorisation est refusée
+
+| Cas | Signal | Interface |
+|---|---|---|
+| Pas Santé refusés | Prompt présenté **et** 0 pas sur 30 jours **et** le podomètre (Core Motion, 7 jours) en a compté (`healthAccessDenied`) ; sans témoin Mouvement, repli sur « 0 pas » | Bannière « Accès à vos pas désactivé » (Activité) |
+| Distance Santé refusée | Des pas mais 0 km sur 30 jours (`healthDistanceDenied`) | Bannière « Accès à la distance désactivé » (Activité et Trajets) — sans distance, les trajets restent à 0 km |
+| Mouvement refusé | `CMPedometer.authorizationStatus()` = `.denied`/`.restricted` (`motionAccessDenied`) | Bannière « Pas en direct désactivés » (Activité) — pas non live, temps actif à 0 |
+| Localisation refusée | `LocationManager.authorizationStatus` = `.denied`/`.restricted` | Carte `LocationDeniedCardView` dans la section météo (Réglages ou « Masquer la météo ») |
+| Notifications refusées | `UNUserNotificationCenter` = `.denied`, relu à l'ouverture des Paramètres et au retour au premier plan | Interrupteurs grisés + bouton « Ouvrir les Réglages » (Paramètres) |
+
+Sur l'écran Activité, ces bannières et cartes d'invitation (hors carte « Localisation désactivée », qui a déjà « Masquer la météo ») ont une croix : le masquage est mémorisé (`PermissionBannerDismissals`) et la bannière réapparaît après 7 jours. Sur l'écran Trajets, la bannière distance n'est pas masquable (les trajets sont bloqués sans distance).
+
+HealthKit ne distingue pas un refus de lecture d'une absence de données : le diagnostic (`StepCountViewModel.diagnoseHealthAccess`, testé) est une inférence. Sur simulateur, aucun de ces états ne s'affiche (données mock).
+
+

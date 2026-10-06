@@ -16,6 +16,8 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
 struct Podome_treApp: App {
     private let notificationDelegate = NotificationDelegate()
     @StateObject private var viewModel = StepCountViewModel()
+    /// Partagé entre l'onboarding (prompt de localisation) et l'écran Activité (météo).
+    @StateObject private var locationManager = LocationManager()
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
 
     init() {
@@ -26,8 +28,10 @@ struct Podome_treApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: viewModel)
+                .environmentObject(locationManager)
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
                     OnboardingView(viewModel: viewModel)
+                        .environmentObject(locationManager)
                 }
         }
     }
