@@ -4,7 +4,9 @@ import CoreLocation
 struct StepRingView: View {
     @ObservedObject var viewModel: StepCountViewModel
 
-    @StateObject private var locationManager = LocationManager()
+    /// Injecté depuis `Podome_treApp` : le prompt de localisation est piloté à un moment explicite
+    /// (onboarding ou carte météo), jamais à la création de cet écran.
+    @EnvironmentObject private var locationManager: LocationManager
     @State private var walkingForecast: WalkingForecast?
     @State private var dailyForecasts: [DailyForecast] = []
     /// Toutes les heures des 7 jours de prévision — alimente le détail météo par jour.
@@ -61,6 +63,13 @@ struct StepRingView: View {
 
             VStack(spacing: 0) {
                 WeatherBannerView(forecast: walkingForecast)
+
+                // Prompt Santé pas encore présenté (onboarding passé avec « Plus tard ») : invitation claire.
+                if viewModel.needsHealthAuthorization {
+                    HealthPermissionCardView(color: viewModel.ringColor) {
+                        Task { await viewModel.requestHealthAuthorization() }
+                    }
+                }
 
                 // Accès aux pas refusé : bannière non bloquante vers les Réglages.
                 if viewModel.healthAccessDenied {
@@ -293,11 +302,18 @@ struct StepRingView: View {
         .onChange(of: hasCompletedOnboarding) { _, completed in
             guard completed else { return }
             viewModel.requestAuthorizationAndFetch()
+            viewModel.startLiveStepUpdates()
             if showWeatherForecast {
                 #if !targetEnvironment(simulator)
                 locationManager.requestLocation()
                 #endif
             }
+        }
+        .onChange(of: viewModel.isAuthorized) { _, authorized in
+            // Accès Santé accordé (onboarding, carte d'invitation ou Réglages) : démarre le live
+            // sans attendre un changement de phase de l'app.
+            guard authorized, hasCompletedOnboarding else { return }
+            viewModel.startLiveStepUpdates()
         }
         .onChange(of: viewModel.progress) { oldValue, newValue in
             // Célébration (haptique + effet visuel) au franchissement de l'objectif du jour (100 %).
@@ -335,7 +351,14 @@ struct StepRingView: View {
             TodayMetricsView(viewModel: viewModel)
                 .padding(.horizontal, 24)
         case .weather:
-            WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+            VStack(spacing: 12) {
+                if needsLocationPrompt {
+                    LocationPermissionCardView(color: viewModel.ringColor) {
+                        Task { await locationManager.requestAuthorizationIfNeeded() }
+                    }
+                }
+                WeeklyForecastBannerView(forecasts: dailyForecasts, walkingForecast: walkingForecast, allHourly: allHourly, locationLabel: locationLabel)
+            }
         case .monthCalendar:
             MonthCalendarView(viewModel: viewModel)
                 .padding(.horizontal, 24)
@@ -343,6 +366,16 @@ struct StepRingView: View {
             WeeklyBarChartView(viewModel: viewModel)
                 .padding(.horizontal, 24)
         }
+    }
+
+    /// `true` tant que l'utilisateur n'a pas répondu au prompt de localisation : la section météo
+    /// affiche alors une carte d'invitation. Jamais sur simulateur (météo fictive).
+    private var needsLocationPrompt: Bool {
+        #if targetEnvironment(simulator)
+        false
+        #else
+        locationManager.authorizationStatus == .notDetermined
+        #endif
     }
 
     /// Retour haptique de célébration au franchissement de l'objectif : enchaîne trois impacts
@@ -387,8 +420,10 @@ struct StepRingView: View {
 
 #Preview("Objectif non atteint") {
     StepRingView(viewModel: StepCountViewModel())
+        .environmentObject(LocationManager())
 }
 
 #Preview("Objectif atteint (série 🔥)") {
     StepRingView(viewModel: .previewGoalReached)
+        .environmentObject(LocationManager())
 }

@@ -320,6 +320,10 @@ class StepCountViewModel: ObservableObject {
     /// `true` si l'autorisation HealthKit a été accordée.
     @Published var isAuthorized: Bool = false
 
+    /// `true` tant que le prompt Santé n'a pas été présenté (aucun choix de l'utilisateur) :
+    /// l'écran Activité affiche alors une carte d'invitation plutôt qu'un anneau à 0 muet.
+    @Published var needsHealthAuthorization: Bool = false
+
     /// `true` quand l'app ne reçoit aucune donnée de pas alors que le prompt HealthKit a déjà
     /// été présenté — signe d'un accès en lecture refusé. HealthKit ne révèle jamais directement
     /// un refus de lecture : on l'infère de l'absence totale de pas sur une large fenêtre.
@@ -444,35 +448,86 @@ class StepCountViewModel: ObservableObject {
         #endif
     }
 
-    /// Demande l'autorisation HealthKit en lecture pour les pas, puis lance les fetches initiaux et l'observeur live.
+    /// Types HealthKit lus par l'app : pas, distance de marche/course, calories actives.
+    private var healthReadTypes: Set<HKObjectType>? {
+        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
+              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
+              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
+        else { return nil }
+        return [stepType, distanceType, energyType]
+    }
+
+    /// Lance les lectures initiales si l'accès Santé a déjà été décidé ; sinon signale seulement
+    /// `needsHealthAuthorization` — **ne présente jamais le prompt** (c'est `requestHealthAuthorization()`,
+    /// appelée à un moment explicite : onboarding ou carte d'invitation).
     /// Sur simulateur, injecte des données fictives sans passer par HealthKit.
     func requestAuthorizationAndFetch() {
         #if targetEnvironment(simulator)
         loadMockData()
         #else
-        guard HKHealthStore.isHealthDataAvailable() else { return }
-        guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount),
-              let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning),
-              let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)
-        else { return }
-
-        healthStore.requestAuthorization(toShare: [], read: [stepType, distanceType, energyType]) { [weak self] success, _ in
-            guard success else { return }
+        guard HKHealthStore.isHealthDataAvailable(), let types = healthReadTypes else { return }
+        healthStore.getRequestStatusForAuthorization(toShare: [], read: types) { [weak self] status, _ in
             Task { @MainActor in
-                self?.isAuthorized = true
-                self?.requestNotificationPermission()
-                self?.enableBackgroundDelivery()
-                self?.setupStepObserverQuery()
-                self?.fetchSteps(for: self?.selectedDate ?? Date())
-                self?.fetchMonthSteps()
-                self?.fetchWeeklyComparison()
-                self?.fetchMilestoneCounts()
-                self?.fetchMetrics(for: self?.selectedDate ?? Date())
-                self?.computeStreak()
-                self?.checkHealthAccess()
+                guard let self else { return }
+                if status == .shouldRequest {
+                    self.needsHealthAuthorization = true
+                } else {
+                    self.needsHealthAuthorization = false
+                    self.startHealthPipeline()
+                }
             }
         }
         #endif
+    }
+
+    /// Présente le prompt Santé (lecture des pas, distance, calories) et rend la main une fois
+    /// l'utilisateur ayant répondu. Avec `startFetching` (défaut), lance ensuite les lectures :
+    /// les données s'affichent sans rafraîchissement manuel. L'onboarding passe `false` : les
+    /// lectures (et le prompt Mouvement qu'elles déclenchent) démarrent à l'arrivée sur l'écran
+    /// Activité. Sur simulateur, injecte les données fictives.
+    @MainActor
+    func requestHealthAuthorization(startFetching: Bool = true) async {
+        #if targetEnvironment(simulator)
+        if startFetching { loadMockData() }
+        #else
+        guard HKHealthStore.isHealthDataAvailable(), let types = healthReadTypes else { return }
+        do {
+            try await healthStore.requestAuthorization(toShare: [], read: types)
+        } catch {
+            return
+        }
+        needsHealthAuthorization = false
+        if startFetching { startHealthPipeline() }
+        #endif
+    }
+
+    /// Enchaîne toutes les lectures HealthKit initiales et démarre l'observeur (le suivi live est
+    /// démarré par l'écran Activité), puis retente deux fois les lectures si HealthKit répond « vide » juste après l'autorisation
+    /// (les échantillons peuvent mettre un instant à devenir lisibles).
+    private func startHealthPipeline() {
+        isAuthorized = true
+        enableBackgroundDelivery()
+        setupStepObserverQuery()
+        refreshAllHealthData()
+
+        Task { @MainActor [weak self] in
+            for delay in [2.0, 5.0] {
+                try? await Task.sleep(for: .seconds(delay))
+                guard let self, self.selectedDayOffset == 0, self.stepCount == 0 else { return }
+                self.refreshAllHealthData()
+            }
+        }
+    }
+
+    /// Relit toutes les données dépendant de HealthKit pour le jour affiché.
+    private func refreshAllHealthData() {
+        fetchSteps(for: selectedDate)
+        fetchMonthSteps()
+        fetchWeeklyComparison()
+        fetchMilestoneCounts()
+        fetchMetrics(for: selectedDate)
+        computeStreak()
+        checkHealthAccess()
     }
 
     /// Injecte des données fictives réalistes pour tester l'interface sur simulateur.

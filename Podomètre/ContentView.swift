@@ -141,4 +141,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView(viewModel: StepCountViewModel())
+        .environmentObject(LocationManager())
 }
