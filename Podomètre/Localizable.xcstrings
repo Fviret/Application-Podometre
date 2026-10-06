@@ -6651,6 +6651,16 @@
         }
       }
     },
+    "Chargement de vos pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading your steps"
+          }
+        }
+      }
+    },
     "À propos": {
       "localizations": {
         "en": {
