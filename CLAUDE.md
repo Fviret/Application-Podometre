@@ -524,7 +524,7 @@ Règle : **jamais de prompt système hors contexte, jamais à la création d'une
 | Santé | Slide 3 de l'onboarding, au tap sur « Suivant » (ou carte « Autoriser l'accès » sur l'écran Activité si reporté) | `StepCountViewModel.requestHealthAuthorization(startFetching:)` |
 | Localisation | Juste après Santé sur la même slide, si la météo est activée (ou carte dans la section météo si reportée) | `LocationManager.requestAuthorizationIfNeeded()` |
 | Mouvement (Core Motion) | Au premier démarrage des lectures, à l'arrivée sur l'écran Activité (déclenché par `CMPedometer`/`CMMotionActivityManager`) | — |
-| Notifications | Au démarrage d'un trajet, ou à la bascule dans les Paramètres. **Jamais** automatiquement (ni après Santé, ni pour le rappel de la pensée du jour, qui ne programme que si c'est déjà accordé) | `JourneyProgressService.startJourney`, `SettingsView` |
+| Notifications | Au démarrage d'un trajet, à la bascule dans les Paramètres, ou **au premier objectif du jour atteint** (prompt retardé de 2 s après la célébration). **Jamais** après Santé ni pour le rappel de la pensée du jour (qui ne programme que si c'est déjà accordé) | `JourneyProgressService.startJourney`, `SettingsView`, `StepCountViewModel.sendGoalReachedNotification` |
 
 - `StepCountViewModel.requestAuthorizationAndFetch()` **ne présente jamais le prompt** : si le choix n'a pas été fait, elle publie `needsHealthAuthorization` ; sinon elle lance les lectures.
 - Une fois l'accès Santé décidé, `startHealthPipeline()` lit tout et retente 2 fois (à 2 s et 5 s) si HealthKit répond « vide » juste après l'autorisation.
@@ -535,8 +535,9 @@ Règle : **jamais de prompt système hors contexte, jamais à la création d'une
 
 | Cas | Signal | Interface |
 |---|---|---|
-| Pas Santé refusés | Prompt présenté **et** 0 pas sur 30 jours (`healthAccessDenied`) | Bannière « Accès à vos pas désactivé » (Activité) |
+| Pas Santé refusés | Prompt présenté **et** 0 pas sur 30 jours **et** le podomètre (Core Motion, 7 jours) en a compté (`healthAccessDenied`) ; sans témoin Mouvement, repli sur « 0 pas » | Bannière « Accès à vos pas désactivé » (Activité) |
 | Distance Santé refusée | Des pas mais 0 km sur 30 jours (`healthDistanceDenied`) | Bannière « Accès à la distance désactivé » (Activité et Trajets) — sans distance, les trajets restent à 0 km |
+| Mouvement refusé | `CMPedometer.authorizationStatus()` = `.denied`/`.restricted` (`motionAccessDenied`) | Bannière « Pas en direct désactivés » (Activité) — pas non live, temps actif à 0 |
 | Localisation refusée | `LocationManager.authorizationStatus` = `.denied`/`.restricted` | Carte `LocationDeniedCardView` dans la section météo (Réglages ou « Masquer la météo ») |
 | Notifications refusées | `UNUserNotificationCenter` = `.denied`, relu à l'ouverture des Paramètres et au retour au premier plan | Interrupteurs grisés + bouton « Ouvrir les Réglages » (Paramètres) |
 
