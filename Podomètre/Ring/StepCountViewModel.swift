@@ -26,7 +26,11 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Active ou désactive les notifications de l'objectif journalier. Persisté dans UserDefaults.
-    @Published var notificationsEnabled: Bool = Preferences.shared.bool(.notificationsEnabled) {
+    /// Activé par défaut tant que l'utilisateur n'a jamais touché au réglage : l'autorisation système
+    /// n'est demandée qu'au premier objectif atteint (voir `sendGoalReachedNotification`).
+    @Published var notificationsEnabled: Bool = Preferences.shared.hasValue(.notificationsEnabled)
+        ? Preferences.shared.bool(.notificationsEnabled)
+        : true {
         didSet { Preferences.shared.set(notificationsEnabled, for: .notificationsEnabled) }
     }
 
@@ -96,11 +100,14 @@ class StepCountViewModel: ObservableObject {
         }
     }
 
+    /// `true` pendant qu'une notification d'objectif est en cours de traitement (délai avant le
+    /// prompt, attente de la réponse) : évite d'en lancer plusieurs en parallèle.
+    private var isSendingGoalNotification = false
+
     /// Envoie une notification locale si l'objectif vient d'être franchi et n'a pas encore été notifié aujourd'hui.
     func checkAndNotifyGoalReached() {
         guard stepCount >= goal else { return }
-        guard !goalNotifiedToday else { return }
-        goalNotifiedToday = true
+        guard !goalNotifiedToday, !isSendingGoalNotification else { return }
         sendGoalReachedNotification()
     }
 
@@ -109,17 +116,32 @@ class StepCountViewModel: ObservableObject {
     /// Si l'utilisateur n'a encore jamais été sollicité, c'est le bon moment pour demander
     /// l'autorisation : il vient de voir la célébration, le bénéfice des alertes est concret.
     /// Le prompt est retardé de 2 s pour ne pas masquer l'effet de célébration.
+    ///
+    /// Le jour n'est marqué « notifié » qu'une fois la décision prise (envoyée, refusée ou réglage
+    /// désactivé). Appelée en arrière-plan alors que l'autorisation n'a jamais été demandée, elle ne
+    /// fait rien — le prompt ne peut pas s'afficher — et sera retentée à la prochaine ouverture.
     private func sendGoalReachedNotification() {
-        guard notificationsEnabled else { return }
+        guard notificationsEnabled else {
+            goalNotifiedToday = true
+            return
+        }
 
+        isSendingGoalNotification = true
         Task { @MainActor in
+            defer { isSendingGoalNotification = false }
             let center = UNUserNotificationCenter.current()
-            if await center.notificationSettings().authorizationStatus == .notDetermined {
+            var status = await center.notificationSettings().authorizationStatus
+            if status == .notDetermined {
+                guard UIApplication.shared.applicationState == .active else { return }
                 try? await Task.sleep(for: .seconds(2))
                 _ = try? await center.requestAuthorization(options: [.alert, .sound, .badge])
+                status = await center.notificationSettings().authorizationStatus
             }
-            guard await center.notificationSettings().authorizationStatus == .authorized else { return }
-            self.scheduleGoalReachedNotification()
+            if status == .authorized {
+                scheduleGoalReachedNotification()
+            }
+            // Envoyée ou refusée : inutile de réessayer aujourd'hui.
+            goalNotifiedToday = true
         }
     }
 

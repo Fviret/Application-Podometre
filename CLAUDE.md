@@ -220,7 +220,7 @@ Hors cible applicative, à la racine du dépôt :
 |---|---|---|
 | `dailyStepGoal` | `Int` | Objectif quotidien en pas |
 | `ringColorId` | `String` | ID de la couleur de l'anneau |
-| `notificationsEnabled` | `Bool` | Toggle notification objectif |
+| `notificationsEnabled` | `Bool` | Toggle notification objectif (activé par défaut tant que l'utilisateur n'a pas touché au réglage ; l'autorisation système n'est demandée qu'au premier objectif atteint) |
 | `goalNotifiedDate` | `Date` | Garde pour max 1 notif/jour |
 | `isDarkMode` | `Bool` | Toggle mode sombre |
 | `completedJourneyIds` | `[String]` | UUIDs des trajets terminés |
@@ -532,6 +532,8 @@ Règle : **jamais de prompt système hors contexte, jamais à la création d'une
 
 - `StepCountViewModel.requestAuthorizationAndFetch()` **ne présente jamais le prompt** : si le choix n'a pas été fait, elle publie `needsHealthAuthorization` ; sinon elle lance les lectures.
 - Une fois l'accès Santé décidé, `startHealthPipeline()` lit tout et retente 2 fois (à 2 s et 5 s) si HealthKit répond « vide » juste après l'autorisation.
+- La notification d'objectif ne marque le jour « notifié » qu'une fois la décision prise (envoyée, refusée ou réglage coupé) ; le prompt n'est jamais présenté en arrière-plan (la demande est retentée à la prochaine ouverture) et un seul traitement tourne à la fois.
+- `LocationManager.requestAuthorizationIfNeeded()` ne bloque jamais l'appelant : retour immédiat si les services de localisation sont désactivés dans iOS, sinon libération après 45 s sans réponse.
 - L'onboarding passe `startFetching: false` : les lectures (et le prompt Mouvement) démarrent à l'arrivée sur l'écran Activité, pas sous la slide 4.
 - En UI tests (`UI_TESTING`), l'onboarding saute les prompts système.
 
