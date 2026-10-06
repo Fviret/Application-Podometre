@@ -13,11 +13,21 @@ struct HealthAccessBannerView: View {
         case steps
         /// Pas lisibles mais aucune distance : les trajets ne progressent pas.
         case distance
+        /// « Mouvement et forme physique » refusé : pas non live, temps actif à 0.
+        case motion
+
+        var icon: String {
+            switch self {
+            case .motion: "figure.walk"
+            default: "heart.slash.fill"
+            }
+        }
 
         var title: LocalizedStringKey {
             switch self {
             case .steps: "Accès à vos pas désactivé"
             case .distance: "Accès à la distance désactivé"
+            case .motion: "Pas en direct désactivés"
             }
         }
 
@@ -25,6 +35,7 @@ struct HealthAccessBannerView: View {
             switch self {
             case .steps: "Autorisez Podomètre à lire vos pas dans les Réglages pour suivre votre progression."
             case .distance: "Autorisez la distance de marche et de course dans les Réglages : sans elle, vos trajets ne progressent pas."
+            case .motion: "Sans « Mouvement et forme physique », vos pas ne se mettent à jour qu'à l'ouverture de l'app et le temps actif reste à 0."
             }
         }
 
@@ -32,6 +43,7 @@ struct HealthAccessBannerView: View {
             switch self {
             case .steps: "Ouvre les Réglages pour autoriser l'accès à vos pas"
             case .distance: "Ouvre les Réglages pour autoriser l'accès à la distance"
+            case .motion: "Ouvre les Réglages pour autoriser Mouvement et forme physique"
             }
         }
     }
@@ -40,7 +52,7 @@ struct HealthAccessBannerView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: "heart.slash.fill")
+            Image(systemName: kind.icon)
                 .font(.title3)
                 .foregroundStyle(.orange)
                 .accessibilityHidden(true)
@@ -78,6 +90,7 @@ struct HealthAccessBannerView: View {
     VStack {
         HealthAccessBannerView()
         HealthAccessBannerView(kind: .distance)
+        HealthAccessBannerView(kind: .motion)
         Spacer()
     }
 }

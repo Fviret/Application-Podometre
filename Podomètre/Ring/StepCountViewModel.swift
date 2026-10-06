@@ -105,9 +105,26 @@ class StepCountViewModel: ObservableObject {
     }
 
     /// Planifie immédiatement la notification "Objectif atteint".
+    ///
+    /// Si l'utilisateur n'a encore jamais été sollicité, c'est le bon moment pour demander
+    /// l'autorisation : il vient de voir la célébration, le bénéfice des alertes est concret.
+    /// Le prompt est retardé de 2 s pour ne pas masquer l'effet de célébration.
     private func sendGoalReachedNotification() {
         guard notificationsEnabled else { return }
 
+        Task { @MainActor in
+            let center = UNUserNotificationCenter.current()
+            if await center.notificationSettings().authorizationStatus == .notDetermined {
+                try? await Task.sleep(for: .seconds(2))
+                _ = try? await center.requestAuthorization(options: [.alert, .sound, .badge])
+            }
+            guard await center.notificationSettings().authorizationStatus == .authorized else { return }
+            self.scheduleGoalReachedNotification()
+        }
+    }
+
+    /// Ajoute la notification locale « Objectif atteint » (autorisation déjà accordée).
+    private func scheduleGoalReachedNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Objectif atteint ! 🎉"
         content.body = "Tu as atteint \(goal.formatted()) pas aujourd'hui. Continue comme ça !"
@@ -330,6 +347,10 @@ class StepCountViewModel: ObservableObject {
     /// Pilote la bannière d'invitation à ouvrir les Réglages sur l'écran Activité.
     @Published var healthAccessDenied: Bool = false
 
+    /// `true` quand l'accès « Mouvement et forme physique » est refusé : les pas ne défilent plus en
+    /// direct (mise à jour seulement à l'ouverture de l'app) et le temps actif reste à 0.
+    @Published var motionAccessDenied: Bool = false
+
     /// `true` quand des pas sont lisibles mais aucune distance de marche/course sur 30 jours :
     /// la distance est probablement refusée dans Santé, et les trajets (qui en dépendent) restent
     /// bloqués à 0 km. Pilote la bannière « Accès à la distance désactivé ».
@@ -417,11 +438,53 @@ class StepCountViewModel: ObservableObject {
     #endif
 
     /// Diagnostic pur de l'accès Santé à partir des totaux sur 30 jours (testable sans HealthKit).
-    /// - `stepsDenied` : aucun pas du tout → accès aux pas très probablement refusé.
+    ///
+    /// - `pedometerSteps` : pas des 7 derniers jours vus par Core Motion, **témoin** indépendant de
+    ///   Santé (`nil` si Mouvement n'est pas autorisé ou indisponible).
+    /// - `stepsDenied` : Santé ne renvoie aucun pas alors que l'iPhone en a bien comptés
+    ///   → refus certain. Si le témoin est lui aussi à 0, on ne conclut pas (iPhone neuf, pas de
+    ///   marche récente) : pas de fausse alerte. Sans témoin, repli sur l'ancienne inférence (0 pas).
     /// - `distanceDenied` : des pas mais aucune distance → distance probablement refusée (l'iPhone
     ///   enregistre la distance de marche en même temps que les pas).
-    nonisolated static func diagnoseHealthAccess(steps: Double, distanceKm: Double) -> (stepsDenied: Bool, distanceDenied: Bool) {
-        (stepsDenied: steps == 0, distanceDenied: steps > 0 && distanceKm == 0)
+    nonisolated static func diagnoseHealthAccess(
+        steps: Double,
+        distanceKm: Double,
+        pedometerSteps: Double? = nil
+    ) -> (stepsDenied: Bool, distanceDenied: Bool) {
+        let stepsDenied: Bool
+        if let pedometerSteps {
+            stepsDenied = steps == 0 && pedometerSteps > 0
+        } else {
+            stepsDenied = steps == 0
+        }
+        return (stepsDenied: stepsDenied, distanceDenied: steps > 0 && distanceKm == 0)
+    }
+
+    /// Pas des `days` derniers jours selon Core Motion (7 jours maximum côté système).
+    /// Retourne `nil` — sans jamais déclencher le prompt Mouvement — si l'accès n'est pas accordé.
+    private func recentPedometerSteps(days: Int, completion: @escaping (Double?) -> Void) {
+        guard CMPedometer.isStepCountingAvailable(),
+              CMPedometer.authorizationStatus() == .authorized else {
+            completion(nil)
+            return
+        }
+        let end = Date()
+        let start = Calendar.current.date(byAdding: .day, value: -days, to: end) ?? end
+        pedometer.queryPedometerData(from: start, to: end) { data, error in
+            guard error == nil, let data else { completion(nil); return }
+            completion(data.numberOfSteps.doubleValue)
+        }
+    }
+
+    /// Met à jour `motionAccessDenied` depuis l'autorisation Core Motion (jamais de prompt).
+    /// Sur simulateur, toujours `false`.
+    func refreshMotionAccess() {
+        #if targetEnvironment(simulator)
+        motionAccessDenied = false
+        #else
+        let status = CMPedometer.authorizationStatus()
+        motionAccessDenied = status == .denied || status == .restricted
+        #endif
     }
 
     /// Détermine si l'accès en lecture aux pas ou à la distance semble refusé et met à jour
@@ -433,6 +496,7 @@ class StepCountViewModel: ObservableObject {
     /// les totaux des 30 derniers jours (voir `diagnoseHealthAccess`). Sur simulateur, toujours
     /// `false` (données mock).
     func checkHealthAccess() {
+        refreshMotionAccess()
         #if targetEnvironment(simulator)
         healthAccessDenied = false
         healthDistanceDenied = false
@@ -459,10 +523,12 @@ class StepCountViewModel: ObservableObject {
                 let steps = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
                 let distanceQuery = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, distanceResult, _ in
                     let km = distanceResult?.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) ?? 0
-                    let diagnosis = StepCountViewModel.diagnoseHealthAccess(steps: steps, distanceKm: km)
-                    Task { @MainActor in
-                        self?.healthAccessDenied = diagnosis.stepsDenied
-                        self?.healthDistanceDenied = diagnosis.distanceDenied
+                    self?.recentPedometerSteps(days: 7) { pedometerSteps in
+                        let diagnosis = StepCountViewModel.diagnoseHealthAccess(steps: steps, distanceKm: km, pedometerSteps: pedometerSteps)
+                        Task { @MainActor in
+                            self?.healthAccessDenied = diagnosis.stepsDenied
+                            self?.healthDistanceDenied = diagnosis.distanceDenied
+                        }
                     }
                 }
                 self?.healthStore.execute(distanceQuery)
@@ -994,7 +1060,11 @@ class StepCountViewModel: ObservableObject {
         guard CMPedometer.isStepCountingAvailable() else { isLiveUpdating = false; return }
         let startOfDay = Calendar.current.startOfDay(for: Date())
         pedometer.startUpdates(from: startOfDay) { [weak self] data, error in
-            guard let data, error == nil else { return }
+            guard let data, error == nil else {
+                // Erreur d'autorisation Core Motion (refus) : met à jour la bannière.
+                Task { @MainActor in self?.refreshMotionAccess() }
+                return
+            }
             let steps = data.numberOfSteps.intValue
             Task { @MainActor in
                 guard let self, self.selectedDayOffset == 0 else { return }

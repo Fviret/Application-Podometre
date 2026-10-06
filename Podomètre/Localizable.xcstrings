@@ -6611,6 +6611,36 @@
         }
       }
     },
+    "Pas en direct désactivés": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live steps disabled"
+          }
+        }
+      }
+    },
+    "Sans « Mouvement et forme physique », vos pas ne se mettent à jour qu'à l'ouverture de l'app et le temps actif reste à 0.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Without “Motion & Fitness”, your steps only update when the app opens and active time stays at 0."
+          }
+        }
+      }
+    },
+    "Ouvre les Réglages pour autoriser Mouvement et forme physique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens Settings to allow Motion & Fitness"
+          }
+        }
+      }
+    },
     "À propos": {
       "localizations": {
         "en": {
