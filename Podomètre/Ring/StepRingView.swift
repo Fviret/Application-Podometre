@@ -51,6 +51,11 @@ struct StepRingView: View {
     /// Pilote l'affichage ponctuel de `GoalCelebrationOverlay` au franchissement de l'objectif.
     @State private var showGoalCelebration = false
 
+    /// `true` pendant le premier chargement des pas d'aujourd'hui : l'anneau affiche un squelette.
+    private var showStepsPlaceholder: Bool {
+        viewModel.selectedDayOffset == 0 && viewModel.isLoadingHealthData
+    }
+
     /// Vrai quand l'objectif du jour est atteint pour aujourd'hui — pilote le halo et la série 🔥.
     private var goalReachedToday: Bool {
         viewModel.selectedDayOffset == 0 && viewModel.stepCount >= viewModel.goal
@@ -178,13 +183,14 @@ struct StepRingView: View {
                                             .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: viewModel.stepCount)
                                             .padding(.top, 1)
                                     }
+                                    .loadingPlaceholder(isLoading: showStepsPlaceholder)
                                 }
                                 .overlay(
                                     GoalCelebrationOverlay(ringColor: viewModel.ringColor, isPresented: $showGoalCelebration)
                                 )
                                 .accessibilityElement(children: .ignore)
                                 .accessibilityLabel("Progression du jour")
-                                .accessibilityValue("\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
+                                .accessibilityValue(showStepsPlaceholder ? String(localized: "Chargement de vos pas") : "\(viewModel.stepCount.formatted()) pas sur \(viewModel.goal.formatted()), \(Int(viewModel.progress * 100)) %")
                                 .accessibilityIdentifier("step_ring")
 
                                 Text(LocalizedStringKey(viewModel.selectedDateLabel))
@@ -356,6 +362,7 @@ struct StepRingView: View {
         case .todayMetrics:
             TodayMetricsView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         case .weather:
             VStack(spacing: 12) {
                 if needsLocationPrompt {
@@ -372,9 +379,11 @@ struct StepRingView: View {
         case .monthCalendar:
             MonthCalendarView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         case .weeklyChart:
             WeeklyBarChartView(viewModel: viewModel)
                 .padding(.horizontal, 24)
+                .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         }
     }
 
@@ -439,6 +448,13 @@ struct StepRingView: View {
 }
 
 #Preview("Objectif non atteint") {
+    let viewModel = StepCountViewModel()
+    viewModel.hasLoadedStepsOnce = true
+    return StepRingView(viewModel: viewModel)
+        .environmentObject(LocationManager())
+}
+
+#Preview("Chargement (squelette)") {
     StepRingView(viewModel: StepCountViewModel())
         .environmentObject(LocationManager())
 }

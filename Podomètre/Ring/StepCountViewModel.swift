@@ -341,6 +341,16 @@ class StepCountViewModel: ObservableObject {
     /// l'écran Activité affiche alors une carte d'invitation plutôt qu'un anneau à 0 muet.
     @Published var needsHealthAuthorization: Bool = false
 
+    /// `true` dès qu'une première lecture des pas du jour a abouti (même à 0). Avant cela, l'écran
+    /// Activité affiche des placeholders plutôt qu'un anneau et des sections à 0.
+    @Published var hasLoadedStepsOnce: Bool = false
+
+    /// `true` pendant le chargement initial des données Santé : l'interface affiche un squelette.
+    /// Faux quand il faut d'abord demander l'accès (la carte d'invitation prend le relais).
+    var isLoadingHealthData: Bool {
+        !hasLoadedStepsOnce && !needsHealthAuthorization
+    }
+
     /// `true` quand l'app ne reçoit aucune donnée de pas alors que le prompt HealthKit a déjà
     /// été présenté — signe d'un accès en lecture refusé. HealthKit ne révèle jamais directement
     /// un refus de lecture : on l'infère de l'absence totale de pas sur une large fenêtre.
@@ -555,6 +565,12 @@ class StepCountViewModel: ObservableObject {
         #if targetEnvironment(simulator)
         loadMockData()
         #else
+        // Filet de sécurité : ne jamais laisser les placeholders affichés indéfiniment
+        // (HealthKit indisponible, requête qui n'aboutit pas).
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(8))
+            self?.hasLoadedStepsOnce = true
+        }
         guard HKHealthStore.isHealthDataAvailable(), let types = healthReadTypes else { return }
         healthStore.getRequestStatusForAuthorization(toShare: [], read: types) { [weak self] status, _ in
             Task { @MainActor in
@@ -624,6 +640,7 @@ class StepCountViewModel: ObservableObject {
     /// Couvre : pas du jour, calendrier mensuel complet, comparaison hebdomadaire.
     private func loadMockData() {
         isAuthorized = true
+        hasLoadedStepsOnce = true
         fetchMilestoneCounts()
         computeStreak()
 
@@ -792,6 +809,7 @@ class StepCountViewModel: ObservableObject {
                 // L'animation est déclarée dans StepRingView (avec sa garde reduceMotion) :
                 // le ViewModel ne fait qu'assigner la donnée.
                 self.stepCount = Int(steps)
+                self.hasLoadedStepsOnce = true
             }
         }
 
@@ -846,6 +864,7 @@ class StepCountViewModel: ObservableObject {
                 // ni notifier l'objectif sur la base d'une autre journée.
                 guard self.selectedDayOffset == 0 else { completion(); return }
                 self.stepCount = steps
+                self.hasLoadedStepsOnce = true
                 self.checkAndNotifyGoalReached()
                 self.computeStreak()
                 completion()
@@ -1103,6 +1122,7 @@ extension StepCountViewModel {
     /// pour visualiser la série 🔥 et l'anneau plein dans le canvas Xcode.
     static var previewGoalReached: StepCountViewModel {
         let vm = StepCountViewModel()
+        vm.hasLoadedStepsOnce = true
         vm.goal = 10_000
         vm.previewStepsOverride = 12_634
         vm.stepCount = 12_634
