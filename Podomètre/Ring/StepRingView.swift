@@ -51,6 +51,18 @@ struct StepRingView: View {
     /// Pilote l'affichage ponctuel de `GoalCelebrationOverlay` au franchissement de l'objectif.
     @State private var showGoalCelebration = false
 
+    /// Masquages mémorisés des bannières d'autorisation (voir `PermissionBannerDismissals`).
+    @State private var bannerDismissals = PermissionBannerDismissals()
+
+    /// Bannière d'accès refusé à afficher, par priorité : pas, puis distance (les trajets ne
+    /// progresseraient pas), puis mouvement (pas non live, temps actif à 0). Une seule à la fois.
+    private var activeAccessBanner: (kind: HealthAccessBannerView.Kind, banner: PermissionBanner)? {
+        if viewModel.healthAccessDenied { return (.steps, .healthSteps) }
+        if viewModel.healthDistanceDenied { return (.distance, .healthDistance) }
+        if viewModel.motionAccessDenied { return (.motion, .motion) }
+        return nil
+    }
+
     /// `true` pendant le premier chargement des pas d'aujourd'hui : l'anneau affiche un squelette.
     private var showStepsPlaceholder: Bool {
         viewModel.selectedDayOffset == 0 && viewModel.isLoadingHealthData
@@ -70,21 +82,18 @@ struct StepRingView: View {
                 WeatherBannerView(forecast: walkingForecast)
 
                 // Prompt Santé pas encore présenté (onboarding passé avec « Plus tard ») : invitation claire.
-                if viewModel.needsHealthAuthorization {
-                    HealthPermissionCardView(color: viewModel.ringColor) {
-                        Task { await viewModel.requestHealthAuthorization() }
-                    }
+                if viewModel.needsHealthAuthorization, !bannerDismissals.isDismissed(.healthPermission) {
+                    HealthPermissionCardView(
+                        color: viewModel.ringColor,
+                        action: { Task { await viewModel.requestHealthAuthorization() } },
+                        onDismiss: { bannerDismissals.dismiss(.healthPermission) }
+                    )
                 }
 
-                // Accès aux pas refusé : bannière non bloquante vers les Réglages.
-                if viewModel.healthAccessDenied {
-                    HealthAccessBannerView()
-                } else if viewModel.healthDistanceDenied {
-                    // Pas lisibles mais distance refusée : les trajets ne progresseraient pas.
-                    HealthAccessBannerView(kind: .distance)
-                } else if viewModel.motionAccessDenied {
-                    // Pas pas en direct : mise à jour seulement à l'ouverture de l'app.
-                    HealthAccessBannerView(kind: .motion)
+                // Accès refusé (pas, distance ou mouvement) : bannière non bloquante vers les
+                // Réglages, masquable (elle réapparaît après 7 jours).
+                if let active = activeAccessBanner, !bannerDismissals.isDismissed(active.banner) {
+                    HealthAccessBannerView(kind: active.kind, onDismiss: { bannerDismissals.dismiss(active.banner) })
                 }
 
                 ScrollView {
@@ -365,10 +374,12 @@ struct StepRingView: View {
                 .loadingPlaceholder(isLoading: viewModel.isLoadingHealthData)
         case .weather:
             VStack(spacing: 12) {
-                if needsLocationPrompt {
-                    LocationPermissionCardView(color: viewModel.ringColor) {
-                        Task { await locationManager.requestAuthorizationIfNeeded() }
-                    }
+                if needsLocationPrompt, !bannerDismissals.isDismissed(.locationPermission) {
+                    LocationPermissionCardView(
+                        color: viewModel.ringColor,
+                        action: { Task { await locationManager.requestAuthorizationIfNeeded() } },
+                        onDismiss: { bannerDismissals.dismiss(.locationPermission) }
+                    )
                 } else if locationDenied {
                     LocationDeniedCardView(color: viewModel.ringColor) {
                         showWeatherForecast = false

@@ -49,6 +49,8 @@ struct HealthAccessBannerView: View {
     }
 
     var kind: Kind = .steps
+    /// Si fourni, affiche une croix pour masquer la bannière.
+    var onDismiss: (() -> Void)?
 
     var body: some View {
         HStack(spacing: 12) {
@@ -75,14 +77,19 @@ struct HealthAccessBannerView: View {
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .buttonStyle(.borderedProminent)
             .tint(.orange)
+            .accessibilityHint(kind.hint)
+
+            if let onDismiss {
+                DismissButton(action: onDismiss)
+                    .padding(.trailing, -12)
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14))
         .padding(.horizontal, 16)
         .padding(.top, 8)
-        .accessibilityElement(children: .combine)
-        .accessibilityHint(kind.hint)
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -90,7 +97,7 @@ struct HealthAccessBannerView: View {
     VStack {
         HealthAccessBannerView()
         HealthAccessBannerView(kind: .distance)
-        HealthAccessBannerView(kind: .motion)
+        HealthAccessBannerView(kind: .motion, onDismiss: {})
         Spacer()
     }
 }

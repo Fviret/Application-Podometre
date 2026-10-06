@@ -6641,6 +6641,16 @@
         }
       }
     },
+    "Masquer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dismiss"
+          }
+        }
+      }
+    },
     "Chargement de vos pas": {
       "localizations": {
         "en": {
