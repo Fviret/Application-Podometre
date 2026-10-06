@@ -88,6 +88,8 @@ Podomètre/
 │   ├── HealthPermissionCardView.swift  # Carte « Autorisez l'accès à Santé » tant que le prompt n'a pas été présenté
 │   ├── LocationPermissionCardView.swift# Carte « Météo près de chez vous » tant que le prompt localisation n'a pas été présenté
 │   ├── LocationDeniedCardView.swift    # Carte météo quand la localisation est refusée (Réglages / masquer la section)
+│   ├── DismissButton.swift             # Croix « Masquer » des bannières d'autorisation
+│   ├── PermissionBannerDismissals.swift# Mémorise les bannières d'autorisation masquées (réapparaissent après 7 jours)
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
@@ -232,6 +234,7 @@ Hors cible applicative, à la racine du dépôt :
 | `mainScreenSectionOrder` | `Data` (JSON) | `[MainScreenSection]` encodé — ordre d'affichage des sections sous l'anneau (réorganisable dans Paramètres, glisser-déposer) |
 | `weatherCache` | `Data` (JSON) | `WeatherCache` encodé — dernière position + prévisions récupérées ; évite un appel météo si la position n'a pas changé depuis le dernier lancement |
 | `lastWeeklyRecapShownWeekStart` | `Date` | Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a déjà été affiché (garde 1×/semaine) |
+| `dismissedPermissionBanners` | `Data` (JSON) | `[String: Date]` — date de masquage de chaque bannière d'autorisation de l'écran Activité (`PermissionBanner`) ; une bannière masquée réapparaît après 7 jours |
 
 Ne pas créer de nouvelles clés sans les ajouter ici.
 
@@ -540,6 +543,8 @@ Règle : **jamais de prompt système hors contexte, jamais à la création d'une
 | Mouvement refusé | `CMPedometer.authorizationStatus()` = `.denied`/`.restricted` (`motionAccessDenied`) | Bannière « Pas en direct désactivés » (Activité) — pas non live, temps actif à 0 |
 | Localisation refusée | `LocationManager.authorizationStatus` = `.denied`/`.restricted` | Carte `LocationDeniedCardView` dans la section météo (Réglages ou « Masquer la météo ») |
 | Notifications refusées | `UNUserNotificationCenter` = `.denied`, relu à l'ouverture des Paramètres et au retour au premier plan | Interrupteurs grisés + bouton « Ouvrir les Réglages » (Paramètres) |
+
+Sur l'écran Activité, ces bannières et cartes d'invitation (hors carte « Localisation désactivée », qui a déjà « Masquer la météo ») ont une croix : le masquage est mémorisé (`PermissionBannerDismissals`) et la bannière réapparaît après 7 jours. Sur l'écran Trajets, la bannière distance n'est pas masquable (les trajets sont bloqués sans distance).
 
 HealthKit ne distingue pas un refus de lecture d'une absence de données : le diagnostic (`StepCountViewModel.diagnoseHealthAccess`, testé) est une inférence. Sur simulateur, aucun de ces états ne s'affiche (données mock).
 

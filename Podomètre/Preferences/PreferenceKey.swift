@@ -45,4 +45,7 @@ enum PreferenceKey: String, CaseIterable {
     /// Lundi de la semaine pour laquelle le récapitulatif hebdomadaire a été affiché (`Date`) —
     /// garde pour ne le montrer qu'une fois par semaine.
     case lastWeeklyRecapShownWeekStart
+    /// `[String: Date]` JSON : date de masquage de chaque bannière d'autorisation de l'écran
+    /// Activité (`PermissionBanner`) ; une bannière masquée réapparaît après 7 jours.
+    case dismissedPermissionBanners
 }

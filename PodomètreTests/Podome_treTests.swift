@@ -1177,3 +1177,45 @@ struct HealthAccessDiagnosisTests {
         #expect(result.stepsDenied)
     }
 }
+
+// MARK: - Masquage des bannières d'autorisation
+
+@Suite("PermissionBannerDismissals")
+struct PermissionBannerDismissalsTests {
+
+    @Test func notDismissedByDefault() {
+        let dismissals = PermissionBannerDismissals(dates: [:])
+        #expect(!dismissals.isDismissed(.healthSteps))
+    }
+
+    @Test func dismissedWithinSevenDays() {
+        let now = Date()
+        let dismissals = PermissionBannerDismissals(dates: [PermissionBanner.healthSteps.rawValue: now.addingTimeInterval(-3 * 86_400)])
+        #expect(dismissals.isDismissed(.healthSteps, now: now))
+        // Une autre bannière n'est pas affectée.
+        #expect(!dismissals.isDismissed(.motion, now: now))
+    }
+
+    @Test func reappearsAfterSevenDays() {
+        let now = Date()
+        let dismissals = PermissionBannerDismissals(dates: [PermissionBanner.healthSteps.rawValue: now.addingTimeInterval(-8 * 86_400)])
+        #expect(!dismissals.isDismissed(.healthSteps, now: now))
+    }
+
+    @Test func dismissPersistsAndReloads() {
+        let suite = "PermissionBannerDismissalsTests.\(UUID().uuidString)"
+        guard let defaults = UserDefaults(suiteName: suite) else {
+            Issue.record("Suite UserDefaults introuvable")
+            return
+        }
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let preferences = Preferences(defaults: defaults)
+
+        var dismissals = PermissionBannerDismissals(preferences: preferences)
+        #expect(!dismissals.isDismissed(.healthPermission))
+        dismissals.dismiss(.healthPermission, preferences: preferences)
+
+        let reloaded = PermissionBannerDismissals(preferences: preferences)
+        #expect(reloaded.isDismissed(.healthPermission))
+    }
+}

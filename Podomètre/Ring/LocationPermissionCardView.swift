@@ -6,6 +6,8 @@ import SwiftUI
 struct LocationPermissionCardView: View {
     let color: Color
     let action: () -> Void
+    /// Si fourni, affiche une croix pour masquer la carte.
+    var onDismiss: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -23,6 +25,13 @@ struct LocationPermissionCardView: View {
                         .font(.caption)
                         .foregroundStyle(Color.secondary)
                         .fixedSize(horizontal: false, vertical: true)
+                }
+
+                if let onDismiss {
+                    Spacer(minLength: 0)
+                    DismissButton(action: onDismiss)
+                        .padding(.top, -12)
+                        .padding(.trailing, -12)
                 }
             }
 
