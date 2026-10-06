@@ -77,6 +77,9 @@ struct StepRingView: View {
                 } else if viewModel.healthDistanceDenied {
                     // Pas lisibles mais distance refusée : les trajets ne progresseraient pas.
                     HealthAccessBannerView(kind: .distance)
+                } else if viewModel.motionAccessDenied {
+                    // Pas pas en direct : mise à jour seulement à l'ouverture de l'app.
+                    HealthAccessBannerView(kind: .motion)
                 }
 
                 ScrollView {

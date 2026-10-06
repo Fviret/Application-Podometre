@@ -1159,4 +1159,21 @@ struct HealthAccessDiagnosisTests {
         #expect(!result.stepsDenied)
         #expect(!result.distanceDenied)
     }
+
+    @Test func pedometerWitnessConfirmsStepsDenied() {
+        // Santé ne renvoie rien alors que l'iPhone a compté des pas : refus certain.
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: 12_000)
+        #expect(result.stepsDenied)
+    }
+
+    @Test func pedometerWitnessAtZeroDoesNotConclude() {
+        // iPhone neuf ou pas de marche récente : pas de fausse alerte.
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: 0)
+        #expect(!result.stepsDenied)
+    }
+
+    @Test func missingWitnessFallsBackToZeroStepsInference() {
+        let result = StepCountViewModel.diagnoseHealthAccess(steps: 0, distanceKm: 0, pedometerSteps: nil)
+        #expect(result.stepsDenied)
+    }
 }
