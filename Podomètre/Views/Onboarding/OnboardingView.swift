@@ -4,10 +4,14 @@ import SwiftUI
 struct OnboardingView: View {
 
     @ObservedObject var viewModel: StepCountViewModel
+    @EnvironmentObject private var locationManager: LocationManager
+    @AppStorage(.showWeatherForecast) private var showWeatherForecast: Bool = true
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage(.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool = false
     @State private var page: Int = 0
     @State private var selectedGoal: Int = onboardingDefaultGoal
+    /// `true` pendant que les prompts système (Santé puis localisation) sont à l'écran.
+    @State private var isRequestingPermissions = false
 
     var body: some View {
         GeometryReader { geo in
@@ -44,6 +48,10 @@ struct OnboardingView: View {
                             viewModel.goal = selectedGoal
                             hasCompletedOnboarding = true
                         }
+                    case 2:
+                        // Slide des autorisations : « Suivant » présente les prompts Santé puis
+                        // localisation, juste après que la slide en a expliqué l'usage.
+                        primaryButton(label: "Suivant") { requestPermissionsThenAdvance() }
                     default:
                         primaryButton(label: "Suivant") { page += 1 }
                     }
@@ -64,6 +72,25 @@ struct OnboardingView: View {
             // Pré-sélectionne l'objectif courant : en revisionnant l'onboarding depuis les
             // Paramètres, terminer ne doit pas réinitialiser l'objectif déjà choisi.
             selectedGoal = onboardingGoals.first { $0.steps == viewModel.goal }?.steps ?? onboardingDefaultGoal
+        }
+    }
+
+    /// Présente, dans l'ordre, le prompt Santé puis celui de localisation (si la météo est activée),
+    /// puis passe à la slide suivante. Les lectures HealthKit ne démarrent qu'à l'arrivée sur
+    /// l'écran Activité. Ignoré en UI tests (prompts système non pilotables).
+    @MainActor
+    private func requestPermissionsThenAdvance() {
+        guard !isRequestingPermissions else { return }
+        guard !ProcessInfo.processInfo.arguments.contains("UI_TESTING") else {
+            page += 1
+            return
+        }
+        isRequestingPermissions = true
+        Task {
+            await viewModel.requestHealthAuthorization(startFetching: false)
+            if showWeatherForecast { await locationManager.requestAuthorizationIfNeeded() }
+            isRequestingPermissions = false
+            page += 1
         }
     }
 
@@ -172,15 +199,22 @@ struct OnboardingView: View {
                               subtitle: "Prévisions météo personnalisées près de vous")
                 }
 
-                Text("Ces données ne quittent jamais votre iPhone.")
+                Text("Vos pas et distances restent sur votre iPhone. Seule la météo utilise votre position approximative.")
                     .font(.caption)
                     .foregroundStyle(Color(UIColor.tertiaryLabel))
                     .multilineTextAlignment(.center)
 
-                Label("L'autorisation vous sera demandée à l'ouverture de l'app.", systemImage: "hand.tap")
+                Label("Touchez « Suivant » : l'autorisation vous sera demandée maintenant.", systemImage: "hand.tap")
                     .font(.caption)
                     .foregroundStyle(viewModel.ringColor)
                     .multilineTextAlignment(.center)
+                    .padding(.top, 4)
+
+                // Permet de reporter : l'écran Activité propose alors les autorisations en contexte.
+                Button("Plus tard") { page += 1 }
+                    .buttonStyle(.plain)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                     .padding(.top, 4)
             }
             .padding(.horizontal, 24)

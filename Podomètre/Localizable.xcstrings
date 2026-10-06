@@ -6771,22 +6771,92 @@
         }
       }
     },
-    "Ces données ne quittent jamais votre iPhone.": {
+    "Vos pas et distances restent sur votre iPhone. Seule la météo utilise votre position approximative.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This data never leaves your iPhone."
+            "value": "Your steps and distance stay on your iPhone. Only the weather uses your approximate location."
           }
         }
       }
     },
-    "L'autorisation vous sera demandée à l'ouverture de l'app.": {
+    "Touchez « Suivant » : l'autorisation vous sera demandée maintenant.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You'll be asked for permission when the app opens."
+            "value": "Tap “Next”: you'll be asked for permission now."
+          }
+        }
+      }
+    },
+    "Plus tard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Later"
+          }
+        }
+      }
+    },
+    "Autorisez l'accès à Santé pour afficher vos pas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Health access to show your steps"
+          }
+        }
+      }
+    },
+    "Podomètre lit uniquement vos pas et votre distance. Ces données restent sur votre iPhone.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podomètre only reads your steps and distance. This data stays on your iPhone."
+          }
+        }
+      }
+    },
+    "Autoriser l'accès": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow access"
+          }
+        }
+      }
+    },
+    "Météo près de chez vous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weather near you"
+          }
+        }
+      }
+    },
+    "Autorisez la localisation approximative pour afficher les prévisions.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow approximate location to show the forecast."
+          }
+        }
+      }
+    },
+    "Autoriser la localisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow location"
           }
         }
       }

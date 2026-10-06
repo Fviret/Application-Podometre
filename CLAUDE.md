@@ -83,7 +83,9 @@ Podomètre/
 │   ├── HistoryStats.swift              # Modèle + calcul des statistiques d'historique (tendance, records)
 │   ├── HistoryDetailView.swift         # Écran d'historique : tendance multi-semaines, totaux mensuels, records
 │   ├── HealthAccessBannerView.swift    # Bannière si accès HealthKit refusé (→ Réglages)
-│   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo)
+│   ├── LocationManager.swift           # CoreLocation (précision km, pour la météo) ; ne demande jamais l'accès tout seul
+│   ├── HealthPermissionCardView.swift  # Carte « Autorisez l'accès à Santé » tant que le prompt n'a pas été présenté
+│   ├── LocationPermissionCardView.swift# Carte « Météo près de chez vous » tant que le prompt localisation n'a pas été présenté
 │   ├── WeatherService.swift            # Open-Meteo : horaire + journalier
 │   ├── WeatherCache.swift              # Cache position + prévisions, évite un appel réseau si la position n'a pas changé
 │   ├── WeatherCode.swift               # Codes WMO → emoji / description
@@ -510,3 +512,20 @@ Types HK lus : `stepCount`, `distanceWalkingRunning`
 **Pas en temps réel** : au premier plan et pour aujourd'hui, `StepCountViewModel` affiche les pas via `CMPedometer` (Core Motion, mise à jour ~1×/s en marchant). HealthKit reste la source de vérité (historique, streak, arrière-plan). Voir `startLiveStepUpdates()` / `stopLiveStepUpdates()`.
 
 Capacité HealthKit activée dans les entitlements du projet.
+
+### Moment de chaque demande d'autorisation
+
+Règle : **jamais de prompt système hors contexte, jamais à la création d'une vue ou d'un service.** Chaque demande est déclenchée par une action explicite de l'utilisateur, juste après que l'écran en a expliqué l'usage.
+
+| Permission | Quand | Où |
+|---|---|---|
+| Santé | Slide 3 de l'onboarding, au tap sur « Suivant » (ou carte « Autoriser l'accès » sur l'écran Activité si reporté) | `StepCountViewModel.requestHealthAuthorization(startFetching:)` |
+| Localisation | Juste après Santé sur la même slide, si la météo est activée (ou carte dans la section météo si reportée) | `LocationManager.requestAuthorizationIfNeeded()` |
+| Mouvement (Core Motion) | Au premier démarrage des lectures, à l'arrivée sur l'écran Activité (déclenché par `CMPedometer`/`CMMotionActivityManager`) | — |
+| Notifications | Au démarrage d'un trajet, ou à la bascule dans les Paramètres. **Jamais** automatiquement (ni après Santé, ni pour le rappel de la pensée du jour, qui ne programme que si c'est déjà accordé) | `JourneyProgressService.startJourney`, `SettingsView` |
+
+- `StepCountViewModel.requestAuthorizationAndFetch()` **ne présente jamais le prompt** : si le choix n'a pas été fait, elle publie `needsHealthAuthorization` ; sinon elle lance les lectures.
+- Une fois l'accès Santé décidé, `startHealthPipeline()` lit tout et retente 2 fois (à 2 s et 5 s) si HealthKit répond « vide » juste après l'autorisation.
+- L'onboarding passe `startFetching: false` : les lectures (et le prompt Mouvement) démarrent à l'arrivée sur l'écran Activité, pas sous la slide 4.
+- En UI tests (`UI_TESTING`), l'onboarding saute les prompts système.
+
